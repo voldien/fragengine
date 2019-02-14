@@ -17,7 +17,7 @@
 import os
 import sys
 from os.path import isfile, join
-from shutil import copyfile
+from shutil import copyfile, move
 import codecs
 
 HEADERNAME = "Shaders.h"
@@ -97,8 +97,8 @@ def main(argv):
     header.close()
 
     # Copy file to directory.
-    copyfile(headpath, "./include/{}".format(HEADERNAME))
-    copyfile(cpath, "./src/{}".format(CNAME))
+    move(headpath, "./include/{}".format(HEADERNAME))
+    move(cpath, "./src/{}".format(CNAME))
 
     print("Finish converting files from directory {} to {}:{}".format(argv[1], headpath, cpath))
 
