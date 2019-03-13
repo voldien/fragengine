@@ -7,6 +7,7 @@ TEXTEDITOR=gnome-text-editor
 # Text file.
 fragmentFile="$HOME/.fragview/frag-example.frag"
 
+# Select shading language.
 case $LANGUAGE in
 	"glsl-fragment")
 	    renderer="--renderer-opengl"
@@ -14,6 +15,8 @@ case $LANGUAGE in
         sampleFile="/usr/share/fragview/samples/glsl/wave.frag"
 		;;
 	"hlsl-fragment")
+	    echo "Not supported!"
+	    exit 1
 		;;
     "glsl-compute")
         renderer="--renderer-opengl"
