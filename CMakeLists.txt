@@ -10,7 +10,7 @@ ENDIF(NOT BUILD_SHARED_LIBS)
 
 # Set version of the project.
 SET(VERSION_MAJOR 0)
-SET(VERSION_MINOR 5)
+SET(VERSION_MINOR 6)
 SET(VERSION_REVISION 0)
 SET(VERSION_STATE a)
 SET(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}${VERSION_STATE}${VERSION_REVISION} )
@@ -48,7 +48,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 # Set c++ language version required for the project.
 IF( CMAKE_COMPILER_IS_GNUCXX )
-    SET(LIBSTDC++_LIBRARIES -std=c++0x)
+    SET(LIBSTDC++_LIBRARIES -std=c++11)
 ENDIF( CMAKE_COMPILER_IS_GNUCXX )
 
 # Find all required libaries for the program.
@@ -65,13 +65,6 @@ ENDIF()
 # Download dependices
 IF(GIT_FOUND)
     MESSAGE(STATUS "git found: ${GIT_EXECUTABLE} -- ${GIT_VERSION_STRING}")
-    # Download git dependices.
-#    FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dep)
-#    ADD_CUSTOM_TARGET(download_dependencies
-#            COMMAND ${GIT_EXECUTABLE} clone https://github.com/voldien/task-scheduler.git ${CMAKE_CURRENT_SOURCE_DIR}/dep/task-scheduler
-#            COMMAND ${GIT_EXECUTABLE} clone https://github.com/voldien/hpm.git ${CMAKE_CURRENT_SOURCE_DIR}/dep/hpm
-#            COMMAND ${GIT_EXECUTABLE} clone https://github.com/voldien/hpmcpp.git ${CMAKE_CURRENT_SOURCE_DIR}/dep/hpmcpp
-#            )
 ENDIF()
 
 # Include library include directories.
@@ -81,10 +74,17 @@ INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIRS})
 # Define all file lists.
 FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
                         ${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
-                        ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp)
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/core/io/*.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/shadermodel/*.cpp
+                        ${CMAKE_CURRENT_SOURCE_DIR}/src/shaders/*.cpp)
 FILE(GLOB SOURCE_MAIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 FILE(GLOB HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
-FILE(GLOB_RECURSE SAMPLE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/* )
+FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
+FILE(GLOB SAMPLE_HLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/hlsl/* )
+FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
+FILE(GLOB SAMPLE_CLC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/clc/* )
 
 # Core library for adding support for plugin.
 ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES})
@@ -102,38 +102,45 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/directx/)
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/vulkan/)
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opencl/)
 
+# Testing.
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/)
+
 INCLUDE(ExternalProject)
-ExternalProject_Add(tasksch
-        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/deps/task-sch
-        GIT_REPOSITORY "https://github.com/voldien/task-scheduler.git"
-        GIT_TAG        "654870105b9e9b2bded3f54ff4b169ed9270e4c1"
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps
-        CONFIGURE_COMMAND cmake .
-        BUILD_COMMAND make
-        COMMENT        "Building taskschedular")
-ExternalProject_Add(hpmcpp
-        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/deps/hpmcpp
-        GIT_REPOSITORY "https://github.com/voldien/hpmcpp.git"
-        GIT_TAG        "master"
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps
-        CONFIGURE_COMMAND cmake .
-        BUILD_COMMAND make
-        COMMENT        "Building HMPCPP")
-ADD_DEPENDENCIES(fragview tasksch)
+#ExternalProject_Add(tasksch
+#        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/deps/task-sch
+#        GIT_REPOSITORY "https://github.com/voldien/task-scheduler.git"
+#        GIT_TAG        "master"
+#        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps
+#        CONFIGURE_COMMAND cmake .
+#        BUILD_COMMAND make
+#        COMMENT        "Building taskschedular")
+#ExternalProject_Add(hpmcpp
+#        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/deps/hpmcpp
+#        GIT_REPOSITORY "https://github.com/voldien/hpmcpp.git"
+#        GIT_TAG        "master"
+#        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps
+#        CONFIGURE_COMMAND cmake .
+#        BUILD_COMMAND make
+#        COMMENT        "Building HMPCPP")
+#ADD_DEPENDENCIES(fragview tasksch)
+#ADD_DEPENDENCIES(fragview hpmcpp)
 
 # Only UNIX systems.
 IF( UNIX )
+#FindUnixCommands.cmake
 
+    # Create spriv samples.
 #    ADD_CUSTOM_TARGET(samples-spirv
 #            COMMENT "Creating spirv shader from the display shader."
 #            COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0
 #            -u:time:10 --client opengl100 -V -G450 ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/guassian.frag -o ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/guassian.spv)
 #    ADD_DEPENDENCIES(fragview samples-spirv)
 
+    # Create default shader
     ADD_CUSTOM_TARGET(display-spirv
             COMMENT "Creating spirv shader from the display shader."
-            COMMAND glslangValidator --entry-point main -V ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/*.frag --vn vertex_display -o ${CMAKE_CURRENT_SOURCE_DIR}/
-            COMMAND glslangValidator --entry-point main -V ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/*.vert --vn fragment_display -o ${CMAKE_CURRENT_SOURCE_DIR}/) # -o ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/*)
+            COMMAND glslangValidator --entry-point main -V ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/display.frag --vn vertex_display -o ${CMAKE_CURRENT_SOURCE_DIR}/
+            COMMAND glslangValidator --entry-point main -V ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/display.vert --vn fragment_display -o ${CMAKE_CURRENT_SOURCE_DIR}/ ) # -o ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/*)
     
     ADD_DEPENDENCIES(fragview display-spirv)
 
@@ -146,9 +153,15 @@ IF( UNIX )
     ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
     INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
 
-    #
+    # Install samples.
     INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop DESTINATION /usr/share/fragview/ )
-    INSTALL( FILES ${SAMPLE_FILES} DESTINATION /usr/share/fragview/samples )
+    INSTALL( FILES ${SAMPLE_GLSL_FILES} DESTINATION /usr/share/fragview/samples/glsl )
+    INSTALL( FILES ${SAMPLE_HLSL_FILES} DESTINATION /usr/share/fragview/samples/hlsl )
+    INSTALL( FILES ${SAMPLE_SPIRV_FILES} DESTINATION /usr/share/fragview/samples/spriv )
+    INSTALL( FILES ${SAMPLE_CLC_FILES} DESTINATION /usr/share/fragview/samples/clc )
+
+    # Install scripts
+    INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )
 
     # Install man page. TODO add compression.
     INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.1 DESTINATION /usr/share/man/man1/)
@@ -202,7 +215,6 @@ IF( UNIX )
             COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 1024x1024 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/1024x1024/fragview.png )
 
 ELSEIF(WIN32)
-
 
 ELSE()
 
