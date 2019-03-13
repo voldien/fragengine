@@ -1,0 +1,17 @@
+
+# GCC compiler flag options.
+if ((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
+
+endif ()
+
+FIND_PACKAGE(GTest REQUIRED)
+
+# OpenGL dependies headers.
+INCLUDE_DIRECTORIES(${GTEST_INCLUDE_DIRS})
+
+# Source files.
+FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+
+ADD_EXECUTABLE(fragview-assert ${SOURCE_FILES} )
+TARGET_LINK_LIBRARIES(fragview-assert ${GTEST_LIBRARIES} ${GTEST_MAIN_LIBRARIES} fragview-core -lpthread )
+INSTALL(TARGETS fragview-assert DESTINATION bin)
