@@ -66,7 +66,7 @@ def main(argv):
     cfile = codecs.open(cpath, 'w', encoding='utf8')
 
     #
-    cfile.write("#include\"{}\"\n".format(HEADERNAME))
+    cfile.write("#include\"Shaders/{}\"\n".format(HEADERNAME))
     header.write("#ifndef _SPRITE_SHADER_\n#define _SPRITE_SHADER_ 1\n")
 
     # Iterate through each files.
@@ -97,8 +97,8 @@ def main(argv):
     header.close()
 
     # Copy file to directory.
-    move(headpath, "./include/{}".format(HEADERNAME))
-    move(cpath, "./src/{}".format(CNAME))
+    move(headpath, "./include/Shaders/{}".format(HEADERNAME))
+    move(cpath, "./src/shaders/{}".format(CNAME))
 
     print("Finish converting files from directory {} to {}:{}".format(argv[1], headpath, cpath))
 
