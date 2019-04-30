@@ -34,7 +34,7 @@ public:
 	static void handleAssetEvent(FileNotificationEvent* event);
 
 	/**
-	 *
+	 * Handle drop asset.
 	 * @param filepath
 	 */
 	static void handleAssetDrop(const char* filepath);

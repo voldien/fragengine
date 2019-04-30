@@ -30,7 +30,7 @@
 /**
  *
  */
-class PVDECLSPEC FileNotify {
+class FVDECLSPEC FileNotify {
 public:
 
 	/**
@@ -48,7 +48,7 @@ protected:
 	/**
 	 *
 	 */
-	class PVDECLSPEC FileNoticationEntry {
+	class FVDECLSPEC FileNoticationEntry {
 	public:
 		int key;                /*  */
 		std::string filepath;   /*  */

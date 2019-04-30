@@ -28,6 +28,6 @@
  * @param ...
  * @return
  */
-extern PVDECLSPEC std::string format(const std::string& format, ...);
+extern FVDECLSPEC std::string format(const std::string& format, ...);
 
 #endif

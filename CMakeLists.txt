@@ -177,8 +177,15 @@ IF( UNIX )
                             ${CMAKE_CURRENT_SOURCE_DIR}/samples
                             ${CMAKE_CURRENT_SOURCE_DIR}/scripts
                             ${CMAKE_CURRENT_SOURCE_DIR}/utils
+                            ${CMAKE_CURRENT_SOURCE_DIR}/test
                             ${CMAKE_CURRENT_SOURCE_DIR}/images
                             ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
+                            ${CMAKE_CURRENT_SOURCE_DIR}/travis.yaml
+                            ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop
+                            ${CMAKE_CURRENT_SOURCE_DIR}/fragview.1
+                            ${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
+                            ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png
+                            ${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
                             ${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
                             ${TARGETDIR}
             COMMAND tar cf - ${TARGETDIR} | gzip -c > ${TARGETDIR}.tar.gz

@@ -3,11 +3,10 @@
 
 Fragment view software program for creating and experiment with shaders with *glsl*/*spirv*/*s*/*opencl-c*.
 
-## Features ##
+## Features
 * Realtime file modification.
 * Dynamic Rendering interface for multiple rendering API.
 * Session Configuration
-* 
 
 ## Motivation
 Based on the [https://github.com/voldien/glslview](glslview) program. That support OpenGL sandbox with realtime
@@ -25,6 +24,8 @@ make install
 ```
 
 ## Examples
+The following example will load the wave GLSL fragment shader. Where gamma correction is enabled with the *srgb*. Additionally
+The default framebuffer alpha channel is enabled. Finally, the OpenGL rendering API is specified.
 ```
 fragview -f samples/glsl/wave.frag --renderer-opengl --alpha --srgb
 ```

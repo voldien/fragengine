@@ -25,7 +25,7 @@
  *	Responsible for creating a rendering
  *	interface.
  */
-class PVDECLSPEC RenderingFactory {
+class FVDECLSPEC RenderingFactory {
 public:
 
     enum RenderingAPI {
