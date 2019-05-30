@@ -67,6 +67,36 @@ IF(GIT_FOUND)
     MESSAGE(STATUS "git found: ${GIT_EXECUTABLE} -- ${GIT_VERSION_STRING}")
 ENDIF()
 
+INCLUDE(ExternalProject)
+SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
+
+# Download the task-schedular library.
+SET(TASKSCH_ROOT ${CMAKE_BINARY_DIR}/deps/task-sch)
+SET(TASKSCH_LIB_DIR ${TASKSCH_ROOT}/lib)
+SET(TASKSCH_INCLUDE_DIR ${TASKSCH_ROOT}/include)
+
+#        CONFIGURE_COMMAND cmake .
+#        BUILD_COMMAND make
+ExternalProject_Add(tasksch-external
+        PREFIX ${TASKSCH_ROOT}
+        GIT_REPOSITORY "https://github.com/voldien/task-scheduler.git"
+        GIT_TAG "master"
+        UPDATE_COMMAND ""
+        PATCH_COMMAND ""
+        SOURCE_DIR ${TASKSCH_ROOT}/src/tasksch
+        BINARY_DIR ${TASKSCH_ROOT}/src/tasksch-build
+        INSTALL_DIR ${TASKSCH_ROOT}
+        CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+        STEP_TARGETS build
+        COMMENT "Building taskschedular"
+        LOG_DOWNLOAD ON)
+# Include tasksch headers.
+ADD_LIBRARY(taskSch SHARED IMPORTED)
+SET_TARGET_PROPERTIES(taskSch PROPERTIES
+        IMPORTED_LOCATION "${TASKSCH_LIB_DIR}/libtaskSch.so"
+        INTERFACE_INCLUDE_DIRECTORIES "${TASKSCH_INCLUDE_DIR}")
+INCLUDE_DIRECTORIES(${TASKSCH_INCLUDE_DIR})
+
 # Include library include directories.
 INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
 INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIRS})
@@ -87,8 +117,9 @@ FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
 FILE(GLOB SAMPLE_CLC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/clc/* )
 
 # Core library for adding support for plugin.
-ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES})
-TARGET_LINK_LIBRARIES(fragview-core  -lSDL2  ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} -lzip -lfreeimage  -lm -ldl -ltaskSch -lfswatch)
+ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES} src/RendererWindow_SDL2.cpp)
+TARGET_LINK_LIBRARIES(fragview-core  -lSDL2  ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} -lzip -lfreeimage -lm -ldl taskSch -lfswatch)
+ADD_DEPENDENCIES(fragview-core tasksch-external)
 INSTALL(TARGETS fragview-core DESTINATION lib)
 
 # Main executable.
@@ -104,26 +135,6 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opencl/)
 
 # Testing.
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/)
-
-INCLUDE(ExternalProject)
-#ExternalProject_Add(tasksch
-#        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/deps/task-sch
-#        GIT_REPOSITORY "https://github.com/voldien/task-scheduler.git"
-#        GIT_TAG        "master"
-#        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps
-#        CONFIGURE_COMMAND cmake .
-#        BUILD_COMMAND make
-#        COMMENT        "Building taskschedular")
-#ExternalProject_Add(hpmcpp
-#        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/deps/hpmcpp
-#        GIT_REPOSITORY "https://github.com/voldien/hpmcpp.git"
-#        GIT_TAG        "master"
-#        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/deps
-#        CONFIGURE_COMMAND cmake .
-#        BUILD_COMMAND make
-#        COMMENT        "Building HMPCPP")
-#ADD_DEPENDENCIES(fragview tasksch)
-#ADD_DEPENDENCIES(fragview hpmcpp)
 
 # Only UNIX systems.
 IF( UNIX )
