@@ -6,20 +6,19 @@
 #include <cstdio>
 #include <stdexcept>
 #include <Utils/StringUtil.h>
+#include <Core/IConfig.h>
 
-typedef IRenderer *(*pcreateinternalrendering)(Config *config);
+typedef IRenderer *(*pcreateinternalrendering)(IConfig *config);
 
-IRenderer *RenderingFactory::createRendering(RenderingFactory::RenderingAPI renderingapi, Config *config) {
+IRenderer *RenderingFactory::createRendering(RenderingFactory::RenderingAPI renderingapi, IConfig *config) {
 	return RenderingFactory::createRendering(getInterfaceLibraryPath(renderingapi), config);
 }
 
-IRenderer *RenderingFactory::createRendering(const char *cpathlib, Config *config) {
+IRenderer *RenderingFactory::createRendering(const char *cpathlib, IConfig *config) {
 	Library library;
 	IRenderer *interface = NULL;
 	const char *funcsymbol = "createInternalRenderer";
 	pcreateinternalrendering pfunc;
-
-	assert(cpathlib);
 
 	/*	Validate parameters.	*/
 	if (cpathlib == NULL)
@@ -48,7 +47,7 @@ const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory::Renderin
 		case RenderingFactory::eVulkan:
 			return "libfragview-rvk.so";
 		case RenderingAPI::eDirectX:
-			return "libfragview-rdx.so";
+			throw std::invalid_argument("Not supported on Unix Systems.");
 		case RenderingAPI::eOpenCL:
 			return "libfragview-rcl.so";
 		default:

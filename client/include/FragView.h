@@ -28,6 +28,7 @@
  * Main class for the fragment viewer
  * executable program.
  */
+ //TODO remove from the core library and move to the client, the fragview.
 class FVDECLSPEC FragView {
 public:
     FragView(int argc, const char** argv);
@@ -46,6 +47,8 @@ public:
 
 protected:
 
+	void init(int argc, const char** argv);
+
 	/**
 	 * Create window for displaying.
 	 */
@@ -53,11 +56,16 @@ protected:
 
 private:    /*  */
 
-    IRenderer* renderer;                /*  Low level rendering API interface.  */
-    RenderPipeline* display;            /*  Perform rendering.  */
+    Ref<IRenderer> renderer;            /*  Low level rendering API interface.  */
+    RenderPipeline* display;            /*  Perform rendering.  */  //TODO remove, will be replaced by the pipeline object.
+    Ref<IRenderPipelineBase> renderpipeline;
+//    EventController* controller;
+//    CommandController* commandController;
     Config* config;                     /*  Current config.    */
 	FileNotify* notify;                 /*  Notify Asset changes.  */
+	//TODO add ref for the scheduer object.
 	schTaskSch* sch;                    /*  Scheduler.  */
+	//TODO imporove the window object.
     void* window;                       /*  Window pointer reference.   */
 	Scene *scene;                       /*  Current scene.  */
 };
