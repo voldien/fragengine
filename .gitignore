@@ -69,6 +69,24 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# doxygen
+*~
+.*sw?
+\#*
+.DS_Store
+
+*.rej
+*.orig
+
+*.pro
+/packages/rpm/doxygen.spec
+*.idb
+*.pdb
+
+/docs/doxygen_docs
+/docs/doxygen.tag
+/docs/build*
+
 # Project dependent ignore rules
 /deps/*
 /Testing/*
