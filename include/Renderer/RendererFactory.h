@@ -18,8 +18,7 @@
 */
 #ifndef _RENDERING_FACTORY_H_
 #define _RENDERING_FACTORY_H_ 1
-
-#include "Renderer/IRenderer.h"
+#include "IRenderer.h"
 
 namespace fragview {
 /**

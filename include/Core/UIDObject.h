@@ -18,30 +18,46 @@
 */
 #ifndef _UID_OBJECT_H_
 #define _UID_OBJECT_H_ 1
+
 #include"UIDGenerator.h"
 
-/**
- * Responsible for containing
- * the UID of object.
- */
-class FVDECLSPEC UIDObject {
-public:
-	UIDObject(void);
-
+namespace fragview {
 	/**
-	 *	Set Unique ID for the object.
+	 * Responsible for containing
+	 * the UID of object.
 	 */
-	virtual void setUID(unsigned int uid);
+	class FVDECLSPEC UIDObject {
+	public:
+		UIDObject(void);
+		//UIDObject(UIDGenerator& uidGenerator);
+		//TODO for selecting what UID pool.
 
-	/**
-	 *	Get the unique identifier.
-	 *	@Return unique ID.
-	 */
-	virtual unsigned int getUID(void) const ;
+		/**
+		 *	Set Unique ID for the object.
+		 */
+		virtual void setUID(unsigned int uid);
 
-private:    /*	Attributes.	*/
-	static UIDGenerator generator;
-	unsigned int uid;        /*	Unique Identifier.	*/
-};
+		/**
+		 *	Get the unique identifier.
+		 *	@Return unique ID.
+		 */
+		virtual unsigned int getUID(void) const;
+
+		virtual bool operator==(const UIDObject &o1) {
+			return uid == o1.uid;
+		}
+
+		virtual bool operator!=(const UIDObject &o1) {
+			return uid == o1.uid;
+		}
+
+		//virtual void operator=(const UIDObject& o);
+
+	private:    /*	Attributes.	*/
+		//TODO remove. remove the responsiblity to the generator pool.
+		static UIDGenerator generator;
+		unsigned int uid;        /*	Unique Identifier.	*/
+	};
+}
 
 #endif

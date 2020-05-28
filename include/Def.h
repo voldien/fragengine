@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_DEF_H
-#define FRAGVIEW_DEF_H
+#ifndef _FV_DEF_H_
+#define _FV_DEF_H_ 1
 #include<stdio.h>
 #include<stdint.h>
 #include<string.h>
@@ -25,6 +25,32 @@
 #include<unistd.h>
 #include<assert.h>
 #include<errno.h>
+
+/*	Vector data types for rendering geometries.	*/
+#include<hpmcpp/HpmCpp.h>
+#include<hpmcpp/HCPlane.h>
+#include<hpmcpp/HCVector2.h>
+#include<hpmcpp/HCVector4.h>
+#include<hpmcpp/HCVector3.h>
+#include<hpmcpp/HCQuaternion.h>
+#include<hpmcpp/HpmCpp.h>
+
+//TODO relocate.
+//TODO rename to none prefix versions.
+namespace fragview {
+	typedef HCVector3 PVVector3;
+	typedef HCVector4 PVVector4;
+	typedef HCVector2 PVVector2;
+	typedef HCMatrix4x4 PVMatrix4x4;
+	typedef HCMatrix3x3 PVMatrix3x3;
+	typedef HCQuaternion PVQuaternion;
+	typedef HCPlane PVPlane;
+	typedef HCAABB PVAABB;
+	typedef HCBoundingSphere PVBoundingSphere;
+	typedef HCOBB PVOBB;
+	typedef HCRay PVRay;
+	typedef HCVector4 PVColor;
+}
 
 /**
  *	Compiler version macro.
@@ -242,6 +268,20 @@
 #define FVAPIFASTENTRY __fastcall
 #endif
 
+
+/**
+ *	restrict declaration.
+ */
+#ifndef FV_RESTRICT
+#if defined(FV_GNUC)
+#define FV_RESTRICT __restrict__
+#elif defined(FV_VC) || defined(PV_CLANG)
+#define FV_RESTRICT __restrict
+#else
+#define FV_RESTRICT __declspec(restrict)
+#endif
+#endif
+
 /*
  *	force inline.
  */
@@ -270,8 +310,6 @@
 #elif defined(FV_)
 #endif
 
-
-
 /**
  *	library declaration.
  */
@@ -297,9 +335,13 @@
 /**
  *	String macros.
  */
-#define FV_STR_HELPER(x) #x										/*	String helper macro.*/
-#define FV_STR(x) FV_STR_HELPER(x)								/*	Convert input to a double quoate string.	*/
-#define FV_TEXT(quote) quote										/*	*/
+#define FV_STR_HELPER(x) #x                                         /*	String helper macro.*/
+#define FV_STR(x) FV_STR_HELPER(x)                                  /*	Convert input to a double quoate string.	*/
+#define FV_TEXT(quote) quote                                        /*	*/
 
+//TODO relocate
+#if FV_UNIX
+	#include <unistd.h>
+#endif
 
 #endif

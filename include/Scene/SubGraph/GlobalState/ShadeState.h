@@ -1,0 +1,4 @@
+#ifndef FRAGVIEW_SHADESTATE_H_
+#define FRAGVIEW_SHADESTATE_H_
+
+#endif

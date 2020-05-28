@@ -1,7 +1,9 @@
 #include"Utils/RenderTargetFactory.h"
 #include<assert.h>
 #include <stdexcept>
+#include <Exception/InvalidArgumentException.h>
 
+using namespace fragview;
 
 FrameBuffer* RenderTargetFactory::createShadow(IRenderer* render, int width, int height){
 
@@ -12,7 +14,7 @@ FrameBuffer* RenderTargetFactory::createShadow(IRenderer* render, int width, int
 
 	assert(render);
 	if(render == NULL)
-		throw std::invalid_argument("renderer interface must not be null!");
+		throw InvalidArgumentException("renderer interface must not be null!");
 
 
 	/*	*/
@@ -53,9 +55,8 @@ FrameBuffer* RenderTargetFactory::createDeffered(IRenderer* render, int width, i
 	FrameBufferDesc desc;
 	FrameBuffer* frame = NULL;
 
-	assert(render);
 	if(render == NULL)
-		throw std::invalid_argument("renderer interface must not be null!");
+		throw InvalidArgumentException("renderer interface must not be null!");
 
 	memset(&texdesc, 0, sizeof(texdesc));
 	memset(&desc, 0, sizeof(desc));
@@ -72,7 +73,7 @@ FrameBuffer* RenderTargetFactory::createDeffered(IRenderer* render, int width, i
 	texdesc.sampler.AddressW = SamplerDesc::eClamp;
 	texdesc.sampler.minFilter = SamplerDesc::eLinear;
 	texdesc.sampler.magFilter = SamplerDesc::eLinear;
-	texdesc.sampler.mipmapFilter = SamplerDesc::eLinear;
+	texdesc.sampler.mipmapFilter = SamplerDesc::eNoFilterMode;
 	texdesc.sampler.anisotropy = 1.0f;
 	depthstencil = render->createTexture(&texdesc);
 
@@ -81,7 +82,7 @@ FrameBuffer* RenderTargetFactory::createDeffered(IRenderer* render, int width, i
 	texdesc.internalformat = TextureDesc::eRGB;
 	texdesc.type = TextureDesc::eUnsignedByte;
 	color1 = render->createTexture(&texdesc);
-	color1->setWrapMode(Texture::eWrap);
+	color1->setWrapMode(Texture::eClamp);
 
 	/*	*/
 	texdesc.format = TextureDesc::eRGB;
@@ -127,7 +128,7 @@ FrameBuffer *RenderTargetFactory::createColor(IRenderer *render, int width, int 
 
 	assert(render);
 	if (render == NULL)
-		throw std::invalid_argument("renderer interface must not be null!");
+		throw InvalidArgumentException("renderer interface must not be null!");
 
 	/*	Zero out descriptor.	*/
 	memset(&texdesc, 0, sizeof(texdesc));
@@ -139,6 +140,8 @@ FrameBuffer *RenderTargetFactory::createColor(IRenderer *render, int width, int 
 	texdesc.height = height;
 	texdesc.format = TextureDesc::eRGBA;
 	texdesc.internalformat = TextureDesc::eRGBA;
+	texdesc.pixelFormat = TextureFormat::BGR24;
+	texdesc.graphicFormat = GraphicFormat::R8G8B8_SRGB;
 	texdesc.type = TextureDesc::eUnsignedByte;
 	texdesc.srgb = 1;
 	texdesc.usemipmaps = 0;
@@ -148,13 +151,16 @@ FrameBuffer *RenderTargetFactory::createColor(IRenderer *render, int width, int 
 	texdesc.sampler.AddressW = SamplerDesc::eClamp;
 	texdesc.sampler.minFilter = SamplerDesc::eLinear;
 	texdesc.sampler.magFilter = SamplerDesc::eLinear;
-	texdesc.sampler.mipmapFilter = SamplerDesc::eLinear;
+	texdesc.sampler.mipmapFilter = SamplerDesc::eNoFilterMode;
 	texdesc.sampler.anisotropy = 1.0f;
+	texdesc.marker.markerName = "FrameBuffer Color Component";
 
 	color = render->createTexture(&texdesc);
+	desc.attach[0] = color;
+	color = render->createTexture(&texdesc);
+	desc.attach[1] = color;
 
 	/*	Framebuffer descriptor.	*/
-	desc.attach[0] = color;
 	fraobj = render->createFrameBuffer(&desc);
 
 	return fraobj;
@@ -169,7 +175,7 @@ FrameBuffer* RenderTargetFactory::createHDR(IRenderer* renderer, int width, int 
 
 	assert(renderer);
 	if(renderer == NULL)
-		throw std::invalid_argument("renderer interface must not be null!");
+		throw InvalidArgumentException("renderer interface must not be null!");
 
 	/*	Zero out descriptor.	*/
 	memset(&texdesc, 0, sizeof(texdesc));

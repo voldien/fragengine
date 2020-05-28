@@ -22,18 +22,20 @@
 #include"AssetType.h"
 #include<string>
 
-/**
- *
- */
-class FileNotificationEvent{
-public:
-	Object* object;
-	AssetType type;
-	AssetEvent event;
-	const char* path;
-	long int timestamp;
-	long int size;
-	void* data;
-};
+namespace fragview {
+	/**
+	 *
+	 */
+	class FileNotificationEvent {
+	public:
+		Object *object;
+		AssetType type;
+		AssetEvent event;
+		const char *path;
+		long int timestamp;
+		long int size;
+		void *data;
+	};
+}
 
 #endif

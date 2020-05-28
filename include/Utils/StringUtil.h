@@ -18,7 +18,7 @@
 */
 #ifndef _FRAGVIEW_STRINGUTIL_H_
 #define _FRAGVIEW_STRINGUTIL_H_ 1
-#include"Def.h"
+#include"../Def.h"
 #include<string>
 #include<cstdarg>
 
@@ -28,6 +28,6 @@
  * @param ...
  * @return
  */
-extern FVDECLSPEC std::string format(const std::string& format, ...);
+extern FVDECLSPEC std::string fvformatf(const std::string &format, ...);
 
 #endif

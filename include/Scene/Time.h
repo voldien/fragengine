@@ -19,126 +19,128 @@
 #ifndef _FRAGVIEW_TIME_H_
 #define _FRAGVIEW_TIME_H_ 1
 #include"Def.h"
+#include"../Core/Object.h"
 
-/**
- *
- */
-class Time {
-public:
-	Time(void);
-
-	/**
-	 * Start time.
-	 */
-	void start(void);
-
-	/**
-	 * Get delta time since last frame.
-	 *
-	 * @return seconds.
-	 */
-	float deltaTime(void);
-
-	/**
-	 * Get smooth delta time. It uses
-	 * the average delta time over multiple
-	 * frames delta time.
-	 * @return
-	 */
-	float smoothDeltaTime(void);
-
-	/**
-	 * Get time sense engine was initialized.
-	 * @return number of seconds.
-	 */
-	unsigned int time(void);
-
-	/**
-	 * Get time since the engine was initialized.
-	 * @return number of seconds and fractions of seconds.
-	 */
-	float timef(void);
-
-	/**
-	 *
-	 * @return
-	 */
-	double timed(void);
-
-	/**
-	 *	Get unix epoch time stamp.
-	 *	@Return
-	 */
-	long int getUnixTime(void);
-
-	/**
-	 * Get time scale.
-	 * @return
-	 */
-	float getTimeScale(void);
-
-	/**
-	 * Set time scale.
-	 * @param scale
-	 */
-	void setTimeScale(float scale);
-
-	/**
-	 *
-	 * @return
-	 */
-	long int getTimeResolution(void);
-
-	/**
-	 *	Get fixed update time in milliseconds.
-	 *
-	 *	@Return
-	 */
-	float fixedTime(void);
-
+namespace fragview {
 	/**
 	 *
 	 */
-	void internalUpdate(void);
+	class FVDECLSPEC Time : public Object {
+	public:
+		Time(void);
 
-	/**
-	 *
-	 * @return
-	 */
-	static Time* getCurrentTime(void);
+		/**
+		 * Start time.
+		 */
+		void start(void);
 
-	/**
-	 *
-	 * @param time
-	 */
-	static void setCurrentTime(Time* time);
+		/**
+		 * Get delta time since last frame.
+		 *
+		 * @return seconds.
+		 */
+		float deltaTime(void);
 
-	/**
-	 *
-	 * @return
-	 */
-	static const char* getDate(void);
+		/**
+		 * Get smooth delta time. It uses
+		 * the average delta time over multiple
+		 * frames delta time.
+		 * @return
+		 */
+		float smoothDeltaTime(void);
 
-private:	/*	*/
+		/**
+		 * Get time sense engine was initialized.
+		 * @return number of seconds.
+		 */
+		unsigned int time(void);
 
-	float internal_delta_timef(void);
+		/**
+		 * Get time since the engine was initialized.
+		 * @return number of seconds and fractions of seconds.
+		 */
+		float timef(void);
 
-	/*  */
-	long int ticks;
-	float scale;
-	float fixed;
+		/**
+		 *
+		 * @return
+		 */
+		double timed(void);
 
-	/*	TODO clean up later by relocating it to the time class.*/
-	float gc_fdelta;
-	float delta_data[5];
-	unsigned int nDeltaTime = sizeof(delta_data) / sizeof(delta_data[0]);
-	unsigned int idelta;
+		/**
+		 *	Get unix epoch time stamp.
+		 *	@Return
+		 */
+		long int getUnixTime(void);
 
-	/*  */
-	static Time* curTime;
-	unsigned long timeResolution;
-	unsigned long _private_level_startup;
-};
+		/**
+		 * Get time scale.
+		 * @return
+		 */
+		float getTimeScale(void);
 
+		/**
+		 * Set time scale.
+		 * @param scale
+		 */
+		void setTimeScale(float scale);
+
+		/**
+		 *
+		 * @return
+		 */
+		long int getTimeResolution(void);
+
+		/**
+		 *	Get fixed update time in milliseconds.
+		 *
+		 *	@Return
+		 */
+		float fixedTime(void);
+
+		/**
+		 *
+		 */
+		void internalUpdate(void);
+
+		/**
+		 *
+		 * @return
+		 */
+		static Time *getCurrentTime(void);
+
+		/**
+		 *
+		 * @param time
+		 */
+		static void setCurrentTime(Time *time);
+
+		/**
+		 *
+		 * @return
+		 */
+		static const char *getDate(void);
+
+	private:    /*	*/
+
+		float internal_delta_timef(void);
+
+		/*  */
+		long int ticks;
+		float scale;
+		float fixed;
+
+		/*	TODO clean up later by relocating it to the time class.*/
+		float gc_fdelta;
+		float delta_data[5];
+		unsigned int nDeltaTime = sizeof(delta_data) / sizeof(delta_data[0]);
+		unsigned int idelta;
+
+		/*  */
+		static Time *curTime;
+		unsigned long timeResolution;
+		unsigned long _private_level_startup;
+	};
+}
 
 #endif

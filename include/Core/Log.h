@@ -18,60 +18,83 @@
 */
 #ifndef _FRAGVIEW_LOG_H_
 #define _FRAGVIEW_LOG_H_ 1
+#include"IO/IO.h"
+#include"Ref.h"
 
-/**
- *
- */
-class Log {
-public:
+namespace fragview {
 	/**
-	 *	Verbosity level of the program.
+	 *
 	 */
-	enum VERBOSITY {
-		eQuite		= 0,	/**/
-		eError      = 1,
-		eVerbose	= 2,	/**/
-		eDebug		= 16,   /**/
+	class FVDECLSPEC Log {
+	public:
+		/**
+		 *	Verbosity level of the program.
+		 */
+		 //TODO add map flagging.
+		enum VERBOSITY {
+			eQuite      = 0,    /*  */
+			eError      = 1,    /*  */
+			eVerbose    = 2,    /*  */
+			eWarning    = 3,    /*  */
+			eDebug      = 16,   /*  */
+		};
+
+		/**
+		 *
+		 */
+		enum LogMappingFlag {
+			fQuite      = (1 << eQuite),
+			fError      = (1 << eError),
+			fVerbose    = (1 << eVerbose),
+			fWarning    = (1 << eWarning),
+			fDebug      = (1 << eDebug),
+		};
+
+		/**
+		 * Set verbosity
+		 * @param verbosity
+		 */
+		static void setVerbosity(VERBOSITY verbosity);
+
+		/**
+		 *
+		 * @return
+		 */
+		static VERBOSITY getVerbosity(void);
+
+		/**
+		 *
+		 * @param verbosity
+		 * @param format
+		 * @param ...
+		 */
+		static int log(VERBOSITY verbosity, const char *format, ...);
+
+		/**
+		 *
+		 * @param format
+		 * @param ...
+		 * @return
+		 */
+		static int log(const char *format, ...);
+
+		/**
+		 *
+		 * @param format
+		 * @param ...
+		 * @return
+		 */
+		static int error(const char *format, ...);
+
+		/*  TOOD improve the design.    */
+		//TODO add support.
+		static void addIOOutput(Ref<IO>& io, const VERBOSITY mapping);
+		static void removeIOOutPut(Ref<IO>& io);
+		static void clearIO(void);
+
+	private:
+		static int logv(VERBOSITY verbosity, const char *format, va_list va);
 	};
-
-	/**
-	 * Set verbosity
-	 * @param verbosity
-	 */
-	static void setVerbosity(VERBOSITY verbosity);
-
-	/**
-	 *
-	 * @return
-	 */
-	static VERBOSITY getVerbosity(void);
-
-	/**
-	 *
-	 * @param verbosity
-	 * @param format
-	 * @param ...
-	 */
-	static int log(VERBOSITY verbosity, const char *format, ...);
-
-	/**
-	 *
-	 * @param format
-	 * @param ...
-	 * @return
-	 */
-	static int log(const char *format, ...);
-
-	/**
-	 *
-	 * @param format
-	 * @param ...
-	 * @return
-	 */
-	static int error(const char *format, ...);
-
-private:
-	static int logv(VERBOSITY verbosity, const char *format, va_list va);
-};
+}
 
 #endif

@@ -21,28 +21,29 @@
 #include"../Renderer/IRenderer.h"
 #include"../Renderer/FrameBuffer.h"
 
+namespace fragview {
 /**
  *	Responsible for creating predefined
  *	framebuffer target.
  */
-class FVDECLSPEC RenderTargetFactory{
-public:
+	class FVDECLSPEC RenderTargetFactory {
+	public:
 
-	static FrameBuffer* createShadow(IRenderer* render, int width, int height);
+		static FrameBuffer *createShadow(IRenderer *render, int width, int height);
 
-	static FrameBuffer* createDeffered(IRenderer* render, int width, int height, unsigned int options = 0);
+		static FrameBuffer *createDeffered(IRenderer *render, int width, int height, unsigned int options = 0);
 
-	static FrameBuffer* createColor(IRenderer* render, int width, int height);
+		static FrameBuffer *createColor(IRenderer *render, int width, int height);
 
-	static FrameBuffer* createHDR(IRenderer* renderer, int width, int height);
-	
-	static void resizeFrameBuffer(FrameBuffer* framebuffer, int width, int height);
+		static FrameBuffer *createHDR(IRenderer *renderer, int width, int height);
 
-private:	/*	Prevent one from creating an instance of this class.	*/
+	private:    /*	Prevent one from creating an instance of this class.	*/
 
-	RenderTargetFactory(void);
-	~RenderTargetFactory(void);
-};
+		RenderTargetFactory(void);
+
+		~RenderTargetFactory(void);
+	};
+}
 
 
 #endif

@@ -1,7 +1,9 @@
 #include"Core/Library.h"
 #include<SDL2/SDL.h>
 #include <stdexcept>
+#include <Exception/RuntimeExecption.h>
 #include"Utils/StringUtil.h"
+using namespace fragview;
 
 Library::Library(void) {
 	this->mlib = NULL;
@@ -14,7 +16,8 @@ Library::Library(const char *clibrary) {
 }
 
 Library::Library(const Library &library) {
-	*this = library;
+	this->mlib = NULL;
+	this->open(library.name.c_str());
 	this->name = library.name;
 }
 
@@ -28,8 +31,8 @@ bool Library::open(const char *clibrary) {
 	/*	Check for error.	*/
 	if (this->mlib == NULL) {
 
-		std::string sdlerror = format("Failed open library : %s\n", SDL_GetError());
-		throw std::runtime_error(sdlerror);
+		std::string sdlerror = fvformatf("Failed open library : %s\n", SDL_GetError());
+		throw RuntimeException(sdlerror);
 	}
 
 	return this->mlib != NULL;
@@ -47,9 +50,9 @@ void *Library::getfunc(const char *pProcName) {
 	void *func = SDL_LoadFunction(this->mlib, pProcName);
 
 	if (func == NULL) {
-		std::string sdlerror = format("Failed to load function %s, %s from library %s.\n", pProcName, SDL_GetError(),
-		                              this->name.c_str());
-		throw std::runtime_error(sdlerror);
+		std::string sdlerror = fvformatf("Failed to load function %s, %s from library %s.\n", pProcName, SDL_GetError(),
+		                                 this->name.c_str());
+		throw RuntimeException(sdlerror);
 	}
 
 	return func;

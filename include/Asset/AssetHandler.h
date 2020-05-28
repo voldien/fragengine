@@ -20,25 +20,26 @@
 #define _FRAGVIEW_ASSETHANDLER_H_ 1
 #include "FileNotify.h"
 
+namespace fragview {
 /**
  *
  */
-class AssetHandler {
-public:
+	class AssetHandler {
+	public:
 
-	/**
-	 * Handle asset change event.
-	 * @param event
-	 * @throws invalid_argument if event null or size less or equal to zero.
-	 */
-	static void handleAssetEvent(FileNotificationEvent* event);
+		/**
+		 * Handle asset change event.
+		 * @param event
+		 * @throws invalid_argument if event null or size less or equal to zero.
+		 */
+		static void handleAssetEvent(FileNotificationEvent *event);
 
-	/**
-	 * Handle drop asset.
-	 * @param filepath
-	 */
-	static void handleAssetDrop(const char* filepath);
-};
+		/**
+		 * Handle drop asset.
+		 * @param filepath
+		 */
+		static void handleAssetDrop(const char *filepath);
+	};
 
-
+}
 #endif

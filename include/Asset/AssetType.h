@@ -31,8 +31,12 @@ enum AssetType {
 	eScript,    /*  */
 };
 
+/*  TODO add event information for other part of the system to base its action on.   */
 enum AssetEvent {
-
+//	Update,
+//	Removed,
+//	Moved,
+//	PermissionAltered,
 };
 
 

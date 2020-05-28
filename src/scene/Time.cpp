@@ -3,6 +3,7 @@
 #include<time.h>
 #include <Scene/Time.h>
 
+using namespace fragview;
 
 Time *Time::curTime = NULL;
 

@@ -18,51 +18,56 @@
 */
 #ifndef _LIBRARY_H_
 #define _LIBRARY_H_ 1
-#include"Def.h"
+#include"../Def.h"
 #include<string>
 
+namespace fragview {
 /**
  *	Load dynamic library in runtime.
  */
-class Library {
-public:
-	Library(void);
-	Library(const char* clibrary);
-	Library(const Library& library);
-	~Library(void);
+	class FVDECLSPEC Library {
+	public:
+		Library(void);
 
-	/**
-	 *	Open library.
-	 *
-	 *	@Return true if successfully.
-	 */
-	bool open(const char* clibrary);
+		Library(const char *clibrary);
 
-	/**
-	 *	Close library.
-	 *	This will unload all function pointer loaded
-	 *	from this library object.
-	 */
-	void close(void);
+		Library(const Library &library);
 
-	/**
-	 *	Determine if loaded library is valid.
-	 *
-	 *	@Return true if valid library.
-	 */
-	bool isValid(void)const;
+		~Library(void);
 
-	/**
-	 *	Get function pointer.
-	 *
-	 *	@Return function pointer if successfully.
-	 */
-	void* getfunc(const char* pProcName);
+		/**
+		 *	Open library.
+		 *
+		 *	@Return true if successfully.
+		 */
+		bool open(const char *clibrary);
 
-private:	/*	Attributes.	*/
+		/**
+		 *	Close library.
+		 *	This will unload all function pointer loaded
+		 *	from this library object.
+		 */
+		void close(void);
 
-	void* mlib;
-	std::string name;
-};
+		/**
+		 *	Determine if loaded library is valid.
+		 *
+		 *	@Return true if valid library.
+		 */
+		bool isValid(void) const;
+
+		/**
+		 *	Get function pointer.
+		 *
+		 *	@Return function pointer if successfully.
+		 */
+		void *getfunc(const char *pProcName);
+
+	private:    /*	Attributes.	*/
+
+		void *mlib;
+		std::string name;
+	};
+}
 
 #endif

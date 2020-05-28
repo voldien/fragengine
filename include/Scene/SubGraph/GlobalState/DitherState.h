@@ -1,0 +1,4 @@
+#ifndef FRAGVIEW_DITHERSTATE_H
+#define FRAGVIEW_DITHERSTATE_H
+
+#endif

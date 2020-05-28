@@ -1,5 +1,5 @@
 
-#include <RendererFactory.h>
+#include <Renderer/RendererFactory.h>
 #include <cassert>
 #include <Core/Library.h>
 #include <exception>
@@ -7,7 +7,10 @@
 #include <stdexcept>
 #include <Utils/StringUtil.h>
 #include <Core/IConfig.h>
+#include <Exception/InvalidArgumentException.h>
+#include <Exception/RuntimeExecption.h>
 
+using namespace fragview;
 typedef IRenderer *(*pcreateinternalrendering)(IConfig *config);
 
 IRenderer *RenderingFactory::createRendering(RenderingFactory::RenderingAPI renderingapi, IConfig *config) {
@@ -22,7 +25,7 @@ IRenderer *RenderingFactory::createRendering(const char *cpathlib, IConfig *conf
 
 	/*	Validate parameters.	*/
 	if (cpathlib == NULL)
-		throw std::invalid_argument("path variable must not be null.");
+		throw InvalidArgumentException("path variable must not be null.");
 
 	/*	Open library and validate.	*/
 	library.open(cpathlib);
@@ -33,7 +36,7 @@ IRenderer *RenderingFactory::createRendering(const char *cpathlib, IConfig *conf
 		interface = pfunc(config);
 
 	} else {
-		throw std::runtime_error(format("Failed loading %s library for creating renderer.", cpathlib));
+		throw RuntimeException(fvformatf("Failed loading %s library for creating renderer.", cpathlib));
 	}
 
 	return interface;
@@ -47,12 +50,12 @@ const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory::Renderin
 		case RenderingFactory::eVulkan:
 			return "libfragview-rvk.so";
 		case RenderingAPI::eDirectX:
-			throw std::invalid_argument("Not supported on Unix Systems.");
+			throw InvalidArgumentException("Not supported on Unix Systems.");
 		case RenderingAPI::eOpenCL:
 			return "libfragview-rcl.so";
 		default:
 			assert(0);
-			throw std::invalid_argument("Not a valid rendering API enumerator.");
+			throw InvalidArgumentException("Not a valid rendering API enumerator.");
 	}
 #elif defined(FV_WINDOWS)
 	switch (api) {
@@ -66,7 +69,7 @@ const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory::Renderin
 			return "libfragview-rcl.dll";
 		default:
 			assert(0);
-			throw std::invalid_argument("Not a valid rendering API enumerator.");
+			throw InvalidArgumentException("Not a valid rendering API enumerator.");
 	}
 #endif
 }

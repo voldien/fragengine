@@ -1,0 +1,5 @@
+
+#ifndef FRAGVIEW_GEOMETRYUTIL_H_
+#define FRAGVIEW_GEOMETRYUTIL_H_ 1
+
+#endif

@@ -21,112 +21,116 @@
 #include"Prerequisites.h"
 #include"FileChangeEvent.h"
 #include"Core/Object.h"
-#include"Core/PoolAllactor.h"
+#include"Core/dataStructure/PoolAllocator.h"
 #include<taskSch.h>
 #include<libfswatch/c/libfswatch_types.h>
 #include<libfswatch/c/cevent.h>
 #include<map>
+#include <Core/RefPtr.h>
 
-/**
- *
- */
-class FVDECLSPEC FileNotify {
-public:
-
-	/**
-	 * Start the file notification process.
-	 */
-	void start(void);
-
+namespace fragview {
 	/**
 	 *
 	 */
-	void stop(void);
-
-protected:
-
-	/**
-	 *
-	 */
-	class FVDECLSPEC FileNoticationEntry {
+	class FVDECLSPEC FileNotify : public SmartReference {
 	public:
-		int key;                /*  */
-		std::string filepath;   /*  */
-		Object *assetObject;    /*  */
-		AssetType type;         /*  */
+
+		/**
+		 * Start the file notification process.
+		 */
+		void start(void);
+		void stop(void);
+
+	protected:
+
+		/**
+		 *
+		 */
+		class FVDECLSPEC FileNoticationEntry {
+		public:
+			int key;                /*  */
+			std::string filepath;   /*  */
+			Object *assetObject;    /*  */
+			AssetType type;         /*  */
+		};
+
+	public:
+
+		void registerAsset(const char *filepath, Object *object, AssetType type);
+
+		void unregisterAsset(Object *notify);
+
+		void unRegisterAllAsset(void);
+
+		void eventDone(FileNotificationEvent *event);
+
+	private:
+
+		/**
+		 *
+		 * @param path
+		 */
+		void addFilePath(const char *path, Object *object);
+
+		/**
+		 *
+		 * @param path
+		 */
+		void removeFilePath(const char *path, Object *object);
+
+		/**
+		 *
+		 * @param path
+		 * @return
+		 */
+		Object *getObject(const char *path);
+
+		/**
+		 *
+		 * @param object
+		 * @return
+		 */
+		FileNoticationEntry *getEntry(Object *object);
+
+		/**
+		 *
+		 * @param events
+		 * @param event_num
+		 * @param data
+		 */
+		static void callback(fsw_cevent const *const events,
+		                     const unsigned int event_num,
+		                     void *data);
+
+		/**
+		 *
+		 * @param package
+		 * @return
+		 */
+		static int fileFetchTask(schTaskPackage *package);
+
+		/**
+		 * Start fswatch internal process.
+		 */
+		static void *fswatch(const void *psession);
+
+	private:
+
+		std::map<int, FileNoticationEntry> notify;  /*  List of update-able assets.  */
+		std::map<std::string, Object *> objectMap;  /*  */
+		FSW_HANDLE session;                         /*  */
+
+		void *pthread;      /*  Thread for async operations. */
+		schTaskSch *sch;    /*  */
+		RefPtr<schTaskSch> *refSch;
+		PoolAllocator<FileNotificationEvent> fileChangeEvents;
+
+	public: /*  */
+
+		FileNotify(schTaskSch *sch);
+
+		~FileNotify(void);
 	};
-
-public:
-
-	void registerAsset(const char *filepath, Object *object, AssetType type);
-	void unregisterAsset(Object *notify);
-	void unRegisterAllAsset(void);
-	void eventDone(FileNotificationEvent *event);
-
-private:
-
-	/**
-	 *
-	 * @param path
-	 */
-	void addFilePath(const char *path, Object *object);
-
-	/**
-	 *
-	 * @param path
-	 */
-	void removeFilePath(const char *path, Object *object);
-
-	/**
-	 *
-	 * @param path
-	 * @return
-	 */
-	Object *getObject(const char *path);
-
-	/**
-	 *
-	 * @param object
-	 * @return
-	 */
-	FileNoticationEntry *getEntry(Object *object);
-
-	/**
-	 *
-	 * @param events
-	 * @param event_num
-	 * @param data
-	 */
-	static void callback(fsw_cevent const *const events,
-	                     const unsigned int event_num,
-	                     void *data);
-
-	/**
-	 *
-	 * @param package
-	 * @return
-	 */
-	static int fileFetchTask(schTaskPackage *package);
-
-	/**
-	 * Start fswatch internal process.
-	 */
-	static void *fswatch(const void *psession);
-
-private:
-
-	std::map<int, FileNoticationEntry> notify;  /*  List of update-able assets.  */
-	std::map<std::string, Object *> objectMap;  /*  */
-	FSW_HANDLE session;                         /*  */
-
-	void *pthread;      /*  Thread for async operations. */
-	schTaskSch *sch;    /*  */
-	PoolAllactor<FileNotificationEvent> fileChangeEvents;
-
-public: /*  */
-
-	FileNotify(schTaskSch *sch);
-	~FileNotify(void);
-};
+}
 
 #endif

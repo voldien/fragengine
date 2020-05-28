@@ -35,19 +35,23 @@ fragview -f samples/glsl/wave.frag --renderer-opengl --alpha --srgb
 In order to compile the program, the following Debian packages is required.
 
 ```bash
-apt install libyaml-dev libjsoncpp-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
+apt install libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
 ```
+
 ```bash
-apt install libopenal-dev libbullet-dev
+apt install libopenal-dev libalut-dev libbullet-dev
 ```
 
 ```bash
 apt install libgtk-3-dev
 ```
-
+External libraries library dependencies.
+```bash
+sudo apt install check libsubunit-dev
+```
 Tool dependencies.
 ```bash
-apt install zip gzip
+apt install zip gzip libgtest-dev 
 ```
 
 ## License

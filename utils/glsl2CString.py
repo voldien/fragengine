@@ -40,10 +40,11 @@ def convert2CString(cpbuf):
 
     return stringbuf[0:len(stringbuf) - 1]
 
+
 def variable_extension(path):
     path_extension = path.split('.')[-1]
     print(path_extension)
-    extensions = {"vert" : "vs", "frag" : "fs", "geom" : "ge", "tesc" : "tec", "tese" : "tes", "comp" : "cm"}
+    extensions = {"vert": "vs", "frag": "fs", "geom": "ge", "tesc": "tec", "tese": "tes", "comp": "cm"}
     if path_extension in extensions:
         return "_{}".format(extensions[path_extension])
     return ""
@@ -61,13 +62,33 @@ def main(argv):
     headpath = "./{}".format(HEADERNAME)
     cpath = "./{}".format(CNAME)
 
+    # Final destination files.
+    headerFinalDest = "./include/Shaders/{}".format(HEADERNAME)
+    sourceFinalDest = "./src/shaders/{}".format(CNAME)
+
+    if os.path.exists(headerFinalDest) and os.path.exists(sourceFinalDest):
+        # Check if need to be updated.
+        needUpdate = False
+        destTime = os.path.getmtime(headerFinalDest)
+        for file in shadfiles:
+            filepath = "{}/{}".format(dir, file)
+            if isfile(filepath) and file.endswith((".glsl", ".vert", ".frag", ".geom", ".tesc", ".tese", ".comp")):
+                srcTime = os.path.getmtime(filepath)
+                if destTime < srcTime:
+                    needUpdate = True
+                    break
+
+        if not needUpdate:
+            print("No changes. Nothing was written")
+            sys.exit(0)
+    else:
+        print("No files exists, forcing to create the header and source files.")
     #
     header = codecs.open(headpath, 'w', encoding='utf8')
     cfile = codecs.open(cpath, 'w', encoding='utf8')
 
-    #
     cfile.write("#include\"Shaders/{}\"\n".format(HEADERNAME))
-    header.write("#ifndef _SPRITE_SHADER_\n#define _SPRITE_SHADER_ 1\n")
+    header.write("#ifndef _CONVERTED_2_SHADER_\n#define _CONVERTED_2_SHADER_ 1\n")
 
     # Iterate through each files.
     for file in shadfiles:
@@ -81,11 +102,15 @@ def main(argv):
                 cvariable = "gc_shader_{}".format(cvariable)
                 cvariable += variable_extension(filepath)
 
+                # TODO add support for size of the variable.
+
                 # update header.
                 header.write("extern const char* {};\n".format(cvariable))
+                header.write("extern const unsigned int {}_size;\n".format(cvariable))
 
                 # update c file.
                 cfile.write("const char* {} = {};\n\n".format(cvariable, glsl))
+                cfile.write("const unsigned int {}_size = {};\n\n".format(cvariable, "{}".format(len(glsl))))
 
                 print("Converted: {}".format(filepath))
 
@@ -97,10 +122,10 @@ def main(argv):
     header.close()
 
     # Copy file to directory.
-    move(headpath, "./include/Shaders/{}".format(HEADERNAME))
-    move(cpath, "./src/shaders/{}".format(CNAME))
+    move(headpath, headerFinalDest)
+    move(cpath, sourceFinalDest)
 
-    print("Finish converting files from directory {} to {}:{}".format(argv[1], headpath, cpath))
+    print("Finish converting files from directory {} to {}:{}".format(argv[1], headerFinalDest, sourceFinalDest))
 
 
 if __name__ == '__main__':

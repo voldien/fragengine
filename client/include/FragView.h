@@ -20,15 +20,15 @@
 #define _FRAG_VIEW_H_ 1
 #include "Renderer/IRenderer.h"
 #include "Asset/FileNotify.h"
-#include "RenderPipeline.h"
-#include "Core/Config.h"
+#include "Config.h"
+#include <Core/RefPtr.h>
 #include <taskSch.h>
+#include <Renderer/RendererWindow.h>
 
 /**
  * Main class for the fragment viewer
  * executable program.
  */
- //TODO remove from the core library and move to the client, the fragview.
 class FVDECLSPEC FragView {
 public:
     FragView(int argc, const char** argv);
@@ -52,22 +52,20 @@ protected:
 	/**
 	 * Create window for displaying.
 	 */
-    void* createWindow(int x, int y, int width, int height);
+    void createWindow(int x, int y, int width, int height);
 
 private:    /*  */
 
-    Ref<IRenderer> renderer;            /*  Low level rendering API interface.  */
-    RenderPipeline* display;            /*  Perform rendering.  */  //TODO remove, will be replaced by the pipeline object.
-    Ref<IRenderPipelineBase> renderpipeline;
+    fragview::Ref<fragview::IRenderer> renderer;            /*  Low level rendering API interface.  */
+	fragview::Ref<fragview::IRenderPipelineBase> renderpipeline;
 //    EventController* controller;
-//    CommandController* commandController;
-    Config* config;                     /*  Current config.    */
-	FileNotify* notify;                 /*  Notify Asset changes.  */
-	//TODO add ref for the scheduer object.
-	schTaskSch* sch;                    /*  Scheduler.  */
-	//TODO imporove the window object.
-    void* window;                       /*  Window pointer reference.   */
-	Scene *scene;                       /*  Current scene.  */
+	fragview::RefPtr<schTaskSch> sch;               /*  */
+	fragview::RefPtr<schTaskSch> logicSch;          /*  */
+    Config* config;                                 /*  Current config.    */
+	fragview::FileNotify* notify;                   /*  Notify Asset changes.  */
+	fragview::Scene *scene;                         /*  Current scene.  */
+	fragview::RendererWindow *rendererWindow;
+	//fragview::Ref<fragview::IFileSystem> fileSystem;
 };
 
 #endif

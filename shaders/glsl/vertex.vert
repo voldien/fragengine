@@ -17,19 +17,20 @@
 
 */
 
-/*	Extension used.*/
+//#version 330
+/*	Extension used.	*/
 #extension GL_ARB_explicit_uniform_location : enable
 #extension GL_ARB_uniform_buffer_object : enable
 #extension GL_ARB_separate_shader_objects : enable
 #extension GL_ARB_enhanced_layouts : enable
+#extension GL_ARB_shader_precision : enable
 
+/*	*/
 #extension GL_ARB_shader_image_size : enable
 #extension GL_ARB_bindless_texture : enable
 #extension GL_ARB_explicit_attrib_location : enable
-
+/*	*/
 #extension GL_ARB_shading_language_420pack : enable
-
-
 
 /*	Check if mobile OpenGL is used.	*/
 #ifdef GL_ES
@@ -38,16 +39,16 @@ precision mediump int;
 #endif
 
 /*	Translate fragment location decleration based on what version.	*/
-#if __VERSION__ > 130 || defined(GL_ARB_separate_shader_objects)
+#if defined(GL_ARB_explicit_attrib_location) || GL_ARB_enhanced_layouts == 1
 	#define FRAGLOCATION(x, vtype, name) layout(location = x) out vtype name
 #elif __VERSION__ == 130
 	#define FRAGLOCATION(x, vtype, name) out vtype name
 #else
-	#define FRAGLOCATION(x)
+	#define FRAGLOCATION(x) x
 #endif
 
 /*	Translate based on glsl version.	*/
-#if __VERSION__ > 130 || defined(GL_ARB_separate_shader_objects)
+#if defined(GL_ARB_explicit_attrib_location) || GL_ARB_enhanced_layouts == 1
 	#define ATTRIBUTE_IN(x) layout(location = x) in
 	#define ATTRIBUTE_OUT(x) layout(location = x) out
 #else
@@ -55,7 +56,7 @@ precision mediump int;
 	#define ATTRIBUTE_OUT(x) attribute
 #endif
 
-#if __VERSION__ >= 450 || defined(GL_ARB_enhanced_layouts)
+#if __VERSION__ >= 450 ||  || GL_ARB_enhanced_layouts == 1
     #define UNIFORMBUFFER(x) layout(std140, binding = x, shared)
 #elif __VERSION__ > 130 || defined(GL_ARB_uniform_buffer_object)
     #define UNIFORMBUFFER(x) layout(std140, shared)
@@ -77,26 +78,38 @@ ATTRIBUTE_IN(1) vec2 uv;        /*	*/
 ATTRIBUTE_IN(2) vec3 normal;    /*	*/
 ATTRIBUTE_IN(3) vec3 tangent;	/*	*/
 
+///*  Sprite textures.    */
+//#ifdef gl_MaxTextureImageUnits
+//uniform sampler2D textures[gl_MaxTextureImageUnits];
+//#else
+//uniform sampler2D textures[16];
+//#endif
 
-layout(std140,binding=2) uniform matrixBuffer {
+layout(std140, binding=2) uniform matrixBuffer {
     uniform mat4 MVP;
     uniform mat4 Model;
 };
 
 /*  */
-OUT vec2 vUV;
-OUT vec3 vNormal;
-OUT vec3 vTangent;
-OUT vec3 vVertex;
-OUT vec3 vWVVertex;
+layout(location = 0) out vec2 vUV;
+layout(location = 1) out vec3 vNormal;
+layout(location = 2) out vec3 vTangent;
+layout(location = 3) out vec3 vVertex;
+layout(location = 4) out vec3 vWVVertex;
+
+out gl_PerVertex
+{
+	vec4 gl_Position;
+};
 
 void main(void){
 
 	gl_Position = MVP * vec4(vertex, 1.0);
 	vVertex = (Model * vec4(vertex, 0.0)).xyz;
-	vWVVertex = (getViewMatrix() * Model * vec4(vertex, 1.0)).xyz;
+	//vWVVertex = (getViewMatrix() * Model * vec4(vertex, 1.0)).xyz;
 
 	vUV = uv;
 	vNormal = (Model * vec4(normal, 0.0)).xyz;
 	vTangent = (Model * vec4(tangent, 0.0)).xyz;
 }
+

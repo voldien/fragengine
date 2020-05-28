@@ -18,40 +18,46 @@
 */
 #ifndef _OBJECT_H_
 #define _OBJECT_H_ 1
-#include"Def.h"
+#include"../Def.h"
 #include"UIDObject.h"
 #include<string>
 #include<string.h>
 
-/**
- *	Base abstract object for scene
- *	objects.
- */
-class FVDECLSPEC Object : public UIDObject {
-public:
+namespace fragview {
+	/**
+	 *	Base abstract object for scene
+	 *	objects.
+	 */
+	class FVDECLSPEC Object : public UIDObject {
+	public:
 
-	inline Object(void) {
-	}
+		inline Object(void) {
+		}
 
-	void setName(const std::string &name) {
-		this->name = name;
-	}
+		virtual void setName(const std::string &name) {
+			this->name = name;
+		}
 
-	std::string getName(void) const {
-		return this->name;
-	}
+		virtual std::string getName(void) {
+			return this->name;
+		}
 
-protected:	/*	*/
+		virtual const std::string& getName(void) const{
+			return this->name;
+		}
 
-	Object& operator=(const Object& object){
-		this->setName(object.getName());
-		this->name = object.name;
-	}
+	protected:	/*	*/
 
-	unsigned int type;
-private:	/*	Attributes.	*/
+		Object& operator=(const Object& object){
+			this->setName(object.getName());
+			this->name = object.name;
+		}
 
-	std::string name;
-};
+		unsigned int type;
+	private:	/*	Attributes.	*/
+
+		std::string name;
+	};
+}
 
 #endif

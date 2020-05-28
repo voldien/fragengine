@@ -16,46 +16,72 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_PREREQUISITES_H_
-#define _FRAGVIEW_PREREQUISITES_H_ 1
+#ifndef _CORE_PREREQUISITES_H_
+#define _CORE_PREREQUISITES_H_ 1
+#include"audio/Prerequisites.h"
+#include"physic/Prerequisites.h"
+#include"Renderer/Prerequisites.h"
 
-/**
- *
- */
-class FileNotify;
-class Config;
-class Object;
+namespace fragview {
 
-/**
- *
- */
-/*  TODO relocate to internal header.    */
-class Shader;
-class ProgramPipeline;
-class Texture;
-class Sampler;
-class FrameBuffer;
-class Shader;
-class GeometryObject;
-class IRenderer;
+	/*  Core.   */
+	class FileNotify;
+	class IConfig;
+	class Object;
+	/*  IO  */
+	class IO;
+	class FileIO;
+	class ZipFileIO;
+	class BufferIO;
+	class FileAccess;
+	class ASync;
+	class GZFileIO;
+	class ZipFile;
+	class IFileSystem;
+	class FileSystem;
 
-/**
- *
- */
-class Scene;
-class SandBoxSubScene;
-class RenderPipeline;
+	class Hash;
+	class Random;
+	class Base64;
+	class Base32;
+	class Base16;
+	/*  Network.    */
+	class IP;
+	class NetSocket;
+	
+	/**
+	 *
+	 */
+	class Scene;
+	class SandBoxSubScene;
+	class RenderPipeline;
 
-/**
- *
- */
-class TargetNode;
+	/**
+	 *
+	 */
+	class Node;
+	class Camera;
+	class Frustum;
+	class Light;
+	/**
+	 *
+	 */
+	class TargetNode;
 
+	class IRenderPipelineBase;
+	class RenderPipelineBase;
+	class RenderPipelineSandBox;
+	class Mesh;
+	class MeshFilter;
+	class ParticleSystem;
+	class Renderer;
 
-/**
- *
- */
-class Node;
-class Camera;
+	class Font;
+	class FontFactory;
+
+	class VideoFactory;
+	class VideoTexture;
+}
+
 
 #endif

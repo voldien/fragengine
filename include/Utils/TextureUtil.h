@@ -18,41 +18,48 @@
 */
 #ifndef _FRAMEVIEW_TEXTURE_UTIL_H_
 #define _FRAMEVIEW_TEXTURE_UTIL_H_ 1
-#include <Renderer/IRenderer.h>
-#include"Renderer/Texture.h"
+#include "../Renderer/IRenderer.h"
+#include"../Renderer/Texture.h"
 
-/**
- *
- */
-class FVDECLSPEC TextureUtil {
-public:
+namespace fragview {
+	/**
+	 *
+	 */
+	class FVDECLSPEC TextureUtil {
+	public:
 
-	static void loadTexture(const char *path, IRenderer *renderer, Texture **texture);
+		//
+		static void loadTexture(const char *path, IRenderer *renderer, Texture **texture);
+		//TODo ADD support for IO object.
+		//static void loadTexture(IO* io, Renderer* renderer, Texture** texture);
+		static void loadTexture(const void *pbuf, long int size, IRenderer *renderer, Texture **texture);
 
-	static void loadTexture(const void *pbuf, long int size, IRenderer *renderer, Texture **texture);
+		static void *loadTextureData(const char *cfilename, unsigned int *pwidth,
+		                             unsigned int *pheight, TextureDesc::Format *pformat,
+		                             TextureDesc::Format *pinternalformat, TextureDesc::Type *ptype,
+		                             unsigned long *pixelSize);
 
-	static void *loadTextureData(const char *cfilename, unsigned int *pwidth,
-	                             unsigned int *pheight, TextureDesc::Format *pformat,
-	                             TextureDesc::Format *pinternalformat, TextureDesc::Type *ptype,
-	                             unsigned long *pixelSize);
+		static void *loadTextureData(const char *cfilename, unsigned int *pwidth,
+		                             unsigned int *pheight, unsigned long *pixelSize);
 
-	static void *loadTextureData(const char *cfilename, unsigned int *pwidth,
-	                             unsigned int *pheight, unsigned long *pixelSize);
+		static void *loadTextureData(const void *pbuf, long int size, unsigned int *width, unsigned int *height);
 
-	static void *loadTextureData(const void *pbuf, long int size, unsigned int *width, unsigned int *height);
+		static void *loadTextureDataFromMem(const void *pbuf, long int size, unsigned int *width, unsigned int *height,
+		                                    TextureDesc::Format *pformat,
+		                                    TextureDesc::Format *pinternalformat, TextureDesc::Type *ptype,
+		                                    unsigned long *pixelSize);
 
-	static void *loadTextureDataFromMem(const void *pbuf, long int size, unsigned int *width, unsigned int *height,
-	                                    TextureDesc::Format *pformat,
-	                                    TextureDesc::Format *pinternalformat, TextureDesc::Type *ptype,
-	                                    unsigned long *pixelSize);
+		static void saveTexture(const char *filepath, IRenderer *renderer, Texture *texture);
+		static void saveTexture(IO* io, IRenderer* renderer, Texture* texture);
 
-	static void saveTexture(const char *filepath, IRenderer *renderer, Texture *texture);
+	private:    /*	Prevent one from creating an instance of this class.	*/
 
-private:    /*	Prevent one from creating an instance of this class.	*/
+		TextureUtil(void);
+		TextureUtil(IFileSystem* fileSystem);
+		TextureUtil(const TextureUtil &other);
 
-	TextureUtil(void);
-
-	TextureUtil(const TextureUtil &other);
-};
+		IFileSystem* fileSystem;
+	};
+}
 
 #endif
