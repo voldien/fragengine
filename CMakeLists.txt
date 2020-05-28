@@ -13,9 +13,16 @@ ELSE()
 	MESSAGE(STATUS "Shared libraries enabled")
 ENDIF(NOT BUILD_SHARED_LIBS)
 
+#
 OPTION(BUILD_WITH_TEST "Enable Testing." ON)
 OPTION(BUILD_WITH_EDITOR "Build editor." ON)
-OPTION(BUILD_WITH_DOCS "Build documentation." ON)
+OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
+OPTION(BUILD_WITH_CLIENT "Build Client" ON)
+
+#
+OPTION(BUILD_EXTERNAL_RENDERER "Building external renderer libraries" ON)
+OPTION(BUILD_EXTERNAL_AUDIO "Building external audio libraries" ON)
+OPTION(BUILD_EXTERNAL_PHYSIC "Building external physic libraries" ON)
 
 # Set version of the project.
 SET(VERSION_MAJOR 0)
@@ -32,6 +39,27 @@ SET(LIBFRAGVIEW_COMPONENT     "libfragview${VERSION_MAJOR}.${VERSION_MINOR}.${VE
 SET(LIBFRAGVIEW-DEV_COMPONENT "libfragview${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-dev" )
 SET(CPACK_COMPONENTS_ALL fragview-bin ${LIBFRAGVIEW_COMPONENT} ${LIBFRAGVIEW-DEV_COMPONENT} fragview-dev)
 SET(FRAGVIEW_LIBRARY_SUFFIX "" CACHE STRING "Suffix to append to library names")
+
+# macro that sets a default (path) if one wasn't specified
+MACRO(SET_PATH variable default)
+	IF(NOT ${variable})
+		SET(${variable} ${default})
+	ENDIF(NOT ${variable})
+ENDMACRO(SET_PATH)
+
+#LIB_DIRif (${LAYOUT} MATCHES "home")
+SET_PATH( PLUGIN_DIR ${CMAKE_INSTALL_PREFIX}/plugins )
+SET_PATH( DATA_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( MAN_DIR ${CMAKE_INSTALL_PREFIX}/man/man6 )
+SET_PATH( BIN_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( SYSCONF_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( LIB_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( DOC_DIR ${CMAKE_INSTALL_PREFIX}/doc )
+SET_PATH( ICON_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( SVG_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( MENU_DIR ${CMAKE_INSTALL_PREFIX} )
+SET_PATH( EXAMPLE_CONF_DIR ${CMAKE_INSTALL_PREFIX} )
+#elseif (${LAYOUT} MATCHES "fhs")
 
 # GCC compiler flag options.
 IF((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
@@ -85,11 +113,7 @@ ELSEIF( CMAKE_COMPILER_IS_MINGW )
 	ADD_DEFINITIONS( -U__STRICT_ANSI__ )
 ENDIF()
 
-# 
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include/)
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include/)
-
-# Set c++ language version required for the project.
+# Set C++ language version required for the project.
 IF( CMAKE_COMPILER_IS_GNUCXX )
 	SET(LIBSTDC++_LIBRARIES -std=c++11)
 ENDIF( CMAKE_COMPILER_IS_GNUCXX )
@@ -97,17 +121,18 @@ ENDIF( CMAKE_COMPILER_IS_GNUCXX )
 # Cache these to allow the user to override them manually.
 SET( FRAGVIEW_LIB_INSTALL_DIR "lib" CACHE STRING
 		"Path the built library files are installed to." )
-SET( FRAGVIEW_INCLUDE_INSTALL_DIR "include" CACHE STRING
+SET( FRAGVIEW_INCLUDE_INSTALL_DIR "fragview-core" CACHE STRING
 		"Path the header files are installed to." )
 SET( FRAGVIEW_BIN_INSTALL_DIR "bin" CACHE STRING
 		"Path the tool executables are installed to." )
 
 # Find all required libaries for the program.
 FIND_PACKAGE(ZLIB REQUIRED)
-FIND_PACKAGE(Git REQUIRED)
+FIND_PACKAGE(Git)
 FIND_PACKAGE(Backtrace REQUIRED)
 FIND_PACKAGE(PkgConfig)
-FIND_PACKAGE(Doxygen)
+FIND_PACKAGE(OpenSSL)
+INCLUDE(GNUInstallDirs)
 
 # Find and include libxml2 for supporting configuration.
 FIND_PACKAGE(LibXml2)
@@ -115,7 +140,25 @@ IF ( LIBXML2_FOUND )
 	MESSAGE(STATUS "Using xml2 version ${LIBXML2_VERSION_STRING}.")
 	INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR})
 ELSE()
+
 ENDIF()
+
+IF(PKG_CONFIG_FOUND)
+	MESSAGE(STATUS "Found pgk-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
+	# Find library and compiling options.
+	#TODO add logic for handling if any of the pkg fails.
+	PKG_CHECK_MODULES(JSONC REQUIRED json-c)
+	PKG_CHECK_MODULES(SDL2 REQUIRED sdl2)
+	PKG_CHECK_MODULES(AVFORMAT REQUIRED libavformat)
+	PKG_CHECK_MODULES(AVCODEC REQUIRED libavcodec)
+	PKG_CHECK_MODULES(AVUTIL REQUIRED libavutil)
+	PKG_CHECK_MODULES(SWSCALE REQUIRED libswscale)
+	PKG_CHECK_MODULES(ASSIMP REQUIRED assimp)
+	PKG_CHECK_MODULES(ZIP REQUIRED libzip)
+ELSE()
+	# TODo add logic for handling if pkg-config not available.
+ENDIF()
+
 
 IF(GIT_FOUND)
 	MESSAGE(STATUS "git found: ${GIT_EXECUTABLE} -- ${GIT_VERSION_STRING}")
@@ -134,12 +177,13 @@ IF(Backtrace_FOUND)
 ELSE()
 ENDIF()
 
-IF(DOXYGEN_FOUND)
-	MESSAGE(STATUS "Doxygen found: ${DOXYGEN_EXECUTABLE} -- ${DOXYGEN_VERSION}")
-	IF(BUILD_WITH_DOCS)
-		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/docs/)
-	ENDIF(BUILD_WITH_DOCS)
+IF(OPENSSL_FOUND)
+	MESSAGE(STATUS "backtrace found: ${OPENSSL_LIBRARIES} -- ${OPENSSL_VERSION}")
+	INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
+ELSE()
 ENDIF()
+
+
 
 #
 FIND_PACKAGE(Freetype REQUIRED)
@@ -147,10 +191,8 @@ IF(FREETYPE_FOUND)
 	MESSAGE(STATUS "Using freetype version ${FREETYPE_VERSION_STRING}.")
 	INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
 ELSE()
-ENDIF()
 
-# Include library include directories.
-#INCLUDE_DIRECTORIES(${SDL_INCLUDE_DIR})
+ENDIF()
 
 IF(BUILD_WITH_EXTERNAL_PROJECT)
 	# Git must be avaiable on the system for using the external projects.
@@ -159,8 +201,6 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 	ENDIF()
 	INCLUDE(ExternalProject)
 	SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
-
-	# TODO add build config for CMAKE_BUILD_TYPE
 
 	# Download the task-schedular library.
 	SET(TASKSCH_ROOT ${CMAKE_BINARY_DIR}/deps/task-sch)
@@ -201,7 +241,7 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 			SOURCE_DIR ${HPM_ROOT}/src/hpm
 			BINARY_DIR ${HPM_ROOT}/src/hpm-build
 			INSTALL_DIR ${HPM_ROOT}
-			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
 			STEP_TARGETS build
 			COMMENT "Building Hpm."
 			LOG_DOWNLOAD ON)
@@ -226,68 +266,113 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 			SOURCE_DIR ${HPMCPP_ROOT}/src/hpmcpp
 			BINARY_DIR ${HPMCPP_ROOT}/src/hpmcpp-build
 			INSTALL_DIR ${HPMCPP_ROOT}
-			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DBUILD_WITH_EXTERNAL_PROJECT=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DBUILD_WITH_EXTERNAL_PROJECT=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_CXX_FLAGS="-I${HPM_INCLUDE_DIR}"
 			STEP_TARGETS hpm-external build
 			COMMENT "Building HPM-CPP"
 			LOG_DOWNLOAD ON)
 	# Include HPMCPP headers.
 	ADD_LIBRARY(hpmcpp SHARED IMPORTED)
-	ADD_DEPENDENCIES(hpmcpp hpm-external hpmcpp-external)
+	#TARGET_LINK_DIRECTORIES(hpmcpp BEFORE INTERFACE ${HPM_LIB_DIR}/)
+	ADD_DEPENDENCIES(hpmcpp hpm hpmcpp-external)
 	SET_TARGET_PROPERTIES(hpmcpp PROPERTIES
 			IMPORTED_LOCATION "${HPMCPP_LIB_DIR}/libhpmcpp.so"
 			INTERFACE_INCLUDE_DIRECTORIES "${HPMCPP_INCLUDE_DIR}")
+	SET_TARGET_PROPERTIES(hpmcpp-external PROPERTIES
+			INTERFACE_INCLUDE_DIRECTORIES ${HPM_INCLUDE_DIR}
+			INCLUDE_DIRECTORIES ${HPM_INCLUDE_DIR}
+			LINK_DIRECTORIES ${HPM_LIB_DIR})
 	INCLUDE_DIRECTORIES(${HPMCPP_INCLUDE_DIR})
-
 ENDIF()
-
 
 # Define all file lists.
 FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/audio/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/physic/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/subgraph/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/RenderPipeline/*.cpp	#TODO rename to lower case letter.
+		${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/exception/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/io/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/video/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/shadermodel/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/shaders/*.cpp)
-FILE(GLOB SOURCE_MAIN_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+FILE(GLOB SOURCE_MAIN_FILES client/src/main.cpp)
 FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
 		${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
 		${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h
 		${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h)
-FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
+		${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Video/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h)
+# Public headers - subset of header files.
+FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/IO/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
 FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
 FILE(GLOB SAMPLE_HLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/hlsl/* )
 FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
 FILE(GLOB SAMPLE_CLC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/clc/* )
-FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spirv/* )
+FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
+FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
 
 # Core library for adding support for plugin.
 ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES})
-TARGET_LINK_LIBRARIES(fragview-core  -lSDL2  ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
-		-lzip -lfreeimage -lm -ldl taskSch -lfswatch -ljsoncpp -lyaml hpmcpp hpm -lassimp)
-ADD_DEPENDENCIES(fragview-core taskSch hpm)
-INSTALL(TARGETS fragview-core DESTINATION lib)
-INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include)
+TARGET_LINK_LIBRARIES(fragview-core  ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
+		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
+		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES})
+ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
+SET_TARGET_PROPERTIES(fragview-core PROPERTIES PUBLIC_HEADER "${DEVELOPMENT_HEADER_FILES}"
+		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
+		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}")
+TARGET_INCLUDE_DIRECTORIES(fragview-core PRIVATE "${SDL2_INCLUDE_DIRS} ${ZIP_INCLUDE_DIRS} ${JSONC_INCLUDE_DIRS}"
+										PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
-# Main executable.
-ADD_EXECUTABLE(fragview  ${SOURCE_MAIN_FILES} ${HEADER_FILES})
-TARGET_LINK_LIBRARIES(fragview fragview-core)
-INSTALL(TARGETS fragview DESTINATION bin)
+#TODO add logic for installing only the development headers.
+INSTALL(TARGETS fragview-core LIBRARY DESTINATION lib)
+#INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include/fragview-core)
+
+INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/include" # source directory
+		DESTINATION "include/fragview" # target directory
+		FILES_MATCHING # install only matched files
+		PATTERN "*.h" # select header files
+		)
 
 # Rendering interfaces.
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opengl/)
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/directx/)
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/vulkan/)
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opencl/)
+IF(BUILD_EXTERNAL_RENDERER)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opengl/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/directx/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/vulkan/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opencl/)
+ENDIF()
+
+IF(BUILD_EXTERNAL_AUDIO)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/audio/openal/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/audio/fmod/)
+ENDIF()
+
+IF(BUILD_EXTERNAL_PHYSIC)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/bullet/)
+#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/bullet3/)
+#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/physx/)
+		#TODO moved to the PVEngine
+#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/rpc/)
+ENDIF()
 
 # Editor.
 IF(BUILD_WITH_EDITOR)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
+ENDIF()
+
+# Client
+IF(BUILD_WITH_CLIENT)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
 ENDIF()
 
 # Testing.
@@ -295,6 +380,15 @@ IF(BUILD_WITH_TEST)
 	ENABLE_TESTING()
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/)
 ENDIF(BUILD_WITH_TEST)
+
+# Generate documentations.
+FIND_PACKAGE(Doxygen)
+IF(DOXYGEN_FOUND)
+	MESSAGE(STATUS "Doxygen found: ${DOXYGEN_EXECUTABLE} -- ${DOXYGEN_VERSION}")
+	IF(BUILD_WITH_DOCS)
+		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/docs/)
+	ENDIF(BUILD_WITH_DOCS)
+ENDIF()
 
 # Generate package configuration file.
 CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/fragview-core.pc.in" "${PROJECT_BINARY_DIR}/fragview-core.pc" @ONLY )
@@ -305,6 +399,9 @@ IF( UNIX )
 	Find_PACKAGE(UnixCommands REQUIRED)
 
 	FIND_PROGRAM(GLSLLANGVALIDATOR glslangValidator)
+	FIND_PROGRAM(SPIRVDIS spirv-dis)
+	FIND_PROGRAM(SPIRVAS spirv-as)
+	FIND_PROGRAM(SPIRVREMAP spirv-remap)
 	IF(GLSLLANGVALIDATOR)
 		MESSAGE(STATUS "glslangValidator found: ${GLSLLANGVALIDATOR}")
 		#TODO add for all shaders.
@@ -315,17 +412,17 @@ IF( UNIX )
 			MESSAGE(STATUS ${glslFile} )
 			ADD_CUSTOM_COMMAND(TARGET samples-spirv PRE_BUILD
 					COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0
-					-u:time:10 --client opengl100 -V -G450 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/)
+					-u:time:10 -G450 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/)
 		ENDFOREACH()
 
 		# Create default shader
 		ADD_CUSTOM_TARGET(display-spirv
 				COMMENT "Creating spirv shader from the display shader.")
 		#ADD_DEPENDENCIES(fragview display-spirv)
-		FOREACH(glslFile ${SAMPLE_SHADER_SPIRV_FILES})
+		FOREACH(glslFile ${SAMPLE_SHADER_GLSL_FILES})
 			ADD_CUSTOM_COMMAND(TARGET display-spirv PRE_BUILD
-					COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0
-					-u:time:10 --client opengl100 -V -G450 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/)
+					COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0 -G -d
+					-u:time:10 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/)
 		ENDFOREACH()
 
 	ELSE()
@@ -336,24 +433,8 @@ IF( UNIX )
 
 	IF(ZIP)
 		MESSAGE(STATUS "zip found: ${ZIP}")
-		# Create default shader zip file.
-		SET( SHADERZIP "defaultshader" )
-		SET( SHADERZIPFILE "${SHADERZIP}.zip" )
 
-		#		# TODO add addition for adding support for spirv and combine multiple files.
-		ADD_CUSTOM_TARGET(	internal-shader-generation
-				#				COMMAND mkdir -p glsl
-				#				COMMAND cp -r shader/glsl/* glsl/
-				#				COMMAND zip -r ${SHADERZIPFILE} glsl/
-				#				COMMAND rm -r glsl
-				COMMENT "Generating internal glsl shader files")
-		ADD_DEPENDENCIES(fragview internal-shader-generation)
-
-		INSTALL( FILES ${SHADERZIPFILE} DESTINATION /usr/share/fragview )
 	ENDIF()
-	# Install bash autocomplete.
-	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete/fragview DESTINATION /usr/share/bash-completion/completions/ )
-
 	# Install main icon image.
 	ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
 	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
@@ -368,10 +449,6 @@ IF( UNIX )
 	# Install scripts
 	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )
 
-	# Install man page. TODO add compression.
-	#ADD_CUSTOM_TARGET() ${GZIP}
-	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.1.gz DESTINATION /usr/share/man/man1/)
-
 	# Create distribution tarball.
 	SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
 	ADD_CUSTOM_TARGET(	distribution
@@ -385,10 +462,12 @@ IF( UNIX )
 			${CMAKE_CURRENT_SOURCE_DIR}/utils
 			${CMAKE_CURRENT_SOURCE_DIR}/test
 			${CMAKE_CURRENT_SOURCE_DIR}/images
+			${CMAKE_CURRENT_SOURCE_DIR}/client
+			${CMAKE_CURRENT_SOURCE_DIR}/editor
 			${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
 			${CMAKE_CURRENT_SOURCE_DIR}/travis.yaml
 			${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop
-			${CMAKE_CURRENT_SOURCE_DIR}/fragview.1
+			client/fragview.1
 			${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
 			${CMAKE_CURRENT_SOURCE_DIR}/fragview.png
 			${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
@@ -513,4 +592,23 @@ IF(WIN32)
 	ENDIF(MSVC12 OR MSVC14 OR MSVC15 )
 ENDIF (WIN32)
 
-
+# Final verbose message status.
+MESSAGE(STATUS "")
+MESSAGE(STATUS "These are the configured paths:")
+MESSAGE(STATUS "  PREFIX: ${CMAKE_INSTALL_PREFIX}")
+MESSAGE(STATUS "  LIB_DIR: ${LIB_DIR}")
+MESSAGE(STATUS "  RENDERING_DIR: ${PLUGIN_DIR}")
+MESSAGE(STATUS "  BIN_DIR: ${BIN_DIR}")
+MESSAGE(STATUS "  DATA_DIR: ${DATA_DIR}")
+MESSAGE(STATUS "  MAN_DIR: ${MAN_DIR}")
+MESSAGE(STATUS "  DOC_DIR: ${DOC_DIR}")
+MESSAGE(STATUS "  ICON_DIR: ${ICON_DIR}")
+MESSAGE(STATUS "  SVG_DIR: ${SVG_DIR}")
+MESSAGE(STATUS "  MENU_DIR: ${MENU_DIR}")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "Options:")
+MESSAGE(STATUS "  LAYOUT: ${LAYOUT}")
+MESSAGE(STATUS "")
+MESSAGE(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
+MESSAGE(STATUS "Target bitness: ${CMAKE_SIZEOF_VOID_P}*8")
+MESSAGE(STATUS "")
