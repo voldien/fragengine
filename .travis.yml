@@ -15,15 +15,15 @@ matrix:
             - clang-3.8
     #
     - os: linux
-      compiler: gcc-6
+      compiler: gcc-7
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-6
+            - gcc-7
       env:
-        - CC=gcc-6
+        - CC=gcc-7
 
 # Install dependencies
 addons:
@@ -35,8 +35,8 @@ before_script:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
   - sudo apt-get install -y libegl1-mesa-dev libgles2-mesa-dev
-  - sudo apt-get install -y libglew-dev check libsdl2-dev libsubunit-dev
-  - sudo apt-get install -y libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev
+  - sudo apt-get install -y libglew-dev libgtest-dev libsdl2-dev libsubunit-dev
+  - sudo apt-get install -y libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libfswatch-dev libxml2-dev
 
 # Build executable.
 script:

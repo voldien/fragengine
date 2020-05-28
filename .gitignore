@@ -63,6 +63,11 @@ install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
 _deps
+cmake-build-debug/
+*.cmake
+*.tcl
+#
+*.cbp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -91,3 +96,10 @@ __pycache__/
 /deps/*
 /Testing/*
 /build/*
+
+# Zip file ignore.
+*zip
+
+#Ignore visual studio ide.
+.idea
+*.iml
