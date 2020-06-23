@@ -62,20 +62,43 @@ namespace fragview {
 		/**
 		 * Linear interpolation.
 		 */
-		template<typename T>
-		inline static float lerp(T a, T b, T t) {
+		template <typename T, typename U>
+		inline static T lerp(T a, T b, U t)
+		{
 			return a + (b - a) * t;
 		}
+
+		template<typename T, typename U>
+		inline static T lerpUnclamped(T a, T b, U t){
+
+		}
+
+		static const float Epsilon;
+		static const float PI;
+		static const float Infinit;
+		static const float Deg2Rad;
+		static const float Rad2Deg;
+		static const float NegativeInfinity;
+
+		static int NextPowerOfTwo();
+		static int ClosestPowerOfTwo();
+		static bool IsPowerOfTwo();
+		static int CorrelatedColorTemperatureToRGB();
 
 		/**
 		 *	Generate 1D guassian.
 		 */
-		static void guassian1Df(float* guassian, int width, double theta);
+		static void guassian1Df(float *guassian, int width, double theta);
 
 		/**
 		 *	Generate 2D guassian.
 		 */
 		static void guassian2Df(float* guassian, int height, float theta);
+
+		//static void LinearToGammaSpace();
+
+		static float PerlinNoise(float x, float y);
+		static float PerlinNoise(float x, float y, float z);
 	};
 }
 
