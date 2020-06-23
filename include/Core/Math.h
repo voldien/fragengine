@@ -2,7 +2,6 @@
 #define FRAGVIEW_MATH_H_ 1
 #include"../Def.h"
 #include<math.h>
-#include<hpm/hpm.h>
 
 namespace fragview {
 
@@ -102,6 +101,9 @@ namespace fragview {
 		static float linearToGammaSpace(float linear);
 		static float GameSpaceToLinear(float gamma, float exp);
 
+		/**
+		 * 
+		 */
 		static float PerlinNoise(float x, float y);
 		static float PerlinNoiseDifferential(float x, float y);
 		static float PerlinNoise(float x, float y, float z);

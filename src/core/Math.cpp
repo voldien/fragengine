@@ -1,4 +1,5 @@
 #include "Core/Math.h"
+#include <hpm/hpm.h>
 #include <float.h>
 #include <math.h>
 using namespace fragview;
