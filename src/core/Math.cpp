@@ -6,17 +6,19 @@ using namespace fragview;
 
 const float Math::Epsilon = FLT_EPSILON;
 const float Math::PI = HPM_PI;
-const float Math::Infinit = 0;
+const float Math::infinite = 0;
 const float Math::Deg2Rad = Math::PI / 180.0f;
 const float Math::Rad2Deg = 180 / Math::PI;
 const float Math::NegativeInfinity = 0;
 
 static void guassian1Df(float *guassian, int width, double theta)
 {
+	
 }
 
 static void guassian2Df(float *guassian, int height, float theta)
 {
+
 }
 
 float Math::linearToGammaSpace(float linear)

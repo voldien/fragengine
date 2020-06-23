@@ -47,7 +47,7 @@ namespace fragview {
 		 */
 		template<class T>
 		inline static T deg2Rad(T deg) {
-			return (deg * (T)HPM_PI) / 180.0f;
+			return (deg * (T)Math::PI) / 180.0f;
 		}
 
 		/**
@@ -55,7 +55,7 @@ namespace fragview {
 		 */
 		template<class T>
 		inline static T radToDeg(T deg) {
-			return (deg * (T)180) / (T)HPM_PI;
+			return (deg * (T)180) / (T)Math::PI;
 		}
 
 		/**
@@ -77,15 +77,25 @@ namespace fragview {
 		/*	*/
 		static const float Epsilon;
 		static const float PI;
-		static const float Infinit;
+		static const float Infinite;
 		static const float Deg2Rad;
 		static const float Rad2Deg;
 		static const float NegativeInfinity;
 
 		/*	*/
-		static int NextPowerOfTwo();
-		static int ClosestPowerOfTwo();
-		static bool IsPowerOfTwo();
+		template <typename T>
+		static T NextPowerOfTwo(T v){
+			return 0;
+		}
+		template <typename T>
+		static T ClosestPowerOfTwo(T v)
+		{
+			return 0;
+		}
+		template<typename T>
+		static bool IsPowerOfTwo(T v){
+			return false;
+		}
 		static int CorrelatedColorTemperatureToRGB();
 
 		/**
@@ -98,6 +108,9 @@ namespace fragview {
 		 */
 		static void guassian2Df(float* guassian, int height, float theta);
 
+		/**
+		 * 
+		 */
 		static float linearToGammaSpace(float linear);
 		static float GameSpaceToLinear(float gamma, float exp);
 
