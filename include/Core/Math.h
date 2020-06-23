@@ -70,9 +70,12 @@ namespace fragview {
 
 		template<typename T, typename U>
 		inline static T lerpUnclamped(T a, T b, U t){
-
+			return a + (b - a) * t;
 		}
 
+		static float LerpAngle(float a, float b, float t);
+
+		/*	*/
 		static const float Epsilon;
 		static const float PI;
 		static const float Infinit;
@@ -80,6 +83,7 @@ namespace fragview {
 		static const float Rad2Deg;
 		static const float NegativeInfinity;
 
+		/*	*/
 		static int NextPowerOfTwo();
 		static int ClosestPowerOfTwo();
 		static bool IsPowerOfTwo();
@@ -95,10 +99,13 @@ namespace fragview {
 		 */
 		static void guassian2Df(float* guassian, int height, float theta);
 
-		//static void LinearToGammaSpace();
+		static float linearToGammaSpace(float linear);
+		static float GameSpaceToLinear(float gamma, float exp);
 
 		static float PerlinNoise(float x, float y);
+		static float PerlinNoiseDifferential(float x, float y);
 		static float PerlinNoise(float x, float y, float z);
+		static float PerlinNoiseDifferential(float x, float y, float z);
 	};
 }
 
