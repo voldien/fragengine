@@ -1,4 +1,3 @@
-
 /**
     FrameView for rendering shaders in screen space.
     Copyright (C) 2018  Valdemar Lindberg
@@ -17,14 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_BASE32_H_
-#define FRAGVIEW_BASE32_H_ 1
+#ifndef _FRAGVIEW_TASK_IJOB_H_
+#define _FRAGVIEW_TASK_IJOB_H_ 1
+#include "IScheduler.h"
 
-namespace fragview {
-	class FVDECLSPEC Base32
+namespace fragview
+{
+	class FVDECLSPEC IJob
 	{
 	public:
-	};
+	}
 }
-
-#endif

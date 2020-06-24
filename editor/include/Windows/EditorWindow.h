@@ -4,6 +4,7 @@
 #include <Core/Window.h>
 #include"Core/gtkconfig.h"
 
+//TODO add namespace for the editor.
 /**
  *
  */

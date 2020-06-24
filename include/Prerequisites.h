@@ -28,6 +28,9 @@ namespace fragview {
 	class FileNotify;
 	class IConfig;
 	class Object;
+
+	class IScheduler;
+
 	/*  IO  */
 	class IO;
 	class FileIO;

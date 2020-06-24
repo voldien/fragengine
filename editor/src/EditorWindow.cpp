@@ -24,7 +24,7 @@ fragview_window_new (FragViewEditorApp *app)
 }
 
 void EditorWindow::showWindow(void) {
-
+	//gtk_window_show(this->window);
 }
 
 void EditorWindow::hideWindow(void) {
@@ -102,7 +102,7 @@ void EditorWindow::setMaximumSize(int width, int height) {
 }
 
 void EditorWindow::focus(void) {
-
+	gtk_window_set_focus_visible(&this->window->parent.parent_instance, true);
 }
 
 void EditorWindow::restore(void) {

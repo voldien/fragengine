@@ -20,13 +20,15 @@
 #define FRAGVIEW_ASYNC_H_ 1
 #include"../RefPtr.h"
 #include"../Ref.h"
+#include"../TaskScheduler/IScheduler.h"
 #include"IO.h"
 #include<taskSch.h>
 #include<map>
 
 namespace fragview {
-	typedef long ASyncHandle;   /*  */
-	typedef void (*AsyncComplete)(ASync* async, ASyncHandle handle);  /*  */
+
+	typedef long ASyncHandle;											/*  */
+	typedef void (*AsyncComplete)(ASync* async, ASyncHandle handle);	/*  */
 
 	/**
 	 *
@@ -35,6 +37,7 @@ namespace fragview {
 	public:
 		ASync(void);
 		ASync(RefPtr<schTaskSch> refPtr);
+		ASync(Ref<IScheduler> &scheduler);
 		~ASync(void);
 
 		typedef struct io_status_t {
@@ -95,6 +98,7 @@ namespace fragview {
 		std::map<ASyncHandle, AsyncObject> asyncs;
 		UIDGenerator uidGenerator;
 		RefPtr<schTaskSch> sch;
+		Ref<IScheduler> scheduler;
 	};
 }
 

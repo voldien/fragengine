@@ -4,7 +4,6 @@
 #include"FragViewEditor.h"
 #include"Core/gtkconfig.h"
 
-
 G_DEFINE_TYPE(FragViewEditorApp, fragview_editor_app, GTK_TYPE_APPLICATION)
 
 void fragview_editor_app_init(_FragViewEditorApp *app) {
@@ -157,13 +156,19 @@ const char *application_id = "org.gtk.fragview-editor-app";
 using namespace fragview;
 
 FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char **argv) {
-	FragViewEditorApp *app;
-//	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
+	this->root = new EditorWindow();
 
-//	/*  Initialize HPM.  */
-//	if (!Hpm::init((Hpm::HPMSIMD) this->config->get<int>("SIMD")))
-//		throw RuntimeException("Failed to initialize the hpm library.");
-//	Log::log(Log::eVerbose, "HPM SIMD using: %s\n", hpm_get_simd_symbol(hpm_get_simd()));
+	this->root->showWindow();
+	this->root->focus();
+	this->root->setTitle("FragEditor");
+	FragViewEditorApp *app;
+
+	//	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
+
+	//	/*  Initialize HPM.  */
+	//	if (!Hpm::init((Hpm::HPMSIMD) this->config->get<int>("SIMD")))
+	//		throw RuntimeException("Failed to initialize the hpm library.");
+	//	Log::log(Log::eVerbose, "HPM SIMD using: %s\n", hpm_get_simd_symbol(hpm_get_simd()));
 
 	//gtk_major_version()
 //	/*  Verbose information.    */

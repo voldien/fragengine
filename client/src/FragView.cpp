@@ -322,11 +322,10 @@ void FragView::init(int argc, const char **argv) {
 	schTaskSch *taskSch = (schTaskSch *) malloc(sizeof(schTaskSch));
 	int sch = schCreateTaskPool(taskSch, 2, SCH_FLAG_NO_AFM, 48);
 	if (sch != SCH_OK)
-		throw RuntimeException(schErrorMsg(status));
+		throw RuntimeException(schErrorMsg(sch));
 	sch = schRunTaskSch(taskSch);
 	if (sch != SCH_OK)
-		throw RuntimeException(schErrorMsg(status));
-
+		throw RuntimeException(schErrorMsg(sch));
 
 	schTaskSch *logicSchu = (schTaskSch *) malloc(sizeof(schTaskSch));
 	sch = schCreateTaskPool(logicSchu, SystemInfo::getCPUCoreCount(), 0, 128);

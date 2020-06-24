@@ -22,9 +22,9 @@
 #include <atomic>
 
 namespace fragview {
-/**
- * Atomic counter.
- */
+	/**
+	 * Atomic counter.
+	 */
 	class FVDECLSPEC AtomicRefCount {
 	public:
 

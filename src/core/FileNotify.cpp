@@ -11,6 +11,7 @@
 #include"Utils/StringUtil.h"
 #include"Core/IO/FileSystem.h"
 #include"../../client/include/FragView.h"
+#include <taskSch.h>
 using namespace fragview;
 
 FileNotify::FileNotify(schTaskSch *sch) {

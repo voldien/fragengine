@@ -3,6 +3,7 @@
 #include <Exception/RuntimeExecption.h>
 #include <Exception/InvalidArgumentException.h>
 #include"Core/IO/ASync.h"
+#include <taskSch.h>
 
 using namespace fragview;
 
@@ -274,6 +275,10 @@ ASync::~ASync(void) {
 
 ASync::ASync(void) {
 	//this->sch = NULL;
+}
+
+ASync::ASync(Ref<IScheduler> &scheduler){
+	this->scheduler = scheduler;
 }
 
 ASync::ASync(const ASync &other) {
