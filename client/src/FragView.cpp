@@ -80,10 +80,11 @@ FragView::FragView(int argc, const char **argv) {
 		// Load internal resources.
 		const char *fragview_shaders = resourceConfig.get<const char *>("fragview-internal-shaders-files");
 		const char *apppath = fvformatf("%s/%s", resourceConfig.get<const char *>("shaddir"), fragview_shaders).c_str();
+		std::string fullPath = FileSystem::getAbsolutePath(apppath);
 		if (FileSystem::getFileSystem()->exists(fragview_shaders))
 			internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(fragview_shaders, IO::READ));
-		else if (FileSystem::getFileSystem()->exists(apppath))
-			internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(apppath, IO::READ));
+		else if (FileSystem::getFileSystem()->exists(fullPath.c_str()))
+			internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(fullPath.c_str(), IO::READ));
 		else
 			throw RuntimeException(
 					fvformatf("Could not find internal resources for default shaders : %s", fragview_shaders));
@@ -365,8 +366,6 @@ void FragView::init(int argc, const char **argv) {
 	         (*this->renderer)->getVersion());
 	Log::log(Log::eVerbose, "API Internal API version: %s\n", (*this->renderer)->getAPIVersion());
 	(*this->renderer)->setVSync(renderConfig.get<bool>("v-sync"));
-
-
 
 	/*  Create file notify.    */
 	if (this->config->get<bool>("notify-file"))

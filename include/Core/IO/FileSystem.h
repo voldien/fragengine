@@ -64,9 +64,9 @@ namespace fragview {
 		//TODO determine how to deal with.
 		static const char *getBaseName(const char *path);
 
-		static const char *getAbsolutePath(const char *path);
+		static std::string getAbsolutePath(const char *path);
 
-		static const char *getRelativePath(const char *path);
+		static std::string getRelativePath(const char *path);
 
 		static const char *getFileExtension(const char *path);
 	public:

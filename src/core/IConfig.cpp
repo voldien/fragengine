@@ -134,8 +134,9 @@ IConfig& IConfig::getSubConfig(const std::string& key){
 
 		/*  */
 		_config->setName(key.c_str());
-		/*  */
 		this->config[key] = _config;
+
+		return *_config;
 	}
 }
 

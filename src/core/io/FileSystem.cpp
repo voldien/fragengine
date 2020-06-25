@@ -102,6 +102,18 @@ bool FileSystem::isWriteable(const char *path) const {
 	return false;
 }
 
+std::string FileSystem::getAbsolutePath(const char *path)
+{
+	char resolved_path[PATH_MAX];
+	realpath(path, resolved_path);
+	return resolved_path;
+}
+
+std::string FileSystem::getRelativePath(const char *path)
+{
+	
+}
+
 const char *FileSystem::getFileExtension(const char *path) {
 	const char *dot = strrchr(path, '.');
 	if (!dot || dot == path) return "";
