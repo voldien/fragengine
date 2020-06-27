@@ -330,7 +330,7 @@ FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* 
 # Core library for adding support for plugin.
 ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES} ${NANOSVG_HEADERS})
 TARGET_LINK_LIBRARIES(fragview-core  ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
-		${ZIP_LIBRARIES} freeimage m dl taskSch nanosvg fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
+		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
 		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES} ${SVGNANO_INCLUDE_DIR})
 ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
 target_compile_definitions(fragview-core PRIVATE FRAGVIEW_CORE_INTERNAL_IMP=1)
