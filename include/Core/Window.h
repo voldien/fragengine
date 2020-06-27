@@ -29,7 +29,7 @@ namespace fragview {
 
 		virtual const char *getTitle(void) const = 0;
 
-		//TODO change the type
+		//TODO change the type to image.
 		virtual void setIcon(void*) = 0;
 
 		virtual void* getIcon(void) const = 0;

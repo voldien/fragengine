@@ -19,7 +19,7 @@ OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
 OPTION(BUILD_WITH_CLIENT "Build Client" ON)
 
-#
+# Build external interface plugin.
 OPTION(BUILD_EXTERNAL_RENDERER "Building external renderer libraries" ON)
 OPTION(BUILD_EXTERNAL_AUDIO "Building external audio libraries" ON)
 OPTION(BUILD_EXTERNAL_PHYSIC "Building external physic libraries" ON)
@@ -193,7 +193,13 @@ ELSE()
 
 ENDIF()
 
+# https://github.com/googlefonts/noto-fonts
+# https://github.com/source-foundry/Hack
+# https://github.com/memononen/nanosvg
+# https://github.com/ivanfratric/polypartition
+
 IF(BUILD_WITH_EXTERNAL_PROJECT)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty)
 	# Git must be avaiable on the system for using the external projects.
 	IF(NOT GIT_FOUND)
 		MESSAGE(FATAL_ERROR "Require Git for loading external projects.")
@@ -202,7 +208,7 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 	SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
 
 	# Download the task-schedular library.
-	SET(TASKSCH_ROOT ${CMAKE_BINARY_DIR}/deps/task-sch)
+	SET(TASKSCH_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/task-sch)
 	SET(TASKSCH_LIB_DIR ${TASKSCH_ROOT}/lib)
 	SET(TASKSCH_INCLUDE_DIR ${TASKSCH_ROOT}/include)
 
@@ -327,6 +333,8 @@ TARGET_LINK_LIBRARIES(fragview-core  ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXM
 		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
 		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES})
 ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
+target_compile_definitions(fragview-core PRIVATE FRAGVIEW_CORE_INTERNAL_IMP=1)
+
 SET_TARGET_PROPERTIES(fragview-core PROPERTIES PUBLIC_HEADER "${DEVELOPMENT_HEADER_FILES}"
 		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
 		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}")
@@ -563,7 +571,7 @@ IF(PYTHONINTERP_FOUND)
 			COMMENT "Creating header and source file for display shaders."
 			COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/utils/glsl2CString.py ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/
 			DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/utils/glsl2CString.py)
-	ADD_DEPENDENCIES(fragview compile-shader)
+	#ADD_DEPENDENCIES(fragview compile-shader)
 ENDIF()
 
 

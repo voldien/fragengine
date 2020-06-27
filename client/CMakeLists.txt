@@ -1,8 +1,14 @@
+
+
+OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
+
 # Find packages.
 FIND_PACKAGE(PkgConfig)
 FIND_PROGRAM(OPENSSL openssl)
 IF(PKG_CONFIG_FOUND)
-	PKG_CHECK_MODULES(SDL2 REQUIRED sdl2)
+	IF(BUILD_WITH_SDL_WINDOW)
+		PKG_CHECK_MODULES(SDL2 REQUIRED sdl2)
+	ENDIF()
 ELSE()
 	MESSAGE(WARNING "Could not find pgk-config, attempting default values.")
 	#TODO default values for SDL2
@@ -51,7 +57,7 @@ IF(UNIX)
 		ADD_CUSTOM_TARGET(	internal-shader-generation
 				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/shaders
 				COMMAND ${CP} -r ${PROJECT_SOURCE_DIR}/shaders/* ${CMAKE_CURRENT_SOURCE_DIR}/shaders/
-				COMMAND zip -r ${SHADERZIPFILE} shaders/
+				COMMAND zip -r ${SHADERZIPFILE} ${PROJECT_SOURCE_DIR}/shaders/
 				COMMAND ${RM} -r ${CMAKE_CURRENT_SOURCE_DIR}/shaders
 				COMMENT "")
 		ADD_DEPENDENCIES(fragview internal-shader-generation)

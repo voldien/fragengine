@@ -20,6 +20,7 @@
 #define FRAGVIEW_MATH_H_ 1
 #include"../Def.h"
 #include<math.h>
+#include<vector>
 
 namespace fragview {
 
@@ -82,11 +83,11 @@ namespace fragview {
 		template <typename T, typename U>
 		inline static T lerp(T a, T b, U t)
 		{
-			return a + (b - a) * t;
+			return a + (b - a) * clamp(t, 0.0, 1.0);
 		}
 
 		template<typename T, typename U>
-		inline static T lerpUnclamped(T a, T b, U t){
+		inline static T lerpUnClamped(T a, T b, U t){
 			return a + (b - a) * t;
 		}
 
@@ -108,23 +109,27 @@ namespace fragview {
 		template <typename T>
 		static T ClosestPowerOfTwo(T v)
 		{
+			T n = NextPowerOfTwo(v);
+			T p = 0;
 			return 0;
 		}
 		template<typename T>
 		static bool IsPowerOfTwo(T v){
 			return false;
 		}
-		static int CorrelatedColorTemperatureToRGB();
+		static int CorrelatedColorTemperatureToRGB(float kelvin);
 
 		/**
 		 *	Generate 1D guassian.
 		 */
 		static void guassian1Df(float *guassian, int width, double theta);
+		static void guassian1Df(std::vector<float> &guassian, int height, float theta);
 
 		/**
 		 *	Generate 2D guassian.
 		 */
 		static void guassian2Df(float* guassian, int height, float theta);
+		static void guassian2Df(std::vector<float> &guassian, int height, float theta);
 
 		/**
 		 * 

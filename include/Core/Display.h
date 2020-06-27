@@ -63,6 +63,7 @@ namespace fragview {
 
 	public:
 
+		//TODO perhaps move to the internal display manager.
 //		static int getNumDisplays(void);
 //		static Display getDisplay(unsigned int index);
 		//static Display getAssociatedDisplay(SDL_Window* windiw9);
