@@ -17,16 +17,15 @@ IF(GIT_FOUND)
 			PATCH_COMMAND ""
 			SOURCE_DIR ${SVGNANO_ROOT}/src/nanosvg
 			INSTALL_DIR ${SVGNANO_ROOT}
-			STEP_TARGETS build
+			BUILD_IN_SOURCE 0
 			COMMENT "Building svg-nano"
 			LOG_DOWNLOAD ON)
-
 	SET(SVGNANO_INCLUDE_DIR ${SVGNANO_ROOT}/src/nanosvg/src)
 	FILE(GLOB NANOSVG_HEADERS ${SVGNANO_INCLUDE_DIR}/*.h )
 
 	# Download the polypartition library.
 	SET(POLYPARTITION_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/polypartition)
-	SET(POLYPARTITIONSVGNANO_LIB_DIR ${POLYPARTITION_ROOT}/lib)
+	SET(POLYPARTITION_LIB_DIR ${POLYPARTITION_ROOT}/lib)
 
 	ExternalProject_Add(polypartition-external
 			PREFIX ${POLYPARTITION_ROOT}
@@ -36,14 +35,52 @@ IF(GIT_FOUND)
 			PATCH_COMMAND ""
 			SOURCE_DIR ${POLYPARTITION_ROOT}/src/polypartition
 			INSTALL_DIR ${POLYPARTITION_ROOT}
-			STEP_TARGETS build
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
 			COMMENT "Building polypartition"
 			LOG_DOWNLOAD ON)
-
 	SET(POLYPARTITION_INCLUDE_DIR ${POLYPARTITION_ROOT}/src/polypartition/include)
-#	FILE(GLOB NANOSVG_HEADERS ${SVGNANO_INCLUDE_DIR}/*.h )
+
+
+	# Download the polypartition library.
+	SET(XATLAS_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/xatlas)
+	SET(XATLAS_LIB_DIR ${XATLAS_ROOT}/lib)
+
+	ExternalProject_Add(xatlas-external
+			PREFIX ${XATLAS_ROOT}
+			GIT_REPOSITORY "https://github.com/jpcy/xatlas"
+			GIT_TAG "master"
+			UPDATE_COMMAND ""
+			PATCH_COMMAND ""
+			SOURCE_DIR ${XATLAS_ROOT}/src/xatlas
+			INSTALL_DIR ${XATLAS_ROOT}
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+			COMMENT "Building xatlas"
+			LOG_DOWNLOAD ON)
+	SET(XATLAS_INCLUDE_DIR ${XATLAS_ROOT}/src/xatlas/include)
+
+	#https://github.com/recastnavigation/recastnavigation
+	# Download the polypartition library.
+	SET(RECASTNAVIGATION_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/recastnavigation)
+	SET(RECASTNAVIGATION_LIB_DIR ${RECASTNAVIGATION_ROOT}/lib)
+
+	ExternalProject_Add(recastnavigation-external
+			PREFIX ${RECASTNAVIGATION_ROOT}
+			GIT_REPOSITORY "https://github.com/recastnavigation/recastnavigation"
+			GIT_TAG "master"
+			UPDATE_COMMAND ""
+			PATCH_COMMAND ""
+			SOURCE_DIR ${RECASTNAVIGATION_ROOT}/src/recastnavigation
+			INSTALL_DIR ${RECASTNAVIGATION_ROOT}
+			COMMENT "Building xatlas"
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+			LOG_DOWNLOAD ON)
+	SET(RECASTNAVIGATION_INCLUDE_DIR ${RECASTNAVIGATION_ROOT}/src/recastnavigation/include)
+
 	# https://github.com/googlefonts/noto-fonts
 	# https://github.com/source-foundry/Hack
+	# https://github.com/google/etc2comp
+	# https://github.com/smcameron/open-simplex-noise-in-c
+
 
 ELSE()
 	MESSAGE(FATAL_ERROR "Require Git for loading external projects.")

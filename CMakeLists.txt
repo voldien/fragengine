@@ -190,13 +190,8 @@ IF(FREETYPE_FOUND)
 	MESSAGE(STATUS "Using freetype version ${FREETYPE_VERSION_STRING}.")
 	INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
 ELSE()
-
+	# Attempt to find it manually.
 ENDIF()
-
-# https://github.com/googlefonts/noto-fonts
-# https://github.com/source-foundry/Hack
-# https://github.com/memononen/nanosvg
-# https://github.com/ivanfratric/polypartition
 
 IF(BUILD_WITH_EXTERNAL_PROJECT)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/extern)
@@ -206,8 +201,7 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 	ENDIF()
 	INCLUDE(ExternalProject)
 	SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
-
-	# Download the task-schedular library.
+# Download the task-schedular library.
 	SET(TASKSCH_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/task-sch)
 	SET(TASKSCH_LIB_DIR ${TASKSCH_ROOT}/lib)
 	SET(TASKSCH_INCLUDE_DIR ${TASKSCH_ROOT}/include)
@@ -287,6 +281,7 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 			INCLUDE_DIRECTORIES ${HPM_INCLUDE_DIR}
 			LINK_DIRECTORIES ${HPM_LIB_DIR})
 	INCLUDE_DIRECTORIES(${HPMCPP_INCLUDE_DIR})
+
 ENDIF()
 
 # Define all file lists.

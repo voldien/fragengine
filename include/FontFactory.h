@@ -19,7 +19,7 @@ namespace fragview {
 		};
 
 		static Font *createFont(IRenderer *renderer, IO *io, float size, Encoding encoding = ASCII);
-		static Font *createFont(Image *image, Ref<IO> &io, float size, Encoding encoding = UTF8);
+		//static Font *createFont(Image *image, Ref<IO> &io, float size, Encoding encoding = UTF8);
 		//static Font* createFont(IRenderer* renderer, void* pdata, unsigned long nBytes, float size, Encoding encoding = ASCII);
 
 	private:    /*	Prevent one from creating an instance of this class.	*/
