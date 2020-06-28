@@ -1,4 +1,8 @@
-#ifndef FRAGVIEW_DITHERSTATE_H
-#define FRAGVIEW_DITHERSTATE_H
+#ifndef FRAGVIEW_DITHERSTATE_H_
+#define FRAGVIEW_DITHERSTATE_H_ 1
+
+namespace fragview
+{
+}
 
 #endif

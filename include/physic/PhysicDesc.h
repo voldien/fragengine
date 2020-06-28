@@ -16,17 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _PHYSIC_DESC_H_		/*	TODO determine if this is the best header name or not.	*/
-#define _PHYSIC_DESC_H_ 1
+#ifndef _FV_PHYSIC_DESC_H_		/*	TODO determine if this is the best header name or not.	*/
+#define _FV_PHYSIC_DESC_H_ 1
 #include "../Renderer/Buffer.h"
 #include "RigidBody.h"
 #include "Collider.h"
 
 namespace fragview {
 
-/**
- *	Constrains physic object.
- */
+	/**
+	 *	Constrains physic object.
+	*/
 	typedef struct constraints_desc {
 		/**
 		 *	Type of constraints

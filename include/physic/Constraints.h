@@ -26,7 +26,7 @@ namespace fragview {
 	/**
 	 *
 	 */
-	class FVDECLSPEC Constraints{
+	class FVDECLSPEC Constraints {
 		friend class DynamicInterface;
 	private:
 		inline Constraints(void){}

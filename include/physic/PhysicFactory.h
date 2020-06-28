@@ -26,7 +26,7 @@ namespace fragview {
 	 */
 	class FVDECLSPEC PhysicFactory {
 	public:
-		enum PhysicAPI {  /*  Official physic api.  */
+		enum PhysicAPI {  	/*  Official physic api.  */
 			eBullet,        /*	Bullet physic API.	*/
 			eBullet3,       /*	Bullet3 physic API. support GPU acceleration.	*/
 			ePhysx,         /*	Nvidia PhysicX.	*/

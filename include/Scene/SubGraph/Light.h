@@ -34,6 +34,7 @@ namespace fragview {
 			ePoint      = 0x1,  /*	Point light, aka omni light.	*/
 			eSpot       = 0x2,  /*	Spot light.	*/
 			eDirection  = 0x3,  /*	Direction light.	*/
+			eArea		= 0x4,	/*	*/
 		};
 
 		Light(void);

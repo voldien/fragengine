@@ -19,7 +19,6 @@
 #ifndef _CHARACTERCONTROLLER_H_
 #define _CHARACTERCONTROLLER_H_ 1
 #include "../Def.h"
-//#include"MapperObject.h"
 
 namespace fragview {
 	/**
