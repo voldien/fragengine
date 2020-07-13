@@ -6,6 +6,7 @@ OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
 OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." ON)
 OPTION(BUILD_WITH_PROFILER "Enable profiling." ON)
 OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
+OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
 IF(NOT BUILD_SHARED_LIBS)
 	SET(CMAKE_EXE_LINKER_FLAGS "-static")
 	SET(LINK_SEARCH_START_STATIC TRUE)
@@ -132,7 +133,14 @@ FIND_PACKAGE(Git)
 FIND_PACKAGE(Backtrace REQUIRED)
 FIND_PACKAGE(PkgConfig)
 FIND_PACKAGE(OpenSSL)
+FIND_PACKAGE(CUDA)
 INCLUDE(GNUInstallDirs)
+
+IF(CUDA_FOUND)
+
+ELSE()
+
+ENDIF()
 
 # Find and include libxml2 for supporting configuration.
 FIND_PACKAGE(LibXml2)
@@ -156,7 +164,7 @@ IF(PKG_CONFIG_FOUND)
 	PKG_CHECK_MODULES(ASSIMP REQUIRED assimp)
 	PKG_CHECK_MODULES(ZIP REQUIRED libzip)
 ELSE()
-	# TODo add logic for handling if pkg-config not available.
+	# TODO add logic for handling if pkg-config not available.
 ENDIF()
 
 
@@ -367,6 +375,8 @@ IF(BUILD_EXTERNAL_PHYSIC)
 #	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/rpc/)
 ENDIF()
 
+
+
 # Editor.
 IF(BUILD_WITH_EDITOR)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
@@ -375,6 +385,10 @@ ENDIF()
 # Client
 IF(BUILD_WITH_CLIENT)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
+ENDIF()
+
+IF(BUILD_WITH_EXTERNAL_PLUGINS)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/plugins/)
 ENDIF()
 
 # Testing.

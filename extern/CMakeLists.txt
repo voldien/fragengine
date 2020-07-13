@@ -76,12 +76,30 @@ IF(GIT_FOUND)
 			LOG_DOWNLOAD ON)
 	SET(RECASTNAVIGATION_INCLUDE_DIR ${RECASTNAVIGATION_ROOT}/src/recastnavigation/include)
 
+	# https://github.com/smcameron/open-simplex-noise-in-c
+	SET(OPENSIMPLENOISE_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/open-simplex-noise-in-c)
+	SET(OPENSIMPLENOISE_LIB_DIR ${OPENSIMPLENOISE_ROOT}/lib)
+
+	ExternalProject_Add(open-simplex-noise-in-c-external
+			PREFIX ${OPENSIMPLENOISE_ROOT}
+			GIT_REPOSITORY "https://github.com/smcameron/open-simplex-noise-in-c"
+			GIT_TAG "master"
+			UPDATE_COMMAND ""
+			PATCH_COMMAND ""
+			SOURCE_DIR ${OPENSIMPLENOISE_ROOT}/src/open-simplex-noise-in-c
+			INSTALL_DIR ${OPENSIMPLENOISE_ROOT}
+			COMMENT "Building xatlas"
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+			LOG_DOWNLOAD ON)
+	SET(OPENSIMPLENOISE_INCLUDE_DIR ${OPENSIMPLENOISE_ROOT}/src/open-simplex-noise-in-c/include)
+
 	# https://github.com/googlefonts/noto-fonts
 	# https://github.com/source-foundry/Hack
 	# https://github.com/google/etc2comp
-	# https://github.com/smcameron/open-simplex-noise-in-c
 
 
 ELSE()
-	MESSAGE(FATAL_ERROR "Require Git for loading external projects.")
+	MESSAGE(FATAL_ERROR "Require Git for loading external source codes.")
 ENDIF()
+
+# Check that all the depdends variables are found
