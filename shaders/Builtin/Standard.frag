@@ -1,5 +1,6 @@
-#ifdef FV_PIPELINE_DEFERRED
+#ifdef FRAG_PIPELINE_DEFERRED
 #endif
+
 FRAGLOCATION(0, vec4, diffuse);
 
 /*  */
@@ -12,8 +13,10 @@ IN vec3 vWVVertex;
 //TODO use texture template.
 layout(location = 16) uniform Texture2D texture0 = {TEXTURE_DIFFUSE, vec2(1.0, 1.0), vec2(0.0,0.0)};
 layout(location = 20) uniform Texture2D texture1 = {TEXTURE_SPECULAR, vec2(1.0, 1.0), vec2(0.0,0.0)};
-layout(location = 24) uniform Texture2D texture2 = {TEXTURE_AMBIENT, vec2(1.0, 1.0), vec2(0.0,0.0)};
+layout(location = 24) uniform Texture2D texture2 = {TEXTURE_AO, vec2(1.0, 1.0), vec2(0.0,0.0)};
 layout(location = 28) uniform Texture2D texture4 = {TEXTURE_NORMAL, vec2(1.0, 1.0), vec2(0.0,0.0)};
+layout(location = 28) uniform Texture2D texture5 = {TEXTURE_HEIGHTMAP, vec2(1.0, 1.0), vec2(0.0,0.0)};
+layout(location = 28) uniform Texture2D texture6 = {TEXTURE_EMISSION, vec2(1.0, 1.0), vec2(0.0,0.0)};
 
 //material parameters
 //uniform vec3  albedo;
@@ -88,6 +91,8 @@ void main(void) {
     /*  */
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2));
+
+    emission = texture2D(IllusionTexture, UV);
 
     /*  Compute final color.    */
     diffuse = internalFog(vWVVertex, vec4(color, albedo.a) );
