@@ -11,6 +11,8 @@ namespace fragview {
 		public:
 			virtual void OnInitialization(void);
 			virtual void OnDestruction(void);
+
+			/**/
 	};
 }
 

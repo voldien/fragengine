@@ -3,6 +3,7 @@
 #include"../SmartReference.h"
 
 namespace fragview {
+	
 	/**
 	 *
 	 */

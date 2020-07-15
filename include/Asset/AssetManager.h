@@ -1,7 +1,6 @@
-
 /**
-    FrameView for rendering shaders in screen space.
-    Copyright (C) 2018  Valdemar Lindberg
+    Simple physic simulation with a server-client model support.
+    Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +16,35 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_TASK_IJOB_PARALLELFOR_H_
-#define _FRAGVIEW_TASK_IJOB_PARALLELFOR_H_ 1
-#include "IScheduler.h"
+#ifndef _ASSET_MANAGER_H_
+#define _ASSET_MANAGER_H_ 1
+#include"System.h"
 
-namespace fragview
-{
-	class FVDECLSPEC IJobParallelFor
-	{
-	public:
-	};
-}
+/**
+ *
+ *
+ */
+class AssetManager{
+public:
+
+	/**
+	 *
+	 */
+	void setRootPath(const char* path);
+
+	/**
+	 * 
+	 */
+	const char* getRootPath(void);
+
+
+	/**
+	 *
+	 * @return
+	 */
+	const std::vector<std::string> getSearchPaths(void) const;
+
+private:
+};
 
 #endif

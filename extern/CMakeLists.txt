@@ -114,7 +114,7 @@ IF(GIT_FOUND)
 	# https://github.com/tatsuhiro-t/wslay.git
 
 ELSE()
-	MESSAGE(FATAL_ERROR "Require Git for loading external source codes.")
+	MESSAGE(WARNING "Require Git for loading external source codes.")
 ENDIF()
 
 # Check that all the depdends variables are found

@@ -25,5 +25,7 @@ namespace fragview
 	class FVDECLSPEC IJob
 	{
 	public:
-	}
+    };
 }
+
+#endif

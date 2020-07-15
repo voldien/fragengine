@@ -24,7 +24,7 @@
 #include "IO.h"
 #include <map>
 
-namespace fragview{
+namespace fragview {
 	class FVDECLSPEC TaskScheduler : IScheduler
 	{
 	public:
