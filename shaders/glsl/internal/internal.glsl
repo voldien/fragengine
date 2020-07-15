@@ -29,8 +29,60 @@
 
 #extension GL_ARB_shading_language_420pack : enable
 
+#extension GL_ARB_draw_instanced : enable
+#extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_shader_texture_lod : enable
+#extension GL_ARB_shader_storage_buffer_object : enable
+#extension GL_ARB_gpu_shader_int64 : enable
+#extension GL_ARB_explicit_attrib_location : enable
+#extension GL_ARB_shading_language_include : enable
+#extension GL_ARB_conservative_depth : enable
+#extension GL_ARB_shader_viewport_layer_array : enable
+#extension GL_ARB_gpu_shader5 : enable
+#extension GL_ARB_fragment_coord_conventions : enable
+#extension GL_ARB_ES3_1_compatibility : enable
+#extension GL_ARB_shader_draw_parameters : enable
+#extension GL_ARB_fragment_layer_viewport : enable
+#extension GL_ARB_texture_cube_map_array : enable
+#extension GL_ARB_cull_distance : enable
+#extension GL_ARB_bindless_texture : enable
+#extension GL_ARB_vertex_attrib_64bit : enable
+#extension GL_ARB_geometry_shader4 : enable
+#extension GL_ARB_gpu_shader_fp64 : enable
+#extension GL_ARB_shader_precision : enable
+#extension GL_ARB_compute_variable_group_size : enable
+#extension GL_ARB_texture_multisample : enable
+#extension GL_ARB_shader_subroutine : enable
+#extension GL_ARB_uniform_buffer_object : enable
+#extension GL_ARB_ES3_2_compatibility : enable
+#extension GL_ARB_sparse_texture_clamp : enable
+#extension GL_ARB_derivative_control : enable
+#extension GL_ARB_shader_clock : enable
+#extension GL_ARB_shader_group_vote : enable
+#extension GL_ARB_shader_atomic_counters : enable
+#extension GL_ARB_shader_ballot : enable
+#extension GL_ARB_sparse_texture2 : enable
+#extension GL_ARB_fragment_shader_interlock : enable
+#extension GL_ARB_post_depth_coverage : enable
+#extension GL_ARB_shading_language_packing : enable
+#extension GL_ARB_explicit_uniform_location : enable
+#extension GL_ARB_tessellation_shader : enable
+#extension GL_ARB_enhanced_layouts : enable
+#extension GL_ARB_shader_image_load_store : enable
+#extension GL_EXT_tessellation_shader : enable
+#extension GL_EXT_bindable_uniform : enable
+#extension GL_INTEL_conservative_rasterization : enable
+#extension GL_EXT_shader_framebuffer_fetch : enable
+#extension GL_EXT_texture_shadow_lod : enable
+#extension GL_EXT_clip_distance : enable
+#extension GL_EXT_clip_cull_distance : enable
+#extension GL_NV_image_formats : enable
+#extension GL_INTEL_fragment_shader_ordering : enable
+#extension GL_EXT_post_depth_coverage : enable
+#extension GL_NV_bindless_texture : enable
+
 /*	Check if mobile OpenGL is used.	*/
-#ifdef GL_ES
+#if defined(GL_ES) && defined(GL_ARB_shader_precision)
 precision mediump float;
 precision mediump int;
 #endif
