@@ -97,6 +97,21 @@ IF(GIT_FOUND)
 	# https://github.com/source-foundry/Hack
 	# https://github.com/google/etc2comp
 
+	#https://gitlab.com/libeigen/eigen
+	# https://github.com/baldurk/renderdoc.git
+	# https://github.com/ispc/ispc.git
+	# https://github.com/mborgerding/kissfft.git
+	# https://github.com/NVIDIAGameWorks/PhysX.git
+
+	#https://github.com/jemalloc/jemalloc.git
+	# https://github.com/turbulenz/NvTriStrip.git
+	# https://github.com/microsoft/ShaderConductor.git
+	# https://github.com/AcademySoftwareFoundation/openexr.git
+	# https://github.com/erikd/libsamplerate.git
+	# https://bitbucket.org/jthlim/pvrtccompressor
+	# https://sourceforge.net/projects/libsquish
+	# https://github.com/syoyo/tinyexr
+	# https://github.com/tatsuhiro-t/wslay.git
 
 ELSE()
 	MESSAGE(FATAL_ERROR "Require Git for loading external source codes.")

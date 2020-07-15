@@ -93,6 +93,12 @@ __pycache__/
 /docs/doxygen.tag
 /docs/build*
 
+
+*.gz
+*cfgcmd*
+*gitinfo.txt*
+CMakeDoxyfile.*
+
 # Project dependent ignore rules
 /deps/*
 /Testing/*
@@ -104,3 +110,12 @@ __pycache__/
 #Ignore visual studio ide.
 .idea
 *.iml
+.vscode/
+
+
+# Targets
+fragview
+fragview-assert
+fragview.1.gz
+fragview-editor
+
