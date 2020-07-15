@@ -80,6 +80,7 @@
 #extension GL_INTEL_fragment_shader_ordering : enable
 #extension GL_EXT_post_depth_coverage : enable
 #extension GL_NV_bindless_texture : enable
+#extension GL_AMD_texture_gather_bias_lod : enable
 
 /*	Check if mobile OpenGL is used.	*/
 #if defined(GL_ES) && defined(GL_ARB_shader_precision)

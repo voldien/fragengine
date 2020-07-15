@@ -88,10 +88,27 @@ IF(GIT_FOUND)
 			PATCH_COMMAND ""
 			SOURCE_DIR ${OPENSIMPLENOISE_ROOT}/src/open-simplex-noise-in-c
 			INSTALL_DIR ${OPENSIMPLENOISE_ROOT}
-			COMMENT "Building xatlas"
+			COMMENT "Building open-simplex-noise-in-c"
 			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
 			LOG_DOWNLOAD ON)
 	SET(OPENSIMPLENOISE_INCLUDE_DIR ${OPENSIMPLENOISE_ROOT}/src/open-simplex-noise-in-c/include)
+
+	#https://gitlab.com/libeigen/eigen
+	SET(EIGEN_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/eigen)
+	SET(EIGEN_LIB_DIR ${EIGEN_ROOT}/lib)
+
+	ExternalProject_Add(eigen-external
+			PREFIX ${EIGEN_ROOT}
+			GIT_REPOSITORY "https://gitlab.com/libeigen/eigen"
+			GIT_TAG "master"
+			UPDATE_COMMAND ""
+			PATCH_COMMAND ""
+			SOURCE_DIR ${EIGEN_ROOT}/src/eigen
+			INSTALL_DIR ${EIGEN_ROOT}
+			COMMENT "Building eigen"
+			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+			LOG_DOWNLOAD ON)
+	SET(EIGEN_INCLUDE_DIR ${EIGEN_ROOT}/src/eigen/include)
 
 	# https://github.com/googlefonts/noto-fonts
 	# https://github.com/source-foundry/Hack

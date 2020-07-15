@@ -176,3 +176,23 @@ float toneMapping(const in float exposure, const in float brightMax){
 
 
 // Instance rapper.
+#define FRAG_ACCESS_INSTANCED_PROP(Props, _Color)
+#define FRAG_INSTANCING_BUFFER_START(Props)
+#define FRAG_INSTANCING_BUFFER_END(Props)
+
+
+#define FRAG_FOG_COORDS(Props)
+#define SHADOW_COORDS(Props)
+
+#define FRAG_SETUP_INSTANCE_ID()
+#define FRAG_TRANSFER_INSTANCE_ID()
+
+#define FragObjectToClipPos()
+
+#define FRAG_TRANSFER_SHADOW
+#define FRAG_TRANSFER_FOG(o, vertex)
+
+#define FRAG_VERTEX_INPUT_INSTANCE_ID
+#define FRAG_TRANSFORM_TEX
+
+#define frag_LightmapST

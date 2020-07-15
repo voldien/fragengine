@@ -1,4 +1,4 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.7.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.11.0)
 PROJECT(fragview CXX)
 
 # Build shared/dynamic library option
