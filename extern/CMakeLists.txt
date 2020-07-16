@@ -3,6 +3,7 @@ OPTION(BUILTIN_NANOSVG "" ON)
 OPTION(BUILTIN_EIGEN "" ON)
 OPTION(BUILTIN_OPEN_SIMPLEX_NOISE "" ON)
 OPTION(BUILTIN_XATLAS "" ON)
+OPTION(BUILTIN_PCG_C_BASIC "" ON)
 OPTION(BUILTIN_RECASTNAVIGATION "" ON)
 OPTION(BUILTIN_POLYPARITION "" ON)
 
@@ -21,6 +22,7 @@ IF(BUILTIN_NANOSVG)
 ENDIF()
 
 IF( BUILTIN_EIGEN)
+	SET(EIGEN_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/eigen/Eigen)
 
 ENDIF()
 
@@ -42,8 +44,18 @@ IF(BUILTIN_XATLAS )
 	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${XATLAS_SOURCE}")
 ENDIF()
 
+IF(BUILTIN_PCG_C_BASIC)
+	SET(PCG_C_BASIC_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/pcg-c-basic)
+
+	SET(THIRDPARTY_INCLUDE_DIR  "${THIRDPARTY_INCLUDE_DIR}  ${CMAKE_CURRENT_SOURCE_DIR}/extern/pcg-c-basic")
+	FILE(GLOB PCG_C_BASIC_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/pcg-c-basic/*.h
+							${CMAKE_CURRENT_SOURCE_DIR}/extern/pcg-c-basic/*.c )
+
+	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${PCG_C_BASIC_SOURCE}")
+ENDIF()
+
 IF(BUILTIN_RECASTNAVIGATION)
-	SET(RECASTNAVIGATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/recastnavigation)
+	SET(RECASTNAVIGATION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/recastnavigation/Include)
 
 	SET(THIRDPARTY_INCLUDE_DIR  "${THIRDPARTY_INCLUDE_DIR}  ${CMAKE_CURRENT_SOURCE_DIR}/recastnavigation")
 	FILE(GLOB RECASTNAVIGATION_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/recastnavigation/Include/*.h
@@ -57,8 +69,21 @@ IF(BUILTIN_POLYPARITION)
 	SET(POLYPARITION_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/polypartition)
 
 
-	#SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${RECASTNAVIGATION_SOURCE}")
+	SET(THIRDPARTY_INCLUDE_DIR  "${THIRDPARTY_INCLUDE_DIR}  ${POLYPARITION_INCLUDE_DIRS}")
+	FILE(GLOB POLYPARITION_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/polypartition/*.h
+										${CMAKE_CURRENT_SOURCE_DIR}/extern/polypartition/*.cpp)
+
+	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${RECASTNAVIGATION_SOURCE}")
 ENDIF()
+
+IF(BUILTIN_JEMALLOC)
+	#https://github.com/jemalloc/jemalloc.git
+ENDIF()
+
+IF(BUILTIN_KISS_FFT)
+	#https://github.com/mborgerding/kissfft.git
+ENDIF()
+
 
 MESSAGE(STATUS "Third Party: ${THIRDPARTY_INCLUDE_DIR}")
 MESSAGE(STATUS "Third Source: ${THIRDPARTY_SOURCE}")
@@ -89,143 +114,6 @@ MESSAGE(STATUS "Third Source: ${THIRDPARTY_SOURCE}")
 # 	# 		LOG_DOWNLOAD ON)
 # 	# SET(XATLAS_INCLUDE_DIR ${XATLAS_ROOT}/src/xatlas/include)
 
-# 		# FetchContent_Declare(
-# 		# 	eigen
-# 		# 	GIT_REPOSITORY "https://gitlab.com/libeigen/eigen"
-# 		# 	GIT_TAG        "master"
-# 		# )
-# 		# FetchContent_GetProperties(eigen)
-# 		# IF(NOT eigen_POPULATED)
-# 		# 	FetchContent_Populate(eigen)
-# 		# ENDIF()
-
-# 		# FetchContent_Declare(
-# 		# 	nanosvg
-# 		# 	GIT_REPOSITORY "https://github.com/memononen/nanosvg"
-# 		# 	GIT_TAG        "master"
-# 		# )
-# 		# FetchContent_GetProperties(nanosvg)
-# 		# IF(NOT nanosvg_POPULATED)
-# 		# 	FetchContent_Populate(nanosvg)
-# 		# ENDIF()
-	
-# 	# SET(EIGEN_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/eigen)
-# 	# SET(EIGEN_LIB_DIR ${EIGEN_ROOT}/lib)
-
-# 	# ExternalProject_Add(eigen-external
-# 	# 		PREFIX ${EIGEN_ROOT}
-# 	# 		GIT_REPOSITORY "https://gitlab.com/libeigen/eigen"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${EIGEN_ROOT}/src/eigen
-# 	# 		INSTALL_DIR ${EIGEN_ROOT}
-# 	# 		COMMENT "Building eigen"
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(EIGEN_INCLUDE_DIR ${EIGEN_ROOT}/src/eigen/include)
-
-# 	# ExternalProject_Add(nanosvg-external
-# 	# 		PREFIX ${SVGNANO_ROOT}
-# 	# 		GIT_REPOSITORY "https://github.com/memononen/nanosvg"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${SVGNANO_ROOT}/src/nanosvg
-# 	# 		INSTALL_DIR ${SVGNANO_ROOT}
-# 	# 		BUILD_IN_SOURCE 0
-# 	# 		COMMENT "Building svg-nano"
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(SVGNANO_INCLUDE_DIR ${SVGNANO_ROOT}/src/nanosvg/src)
-# 	# FILE(GLOB NANOSVG_HEADERS ${SVGNANO_INCLUDE_DIR}/*.h )
-
-# 	# Download the polypartition library.
-# 	# SET(POLYPARTITION_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/polypartition)
-# 	# SET(POLYPARTITION_LIB_DIR ${POLYPARTITION_ROOT}/lib)
-
-# 	# ExternalProject_Add(polypartition-external
-# 	# 		PREFIX ${POLYPARTITION_ROOT}
-# 	# 		GIT_REPOSITORY "https://github.com/ivanfratric/polypartition"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${POLYPARTITION_ROOT}/src/polypartition
-# 	# 		INSTALL_DIR ${POLYPARTITION_ROOT}
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		COMMENT "Building polypartition"
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(POLYPARTITION_INCLUDE_DIR ${POLYPARTITION_ROOT}/src/polypartition/include)
-
-
-# 	# # Download the polypartition library.
-# 	# SET(XATLAS_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/xatlas)
-# 	# SET(XATLAS_LIB_DIR ${XATLAS_ROOT}/lib)
-
-# 	# ExternalProject_Add(xatlas-external
-# 	# 		PREFIX ${XATLAS_ROOT}
-# 	# 		GIT_REPOSITORY "https://github.com/jpcy/xatlas"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${XATLAS_ROOT}/src/xatlas
-# 	# 		INSTALL_DIR ${XATLAS_ROOT}
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		COMMENT "Building xatlas"
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(XATLAS_INCLUDE_DIR ${XATLAS_ROOT}/src/xatlas/include)
-
-# 	# #https://github.com/recastnavigation/recastnavigation
-# 	# # Download the polypartition library.
-# 	# SET(RECASTNAVIGATION_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/recastnavigation)
-# 	# SET(RECASTNAVIGATION_LIB_DIR ${RECASTNAVIGATION_ROOT}/lib)
-
-# 	# ExternalProject_Add(recastnavigation-external
-# 	# 		PREFIX ${RECASTNAVIGATION_ROOT}
-# 	# 		GIT_REPOSITORY "https://github.com/recastnavigation/recastnavigation"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${RECASTNAVIGATION_ROOT}/src/recastnavigation
-# 	# 		INSTALL_DIR ${RECASTNAVIGATION_ROOT}
-# 	# 		COMMENT "Building xatlas"
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(RECASTNAVIGATION_INCLUDE_DIR ${RECASTNAVIGATION_ROOT}/src/recastnavigation/include)
-
-# 	# # https://github.com/smcameron/open-simplex-noise-in-c
-# 	# SET(OPENSIMPLENOISE_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/open-simplex-noise-in-c)
-# 	# SET(OPENSIMPLENOISE_LIB_DIR ${OPENSIMPLENOISE_ROOT}/lib)
-
-# 	# ExternalProject_Add(open-simplex-noise-in-c-external
-# 	# 		PREFIX ${OPENSIMPLENOISE_ROOT}
-# 	# 		GIT_REPOSITORY "https://github.com/smcameron/open-simplex-noise-in-c"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${OPENSIMPLENOISE_ROOT}/src/open-simplex-noise-in-c
-# 	# 		INSTALL_DIR ${OPENSIMPLENOISE_ROOT}
-# 	# 		COMMENT "Building open-simplex-noise-in-c"
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(OPENSIMPLENOISE_INCLUDE_DIR ${OPENSIMPLENOISE_ROOT}/src/open-simplex-noise-in-c/include)
-
-# 	# #https://gitlab.com/libeigen/eigen
-# 	# SET(EIGEN_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/eigen)
-# 	# SET(EIGEN_LIB_DIR ${EIGEN_ROOT}/lib)
-
-# 	# ExternalProject_Add(eigen-external
-# 	# 		PREFIX ${EIGEN_ROOT}
-# 	# 		GIT_REPOSITORY "https://gitlab.com/libeigen/eigen"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${EIGEN_ROOT}/src/eigen
-# 	# 		INSTALL_DIR ${EIGEN_ROOT}
-# 	# 		COMMENT "Building eigen"
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(EIGEN_INCLUDE_DIR ${EIGEN_ROOT}/src/eigen/include)
-
 # 	# https://github.com/googlefonts/noto-fonts
 # 	# https://github.com/source-foundry/Hack
 # 	# https://github.com/google/etc2comp
@@ -236,7 +124,7 @@ MESSAGE(STATUS "Third Source: ${THIRDPARTY_SOURCE}")
 # 	# https://github.com/mborgerding/kissfft.git
 # 	# https://github.com/NVIDIAGameWorks/PhysX.git
 
-# 	#https://github.com/jemalloc/jemalloc.git
+# 	# https://github.com/jemalloc/jemalloc.git
 # 	# https://github.com/turbulenz/NvTriStrip.git
 # 	# https://github.com/microsoft/ShaderConductor.git
 # 	# https://github.com/AcademySoftwareFoundation/openexr.git
