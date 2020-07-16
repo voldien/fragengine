@@ -2,9 +2,14 @@
 #define FRAGVIEW_EDITOR_EDITORWINDOW_H_ 1
 #include <Core/SmartReference.h>
 #include <Core/Window.h>
-#include"Core/gtkconfig.h"
+#if defined(FRAG_GTK_WINDOW_MANAGER)
+//#include"Core/gtkconfig.h"
+#endif
 
 //TODO add namespace for the editor.
+namespace fragview_editor{
+
+}
 /**
  *
  */
@@ -59,7 +64,9 @@ public:
 	intptr_t getNativePtr(void) const override;
 
 private:
-	FragViewEditorAppWindow* window;
+ #if defined(FRAG_GTK_WINDOW_MANAGER)
+ 	FragViewEditorAppWindow* window;
+ #endif
 };
 
 #endif

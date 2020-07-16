@@ -71,11 +71,11 @@ ENDIF()
 IF(OPENSSL)
 	# Generate verification finger print.
 	MESSAGE(STATUS "openssl found: ${OPENSSL}")
-	ADD_CUSTOM_TARGET(hash-resources
-			COMMENT ".")
-	FOREACH(glslFile ${SAMPLE_SHADER_GLSL_FILES})
-		ADD_CUSTOM_COMMAND(TARGET hash-resources
-				COMMAND ${OPENSSL} dgst -md5 ${glslFile})
-	ENDFOREACH()
-	ADD_DEPENDENCIES(fragview hash-resources)
+	# ADD_CUSTOM_TARGET(hash-resources
+	# 		COMMENT ".")
+	# FOREACH(glslFile ${SAMPLE_SHADER_GLSL_FILES})
+	# 	ADD_CUSTOM_COMMAND(TARGET hash-resources
+	# 			COMMAND ${OPENSSL} dgst -md5 ${glslFile})
+	# ENDFOREACH()
+	# ADD_DEPENDENCIES(fragview hash-resources)
 ENDIF()

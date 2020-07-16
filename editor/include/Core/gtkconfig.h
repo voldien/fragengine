@@ -1,5 +1,6 @@
-#ifndef FRAGVIEW_GTKCONFIG_H_
-#define FRAGVIEW_GTKCONFIG_H_ 1
+#ifndef _FRAGVIEW_GTKCONFIG_H_
+#define _FRAGVIEW_GTKCONFIG_H_ 1
+
 #include<gtk/gtk.h>
 #include<gdk/gdk.h>
 #include<gdk/gdkx.h>
@@ -28,6 +29,7 @@ G_DECLARE_FINAL_TYPE (FragViewEditorAppWindow, fragview_app_window, FRAGVIEWEDIT
 FragViewEditorAppWindow       *example_app_window_new          (FragViewEditorApp *app);
 void                    example_app_window_open         (FragViewEditorAppWindow *win,
                                                          GFile            *file);
+
 
 
 #endif

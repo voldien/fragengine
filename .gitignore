@@ -102,7 +102,7 @@ CMakeDoxyfile.*
 # Project dependent ignore rules
 /deps/*
 /Testing/*
-/build/*
+/build
 
 # Zip file ignore.
 *zip

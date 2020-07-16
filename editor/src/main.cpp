@@ -1,45 +1,51 @@
 #include <execinfo.h>
-#include <Core/gtkconfig.h>
-#include <Windows/SplashWindow.h>
-#include <FragViewEditor.h>
+#include <signal.h>
+#include "Windows/SplashWindow.h"
+#include "FragViewEditor.h"
+#if defined(FRAG_GTK_WINDOW_MANAGER)
+//#include <Core/gtkconfig.h>
+#elif defined(FRAG_QT_WINDOW_MANAGER)
+#include <QApplication>
+#endif
+
 
 void *createSplashScreen(char *image_path, int time, int width, int height) {
 
-	GtkWidget *image, *window;
-	GError *error = 0;
-	GdkPixbuf *pixbuf;
+// 	GtkWidget *image, *window;
+// 	GError *error = 0;
+// 	GdkPixbuf *pixbuf;
 
-	if (width == -1 && height == -1) {
-		// get the default size
-	}
+// 	if (width == -1 && height == -1) {
+// 		// get the default size
+// 	}
 
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title(GTK_WINDOW(window), "Shader Editor");
-	gtk_widget_set_size_request(window, width, height);
-	gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
-	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
-	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
-	pixbuf = gdk_pixbuf_new_from_file_at_size(image_path, width, height, &error);
-	if (!pixbuf) {
-		g_print("Error %s\n", error->message);
-		g_error_free(error);
-	}
-	image = gtk_image_new_from_pixbuf(pixbuf);
-	g_object_unref(pixbuf);
-	gtk_widget_set_size_request(image, width, height);
-	gtk_container_add(GTK_CONTAINER(window), image);
+// 	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+// 	gtk_window_set_title(GTK_WINDOW(window), "Shader Editor");
+// 	gtk_widget_set_size_request(window, width, height);
+// 	gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
+// 	gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER_ALWAYS);
+// 	gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+// 	pixbuf = gdk_pixbuf_new_from_file_at_size(image_path, width, height, &error);
+// 	if (!pixbuf) {
+// 		g_print("Error %s\n", error->message);
+// 		g_error_free(error);
+// 	}
+// 	image = gtk_image_new_from_pixbuf(pixbuf);
+// 	g_object_unref(pixbuf);
+// 	gtk_widget_set_size_request(image, width, height);
+// 	gtk_container_add(GTK_CONTAINER(window), image);
 
-//	/* Connect the main window to the destroy and delete-event signals. */
-//	g_signal_connect (G_OBJECT (window), "destroy",
-//	                  G_CALLBACK (destroy), NULL);
-//	g_signal_connect (G_OBJECT (window), "delete_event",
-//	                  G_CALLBACK (delete_event), NULL);
+// //	/* Connect the main window to the destroy and delete-event signals. */
+// //	g_signal_connect (G_OBJECT (window), "destroy",
+// //	                  G_CALLBACK (destroy), NULL);
+// //	g_signal_connect (G_OBJECT (window), "delete_event",
+// //	                  G_CALLBACK (delete_event), NULL);
 
 
-	/*	wait intill screen get visible	*/
-	gtk_widget_show_all(window);
-	gtk_main();
-	//g_thread_new
+// 	/*	wait intill screen get visible	*/
+// 	gtk_widget_show_all(window);
+// 	gtk_main();
+// 	//g_thread_new
 }
 
 void handler(int sig) {
@@ -76,10 +82,15 @@ int main(int argc, char **argv) {
 	try {
 
 		/* init gtk */
-		gtk_init(&argc, &argv);
+		#ifdef FRAG_GTK_WINDOW_MANAGER
+		//gtk_init(&argc, &argv);
+		#elif defined(FRAG_QT_WINDOW_MANAGER)
+		QApplication a(argc, argv);
+		#endif
 		SplashWindow splashWindow("/home/voldie/Pictures/neko.jpg");
 		FragViewEditor fragViewEditor(&splashWindow, argc, (const char **) argv);
 		fragViewEditor.run();
+		a.exec();
 		return EXIT_SUCCESS;
 	} catch (fragview::IException &ex) {
 		std::cerr << "Internal exception: " << ex.getName() << std::endl;
