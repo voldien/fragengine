@@ -10,9 +10,9 @@ namespace fragview {
 	/**
 	 *
 	 */
-	class FVDECLSPEC DebugDrawManager : public IRenderPipelineBase {
+	class FVDECLSPEC DebugDrawManager : public IRenderPipelineBase {	//TODO determine if shall be changed to virtual class.
 	public:
-		DebugDrawManager(Ref<Font>& font);
+		DebugDrawManager(Ref<Font>& font, Ref<IRenderer>& render);
 
 		//TODO reduce argument.
 		void draw(Scene *scene, FrameBuffer *frame, IRenderer *render) override;
@@ -70,9 +70,8 @@ namespace fragview {
 			bool depthEnabled;      /*  */
 			float timeRemaining;    /*  */
 			float invokeTime;       /*  */
-			hpmvec4f color;
+			hpmvec4f color;			/*	Common Color attribute.	*/
 			union Command {
-
 				struct {
 					hpmvec3f start;
 					hpmvec3f end;
@@ -105,11 +104,9 @@ namespace fragview {
 				struct {
 					hpmvec3f a, b, c;
 				} obb;
-
 				struct {
 					hpmvec3f pos;
 					int textIndex;
-					//std::string text;
 				} string;
 			};
 
@@ -120,7 +117,9 @@ namespace fragview {
 		std::map<int, Queue<DebugDrawCommand>> commands;  /*  */
 
 		Ref<Mesh> debugGeometry;            /*  Geometry of the debug objects. - multiple sub geometries.   */
-		Ref<Font> font;                     /*  */
+		Ref<Shader> debug;
+		std::vector<int> geomtryIndex; /*	*/
+		Ref<Font> font; /*  */
 	};
 }
 

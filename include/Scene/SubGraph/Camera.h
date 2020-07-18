@@ -16,26 +16,26 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CAMERA_H_
-#define _CAMERA_H_ 1
+#ifndef _FV_CAMERA_H_
+#define _FV_CAMERA_H_ 1
 
 #include"Frustum.h"
 namespace fragview {
-/**
- *	Camera responsible for configuring the
- *	view in rendering.
- */
+	/**
+	 *	Camera responsible for configuring the
+	*	view in rendering.
+	*/
 	class Camera : public Frustum {
 	public:
 		enum ClearMode {
-			eDontClear = (1 << 0),     /*	*/
-			eClear = (1 << 1),     /*	*/
-			eSkyBox = (1 << 2)      /*	*/
+			DontClear = (1 << 0),     /*	*/
+			Clear = (1 << 1),     /*	*/
+			SkyBox = (1 << 2)      /*	*/
 		};
 
 		enum ProjectionMode {
-			ePerspective = (1 << 0),     /*	*/
-			eOrthographic = (1 << 1),     /*	*/
+			Perspective = (1 << 0),     /*	*/
+			Orthographic = (1 << 1),     /*	*/
 		};
 
 	public:
@@ -63,62 +63,71 @@ namespace fragview {
 		 */
 		ProjectionMode getProjection(void) const;
 
+		//pixelHeight
+		//pixelRect
+		//pixelWidth
 		/**
 		 *
 		 * @param projection
 		 */
 		void setProjection(ProjectionMode projection);
 
+		/*	Real camera attributes.	*/
+		void setfocalLength(float f);
 		/**
 		 *
 		 * @param use
 		 */
-		void useHDR(bool use);
+		void
+		useHDR(bool use);
+
+		float aspect();
 
 		/**
 		 *
 		 * @return
 		 */
-		bool useHDR(void) const;
+		bool
+		useHDR(void) const;
 
-//	/**
-//	 *	Set post effect.
-//	 */
-//	void setPostEffect(PostEffectObject *post, int index = -1);
-//
-//	PostEffectObject *getPostEffect(int index);
-//
-//
-//	/**
-//	 *
-//	 * @param pipeline
-//	 */
-//	void setRenderingPath(RenderPipelineBase *pipeline);
-//
-//	/**
-//	 *
-//	 * @return
-//	 */
-//	RenderPipelineBase *getRenderingPath(void) const;
-//
-//
-//	/**
-//	 *
-//	 * @param target
-//	 */
-//	void setRenderTarget(FrameBufferObject *target);
-//
-//	/**
-//	 *
-//	 * @return
-//	 */
-//	FrameBufferObject *getRenderTarget(void) const;
+		//	/**
+		//	 *	Set post effect.
+		//	 */
+		//	void setPostEffect(PostEffectObject *post, int index = -1);
+		//
+		//	PostEffectObject *getPostEffect(int index);
+		//
+		//
+			/**
+			 *
+			 * @param pipeline
+			 */
+		void setRenderingPath(Ref<IRenderPipelineBase> pipeline);
+
+		/**
+			 *
+			 * @return
+			 */
+		Ref<IRenderPipelineBase> getRenderingPath(void) const;
+		//
+		//
+		//	/**
+		//	 *
+		//	 * @param target
+		//	 */
+		//	void setRenderTarget(FrameBufferObject *target);
+		//
+		//	/**
+		//	 *
+		//	 * @return
+		//	 */
+		//	FrameBufferObject *getRenderTarget(void) const;
 
 	protected:    /*	Attributes.	*/
 
 		ClearMode clear;                    /*	*/
 		ProjectionMode projection;          /*  */
-//	bool hdr;                           /*  */
+		bool hdr;                           /*  */
 //
 //	/*  TODO resolve.   */
 //	PostEffectObject *effects[16];     /*	Post effects.	*/

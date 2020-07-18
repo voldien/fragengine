@@ -16,13 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _PV_FRUSTUM_H_
-#define _PV_FRUSTUM_H_ 1
-
+#ifndef _FV_FRUSTUM_H_
+#define _FV_FRUSTUM_H_ 1
 #include"Node.h"
 
 namespace fragview {
 
+	/*
+	 *
+	 */
 	class FVDECLSPEC Frustum : public Node {
 	public:
 
@@ -30,21 +32,21 @@ namespace fragview {
 		 *	Intersection.
 		 */
 		enum Intersection {
-			eOut            = 0,    /*	Outside frustum completly.*/
-			eIn             = 1,    /*	Inside frustum completly.*/
-			eIntersect      = 2,    /*	Intresecting frustum planes.	*/
+			Out            = 0,    /*	Outside frustum completly.*/
+			In             = 1,    /*	Inside frustum completly.*/
+			Intersect      = 2,    /*	Intresecting frustum planes.	*/
 		};
 
 		/**
 		 *
 		 */
 		enum FrustumPlanes {
-			eTOP    = 0,    /*	*/
-			eBOTTOM = 1,    /*	*/
-			eLEFT   = 2,    /*	*/
-			eRIGHT  = 3,    /*	*/
-			eNEARP  = 4,    /*	*/
-			eFARP   = 5,    /*	*/
+			TOPP    = 0,    /*	*/
+			BOTTOMP = 1,    /*	*/
+			LEFTP   = 2,    /*	*/
+			RIGHTP  = 3,    /*	*/
+			NEARP  = 4,    /*	*/
+			FARP   = 5,    /*	*/
 		};
 
 		/**
@@ -80,20 +82,20 @@ namespace fragview {
 		/**
 		 *	Update camera matrix perspective.
 		 */
-		void updatePerspective(void);
+		virtual void updatePerspective(void);
 
 		/**
 		 *	Comput the frustum planes.
 		 */
-		void
+		virtual void
 		calcFrustumPlanes(const PVVector3 &position, const PVVector3 &look, const PVVector3 &up,
-		                  const PVVector3 &right);
+						  const PVVector3 &right);
 
 		/**
 		 *	Check if point is inside the frustum.
 		 *	@Return eIn if inside frustum, eOut otherwise.
 		 */
-		Intersection checkPoint(const PVVector3 &pos) const;
+		virtual Intersection checkPoint(const PVVector3 &pos) const;
 
 		/**
 		 * Check if AABB intersects frustum.
@@ -101,28 +103,28 @@ namespace fragview {
 		 * @param max
 		 * @return eIntersect if intersect the frustum, eOut otherwise.
 		 */
-		Intersection intersectionAABB(const PVVector3 &min, const PVVector3 &max);
+		virtual Intersection intersectionAABB(const PVVector3 &min, const PVVector3 &max);
 
-		Intersection intersectionAABB(const PVAABB &bounds);
+		virtual Intersection intersectionAABB(const PVAABB &bounds);
 
 		/**
 		 *	Check if sphere intersects frustum.
 		 *	@Return
 		 */
-		Intersection intersectionSphere(const PVVector3 &pos, float radius) const;
-		Intersection intersectionSphere(const PVBoundingSphere &sphere) const;
+		virtual Intersection intersectionSphere(const PVVector3 &pos, float radius) const;
+		virtual Intersection intersectionSphere(const PVBoundingSphere &sphere) const;
 
 		/**
 		 *	Check if plane intersects frustum.
 		 *	@Return
 		 */
-		Intersection intersectPlane(const PVPlane &plane) const;
+		virtual Intersection intersectPlane(const PVPlane &plane) const;
 
 		/**
 		 *	Check if frustum intersects frustum.
 		 *	@Return
 		 */
-		Intersection intersectionFrustum(const Frustum &frustum) const;
+		virtual Intersection intersectionFrustum(const Frustum &frustum) const;
 
 	protected:    /*	Makes the object inheritable object only.	*/
 
@@ -136,7 +138,6 @@ namespace fragview {
 		PVPlane planes[6];                  /*	*/
 		float fov, ratio, Znear, Zfar, tang;/*	*/
 		float nw, nh, fh, fw;               /*	*/
-
 	};
 }
 

@@ -2,6 +2,7 @@
 #include <hpm/hpm.h>
 #include <float.h>
 #include <math.h>
+#include<open-simplex-noise.h>
 using namespace fragview;
 
 const float Math::Epsilon = FLT_EPSILON;
@@ -10,8 +11,10 @@ const float Math::Infinite = 0;
 const float Math::Deg2Rad = Math::PI / 180.0f;
 const float Math::Rad2Deg = 180 / Math::PI;
 const float Math::NegativeInfinity = 0;
+static struct osn_context *ctx = NULL;
 
-static void guassian1Df(float *guassian, int width, double theta)
+static void
+guassian1Df(float *guassian, int width, double theta)
 {
 	
 }
@@ -156,6 +159,11 @@ static float perlin(float x, float y)
 
 float Math::PerlinNoise(float x, float y)
 {
+	if (ctx == NULL)
+		open_simplex_noise(0, &ctx);
+	
+	return open_simplex_noise2(ctx, x, y);
+
 	int z;
 	float totalAmplitude = 0;
 	float noise = 0;
@@ -213,6 +221,10 @@ float Math::PerlinNoiseDifferential(float x, float y)
 
 float Math::PerlinNoise(float x, float y, float z)
 {
+	if (ctx == NULL)
+		open_simplex_noise(0, &ctx);
+	
+	return open_simplex_noise3(ctx, x, y, z);
 	float totalAmplitude = 0;
 	float noise = 0;
 

@@ -24,7 +24,6 @@
 #include"Renderer/Buffer.h"
 #include"SandBoxSubScene.h"
 
-
 namespace fragview {
 	/**
 	 *

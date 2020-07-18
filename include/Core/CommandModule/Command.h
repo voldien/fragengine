@@ -22,6 +22,10 @@
 #include"Def.h"
 #include"Prerequisites.h"
 
+
+namespace fragview {
+	
+}
 /**
  *	Single command object. The command is assoicated with
  *	a scene for which the command has affect on.

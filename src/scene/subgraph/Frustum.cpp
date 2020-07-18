@@ -1,4 +1,5 @@
 #include"Scene/SubGraph/Frustum.h"
+#include"Core/Math.h"
 
 using namespace fragview;
 
@@ -9,7 +10,6 @@ Frustum::Frustum(void) {
 	this->Zfar = 1000.0f;
 	this->Znear = 0.15f;
 	this->ratio = 1.33333f;
-//	updatePerspective();
 }
 
 Frustum::Frustum(const Frustum &other) {
@@ -21,7 +21,7 @@ const PVMatrix4x4 &Frustum::getPerspectiveMatrix(void) const {
 }
 
 void Frustum::setFov(float fov) {
-	this->fov = HPM_DEG2RAD(fov);
+	this->fov = Math::deg2Rad(fov);
 	this->updatePerspective();
 }
 
@@ -42,7 +42,7 @@ void Frustum::setRatio(float ratio) {
 
 
 float Frustum::getFov(void) const {
-	return HPM_RAD2DEG(this->fov);
+	return Math::radToDeg(this->fov);
 }
 
 float Frustum::getNear(void) const {
@@ -70,30 +70,30 @@ void Frustum::calcFrustumPlanes(const PVVector3 &position, const PVVector3 &look
                                 const PVVector3 &right) {
 	PVVector3 dir, nc, fc, X, Y, Z;
 
-	planes[eNEARP].setNormalAndPoint(-Z, nc);
-	planes[eFARP].setNormalAndPoint(Z, fc);
+	planes[NEARP].setNormalAndPoint(-Z, nc);
+	planes[FARP].setNormalAndPoint(Z, fc);
 
 	PVVector3 aux, normal;
 
 	aux = (nc + Y * nh) - position;
 	aux.normalize();
 	normal = aux * X;
-	planes[eTOP].setNormalAndPoint(normal, nc + Y * nh);
+	planes[TOPP].setNormalAndPoint(normal, nc + Y * nh);
 
 	aux = (nc - Y * nh) - position;
 	aux.normalize();
 	normal = X * aux;
-	planes[eBOTTOM].setNormalAndPoint(normal, nc - Y * nh);
+	planes[BOTTOMP].setNormalAndPoint(normal, nc - Y * nh);
 
 	aux = (nc - X * nw) - position;
 	aux.normalize();
 	normal = aux * Y;
-	planes[eLEFT].setNormalAndPoint(normal, nc - X * nw);
+	planes[LEFTP].setNormalAndPoint(normal, nc - X * nw);
 
 	aux = (nc + X * nw) - position;
 	aux.normalize();
 	normal = Y * aux;
-	planes[eRIGHT].setNormalAndPoint(normal, nc + X * nw);
+	planes[RIGHTP].setNormalAndPoint(normal, nc + X * nw);
 }
 
 
@@ -103,16 +103,16 @@ Frustum::Intersection Frustum::checkPoint(const PVVector3 &pos) const {
 	/*	Iterate through each plane.	*/
 	for (x = 0; x < 6; x++) {
 		if (planes[x].distance(pos) < 0) {
-			return eOut;
+			return Out;
 		}
 	}
 
-	return eIn;
+	return In;
 }
 
 Frustum::Intersection Frustum::intersectionAABB(const PVVector3 &min, const PVVector3 &max) {
 
-	Frustum::Intersection result = Frustum::eIn;
+	Frustum::Intersection result = Frustum::In;
 	int i;
 
 	for (i = 0; i < 6; i++) {
@@ -135,9 +135,9 @@ Frustum::Intersection Frustum::intersectionAABB(const PVVector3 &min, const PVVe
 		}
 
 		if (planes[i].distance(p) < 0.0f) {
-			return eOut;
+			return Out;
 		} else if (planes[i].distance(n) < 0.0f) {
-			result = Intersection::eIntersect;
+			result = Intersection::Intersect;
 		}
 	}
 
@@ -145,26 +145,26 @@ Frustum::Intersection Frustum::intersectionAABB(const PVVector3 &min, const PVVe
 }
 
 Frustum::Intersection Frustum::intersectionAABB(const PVAABB &bounds) {
-	return eIn;
+	return In;
 	return intersectionAABB(bounds.min(), bounds.max());
 }
 
 
 Frustum::Intersection Frustum::intersectionSphere(const PVVector3 &pos, float radius) const {
-	return eOut;
+	return Out;
 }
 
 Frustum::Intersection Frustum::intersectionSphere(const PVBoundingSphere &sphere) const {
-	return eOut;
+	return Out;
 }
 
 
 Frustum::Intersection Frustum::intersectPlane(const PVPlane &plane) const {
-	return eIn;
+	return In;
 }
 
 Frustum::Intersection Frustum::intersectionFrustum(const Frustum &frustum) const {
-	return eIn;
+	return In;
 }
 
 

@@ -18,50 +18,53 @@
 */
 #ifndef _PV_INPUT_H_
 #define _PV_INPUT_H_ 1
-#include"Def.h"
-#include"System.h"
+#include "../Def.h"
 
-/**
- *	Abstraction class for accessing
- *	input data.
- */
-class PVDECLSPEC Input {
-	friend class Engine;
-public:
+namespace fragview{
+
 
 	/**
-	 *	@Return
-	 */
-	static float getAxis(const char* opt);
+	 *	Abstraction class for accessing
+	*	input data.
+	*/
+	class FVDECLSPEC Input {
+	public:
 
-	/**
-	 *	Get location of mouse in window position of
-	 *	the application.
-	 *
-	 *	@Return
-	 */
-	static PVVector2 location(void);
+		/**
+		 *	@Return
+		*/
+		static float getAxis(const char* opt);
 
-	/**
-	 *	Get delta motion.
-	 *
-	 *	@Return
-	 */
-	static PVVector2 getDelta(void);
+		/**
+		 *	Get location of mouse in window position of
+		*	the application.
+		*
+		*	@Return
+		*/
+		static PVVector2 location(void);
 
-	/**
-	 *	Check if key is pressed.
-	 */
-	static bool isKeyDown(unsigned int key);
+		/**
+		 *	Get delta motion.
+		*
+		*	@Return
+		*/
+		static PVVector2 getDelta(void);
 
-protected:	/*	Internal.	*/
+		/**
+		 *	Check if key is pressed.
+		*/
+		static bool isKeyDown(unsigned int key);
 
-	/**
-	 *	Update internal input associated
-	 *	data.
-	 */
-	static void internalUpdate(void);
+	protected:	/*	Internal.	*/
 
-};
+		/**
+		 *	Update internal input associated
+		*	data.
+		*/
+		static void internalUpdate(void);
+
+	};
+
+}
 
 #endif

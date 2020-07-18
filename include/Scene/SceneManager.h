@@ -21,59 +21,66 @@
 #include"Def.h"
 #include"Scene.h"
 
-/**
- *
- */
-class PVDECLSPEC SceneManager {
-public:
-	SceneManager(void);
 
-	SceneManager(const SceneManager &scene);
-
-	~SceneManager(void);
-
+namespace fragview{
 	/**
 	 *
-	 * @return
 	 */
-	Scene *getCurrentScene(void) const;
+	class FVDECLSPEC SceneManager {
+	public:
+		SceneManager(void);
 
-	/**
-	 *
-	 * @param scene
-	 */
-	void setCurrentScene(Scene *scene);
+		SceneManager(const SceneManager &scene);
 
-	/**
-	 *
-	 * @param index
-	 * @param scene
-	 */
-	void setScene(int index, Scene *scene);
+		~SceneManager(void);
 
-	/**
-	 *
-	 * @param index
-	 * @return
-	 */
-	Scene *getScene(int index);
+		/**
+		 *
+		 * @return
+		 */
+		Scene *getCurrentScene(void) const;
 
-	/**
-	 *
-	 * @return
-	 */
-	Scene *getNextScene(void);
+		/**
+		 *
+		 * @param scene
+		 */
+		void setCurrentScene(Scene *scene);
 
-	/**
-	 *
-	 * @return
-	 */
-	Scene *getPreviousScene(void);
+		/**
+		 *
+		 * @param index
+		 * @param scene
+		 */
+		void setScene(int index, Scene *scene);
 
-private:
-	std::vector<Scene *> scenes;
-	std::vector<Scene *>::iterator current;
-};
+		/**
+		 *
+		 * @param index
+		 * @return
+		 */
+		Scene *getScene(int index);
 
+		/**
+		 *
+		 * @return
+		 */
+		Scene *getNextScene(void);
+
+		/**
+		 *
+		 * @return
+		 */
+		Scene *getPreviousScene(void);
+
+		void loadScene(int index);
+		void loadSceneAsync(int index);
+		void loadScene(const std::string &name);
+		void loadSceneAsync(const std::string &name);
+
+	private:
+		std::vector<Scene *> scenes;
+		std::vector<Scene *>::iterator current;
+	};
+}
 
 #endif
