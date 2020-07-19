@@ -90,7 +90,9 @@ int main(int argc, char **argv) {
 		SplashWindow splashWindow("/home/voldie/Pictures/neko.jpg");
 		FragViewEditor fragViewEditor(&splashWindow, argc, (const char **) argv);
 		fragViewEditor.run();
+		#if defined(FRAG_QT_WINDOW_MANAGER)
 		a.exec();
+		#endif
 		return EXIT_SUCCESS;
 	} catch (fragview::IException &ex) {
 		std::cerr << "Internal exception: " << ex.getName() << std::endl;

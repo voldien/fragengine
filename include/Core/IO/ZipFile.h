@@ -96,12 +96,13 @@ namespace fragview {
 	public:    /*	Factory method.	*/
 
 		/*  Create zip filesystem object.   */
-		static ZipFile *createZipFileObject(const char *cfilename, RefPtr<schTaskSch> ref = RefPtr<schTaskSch>(NULL));
-		static ZipFile *createZipFileObject(Ref<IO>& ioRef, RefPtr<schTaskSch> ref = RefPtr<schTaskSch>(NULL));
-		static ZipFile *createZipFileObject(void* source, int size, RefPtr<schTaskSch> ref = RefPtr<schTaskSch>(NULL));
+		//TODO add support for reference for the scheduler.
+		static ZipFile *createZipFileObject(const char *cfilename, Ref<IScheduler> ref = Ref<IScheduler>(NULL));
+		static ZipFile *createZipFileObject(Ref<IO> &ioRef, Ref<IScheduler> ref = Ref<IScheduler>(NULL));
+		static ZipFile *createZipFileObject(void *source, int size, Ref<IScheduler> ref = Ref<IScheduler>(NULL));
 
 	protected:    /*	Prevent one from creating an instance of this class.	*/
-		ZipFile(RefPtr<schTaskSch> ref);
+		ZipFile(Ref<IScheduler> ref);
 		ZipFile(const ZipFile &other);
 	};
 }

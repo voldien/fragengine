@@ -1,6 +1,5 @@
-#include"Def.h"
 #include"Asset/FileNotify.h"
-#include "Core/UserEvent.h"
+#include"Core/UserEvent.h"
 #include"Core/IO/FileSystem.h"
 #include<SDL2/SDL_events.h>
 #include<libfswatch/c/libfswatch.h>
@@ -10,11 +9,11 @@
 #include <Exception/RuntimeExecption.h>
 #include"Utils/StringUtil.h"
 #include"Core/IO/FileSystem.h"
-#include"../../client/include/FragView.h"
-#include <taskSch.h>
+
+
 using namespace fragview;
 
-FileNotify::FileNotify(schTaskSch *sch) {
+FileNotify::FileNotify(Ref<IScheduler>& sch) {
 
 	if (sch == NULL)
 		throw InvalidArgumentException("Requires scheduler object.");
@@ -33,7 +32,7 @@ FileNotify::FileNotify(schTaskSch *sch) {
 		throw RuntimeException(fvformatf("Failed to disable overflow with Filesystem watch: %d.", ret));
 	fsw_set_verbose(false);
 
-	this->sch = sch;
+	this->scheduler = sch;
 
 	/*  Allocate change events. */
 	fileChangeEvents.resize(32);
@@ -125,41 +124,51 @@ FileNotify::FileNoticationEntry *FileNotify::getEntry(Object *object) {
 	return &this->notify[object->getUID()];
 }
 
-int FileNotify::fileFetchTask(schTaskPackage *package) {
-	std::string *path = (std::string *) package->puser;
-	FileNotify *fileNotify = (FileNotify *) package->begin;
-	FileNoticationEntry *entry = (FileNoticationEntry *) package->end;
+int FileNotify::fileFetchTask(Task *package) {
+	// std::string *path = (std::string *) package->puser;
+	// FileNotify *fileNotify = (FileNotify *) package->begin;
+	// FileNoticationEntry *entry = (FileNoticationEntry *) package->end;
 
-	/*  */
-	FileNotificationEvent *fileEvent = fileNotify->fileChangeEvents.obtain();
-	fileEvent->object = entry->assetObject;
-	fileEvent->path = path->c_str();
-	fileEvent->type = entry->type;
-	fileEvent->size = 0;
-	fileEvent->data = NULL;
-	fileEvent->timestamp = SDL_GetPerformanceCounter();
+	// /*  */
+	// FileNotificationEvent *fileEvent = fileNotify->fileChangeEvents.obtain();
+	// fileEvent->object = entry->assetObject;
+	// fileEvent->path = path->c_str();
+	// fileEvent->type = entry->type;
+	// fileEvent->size = 0;
+	// fileEvent->data = NULL;
+	// fileEvent->timestamp = SDL_GetPerformanceCounter();
 
-	/*  */
-	SDL_Event event = {};
-	event.type = SDL_USEREVENT;
-	event.user.data1 = fileEvent;
-	event.user.code = ASSET_UPDATE;
+	// /*  */
+	// SDL_Event event = {};
+	// event.type = SDL_USEREVENT;
+	// event.user.data1 = fileEvent;
+	// event.user.code = ASSET_UPDATE;
 
-	/*  Load file.  */
-	try {
-		void *data;
-		IO* io = FileSystem::getFileSystem()->openFile(path->c_str(), IO::READ);
-		fileEvent->size = FileSystem::getFileSystem()->loadFile(io, (char **) &data);
-		fileEvent->data = data;
-		SDL_PushEvent(&event);
-		delete io;
-	} catch (RuntimeException &ex) {
-		fileEvent->data = NULL;
-		fileEvent->size = 0;
-		fileNotify->eventDone(fileEvent);
-	}
-
+	// /*  Load file.  */
+	// try {
+	// 	void *data;
+	// 	IO* io = FileSystem::getFileSystem()->openFile(path->c_str(), IO::READ);
+	// 	fileEvent->size = FileSystem::getFileSystem()->loadFile(io, (char **) &data);
+	// 	fileEvent->data = data;
+	// 	SDL_PushEvent(&event);
+	// 	delete io;
+	// } catch (RuntimeException &ex) {
+	// 	fileEvent->data = NULL;
+	// 	fileEvent->size = 0;
+	// 	fileNotify->eventDone(fileEvent);
+	// }
 }
+
+class FVDECLSPEC FileNotifyTask : public Task
+{
+public:
+	virtual void Execute(void) override
+	{
+	}
+	virtual void Complete(void) override
+	{
+	}
+};
 
 void FileNotify::callback(fsw_cevent const *const events,
                           const unsigned int event_num,
@@ -191,17 +200,21 @@ void FileNotify::callback(fsw_cevent const *const events,
 			/*  FileSystem updated.   */
 			if (flag & Updated) {
 
-				schTaskPackage package;
-				package.puser = &entry->filepath;
-				package.begin = notify;
-				package.end = entry;
-				package.callback = FileNotify::fileFetchTask;
+				FileNotifyTask task;
+				task.callback = FileNotify::fileFetchTask;
+				task.userData = entry;
+				// package.puser = &entry->filepath;
+				// package.begin = notify;
+				// package.end = entry;
+//				package.callback = FileNotify::fileFetchTask;
 
-				int status = schSubmitTask(notify->sch, &package, NULL);
-				if (status != SCH_OK) {
+				notify->scheduler->AddTask(&task);
+				notify->scheduler->wait();
+				// int status = schSubmitTask(notify->sch, &package, NULL);
+				// if (status != SCH_OK) {
 
-				}
-				schWaitTask(notify->sch);
+				// }
+				// schWaitTask(notify->sch);
 			}
 
 			/*  */

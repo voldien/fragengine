@@ -18,7 +18,7 @@
 */
 #ifndef _ASSET_MANAGER_H_
 #define _ASSET_MANAGER_H_ 1
-#include"System.h"
+#include"../Prerequisites.h"
 
 /**
  *

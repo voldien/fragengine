@@ -83,7 +83,7 @@ void DebugDrawManager::addString(const PVVector3 &a, const std::string &text, fl
 
 DebugDrawManager::DebugDrawManager(Ref<Font> &font, Ref<IRenderer>& renderer) {
 	this->font = font;
-	setRenderer(renderer);
+	//setRenderer(renderer);
 	/*  Generate the mesh object.   */
 	// AABB bounding box
 	// Line circle

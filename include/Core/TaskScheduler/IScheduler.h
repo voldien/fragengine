@@ -19,11 +19,11 @@
 #ifndef _FRAGVIEW_ISCHEDULER_H_
 #define _FRAGVIEW_ISCHEDULER_H_ 1
 #include"../SmartReference.h"
+#include"../Ref.h"
 
 namespace fragview
 {
 	class IScheduler;
-
 	class FVDECLSPEC Task
 	{
 	public:
@@ -34,7 +34,7 @@ namespace fragview
 		virtual void Execute(void) = 0;
 		virtual void Complete(void) = 0;
 	private:
-		IScheduler *scheduler;
+		Ref<IScheduler> scheduler;
 	};
 
 	class FVDECLSPEC IScheduler : public SmartReference
@@ -44,10 +44,10 @@ namespace fragview
 		virtual void setUserData(const void *data) = 0;
 		virtual const void *getUserData(void) = 0;
 		virtual void run(void) = 0;
-		virtual void wait(void) = 0;
-		virtual void Lock();
-		virtual void UnLock();
 		virtual void terminate(void) = 0;
+		virtual void wait(void) = 0;
+		virtual void Lock(void) = 0;
+		virtual void UnLock(void) = 0;
 
 	private:
 

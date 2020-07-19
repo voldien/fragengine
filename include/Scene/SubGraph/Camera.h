@@ -18,14 +18,15 @@
 */
 #ifndef _FV_CAMERA_H_
 #define _FV_CAMERA_H_ 1
-
 #include"Frustum.h"
+#include"../../RenderPipeline/IRenderPipelineBase.h"
+
 namespace fragview {
 	/**
 	 *	Camera responsible for configuring the
 	*	view in rendering.
 	*/
-	class Camera : public Frustum {
+	class FVDECLSPEC Camera : public Frustum {
 	public:
 		enum ClearMode {
 			DontClear = (1 << 0),     /*	*/
@@ -102,7 +103,7 @@ namespace fragview {
 			 *
 			 * @param pipeline
 			 */
-		void setRenderingPath(Ref<IRenderPipelineBase> pipeline);
+		void setRenderingPath(Ref<IRenderPipelineBase>& pipeline);
 
 		/**
 			 *
@@ -133,8 +134,7 @@ namespace fragview {
 //	PostEffectObject *effects[16];     /*	Post effects.	*/
 //	RenderPipelineBase *pipeline;
 //	FrameBufferObject *target;
-		Ref<RenderPipelineBase> overrideRenderer;
-
+		Ref<IRenderPipelineBase> overrideRenderer;
 	};
 }
 #endif

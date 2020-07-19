@@ -35,11 +35,16 @@ static int internal_schCallback(struct sch_task_package_t *package)
 	Task *task = (Task *)package->begin;
 	IScheduler *scheduler = (IScheduler *)package->end;
 	Task::TaskCallBack callback = task->callback;
+	task->Execute();
 	callback(task);
+	task->Complete();
 }
 void TaskScheduler::AddTask(Task *task)
 {
 	schTaskPackage packageTask;
+	//TODO IMPROVE
+	//task->scheduler = Ref<IScheduler>(this);
+
 	packageTask.callback = internal_schCallback;
 	packageTask.begin = task;
 	packageTask.end = this;
@@ -71,3 +76,9 @@ void TaskScheduler::terminate(void)
 	if (status != SCH_OK)
 		throw RuntimeException(schErrorMsg(status));
 }
+
+void TaskScheduler::wait(void) 
+{
+}
+void TaskScheduler::Lock(void)  {}
+void TaskScheduler::UnLock(void)  {}

@@ -276,30 +276,30 @@ FragView::~FragView(void) {
 	this->notify->unRegisterAllAsset();
 
 	/*  Terminate scheduler.    */
-	if (*this->sch) {
-		int status = schTerminateTaskSch(*this->sch);
-		if (status != SCH_OK) {
-			throw RuntimeException(fvformatf("schTerminateTaskSch failed : %d - %s", status, schErrorMsg(status)));
-		}
-		status = schReleaseTaskSch(*this->sch);
-		if (status != SCH_OK) {
-			throw RuntimeException(fvformatf("schReleaseTaskSch failed : %d - %s", status, schErrorMsg(status)));
-		}
-		free(*this->sch);
-	}
+	// if (*this->sch) {
+	// 	int status = schTerminateTaskSch(*this->sch);
+	// 	if (status != SCH_OK) {
+	// 		throw RuntimeException(fvformatf("schTerminateTaskSch failed : %d - %s", status, schErrorMsg(status)));
+	// 	}
+	// 	status = schReleaseTaskSch(*this->sch);
+	// 	if (status != SCH_OK) {
+	// 		throw RuntimeException(fvformatf("schReleaseTaskSch failed : %d - %s", status, schErrorMsg(status)));
+	// 	}
+	// 	free(*this->sch);
+	// }
 
-	/*  Terminate scheduler.    */
-	if (*this->logicSch) {
-		int status = schTerminateTaskSch(*this->logicSch);
-		if (status != SCH_OK) {
-			throw RuntimeException(fvformatf("schTerminateTaskSch failed : %d - %s", status, schErrorMsg(status)));
-		}
-		status = schReleaseTaskSch(*this->logicSch);
-		if (status != SCH_OK) {
-			throw RuntimeException(fvformatf("schReleaseTaskSch failed : %d - %s", status, schErrorMsg(status)));
-		}
-		free(*this->logicSch);
-	}
+	// /*  Terminate scheduler.    */
+	// if (*this->logicSch) {
+	// 	int status = schTerminateTaskSch(*this->logicSch);
+	// 	if (status != SCH_OK) {
+	// 		throw RuntimeException(fvformatf("schTerminateTaskSch failed : %d - %s", status, schErrorMsg(status)));
+	// 	}
+	// 	status = schReleaseTaskSch(*this->logicSch);
+	// 	if (status != SCH_OK) {
+	// 		throw RuntimeException(fvformatf("schReleaseTaskSch failed : %d - %s", status, schErrorMsg(status)));
+	// 	}
+	// 	free(*this->logicSch);
+	// }
 
 	this->rendererWindow->closeWindow();
 
@@ -320,24 +320,26 @@ void FragView::init(int argc, const char **argv) {
 	int status;
 
 	/*  Create task scheduler.  */
-	schTaskSch *taskSch = (schTaskSch *) malloc(sizeof(schTaskSch));
-	int sch = schCreateTaskPool(taskSch, 2, SCH_FLAG_NO_AFM, 48);
-	if (sch != SCH_OK)
-		throw RuntimeException(schErrorMsg(sch));
-	sch = schRunTaskSch(taskSch);
-	if (sch != SCH_OK)
-		throw RuntimeException(schErrorMsg(sch));
+	this->sch = Ref<IScheduler>(new TaskScheduler(2, 48));
+	// schTaskSch *taskSch = (schTaskSch *)malloc(sizeof(schTaskSch));
+	// int sch = schCreateTaskPool(taskSch, 2, SCH_FLAG_NO_AFM, 48);
+	// if (sch != SCH_OK)
+	// 	throw RuntimeException(schErrorMsg(sch));
+	// sch = schRunTaskSch(taskSch);
+	// if (sch != SCH_OK)
+	// 	throw RuntimeException(schErrorMsg(sch));
 
-	schTaskSch *logicSchu = (schTaskSch *) malloc(sizeof(schTaskSch));
-	sch = schCreateTaskPool(logicSchu, SystemInfo::getCPUCoreCount(), 0, 128);
-	if (sch != SCH_OK)
-		throw RuntimeException(schErrorMsg(status));
-	sch = schRunTaskSch(logicSchu);
-	if (sch != SCH_OK)
-		throw RuntimeException(schErrorMsg(status));
+	this->logicSch = Ref<IScheduler>(new TaskScheduler(SystemInfo::getCPUCoreCount(), 128));
+	// schTaskSch *logicSchu = (schTaskSch *) malloc(sizeof(schTaskSch));
+	// sch = schCreateTaskPool(logicSchu, SystemInfo::getCPUCoreCount(), 0, 128);
+	// if (sch != SCH_OK)
+	// 	throw RuntimeException(schErrorMsg(status));
+	// sch = schRunTaskSch(logicSchu);
+	// if (sch != SCH_OK)
+	// 	throw RuntimeException(schErrorMsg(status));
 
-	this->logicSch = RefPtr<schTaskSch>(logicSchu);
-	this->sch = RefPtr<schTaskSch>(taskSch);
+	// this->logicSch = RefPtr<schTaskSch>(logicSchu);
+	// this->sch = RefPtr<schTaskSch>(taskSch);
 
 	FileSystem::createFileSystem(this->sch);
 
@@ -369,7 +371,7 @@ void FragView::init(int argc, const char **argv) {
 
 	/*  Create file notify.    */
 	if (this->config->get<bool>("notify-file"))
-		this->notify = new FileNotify(*this->sch);
+		this->notify = new FileNotify(this->sch);
 
 	/*  Create window - default position and size.  */
 	const IConfig &windowConfig = this->config->getSubConfig("render-window-settings");
@@ -645,8 +647,8 @@ void FragView::run(void) {
 		// Update Video texture
 
 		// Update skinned.
-
-		schWaitTask(*this->logicSch);
+		this->logicSch->wait();
+//		schWaitTask(*this->logicSch);
 
 		/*	render only if visible of configure too.	*/
 		if (visible || renderInBackground) {

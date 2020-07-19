@@ -22,7 +22,6 @@
 #include "Asset/FileNotify.h"
 #include "Config.h"
 #include <Core/RefPtr.h>
-#include <taskSch.h>
 #include <Renderer/RendererWindow.h>
 
 /**
@@ -59,8 +58,8 @@ private:    /*  */
     fragview::Ref<fragview::IRenderer> renderer;            /*  Low level rendering API interface.  */
 	fragview::Ref<fragview::IRenderPipelineBase> renderpipeline;
 //    EventController* controller;
-	fragview::RefPtr<schTaskSch> sch;               /*  */
-	fragview::RefPtr<schTaskSch> logicSch;          /*  */
+    fragview::Ref<fragview::IScheduler> sch;       /*  */
+    fragview::Ref<fragview::IScheduler> logicSch;  /*  */
     Config* config;                                 /*  Current config.    */
 	fragview::FileNotify* notify;                   /*  Notify Asset changes.  */
 	fragview::Scene *scene;                         /*  Current scene.  */

@@ -30,8 +30,7 @@ IF(BUILTIN_OPEN_SIMPLEX_NOISE )
 	SET(OPEN_SIMPLEX_NOISE_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/open-simplex-noise-in-c)
 
 	SET(THIRDPARTY_INCLUDE_DIR  "${THIRDPARTY_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/open-simplex-noise-in-c")
-	FILE(GLOB OPEN_SIMPLEX_NOISE_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/open-simplex-noise-in-c/*.h
-										${CMAKE_CURRENT_SOURCE_DIR}/extern/open-simplex-noise-in-c/*.c )
+	FILE(GLOB OPEN_SIMPLEX_NOISE_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/open-simplex-noise-in-c/*.c )
 	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${OPEN_SIMPLEX_NOISE_SOURCE}")
 ENDIF()
 IF(BUILTIN_XATLAS )
@@ -87,32 +86,7 @@ ENDIF()
 
 MESSAGE(STATUS "Third Party: ${THIRDPARTY_INCLUDE_DIR}")
 MESSAGE(STATUS "Third Source: ${THIRDPARTY_SOURCE}")
-
-
-# FIND_PACKAGE(Git REQUIRED)
-# IF(GIT_FOUND)
-# 	# Download all the sources.
-# 	INCLUDE(ExternalProject)
-# 	INCLUDE(FetchContent)
-# 	SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
-
-# 	# Download the nano-svg  library.
-# 	SET(SVGNANO_ROOT ${CMAKE_CURRENT_BINARY_DIR}/nanosvg)
-# 	SET(SVGNANO_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/nanosvg)
-# 	SET(SVGNANO_LIB_DIR ${SVGNANO_ROOT}/lib)
-#	https://github.com/NVIDIAGameWorks/PhysX.git
-# 	# ExternalProject_Add(xatlas-external
-# 	# 		PREFIX ${XATLAS_ROOT}
-# 	# 		GIT_REPOSITORY "https://github.com/jpcy/xatlas"
-# 	# 		GIT_TAG "master"
-# 	# 		UPDATE_COMMAND ""
-# 	# 		PATCH_COMMAND ""
-# 	# 		SOURCE_DIR ${XATLAS_ROOT}/src/xatlas
-# 	# 		INSTALL_DIR ${XATLAS_ROOT}
-# 	# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-# 	# 		COMMENT "Building xatlas"
-# 	# 		LOG_DOWNLOAD ON)
-# 	# SET(XATLAS_INCLUDE_DIR ${XATLAS_ROOT}/src/xatlas/include)
+MESSAGE(STATUS "Temp: ${OPEN_SIMPLEX_NOISE_SOURCE}")
 
 # 	# https://github.com/googlefonts/noto-fonts
 # 	# https://github.com/source-foundry/Hack

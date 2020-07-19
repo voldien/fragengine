@@ -150,12 +150,14 @@ FileSystem *FileSystem::getFileSystem(void) {
 	return fileSystem;
 }
 
-FileSystem *FileSystem::createFileSystem(RefPtr<schTaskSch> ref) {
+FileSystem *FileSystem::createFileSystem(Ref<IScheduler> &ref)
+{
 	fileSystem = new FileSystem(ref);
 	return fileSystem;
 }
 
-FileSystem::FileSystem(RefPtr<schTaskSch> ref) : IFileSystem() {
+FileSystem::FileSystem(Ref<IScheduler> &ref) : IFileSystem()
+{
 
 	/*  Lookup system io functions.  */
 	switch(SystemInfo::getOperatingSystem()){

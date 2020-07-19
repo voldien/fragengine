@@ -5,9 +5,9 @@ using namespace fragview;
 
 Camera::Camera(void)
 {
-	this->setObjectType(Object::eCamera);
+	//this->setObjectType(Object::eCamera);
 	this->clear = SkyBox;
-	this->pipeline = NULL;
+	this->overrideRenderer = NULL;
 }
 
 Camera::Camera(const Camera &other)
@@ -49,22 +49,22 @@ void Camera::setProjection(Camera::ProjectionMode projection)
 	Camera::projection = projection;
 }
 
-void Camera::setRenderingPath(RenderPipelineBase *pipeline)
+void Camera::setRenderingPath(Ref<IRenderPipelineBase> &pipeline)
 {
-	this->pipeline = pipeline;
+	this->overrideRenderer = pipeline;
 }
 
-RenderPipelineBase *Camera::getRenderingPath(void) const
+Ref<IRenderPipelineBase> Camera::getRenderingPath(void) const
 {
-	return this->pipeline;
+	return this->overrideRenderer;
 }
 
-void Camera::setRenderTarget(FrameBufferObject *target)
-{
-	this->target = target;
-}
+// void Camera::setRenderTarget(FrameBufferObject *target)
+// {
+// 	this->target = target;
+// }
 
-FrameBufferObject *Camera::getRenderTarget(void) const
-{
-	return this->target;
-}
+// FrameBufferObject *Camera::getRenderTarget(void) const
+// {
+// 	return this->target;
+// }

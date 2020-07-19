@@ -21,24 +21,34 @@
 #include "../RefPtr.h"
 #include"IScheduler.h"
 #include "../Ref.h"
-#include "IO.h"
+#if defined(FRAGVIEW_CORE_INTERNAL_IMP)
+#include<taskSch.h>
+#endif
 #include <map>
 
 namespace fragview {
-	class FVDECLSPEC TaskScheduler : IScheduler
+	class FVDECLSPEC TaskScheduler : public IScheduler
 	{
 	public:
 		TaskScheduler(void);
 		TaskScheduler(int cores, unsigned int maxPackagesPool);
 		~TaskScheduler(void);
 
-		virtual void AddTask(Task *task);
-		virtual void setUserData(const void *data);
-		virtual const void *getUserData(void);
-		virtual void run(void);
-		virtual void terminate(void);
-		private:
+		virtual void AddTask(Task *task) override;
+		virtual void setUserData(const void *data) override;
+		virtual const void *getUserData(void) override;
+		virtual void run(void) override;
+		virtual void terminate(void) override;
+		virtual void wait(void) override;
+		virtual void Lock(void) override;
+		virtual void UnLock(void) override;
+
+	private:
+			#ifdef FRAGVIEW_CORE_INTERNAL_IMP
 			schTaskSch *sch;
+			#else
+			void *sch;
+			#endif
 	};
 }
 #endif

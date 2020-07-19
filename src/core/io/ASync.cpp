@@ -7,9 +7,20 @@
 
 using namespace fragview;
 
+class FVDECLSPEC AsyncTask : public Task
+{
+public:
+	virtual void Execute(void) override {
+
+	}
+	virtual void Complete(void)override{
+
+	}
+};
+
 ASyncHandle ASync::aSyncOpen(Ref<IO> &io) {
 
-	if (*sch == NULL)
+	if (*scheduler == NULL)
 		throw RuntimeException("Async not initialized with scheduler");
 	/*  Check parameters.   */
 	if (!*io)
@@ -53,15 +64,17 @@ void ASync::asyncReadFile(ASyncHandle handle, char *buffer, unsigned int size,
 	ao->status.nbytes = 0;
 	ao->status.offset = 0;
 
-	schTaskPackage readTask = {};
+	AsyncTask readTask;
 	readTask.callback = async_read;
-	readTask.size = handle;
-	readTask.begin = this;
-	readTask.puser = ao;
+	readTask.userData = ao;
+	//readTask.size = handle;
+	//readTask.begin = this;
+	//readTask.puser = ao;
 
-	error = schSubmitTask(*this->getScheduler(), &readTask, 0);
-	if (error != SCH_OK)
-		throw RuntimeException(fvformatf("failed %s", schErrorMsg(error)));
+	this->scheduler->AddTask(&readTask);
+	// error = schSubmitTask(*this->getScheduler(), &readTask, 0);
+	// if (error != SCH_OK)
+	// 	throw RuntimeException(fvformatf("failed %s", schErrorMsg(error)));
 }
 
 void ASync::asyncReadFile(ASyncHandle handle, Ref<IO>& writeIO, AsyncComplete complete){
@@ -92,20 +105,24 @@ void ASync::asyncWriteFile(ASyncHandle handle, char *buffer, unsigned int size,
 	ao->size = size;
 	ao->callback = complete;
 	ao->userData = NULL;
+	//ao->ref = this;
 
 	/*  Reset status counter.   */
 	ao->status.nbytes = 0;
 	ao->status.offset = 0;
 
-	schTaskPackage readTask;
+	AsyncTask readTask;
 	readTask.callback = async_write;
-	readTask.size = handle;
-	readTask.begin = this;
-	readTask.puser = ao;
-
-	error = schSubmitTask(*this->getScheduler(), &readTask, 0);
-	if (error != SCH_OK)
-		throw RuntimeException(fvformatf("failed %s", schErrorMsg(9)));
+	readTask.userData = ao;
+	//	schTaskPackage readTask;
+	//	readTask.callback = async_write;
+	//	readTask.size = handle;
+	//	readTask.begin = this;
+	//	readTask.puser = ao;
+	this->scheduler->AddTask(&readTask);
+	//error = schSubmitTask(*this->getScheduler(), &readTask, 0);
+//	if (error != SCH_OK)
+//		throw RuntimeException(fvformatf("failed %s", schErrorMsg(9)));
 }
 
 void ASync::asyncWriteFile(ASyncHandle handle, Ref<IO>& io, AsyncComplete complete){
@@ -120,8 +137,9 @@ const ASync::IOStatus& ASync::getIOStatus(ASyncHandle handle) const {
 	return this->getObject(handle)->status;
 }
 
-RefPtr<schTaskSch> ASync::getScheduler(void) const {
-	return this->sch;
+Ref<IScheduler> ASync::getScheduler(void) const
+{
+	return this->scheduler;
 }
 
 void ASync::asyncWait(fragview::ASyncHandle handle) {
@@ -156,20 +174,25 @@ void ASync::asyncClose(ASyncHandle handle) {
 	this->asyncs.erase(this->asyncs.find(handle));
 }
 
-int ASync::async_open(schTaskPackage *package) {
+int ASync::async_open(Task *task)
+{
 
-	const char *path = (const char *) package->begin;
-	ASync *async = (ASync *) package->puser;
-	IFileSystem *fileSystem;
+	//ASyncHandle handle = (ASyncHandle)task->userData;
+	AsyncObject *ao = (AsyncObject *)task->userData;
 
-	Ref<IO> refIO = Ref<IO>(fileSystem->openFile(path, IO::READ));
+	//const char *path = (const char *)ao->begin;
+	//ASync *async = (ASync *) package->puser;
+	//IFileSystem *fileSystem;
+
+	//Ref<IO> refIO = Ref<IO>(fileSystem->openFile(path, IO::READ));
 
 	/*  Create the task in succession.  */
 	return 0;
 }
 
-int ASync::async_read(schTaskPackage *package) {
-	AsyncObject *ao = (AsyncObject *) package->puser;
+int ASync::async_read(Task *task)
+{
+	AsyncObject *ao = (AsyncObject *)task->userData;
 	const size_t block_size = 512;
 
 	Ref<IO> &io = ao->ref;
@@ -189,8 +212,9 @@ int ASync::async_read(schTaskPackage *package) {
 	return nread;
 }
 
-int ASync::async_read_io(schTaskPackage *package) {
-	AsyncObject *ao = (AsyncObject *) package->puser;
+int ASync::async_read_io(Task *task)
+{
+	AsyncObject *ao = (AsyncObject *)task->userData;
 	const size_t block_size = 512;
 	//TODO update for the IO based..
 	Ref<IO> &io = ao->ref;
@@ -210,8 +234,9 @@ int ASync::async_read_io(schTaskPackage *package) {
 	return nread;
 }
 
-int ASync::async_write(schTaskPackage *package) {
-	AsyncObject *ao = (AsyncObject *) package->puser;
+int ASync::async_write(Task *task)
+{
+	AsyncObject *ao = (AsyncObject *)task->userData;
 	const size_t block_size = 512;
 
 	Ref<IO> &io = ao->ref;
@@ -231,11 +256,10 @@ int ASync::async_write(schTaskPackage *package) {
 	return nwritten;
 }
 
-
-int ASync::async_write_io(schTaskPackage *package) {
+int ASync::async_write_io(Task *task)
+{
 	return 0;
 }
-
 
 ASync::AsyncObject *ASync::getObject(ASyncHandle handle) {
 
@@ -257,34 +281,30 @@ ASync::AsyncObject *ASync::createObject(ASyncHandle handle) {
 	return &this->asyncs[handle];
 }
 
-ASync::ASync(RefPtr<schTaskSch> refPtr) {
-	this->sch = refPtr;
-	this->uidGenerator = UIDGenerator();
-	/*  Take out the 0 UID that is invalid for the async handle
-	 * for allowing checking if it is a valid handle.*/
-	this->uidGenerator.getNextLUID();
-}
-
-void ASync::setScheduleReference(RefPtr<schTaskSch> sch) {
-	this->sch = sch;
+void ASync::setScheduleReference(Ref<IScheduler> &sch)
+{
+	this->scheduler = sch;
 }
 
 ASync::~ASync(void) {
 	this->getScheduler();
 }
 
-ASync::ASync(void) {
+ASync::ASync(void){
+	this->scheduler = NULL;
 	//this->sch = NULL;
 }
 
 ASync::ASync(Ref<IScheduler> &scheduler){
 	this->scheduler = scheduler;
+	this->uidGenerator = UIDGenerator();
+	/*  Take out the 0 UID that is invalid for the async handle
+	 * for allowing checking if it is a valid handle.*/
+	this->uidGenerator.getNextLUID();
 }
 
-ASync::ASync(const ASync &other) {
-	this->sch = other.sch;
+ASync::ASync(const ASync &other)
+{
+	this->scheduler = other.scheduler;
 	this->uidGenerator = other.uidGenerator;
 }
-
-
-

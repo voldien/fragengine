@@ -36,6 +36,9 @@
 #include"Core/Log.h"
 #include"Core/Library.h"
 /*  */
+#include"Core/TaskScheduler/IScheduler.h"
+#include "Core/TaskScheduler/TaskScheduler.h"
+/*  */
 #include"Core/IO/NetSocket.h"
 /*  */
 #include"Renderer/RendererFactory.h"

@@ -1,5 +1,5 @@
-#ifndef FRAGVIEW_FILEACCESS_H_
-#define FRAGVIEW_FILEACCESS_H_ 1
+#ifndef _FRAGVIEW_FILEACCESS_H_
+#define _FRAGVIEW_FILEACCESS_H_ 1
 #include"../SmartReference.h"
 
 namespace fragview {

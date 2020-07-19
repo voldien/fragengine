@@ -36,7 +36,6 @@ namespace fragview {
 	class FVDECLSPEC ASync : public SmartReference {
 	public:
 		ASync(void);
-		ASync(RefPtr<schTaskSch> refPtr);
 		ASync(Ref<IScheduler> &scheduler);
 		~ASync(void);
 
@@ -64,20 +63,20 @@ namespace fragview {
 		virtual const IOStatus& getIOStatus(ASyncHandle handle) const;
 
 		/*  */
-		virtual RefPtr<schTaskSch> getScheduler(void) const;
+		virtual Ref<IScheduler> getScheduler(void) const;
+
 	private:
 		/*  Static callback functions.  */
-		static int async_open(schTaskPackage* package);
-		static int async_read(schTaskPackage* package);
-		static int async_read_io(schTaskPackage* package);
-		static int async_write(schTaskPackage* package);
-		static int async_write_io(schTaskPackage* package);
+		static int async_open(Task* task);
+		static int async_read(Task *task);
+		static int async_read_io(Task *task);
+		static int async_write(Task *task);
+		static int async_write_io(Task *task);
 
 	protected:  /*  */
 
 		ASync(const ASync& other);
-		virtual void setScheduleReference(RefPtr<schTaskSch> sch);
-
+		virtual void setScheduleReference(Ref<IScheduler>& sch);
 
 		typedef struct async_object {
 			schSemaphore* semaphore;    /*  */
@@ -88,6 +87,7 @@ namespace fragview {
 			unsigned int size;          /*  */
 			IOStatus status;            /*  */
 			void *userData;             /*  */
+			void *priv;				/*	*/
 		} AsyncObject;
 
 		AsyncObject* getObject(ASyncHandle handle);
@@ -97,7 +97,6 @@ namespace fragview {
 		/*  */
 		std::map<ASyncHandle, AsyncObject> asyncs;
 		UIDGenerator uidGenerator;
-		RefPtr<schTaskSch> sch;
 		Ref<IScheduler> scheduler;
 	};
 }

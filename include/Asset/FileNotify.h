@@ -18,21 +18,20 @@
 */
 #ifndef _FILE_NOTIFY_H_
 #define _FILE_NOTIFY_H_ 1
-#include"Prerequisites.h"
+#include"../Prerequisites.h"
 #include"FileChangeEvent.h"
-#include"Core/Object.h"
-#include"Core/dataStructure/PoolAllocator.h"
-#include<taskSch.h>
+#include"../Core/Object.h"
+#include"../Core/TaskScheduler/TaskScheduler.h"
+#include"../Core/dataStructure/PoolAllocator.h"
 #include<libfswatch/c/libfswatch_types.h>
 #include<libfswatch/c/cevent.h>
 #include<map>
-#include <Core/RefPtr.h>
 
 namespace fragview {
 	/**
 	 *
 	 */
-	class FVDECLSPEC FileNotify : public SmartReference {
+	class FVDECLSPEC FileNotify : public SmartReference {	//TOOD determine if shall be change to interface based.
 	public:
 
 		/**
@@ -107,7 +106,7 @@ namespace fragview {
 		 * @param package
 		 * @return
 		 */
-		static int fileFetchTask(schTaskPackage *package);
+		static int fileFetchTask(Task *package);
 
 		/**
 		 * Start fswatch internal process.
@@ -121,13 +120,12 @@ namespace fragview {
 		FSW_HANDLE session;                         /*  */
 
 		void *pthread;      /*  Thread for async operations. */
-		schTaskSch *sch;    /*  */
-		RefPtr<schTaskSch> *refSch;
+		Ref<IScheduler> scheduler;
 		PoolAllocator<FileNotificationEvent> fileChangeEvents;
 
 	public: /*  */
 
-		FileNotify(schTaskSch *sch);
+		FileNotify(Ref<IScheduler>& sch);
 
 		~FileNotify(void);
 	};

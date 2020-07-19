@@ -181,7 +181,8 @@ bool ZipFile::exists(const char *path) const {
 	return true;
 }
 
-ZipFile *ZipFile::createZipFileObject(const char *cfilename, RefPtr<schTaskSch> ref) {
+ZipFile *ZipFile::createZipFileObject(const char *cfilename, Ref<IScheduler> ref)
+{
 
 	int err;
 	struct zip *zip;
@@ -265,7 +266,8 @@ static zip_int64_t io_callback(void *userdata, void *data, zip_uint64_t len, zip
 	}
 }
 
-ZipFile *ZipFile::createZipFileObject(Ref<IO> &ioRef, RefPtr<schTaskSch> ref) {
+ZipFile *ZipFile::createZipFileObject(Ref<IO> &ioRef, Ref<IScheduler> ref)
+{
 	ZipFile *zipfile;
 	struct zip *zip;
 	zip_error_t error;
@@ -305,7 +307,8 @@ ZipFile *ZipFile::createZipFileObject(Ref<IO> &ioRef, RefPtr<schTaskSch> ref) {
 	return zipfile;
 }
 
-ZipFile *ZipFile::createZipFileObject(void *source, int size, RefPtr<schTaskSch> ref) {
+ZipFile *ZipFile::createZipFileObject(void *source, int size, Ref<IScheduler> ref)
+{
 	ZipFile *zipfile;
 	struct zip *zip;
 	zip_error_t error;
@@ -317,12 +320,12 @@ ZipFile *ZipFile::createZipFileObject(void *source, int size, RefPtr<schTaskSch>
 	return nullptr;
 }
 
-
 void *ZipFile::getZipObject(void) const {
 	return this->pzip;
 }
 
-ZipFile::ZipFile(RefPtr<schTaskSch> ref) {
+ZipFile::ZipFile(Ref<IScheduler> ref)
+{
 	this->setScheduleReference(ref);
 }
 

@@ -61,6 +61,8 @@ IF(BUILD_WITH_QT)
 		${CMAKE_CURRENT_SOURCE_DIR}/include/ ${Qt5Widgets_INCLUDE_DIRS})
 
 		ADD_DEPENDENCIES(fragview-editor-qt fragview-core)
+		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview-editor-qt DESTINATION bin)
+
 	ELSE()
 		MESSAGE(FATAL_ERROR "Could not locate QT5 Version")
 	ENDIF()
@@ -68,7 +70,6 @@ ENDIF()
 
 
 #
-INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview-editor DESTINATION bin)
 
 IF(UNIX)
 

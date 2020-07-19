@@ -71,10 +71,10 @@ namespace fragview {
 		static const char *getFileExtension(const char *path);
 	public:
 		static FileSystem *getFileSystem(void);
-		static FileSystem* createFileSystem(RefPtr<schTaskSch> sch);
+		static FileSystem *createFileSystem(Ref<IScheduler> &sch);
 		//TODO add remove function.
 	protected:
-		FileSystem(RefPtr<schTaskSch> sch);
+		FileSystem(Ref<IScheduler>& sch);
 		~FileSystem(void);
 	};
 }
