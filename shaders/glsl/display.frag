@@ -18,26 +18,18 @@
 #extension GL_ARB_separate_shader_objects : enable
 #extension GL_ARB_explicit_attrib_location : enable
 
-#if defined(GL_ARB_explicit_attrib_location)
-layout(location = 0) out vec4 fragColor;
-#elif __VERSION__ == 130
-out vec4 fragColor;
-#endif
+FRAGLOCATION(0, vec4, fragcolor);
+
 //layout(binding = 1)
 layout(location = 1) in vec2 uv;
 uniform sampler2D tex0;
 
-//#if __VERSION__ > 120
-//layout(location = 1) in vec2 uv;
-//#else
-//varying vec2 uv;
-//#endif
-
-/*  TODO add extension for checking.    */
 void main(void){
+
+    vec4 color = texture(tex0, uv); 
 	#if defined(GL_ARB_explicit_attrib_location)
-	fragColor = texture(tex0, uv);
+	fragColor = color;
 	#else
-	gl_FragColor = texture2D(tex0, uv);
+	gl_FragColor = color;
 	#endif
 }

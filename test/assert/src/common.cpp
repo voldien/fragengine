@@ -9,7 +9,8 @@ using namespace fragview;
 
 void CommonBaseTest::SetUp() {
 	Test::SetUp();
-	EXPECT_NO_THROW(FileSystem::createFileSystem(NULL));
+	Ref<IScheduler> ref;
+	EXPECT_NO_THROW(FileSystem::createFileSystem(ref));
 }
 
 void CommonBaseTest::TearDown() {

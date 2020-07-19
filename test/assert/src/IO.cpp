@@ -51,17 +51,17 @@ protected:
 
 TEST_F(IOTest, Async) {
 	ASyncHandle handle;
-	schTaskSch sch;
+	IScheduler* sch;
 
 	/*  Create scheduler.   */
-	ASSERT_EQ(schCreateTaskPool(&sch, 2, SCH_FLAG_NO_AFM, 32), SCH_OK);
-	ASSERT_EQ(schRunTaskSch(&sch), SCH_OK);
+	//ASSERT_EQ(schCreateTaskPool(&sch, 2, SCH_FLAG_NO_AFM, 32), SCH_OK);
+	//ASSERT_EQ(schRunTaskSch(&sch), SCH_OK);
 
 	/*  */
 	size_t bufSize = 512;
 	char *buf = (char *) malloc(bufSize);
 
-	RefPtr<schTaskSch> refPtr = RefPtr<schTaskSch>(&sch);
+	Ref<IScheduler> refPtr = Ref<IScheduler>(sch);
 
 	// BufferIO
 	ASync async(refPtr);
@@ -103,7 +103,7 @@ TEST_F(IOTest, Async) {
 	zipFileSystem->asyncClose(handle);
 
 	free(buf);
-	EXPECT_EQ(schReleaseTaskSch(&sch), SCH_OK);
+	//EXPECT_EQ(schReleaseTaskSch(&sch), SCH_OK);
 }
 
 TEST_F(IOTest, Std) {
