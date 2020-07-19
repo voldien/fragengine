@@ -29,6 +29,7 @@
 
 #extension GL_ARB_shading_language_420pack : enable
 
+/*	*/
 #extension GL_ARB_draw_instanced : enable
 #extension GL_ARB_separate_shader_objects : enable
 #extension GL_ARB_shader_texture_lod : enable
@@ -106,13 +107,14 @@ precision mediump int;
 	#define ATTRIBUTE_OUT(x) attribute
 #endif
 
-#if __VERSION__ >= 450 || defined(GL_ARB_enhanced_layouts)
-    #define UNIFORMBUFFER(x) layout(std140, binding = x, shared)
-#elif __VERSION__ > 130 || defined(GL_ARB_uniform_buffer_object)
-    #define UNIFORMBUFFER(x) layout(std140, shared)
+#if defined(GL_ARB_explicit_uniform_location)
+	//layout(location = 1) in vec2 uv;
+	#define IN_EXPL(x) layout(location = x) in 
+	#define OUT_EXPL(x) layout(location = x) out
 #else
-    #define UNIFORMBUFFER(x)
+
 #endif
+
 
 
 /*  Storage buffer. */
@@ -124,6 +126,31 @@ precision mediump int;
     #define STORAGEBUFFER(x)
 #endif
 
+
+/*	Translate based on glsl version.	*/
+#if __VERSION__ > 120
+	#define OUT out
+	#define SMOOTH_OUT smooth out
+	#define FLAT_OUT flat out
+	#define IN in
+	#define SMOOTH_IN smooth in
+	#define FLAT_IN flat in
+#else
+	#define OUT varying
+	#define SMOOTH_OUT smooth varying
+	#define FLAT_IN flat varying
+	#define IN varying
+	#define SMOOTH_IN smooth varying
+	#define FLAT_IN flat varying
+#endif
+
+#if __VERSION__ >= 450 || defined(GL_ARB_enhanced_layouts)
+    #define UNIFORMBUFFER(x) layout(std140, binding = x, shared)
+#elif __VERSION__ > 130 || defined(GL_ARB_uniform_buffer_object)
+    #define UNIFORMBUFFER(x) layout(std140, shared)
+#else
+    #define UNIFORMBUFFER(x)
+#endif
 
 //in
 //in
@@ -345,25 +372,6 @@ precision mediump int;
 //const int gl_MaxTransformFeedbackInterleavedComponents = 64;
 
 
-
-
-/*	Translate based on glsl version.	*/
-#if __VERSION__ > 120
-	#define OUT out
-	#define SMOOTH_OUT smooth out
-	#define FLAT_OUT flat out
-	#define IN in
-	#define SMOOTH_IN smooth in
-	#define FLAT_IN flat in
-#else
-	#define OUT varying
-	#define SMOOTH_OUT smooth varying
-	#define FLAT_IN flat varying
-	#define IN varying
-	#define SMOOTH_IN smooth varying
-	#define FLAT_IN flat varying
-#endif
-
 /**
  *	Responsible for common 
  *	global variable shared across
@@ -371,6 +379,7 @@ precision mediump int;
  */
 struct global_uniform {
 
+	/*	*/
 	mat4 projection;
 	mat4 viewMatrix;
 	mat4 viewProjection;
@@ -417,6 +426,8 @@ UNIFORMBUFFER(0) uniform globaluniform {
 
 #define eAmbientConstant    0x1     /**/
 #define eAmbientImageBased  0x2     /**/
+#ifdef FRAG_REFLECTION
+#endif
 uniform samplerCube ambientCube;    /*	Image based ambient lightning*/
 
 /**
@@ -559,6 +570,9 @@ mat4 getViewRotationMatrix(void){
  */
 vec2 getFogFactor(const vec3 viewVertex) {
 
+	#ifdef FRAG_FOG
+	#endif
+
     int fogtype = global.fogType;
     int fogDepthType = global.fogDepthType;
     float ext = 1.0;
@@ -626,15 +640,7 @@ vec4 internalFog(const in vec3 viewVertex, const in vec4 initColor){
         return mix(fogColor, initColor, factor.x);
 }
 
-/**
- * Default texture position.
- */
-#define TEXTURE_DIFFUSE 0
-#define TEXTURE_SPECULAR  1
-#define TEXTURE_AMBIENT  2
-#define TEXTURE_EMISSIVE  3
-#define TEXTURE_HEIGHT  4
-#define TEXTURE_NORMAL  5
+
 
 
 //

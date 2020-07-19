@@ -2,6 +2,8 @@
 FRAGLOCATION(0, vec4, fragColor);
 IN vec2 UV;
 
+
+
 // 
 uniform sampler2D DiffuseTexture;
 uniform sampler2D DepthTexture;
@@ -17,8 +19,8 @@ uniform vec2 Camera;
 void main (void){
 	//float f = Camera.x;
 	//float n = Camera.y;
-	getCameraNear();
-	getCameraFar();
+	float near = getCameraNear();
+	float far = getCameraFar();
 
 	float z = ((2.0 * Camera.y) / (Camera.x + Camera.y - texture2D(DepthTexture,UV).x * (Camera.x - Camera.y)));
 	vec3 ColorFog = vec3(1,1,1);

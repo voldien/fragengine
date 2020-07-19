@@ -1,8 +1,8 @@
+FRAGLOCATION(0, vec4, fragColor);
 
-layout(location = 0) out vec4 fragColor;
 uniform sampler2D DiffuseTexture;
 
-vec3 grayColor(void){
+vec3 grayColor(void) {
 	float color = dot(texture2D(DiffuseTexture, getScreenUV() ).xyz, vec3(0.29f, 0.59f, 0.12f));
 	return vec3(color);
 }

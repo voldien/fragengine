@@ -17,9 +17,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+/**
+ * Default texture position.
+ */
 #define TEXTURE_DIFFUSE 0
-#define TEXTURE_NORMAL  1
+#define TEXTURE_SPECULAR  1
+#define TEXTURE_AMBIENT  2
+#define TEXTURE_EMISSIVE  3
+#define TEXTURE_HEIGHT  4
+#define TEXTURE_NORMAL  5
+
 
 struct Texture2D {
 	sampler2D tex;  /*  Texture ID. */
@@ -27,9 +34,6 @@ struct Texture2D {
 	vec2 offset;    /*  Texture Offset. */
 };
 
-/*
- *	
- */
 struct Texture3D {
 	sampler3D tex;
 	vec3 scale;

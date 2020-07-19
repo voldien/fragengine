@@ -1,6 +1,20 @@
+/**
+    VDEngine common built-in shader functions.
+    Copyright (C) 2015  Valdemar Lindberg
 
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 /**
  *
@@ -91,8 +105,9 @@ int hash(in int seed){
 	return seed;
 }
 
-
-
+/**
+ *
+ */
 mat3 rotateAroundDir(const in vec3 dir, const in float angle){
 	/*	https://www.opengl.org/discussion_boards/showthread.php/159578-Rotate-a-vector-about-a-vector	*/
 	float c = cos(angle);
@@ -107,7 +122,6 @@ mat3 rotateAroundDir(const in vec3 dir, const in float angle){
 }
 
 
-
 /**
  *
  */
@@ -120,8 +134,6 @@ vec3 getTangentNormal(const in vec3 normalIn, const in vec3 tangent, const in sa
 	NormalMapBump = (2.0 * NormalMapBump) - 1.0f;
 	return (mat3(Ttangent,bittagnet, normalIn) * NormalMapBump).xyz;
 }
-
-
 
 /**
  *
@@ -157,12 +169,17 @@ mat3 rotateAroundDirection(const in vec3 dir, const in float angle){
 }
 
 
-
+/**
+ *
+ */
 vec2 getParallax(const in sampler2D heightMap, const in vec2 uv, const in vec3 cameraDir, const in vec2 biasScale){
 	float v = texture2D(heightMap, uv).r * biasScale.x - biasScale.y;
 	return (uv + (cameraDir.xy * v)).xy;
 }
 
+/**
+ *
+ */
 vec2 getParallaxeOcclusion(const in sampler2D heightMap){
 	return vec2(0.0);
 }
