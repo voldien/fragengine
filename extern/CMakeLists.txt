@@ -6,6 +6,8 @@ OPTION(BUILTIN_XATLAS "" ON)
 OPTION(BUILTIN_PCG_C_BASIC "" ON)
 OPTION(BUILTIN_RECASTNAVIGATION "" ON)
 OPTION(BUILTIN_POLYPARITION "" ON)
+OPTION(BUILTIN_KISS_FFT "" ON)
+OPTION(BUILTIN_MISC "" ON)
 
 SET(THIRDPARTY_INCLUDE_DIR "")
 SET(THIRDPARTY_SOURCE "")
@@ -72,17 +74,39 @@ IF(BUILTIN_POLYPARITION)
 	FILE(GLOB POLYPARITION_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/polypartition/*.h
 										${CMAKE_CURRENT_SOURCE_DIR}/extern/polypartition/*.cpp)
 
-	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${RECASTNAVIGATION_SOURCE}")
+	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${POLYPARITION_SOURCE}")
 ENDIF()
+
+
+IF(BUILTIN_KISS_FFT)
+	#https://github.com/mborgerding/kissfft.git
+	SET(KISS_FFT_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/kissfft)
+
+
+	SET(THIRDPARTY_INCLUDE_DIR  "${THIRDPARTY_INCLUDE_DIR}  ${KISS_FFT_INCLUDE_DIRS}")
+	FILE(GLOB KISS_FFT_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/kissfft/*.h
+										${CMAKE_CURRENT_SOURCE_DIR}/extern/kissfft/*.c)
+
+	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${KISS_FFT_SOURCE}")
+ENDIF()
+
+IF(BUILTIN_MISC)
+	SET(MISC_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/misc)
+
+
+	SET(THIRDPARTY_INCLUDE_DIR  "${THIRDPARTY_INCLUDE_DIR}  ${MISC_INCLUDE_DIRS}")
+	FILE(GLOB MISC_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/extern/misc/*.h
+										${CMAKE_CURRENT_SOURCE_DIR}/extern/misc/*.c
+										${CMAKE_CURRENT_SOURCE_DIR}/extern/misc/*.cpp)
+
+
+	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${MISC_SOURCE}")
+ENDIF()
+
 
 IF(BUILTIN_JEMALLOC)
 	#https://github.com/jemalloc/jemalloc.git
 ENDIF()
-
-IF(BUILTIN_KISS_FFT)
-	#https://github.com/mborgerding/kissfft.git
-ENDIF()
-
 
 MESSAGE(STATUS "Third Party: ${THIRDPARTY_INCLUDE_DIR}")
 MESSAGE(STATUS "Third Source: ${THIRDPARTY_SOURCE}")
@@ -93,7 +117,7 @@ MESSAGE(STATUS "Temp: ${OPEN_SIMPLEX_NOISE_SOURCE}")
 # 	# https://github.com/google/etc2comp
 
 # 	#https://gitlab.com/libeigen/eigen
-# 	# https://github.com/baldurk/renderdoc.git
+# 	# https://github.com/baldurk/renderdoc.git 
 # 	# https://github.com/ispc/ispc.git
 # 	# https://github.com/mborgerding/kissfft.git
 # 	# https://github.com/NVIDIAGameWorks/PhysX.git
