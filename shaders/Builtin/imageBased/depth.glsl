@@ -1,5 +1,4 @@
-#version 410
-layout(location = 0) out vec4 fragColor;
+FRAGLOCATION(0, vec4, fragColor);
 smooth in vec2 UV;
 uniform sampler2D DepthTexture;
 uniform vec2 Screen;

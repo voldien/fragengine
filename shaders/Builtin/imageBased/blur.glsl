@@ -1,5 +1,4 @@
-
-layout(location = 0) out vec4 fragColor;
+FRAGLOCATION(0, vec4, fragColor);
 uniform sampler2D DiffuseTexture;
 uniform int BlurAmount;
 uniform float BlurScale;

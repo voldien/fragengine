@@ -1,8 +1,5 @@
-
 FRAGLOCATION(0, vec4, fragColor);
 IN vec2 UV;
-
-
 
 // 
 uniform sampler2D DiffuseTexture;

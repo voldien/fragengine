@@ -1,5 +1,4 @@
-
-layout(location = 0) out vec3 fragColor;
+FRAGLOCATION(0, vec4, fragColor);
 in vec3 VertexData;
 in vec2 UV;
 in vec3 normal;
