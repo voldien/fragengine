@@ -4,6 +4,8 @@
 
 SplashWindow::SplashWindow(const char *imagePath) {
 
+	this->setBordered(false);
+	this->setSize(1280, 720);
 }
 
 SplashWindow::~SplashWindow(void) {

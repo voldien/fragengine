@@ -3,7 +3,10 @@
 #include <Core/SmartReference.h>
 #include <Core/Window.h>
 #if defined(FRAG_GTK_WINDOW_MANAGER)
-//#include"Core/gtkconfig.h"
+#include"Core/gtkconfig.h"
+#elif defined(FRAG_QT_WINDOW_MANAGER)
+//#include <QWindow>
+#else
 #endif
 
 //TODO add namespace for the editor.
@@ -15,7 +18,10 @@ namespace fragview_editor{
  */
 class FVDECLSPEC EditorWindow : public fragview::Window {
 public:
-	void showWindow(void) override;
+	EditorWindow();
+
+	void
+	showWindow(void) override;
 
 	void hideWindow(void) override;
 
@@ -28,6 +34,7 @@ public:
 	void maximize(void) override;
 
 	void minimize(void) override;
+	void setParent(void);
 
 	void setTitle(const char *title) override;
 
@@ -49,6 +56,8 @@ public:
 
 	fragview::Display* getCurrentDisplay(void) const override;
 
+	void AddWidget(Widget *widget);
+
 	void setFullScreen(bool fullscreen) override;
 
 	void setBordered(bool borded) override;
@@ -64,9 +73,12 @@ public:
 	intptr_t getNativePtr(void) const override;
 
 private:
- #if defined(FRAG_GTK_WINDOW_MANAGER)
- 	FragViewEditorAppWindow* window;
- #endif
+#if defined(FRAG_GTK_WINDOW_MANAGER)
+	FragViewEditorAppWindow* window;
+#elif defined(FRAG_QT_WINDOW_MANAGER)
+	void *window;
+	#else
+#endif
 };
 
 #endif

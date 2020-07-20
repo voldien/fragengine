@@ -1,4 +1,5 @@
-#include <Windows/SplashWindow.h>
+#include "Windows/SplashWindow.h"
+#include"Windows/Label.h"
 #include <Core/Log.h>
 #include <Core/SystemInfo.h>
 #include"FragViewEditor.h"
@@ -6,12 +7,21 @@
 using namespace fragview;
 
 FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char **argv) {
+	splashWindow->showWindow();
+
+
 	this->root = new EditorWindow();
 
+	// QPixmap pixmap(":/splash.png");
+	// QSplashScreen splash(pixmap);
 	this->root->showWindow();
 	this->root->focus();
 	this->root->setTitle("FragEditor");
+
+	Label();
 	//FragViewEditorApp *app;
+
+	//renderWindow = Ref<EditorRendererWindow>(new EditorRendererWindow());
 
 	//	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
 
@@ -21,10 +31,15 @@ FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char 
 	//	Log::log(Log::eVerbose, "HPM SIMD using: %s\n", hpm_get_simd_symbol(hpm_get_simd()));
 
 	//gtk_major_version()
-//	/*  Verbose information.    */
+	//	/*  Verbose information.    */
 	Log::log(Log::eVerbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
 	Log::log(Log::eVerbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
 	Log::log(Log::eVerbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
+
+
+	/*	Close and destroy splash window on finished.*/
+	splashWindow->closeWindow();
+	//delete splashWindow;
 }
 
 void FragViewEditor::run(void) {

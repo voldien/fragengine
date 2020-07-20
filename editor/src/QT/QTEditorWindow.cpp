@@ -1,24 +1,40 @@
 #include"Windows/EditorWindow.h"
 #include <QDialog>
 #include<qt5/QtWidgets/QtWidgets>
+#include <QWindow>
+#include<QDialog>
+#include <QMainWindow>
+
+EditorWindow::EditorWindow(){
+	this->window = new QMainWindow();
+
+	QToolBar *myToolBar = new QToolBar();
+
+	((QMainWindow *)this->window)->addToolBar(myToolBar);
+	//QDialog
+}
 
 void EditorWindow::showWindow(void) {
-	//gtk_window_show(this->window);
+
+	((QMainWindow *)this->window)->show();
 }
 
 void EditorWindow::hideWindow(void) {
-
+	((QMainWindow *)this->window)->hide();
 }
 
 void EditorWindow::closeWindow(void) {
-
+	((QMainWindow *)this->window)->close();
 }
 
-void EditorWindow::setTitle(const char *title) {
-	
+void EditorWindow::setTitle(const char *title){
+	((QMainWindow *)this->window)->setWindowTitle(QString(title));
 }
 
-const char *EditorWindow::getTitle(void) const {
+// ((QWindow *)this->window)
+// 	->setParent
+const char *EditorWindow::getTitle(void) const
+{
 	return nullptr;
 }
 
@@ -27,11 +43,11 @@ void EditorWindow::getPosition(int *x, int *y) const {
 }
 
 void EditorWindow::setPosition(int x, int y) {
-
+	//((QMainWindow *)this->window)->setPosition(x, y);
 }
 
 void EditorWindow::setSize(int width, int height) {
-
+	//((QMainWindow *)this->window)->resize(width, height);
 }
 
 void EditorWindow::getSize(int *width, int *height) const {
@@ -44,9 +60,8 @@ void EditorWindow::setIcon(void *pVoid) {
 }
 
 void *EditorWindow::getIcon(void) const {
-	return nullptr;
+	return NULL;
 }
-
 
 fragview::Display* EditorWindow::getCurrentDisplay(void) const {
 	return NULL;
@@ -69,7 +84,7 @@ void EditorWindow::setFullScreen(bool fullscreen) {
 }
 
 void EditorWindow::setBordered(bool borded) {
-
+	//((QWindow *)this->window)
 }
 
 void EditorWindow::setMinimumSize(int width, int height) {

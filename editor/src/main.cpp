@@ -71,6 +71,18 @@ void handler(int sig) {
 	}
 }
 
+#if defined(FRAG_QT_WINDOW_MANAGER)
+QCoreApplication *createApplication(int &argc, char *argv[])
+{
+	for (int i = 1; i < argc; ++i)
+	{
+		if (!qstrcmp(argv[i], "-no-gui"))
+			return new QCoreApplication(argc, argv);
+	}
+	return new QApplication(argc, argv);
+}
+#endif
+
 int main(int argc, char **argv) {
 
 	/*  Add debug functionality for signal associated with error.    */
@@ -85,14 +97,23 @@ int main(int argc, char **argv) {
 		#ifdef FRAG_GTK_WINDOW_MANAGER
 		//gtk_init(&argc, &argv);
 		#elif defined(FRAG_QT_WINDOW_MANAGER)
-		QApplication a(argc, argv);
-		#endif
+		QScopedPointer<QCoreApplication> app(createApplication(argc, argv));
+
+		if (qobject_cast<QApplication *>(app.data()))
+		{
+			// start GUI version...
+		}
+		else
+		{
+			// start non-GUI version...
+		}
+#endif
 		SplashWindow splashWindow("/home/voldie/Pictures/neko.jpg");
 		FragViewEditor fragViewEditor(&splashWindow, argc, (const char **) argv);
 		fragViewEditor.run();
 		#if defined(FRAG_QT_WINDOW_MANAGER)
-		a.exec();
-		#endif
+		app->exec();
+#endif
 		return EXIT_SUCCESS;
 	} catch (fragview::IException &ex) {
 		std::cerr << "Internal exception: " << ex.getName() << std::endl;

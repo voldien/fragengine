@@ -1,12 +1,12 @@
 
 #ifndef FRAGVIEW_STATUSBAR_H_
 #define FRAGVIEW_STATUSBAR_H_ 1
-#include <Core/Object.h>
+#include"Widget.h"
 
 /**
  *
  */
-class StatusBar : Object{
+class StatusBar : public Widget{
 public:
 
 private:

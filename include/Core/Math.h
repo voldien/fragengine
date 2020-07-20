@@ -117,7 +117,8 @@ namespace fragview {
 		static bool IsPowerOfTwo(T v){
 			return false;
 		}
-		static int CorrelatedColorTemperatureToRGB(float kelvin);
+
+		static PVColor CorrelatedColorTemperatureToRGB(float kelvin);
 
 		/**
 		 *	Generate 1D guassian.

@@ -13,6 +13,7 @@ const float Math::Rad2Deg = 180 / Math::PI;
 const float Math::NegativeInfinity = 0;
 static struct osn_context *ctx = NULL;
 
+
 static void
 guassian1Df(float *guassian, int width, double theta)
 {
@@ -34,6 +35,49 @@ float Math::linearToGammaSpace(float linear)
 float Math::GameSpaceToLinear(float gamma, float exp)
 {
 	return 0;
+}
+
+PVColor Math::CorrelatedColorTemperatureToRGB(float kelvin)
+{
+	float temp = kelvin / 100;
+
+	float red, green, blue;
+
+	if (temp <= 66)
+	{
+
+		red = 255;
+
+		green = temp;
+		green = 99.4708025861 * log(green) - 161.1195681661;
+
+		if (temp <= 19)
+		{
+
+			blue = 0;
+		}
+		else
+		{
+
+			blue = temp - 10;
+			blue = 138.5177312231 * log(blue) - 305.0447927307;
+		}
+	}
+	else
+	{
+
+		red = temp - 60;
+		red = 329.698727446 * pow(red, -0.1332047592);
+
+		green = temp - 60;
+		green = 288.1221695283 * pow(green, -0.0755148492);
+
+		blue = 255;
+	}
+
+	return PVColor(clamp(red, 0, 255) / 255.0f,
+				   clamp(green, 0, 255) / 255.0f,
+				   clamp(blue, 0, 255) / 255.0f, 1);
 }
 
 const int XMAX = 16;

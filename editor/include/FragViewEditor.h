@@ -23,6 +23,7 @@
 #include<Scene/Scene.h>
 #include<FragViewCore.h>
 #include "Windows/EditorWindow.h"
+#include"Windows/EditorRenderWindow.h"
 
 /**
  *
@@ -37,8 +38,9 @@ protected:
 private:
 	EditorWindow* root;
 	//GTKRendererWindow* rendererWindow;  //TODO improve and etc.
-	fragview::IConfig* config;
-	fragview::Ref<fragview::IRenderer> renderer;
+    //fragview::Ref<EditorRendererWindow> renderWindow;
+    fragview::IConfig *config;
+    fragview::Ref<fragview::IRenderer> renderer;
 	fragview::Ref<fragview::Scene> scene;
 };
 

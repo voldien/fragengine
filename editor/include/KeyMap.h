@@ -22,13 +22,17 @@
 #include "CommandKey.h"
 #include "CommandMouse.h"
 
+namespace fragengine_editor{
+	
+}
+
 /**
  *	Responsible for mapping key to
  *	function. Used for enabling remapping of
  *	the key to different function and external
  *	functionality via dynamic library plugin.
  */
-class PVDECLSPEC KeyMap {
+class FVDECLSPEC KeyMap {
 public:
 	~KeyMap(void);
 
