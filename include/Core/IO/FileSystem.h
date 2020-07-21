@@ -53,6 +53,8 @@ namespace fragview {
 
 		virtual bool exists(const char *path) const;
 
+		virtual bool isASyncSupported(void) const;
+
 		//FileAccess getFileAccess(const char *path) override;
 
 		std::vector<std::string> listFiles(const char *directory) const override;

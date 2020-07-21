@@ -31,7 +31,7 @@ namespace fragview {
 		virtual bool isWriteable(const char *path) const = 0;
 		virtual bool exists(const char *path) const = 0;
 
-		//virtual bool isAsyncSupported(void) const = 0;
+		virtual bool isASyncSupported(void) const = 0;
 
 		//virtual FileAccess getFileAccess(const char* path) = 0;
 		//virtual DirectoryAccess getDirectoryAccess(const char* path) = 0;

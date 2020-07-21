@@ -50,7 +50,7 @@ namespace fragview {
 
 		virtual long int write(long int nbytes, const void *pbuffer) = 0;
 
-		//virtual long int format(const char* fvformatf, ...) = 0;
+		//virtual long int format(const char* fvformatf, ...) = 0;	//TODO move to IOUtil
 
 		virtual bool eof(void) const = 0;
 
@@ -73,6 +73,18 @@ namespace fragview {
 //		inline bool get_endian_swap() const { return endian_swap; }
 
 		//virtual IFileSystem* getFileSystem(void);
+		enum IOOperation
+		{
+			OP_ALL,
+			OP_READ,
+			OP_WRITE,
+			OP_EOF,
+			OP_LENGTH,
+			OP_SEEK,
+			OP_GETPOS,
+			OP_FLUSH,
+		};
+		//virtual isOperationSupported(void);
 
 	protected:  /*  Internal methods.   */
 		virtual void open(const char* path, Mode mode) = 0;

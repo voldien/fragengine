@@ -80,6 +80,8 @@ namespace fragview {
 
 		bool exists(const char *path) const override;
 
+		virtual bool isASyncSupported(void) const;
+
 		//FileAccess getFileAccess(const char *path) override;
 
 		/**

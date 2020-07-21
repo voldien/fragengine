@@ -48,20 +48,23 @@ namespace fragview {
 
 		virtual void setMatrix4fv(int location, int n, const float *pvalue);
 
-//	virtual void getAttributeLocatoin(const char* cparamname);
-//	virtual void getFragmentLocation(const char* cparamname);
+		//virtual int getNumberUniform(void);
+		//virtual void getUniform(int location);
 
-//	virtual void setMatrix3f(int location, const float *pvalue);
-//
-//	virtual void setMatrix3fv(int location, int n, const float *pvalue);
+		//	virtual void getAttributeLocatoin(const char* cparamname);
+		//	virtual void getFragmentLocation(const char* cparamname);
 
-//	enum ShaderPrecision{
-//	    eUnknown,
-//	    eLow,
-//	    eMedium,
-//	    eFull,
-//	};
-//	virtual ShaderPrecision getShaderPrecision(void);
+		//	virtual void setMatrix3f(int location, const float *pvalue);
+		//
+		//	virtual void setMatrix3fv(int location, int n, const float *pvalue);
+
+		//	enum ShaderPrecision{
+		//	    eUnknown,
+		//	    eLow,
+		//	    eMedium,
+		//	    eFull,
+		//	};
+		//	virtual ShaderPrecision getShaderPrecision(void);
 
 		//virtual void bindBuffer(const char*  name,
 		//                       Buffer * buffer);

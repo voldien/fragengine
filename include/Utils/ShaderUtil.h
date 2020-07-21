@@ -35,7 +35,6 @@ namespace fragview {
 			const char *texname;    /*  */
 			int loc;                /*  */
 		} DefaultTextureLocation;
-
 		typedef struct shaderObject {
 			const char *buf;
 			unsigned long size;
@@ -73,7 +72,7 @@ namespace fragview {
 		//TODO relocate to be part of the zip!
 		static void loadDisplayShader(IRenderer *renderer, ProgramPipeline **pProgramPipeline);
 
-		//TODo relocate perhaps
+
 		static ShaderDesc::ShaderCodeType getCodeType(
 				const char *filePath);    /*  Determine if shader is binary or source file based on the file basename.    */
 		static ShaderLanguage getFileLanguage(
@@ -84,7 +83,14 @@ namespace fragview {
 		 *
 		 * @param programPipeline
 		 */
+		//TODO relocate to the engine.
 		static void defaultUniformMap(ProgramPipeline *programPipeline);
+
+		static std::vector<DefaultTextureLocation> getShaderUniformAttributes(void);
+
+		//TODO resolve and act as a helper function.
+		static void copyUniform(Ref<Shader> &shader);
+		static void pastUniform(Ref<Shader> &shader);
 	};
 }
 

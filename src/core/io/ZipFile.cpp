@@ -75,6 +75,10 @@ IO *ZipFile::openFile(unsigned int index) {
 	return new ZipFileIO(zfile, index, Ref<ZipFile>(this));
 }
 
+bool ZipFile::isASyncSupported(void) const
+{
+	return *this->getScheduler() != NULL;
+}
 
 std::vector<std::string> ZipFile::listFiles(const char *path) const {
 

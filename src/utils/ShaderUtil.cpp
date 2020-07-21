@@ -445,3 +445,14 @@ ShaderType ShaderUtil::getShaderType(const char* filePath){
 
 	return eFrag;
 }
+
+std::vector<ShaderUtil::DefaultTextureLocation> ShaderUtil::getShaderUniformAttributes(void)
+{
+}
+
+void ShaderUtil::copyUniform(Ref<Shader> &shader){
+	//NNshader->getUniform
+}
+void ShaderUtil::pastUniform(Ref<Shader> &shader){
+	
+}

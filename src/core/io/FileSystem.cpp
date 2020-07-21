@@ -131,6 +131,10 @@ void FileSystem::createDirectory(const char *path) {
 	//mkdir(path);
 }
 
+bool FileSystem::isASyncSupported(void) const{
+	return *this->getScheduler() != NULL;
+}
+
 std::vector<std::string> FileSystem::listFiles(const char *directory) const {
 	return std::vector<std::string>();
 }
