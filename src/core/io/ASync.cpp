@@ -55,6 +55,7 @@ void ASync::asyncReadFile(ASyncHandle handle, char *buffer, unsigned int size,
 	error = schCreateSemaphore((schSemaphore **) &ao->semaphore);
 	if (error != SCH_OK)
 		throw RuntimeException(fvformatf("Failed to create semaphore %s", schErrorMsg(error)));
+		
 	ao->buffer = buffer;
 	ao->size = size;
 	ao->callback = complete;
@@ -67,14 +68,8 @@ void ASync::asyncReadFile(ASyncHandle handle, char *buffer, unsigned int size,
 	AsyncTask readTask;
 	readTask.callback = async_read;
 	readTask.userData = ao;
-	//readTask.size = handle;
-	//readTask.begin = this;
-	//readTask.puser = ao;
 
 	this->scheduler->AddTask(&readTask);
-	// error = schSubmitTask(*this->getScheduler(), &readTask, 0);
-	// if (error != SCH_OK)
-	// 	throw RuntimeException(fvformatf("failed %s", schErrorMsg(error)));
 }
 
 void ASync::asyncReadFile(ASyncHandle handle, Ref<IO>& writeIO, AsyncComplete complete){
@@ -105,7 +100,6 @@ void ASync::asyncWriteFile(ASyncHandle handle, char *buffer, unsigned int size,
 	ao->size = size;
 	ao->callback = complete;
 	ao->userData = NULL;
-	//ao->ref = this;
 
 	/*  Reset status counter.   */
 	ao->status.nbytes = 0;
@@ -114,15 +108,7 @@ void ASync::asyncWriteFile(ASyncHandle handle, char *buffer, unsigned int size,
 	AsyncTask readTask;
 	readTask.callback = async_write;
 	readTask.userData = ao;
-	//	schTaskPackage readTask;
-	//	readTask.callback = async_write;
-	//	readTask.size = handle;
-	//	readTask.begin = this;
-	//	readTask.puser = ao;
 	this->scheduler->AddTask(&readTask);
-	//error = schSubmitTask(*this->getScheduler(), &readTask, 0);
-//	if (error != SCH_OK)
-//		throw RuntimeException(fvformatf("failed %s", schErrorMsg(9)));
 }
 
 void ASync::asyncWriteFile(ASyncHandle handle, Ref<IO>& io, AsyncComplete complete){

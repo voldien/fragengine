@@ -33,6 +33,8 @@
 #include"Core/IO/GZFileIO.h"
 #include"Core/IO/BufferIO.h"
 /*  */
+#include "Core/dataStructure/DoubleBufferedAllocator.h"
+/*  */
 #include"Core/Log.h"
 #include"Core/Library.h"
 /*  */

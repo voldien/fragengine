@@ -16,26 +16,28 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _VD_STACK_ALLACTOR_H_
-#define _VD_STACK_ALLACTOR_H_ 1
-#include"../VDDef.h"
+#ifndef _FV_STACK_ALLACTOR_H_
+#define _FV_STACK_ALLACTOR_H_ 1
+#include "../../Def.h"
+#include "../SmartReference.h"
+
 namespace fragview {
 	/**
 	 *	Single stack buffer.
 	 */
-	class VDStackAllocator{
+	class FVDECLSPEC StackAllocator {
 			public:
 
-			VDStackAllocator(void);
-			VDStackAllocator(const VDStackAllocator& stack);
-			explicit VDStackAllocator(unsigned int stackSizeBytes);
-			~VDStackAllocator(void);
+			StackAllocator(void);
+			StackAllocator(const StackAllocator &stack);
+			explicit StackAllocator(unsigned int stackSizeBytes);
+			~StackAllocator(void);
 
 			/**
 			 *	Allocate n number of bytes.
 			 *	@Return first memory address.
 			 */
-			void* VDAPIENTRY alloc(unsigned int sizeBytes);
+			void* alloc(unsigned int sizeBytes);
 
 			/**
 			 *	Get size of the allocated data block
@@ -47,47 +49,47 @@ namespace fragview {
 			 *	Allocate aligned memory block.
 			 *	@Return first memory address.
 			 */
-			void* VDAPIENTRY allocateAligned(unsigned int sizeBytes, int alignment);
+			void* allocateAligned(unsigned int sizeBytes, int alignment);
 
 			/**
 			 *	Set marker to zero.
 			 */
-			void VDAPIFASTENTRY clear(void);
+			void clear(void);
 
 
 			/**
 			 *	@Return marker offset.
 			 */
-			unsigned int VDAPIENTRY getMarker(void)const;
+			unsigned int getMarker(void)const;
 
 			/**
 			 *	@Return non null pointer if successfully.
 			 */
-			void* VDAPIFASTENTRY fetch(unsigned int sizeBytes);
+			void* fetch(unsigned int sizeBytes);
 
 			/**
 			 *	Release everything to marker.
 			 */
-			void VDAPIFASTENTRY freeToMarker(unsigned int marker);
+			void  freeToMarker(unsigned int marker);
 
 			/**
 			 *	@Return
 			 */
-			VDStackAllocator& operator=(const VDStackAllocator& alloc);
-
-			/**
-			 *
-			 *	@Return
-			 */
-			bool operator==(const VDStackAllocator& alloc);
+			StackAllocator &operator=(const StackAllocator &alloc);
 
 			/**
 			 *
 			 *	@Return
 			 */
-			bool operator!=(const VDStackAllocator& alloc);
+			bool operator==(const StackAllocator &alloc);
 
-			private:    /*	Attributes.	*/
+			/**
+			 *
+			 *	@Return
+			 */
+			bool operator!=(const StackAllocator &alloc);
+
+		private: /*	Attributes.	*/
 
 			void* mData;            /*	*/
 			unsigned int mSize;        /*	*/
