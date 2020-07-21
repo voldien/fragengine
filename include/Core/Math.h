@@ -104,7 +104,9 @@ namespace fragview {
 		/*	*/
 		template <typename T>
 		static T NextPowerOfTwo(T v){
-			return 0;
+			T res = 1;
+			while (res < v)res <<= 1;
+			return res;
 		}
 		template <typename T>
 		static T ClosestPowerOfTwo(T v)

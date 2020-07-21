@@ -19,6 +19,7 @@ void addMarkerLabel(const OpenGLCore *glcore, unsigned int identifier, unsigned 
 /*  Helper function for extracting error from OpenGL.   */
 void resetErrorFlag(void) {
 	while (glGetError() != GL_NO_ERROR);
+
 }
 
 unsigned int getWrapMode(SamplerDesc::AddressMode mode) {
@@ -191,6 +192,9 @@ unsigned int getTextureFormat(TextureFormat textureFormat, unsigned int* pixelTy
 			return GL_RGB565;
 		case TextureFormat::R16:
 			break;
+		case TextureFormat::R8:
+			*pixelType = GL_UNSIGNED_BYTE;
+			return GL_RED;
 		case TextureFormat::DXT1:
 			break;
 		case TextureFormat::DXT5:

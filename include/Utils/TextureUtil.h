@@ -51,6 +51,7 @@ namespace fragview {
 
 		static void saveTexture(const char *filepath, IRenderer *renderer, Texture *texture);
 		static void saveTexture(IO* io, IRenderer* renderer, Texture* texture);
+		//static void SaveTexture(IO *io, IO *a);
 
 	private:    /*	Prevent one from creating an instance of this class.	*/
 

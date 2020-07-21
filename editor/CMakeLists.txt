@@ -21,21 +21,24 @@ IF(BUILD_WITH_GTK)
 		IF(GDK3_FOUND)
 			MESSAGE(STATUS "GDK3 - ${GDK3_LIBRARIES} -- version: ${GDK3_VERSION}")
 		ENDIF()
+		
+		IF(GTK3_FOUND AND GDK3_FOUND)
+			# FILE(GLOB GTK_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/GTK/*.cpp)
+			# ADD_EXECUTABLE(fragview-editor-gtk ${EDITOR_SOURCE_FILES} ${EDITOR_HEADER_FILES} ${GTK_SOURCE_FILES})
 
-		FILE(GLOB GTK_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/GTK/*.cpp)
-		ADD_EXECUTABLE(fragview-editor-gtk ${EDITOR_SOURCE_FILES} ${EDITOR_HEADER_FILES} ${GTK_SOURCE_FILES})
+			# TARGET_LINK_LIBRARIES(fragview-editor-gtk ${GTK3_LIBRARIES} ${GDK3_LIBRARIES} fragview-core)    #TODO use the client fragview.
+			# TARGET_INCLUDE_DIRECTORIES(fragview-editor-gtk PRIVATE
+			# ${CMAKE_CURRENT_SOURCE_DIR}/include/
+			# ${GTK3_INCLUDE_DIRS}
+			# ${GDK3_INCLUDE_DIRS})
 
-		TARGET_LINK_LIBRARIES(fragview-editor-gtk ${GTK3_LIBRARIES} ${GDK3_LIBRARIES} fragview-core)    #TODO use the client fragview.
-		TARGET_INCLUDE_DIRECTORIES(fragview-editor-gtk PRIVATE
-		${CMAKE_CURRENT_SOURCE_DIR}/include/
-		${GTK3_INCLUDE_DIRS}
-		${GDK3_INCLUDE_DIRS})
+			# TARGET_COMPILE_OPTIONS(fragview-editor-gtk PRIVATE
+			# 		${GTK3_CFLAGS_OTHER} ${GDK3_CFLAGS_OTHER} -DFRAG_GTK_WINDOW_MANAGER=1)
 
-		TARGET_COMPILE_OPTIONS(fragview-editor-gtk PRIVATE
-				${GTK3_CFLAGS_OTHER} ${GDK3_CFLAGS_OTHER} -DFRAG_GTK_WINDOW_MANAGER=1)
-
-		TARGET_LINK_LIBRARIES( fragview-editor-gtk PRIVATE ${GTK3_LIBRARY_DIRS})
-		ADD_DEPENDENCIES(fragview-editor-gtk fragview-core)
+			# TARGET_LINK_LIBRARIES( fragview-editor-gtk PRIVATE ${GTK3_LIBRARY_DIRS})
+			# ADD_DEPENDENCIES(fragview-editor-gtk fragview-core)
+			# INSTALL(fragview-editor-gtk DESTINATION bin)
+		ENDIF()
 	ELSE()
 		MESSAGE(WARNING "")
 	ENDIF()
@@ -61,7 +64,7 @@ IF(BUILD_WITH_QT)
 		${CMAKE_CURRENT_SOURCE_DIR}/include/ ${Qt5Widgets_INCLUDE_DIRS})
 
 		ADD_DEPENDENCIES(fragview-editor-qt fragview-core)
-		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview-editor-qt DESTINATION bin)
+		INSTALL(TARGETS fragview-editor-qt DESTINATION bin)
 
 	ELSE()
 		MESSAGE(FATAL_ERROR "Could not locate QT5 Version")
@@ -70,7 +73,6 @@ ENDIF()
 
 
 #
-
 IF(UNIX)
 
 ENDIF()

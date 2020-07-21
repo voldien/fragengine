@@ -44,14 +44,14 @@ void SandBoxSubScene::updateUniformLocations(ProgramPipeline *programPipeline, U
 	programPipeline->getShader(shaderStage)->setInt(tex0, 0);
 
 	/*  Log only in debug mode. */
-	Log::log(Log::eDebug,"----------- fetching uniforms index location ----------\n");
-	Log::log(Log::eDebug,"time %d\n", location->time);
-	Log::log(Log::eDebug,"deltatime %d\n", location->deltatime);
-	Log::log(Log::eDebug,"resolution %d\n", location->resolution);
-	Log::log(Log::eDebug,"mouse %d\n", location->mouse);
-	Log::log(Log::eDebug,"offset %d\n", location->offset);
-	Log::log(Log::eDebug,"stdin %d\n", location->stdin);
-	Log::log(Log::eDebug,"backbuffer %d\n", location->backbuffer);
+	Log::log(Log::Debug,"----------- fetching uniforms index location ----------\n");
+	Log::log(Log::Debug,"time %d\n", location->time);
+	Log::log(Log::Debug,"deltatime %d\n", location->deltatime);
+	Log::log(Log::Debug,"resolution %d\n", location->resolution);
+	Log::log(Log::Debug,"mouse %d\n", location->mouse);
+	Log::log(Log::Debug,"offset %d\n", location->offset);
+	Log::log(Log::Debug,"stdin %d\n", location->stdin);
+	Log::log(Log::Debug,"backbuffer %d\n", location->backbuffer);
 }
 
 void SandBoxSubScene::addCompute(ProgramPipeline *compute) {

@@ -1,31 +1,34 @@
 
-#ifndef _PV_DYNAMIC_OBJECT_H_
-#define _PV_DYNAMIC_OBJECT_H_ 1
-#include <physic/RigidBody.h>
+#ifndef _FV_DYNAMIC_OBJECT_H_
+#define _FV_DYNAMIC_OBJECT_H_ 1
+#include"../Core/SmartReference.h"
 
 
 /*  TODO rename.    */
 /**
  * Contains all dynamic object references.
  */
-class PVDECLSPEC DynamicObjects {
-	friend class PhysicInterface;
+namespace fragview {
 
-public:
-	DynamicObjects(void) {
-		this->attachment = NULL;
-	}
+	class FVDECLSPEC DynamicObjects {
+		friend class PhysicInterface;
 
-	/**
-	 * Check if dynamic object is attached.
-	 * @return
-	 */
-	bool isAttached(void) const {
-		return attachment != NULL;
-	}
+	public:
+		DynamicObjects(void) {
+			this->attachment = NULL;
+		}
 
-	/*  */
-	RigidBody *attachment;
-};
+		/**
+		 * Check if dynamic object is attached.
+		 * @return
+		 */
+		bool isAttached(void) const {
+			return attachment != NULL;
+		}
+
+		/*  */
+		//RigidBody *attachment;
+	};
+}
 
 #endif

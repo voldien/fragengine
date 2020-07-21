@@ -35,6 +35,13 @@
 #include<hpmcpp/HCQuaternion.h>
 #include<hpmcpp/HpmCpp.h>
 
+#define FV_NAME ""
+#if defined(FRAGVIEW_CORE_INTERNAL_IMP)
+
+#else
+
+#endif
+
 //TODO relocate.
 //TODO rename to none prefix versions.
 namespace fragview {

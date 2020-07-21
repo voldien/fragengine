@@ -2,6 +2,12 @@
 #include<getopt.h>
 #include<Utils/ShaderUtil.h>
 #include<ShaderModel/ShaderModelImporter.h>
+
+#include"Recast.h"
+//#include"nanosvgrast.h"
+//#include"xatlas.h"
+//#include"Recast.h"
+
 using namespace fragview;
 //extern const char* shortarg;
 //extern struct option* longoptions;

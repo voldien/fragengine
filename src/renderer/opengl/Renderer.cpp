@@ -368,7 +368,7 @@ Texture *IRenderer::createTexture(TextureDesc *desc) {
 	if (desc->numlevel < 0 && desc->usemipmaps)
 		throw InvalidArgumentException("Mips number count must be greater than or equal to 0.");
 	if (desc->compression & ~glCore->compression)
-		throw InvalidArgumentException(fvformatf("Invalid compression fvformatf - %d.", desc->compression));
+		throw InvalidArgumentException(fvformatf("Invalid compression format - %d.", desc->compression));
 	if (desc->srgb) {
 		if (!glCore->capability.sSRGB)
 			throw InvalidArgumentException("sRGB is not supported.");
@@ -384,11 +384,11 @@ Texture *IRenderer::createTexture(TextureDesc *desc) {
 	/*	Extract OpenGL target from desc.	*/
 	format = getTextureFormat(desc->pixelFormat, &type);
 	internalformat = getGraphicFormat(desc->graphicFormat);
-
 	//
 	target = getTextureTarget((TextureDesc::Target) desc->target, desc->nrSamples);
 
 	//TODO add release logic for when failing.
+
 	/*	*/
 	glGenTextures(1, &texture);
 	if (desc->originalTexture) {

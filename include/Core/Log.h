@@ -32,22 +32,22 @@ namespace fragview {
 		 */
 		 //TODO add map flagging.
 		enum VERBOSITY {
-			eQuite      = 0,    /*  */
-			eError      = 1,    /*  */
-			eVerbose    = 2,    /*  */
-			eWarning    = 3,    /*  */
-			eDebug      = 16,   /*  */
+			Quite      = 0,    /*  */
+			Error      = 1,    /*  */
+			Verbose    = 2,    /*  */
+			Warning    = 3,    /*  */
+			Debug      = 16,   /*  */
 		};
 
 		/**
 		 *
 		 */
 		enum LogMappingFlag {
-			fQuite      = (1 << eQuite),
-			fError      = (1 << eError),
-			fVerbose    = (1 << eVerbose),
-			fWarning    = (1 << eWarning),
-			fDebug      = (1 << eDebug),
+			fQuite      = (1 << Quite),
+			fError      = (1 << Error),
+			fVerbose    = (1 << Verbose),
+			fWarning    = (1 << Warning),
+			fDebug      = (1 << Debug),
 		};
 
 		/**

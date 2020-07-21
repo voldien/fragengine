@@ -12,38 +12,38 @@ SystemInfo::OperatingSystem SystemInfo::getOperatingSystem(void) {
 
 	/*  */
 	if (strcmp(os, "Linux") == 0)
-		return SystemInfo::eLinux;
+		return SystemInfo::Linux;
 	if (strcmp(os, "Windows") == 0)
-		return SystemInfo::eWindow;
+		return SystemInfo::Window;
 	if (strcmp(os, "Android") == 0)
-		return SystemInfo::eAndroid;
+		return SystemInfo::Android;
 	if (strcmp(os, "unix") == 0)
-		return SystemInfo::eUnix;
+		return SystemInfo::Unix;
 	if (strcmp(os, "iOS") == 0)
-		return SystemInfo::eIOS;
+		return SystemInfo::IOS;
 	if (strcmp(os, "Mac OS X") == 0)
-		return SystemInfo::eMac;
+		return SystemInfo::Mac;
 
-	return SystemInfo::eUnknown;
+	return SystemInfo::Unknown;
 }
 
 const char *SystemInfo::getOperatingSystemName(SystemInfo::OperatingSystem os) {
 
 	/*  */
 	switch (os) {
-		case SystemInfo::eLinux:
+		case SystemInfo::Linux:
 			return "Linux";
-		case SystemInfo::eWindow:
+		case SystemInfo::Window:
 			return "Window";
-		case SystemInfo::eUnix:
+		case SystemInfo::Unix:
 			return "Unix";
-		case SystemInfo::eAndroid:
+		case SystemInfo::Android:
 			return "Android";
-		case SystemInfo::eMac:
+		case SystemInfo::Mac:
 			return "Mac";
-		case SystemInfo::eIOS:
+		case SystemInfo::IOS:
 			return "IOS";
-		case SystemInfo::eFreeBSD:
+		case SystemInfo::FreeBSD:
 			return "FreeBSD";
 		default:
 			throw InvalidArgumentException("Invalid Operating System Enumerator");
@@ -51,7 +51,7 @@ const char *SystemInfo::getOperatingSystemName(SystemInfo::OperatingSystem os) {
 }
 
 SystemInfo::SIMD SystemInfo::getSupportedSIMD(void) {
-	SystemInfo::SIMD supportedSIMD = eHPM_NONE;
+	SystemInfo::SIMD supportedSIMD = HPM_NONE;
 
 	for (int i = 1; i < 11; i++) {
 		if (hpm_support_cpu_feat(1 << i))

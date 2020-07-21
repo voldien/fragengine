@@ -24,9 +24,9 @@
 #include "RenderDesc.h"
 
 namespace fragview {
-/**
- *	Texture object.
- */
+	/**
+	 *	Texture object.
+	*/
 	class FVDECLSPEC Texture : public Sampler {
 		friend class IRenderer;
 

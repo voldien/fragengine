@@ -32,10 +32,9 @@ FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char 
 
 	//gtk_major_version()
 	//	/*  Verbose information.    */
-	Log::log(Log::eVerbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
-	Log::log(Log::eVerbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
-	Log::log(Log::eVerbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
-
+	Log::log(Log::Verbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
+	Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
+	Log::log(Log::Verbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
 
 	/*	Close and destroy splash window on finished.*/
 	splashWindow->closeWindow();

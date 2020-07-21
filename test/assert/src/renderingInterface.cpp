@@ -521,7 +521,7 @@ TEST_F(RenderingInterfaceTest, Font) {
 		ASSERT_TRUE(renderer = createRendererInterface(api, this->config));
 
 		/*  */
-		ASSERT_NO_THROW(font = FontFactory::createFont(renderer, (IO *) fileIo, 10.0f));
+		//ASSERT_NO_THROW(font = FontFactory::createFont(renderer, (IO *) fileIo, 10.0f));
 
 		/*  Font states.    */
 		ASSERT_GE(font->getIndexCount(), 0);

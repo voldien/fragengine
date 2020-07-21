@@ -43,9 +43,9 @@ AudioInterface *AudioFactory::createAudioInterface(const char *cpathlib, IConfig
 const char *AudioFactory::getInterfaceLibraryPath(AudioAPI api) {
 #ifdef FV_UNIX
 	switch (api) {
-		case AudioFactory::eOpenAL:
+		case AudioFactory::OpenAL:
 			return "libfragview-aal.so";
-		case AudioFactory::eFMOD:
+		case AudioFactory::FMOD:
 			return "libfragview-afm.so";
 		default:
 			assert(0);

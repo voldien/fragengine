@@ -614,7 +614,7 @@ void IConfig::parse_json_recursive_config(IConfig *config, struct json_object *r
 	int pbatch = 0;
 
 	json_object_object_foreach(root, key, value) {
-		Log::log(Log::eVerbose, "key: \"%s\", type of val: ", key);
+		Log::log(Log::Verbose, "key: \"%s\", type of val: ", key);
 		val_type = json_object_get_type(value);
 
 		switch (val_type) {

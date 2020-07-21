@@ -269,21 +269,21 @@ void Config::parseGetOpt(int argc, const char **argv) {
 
 		switch (c) {
 			case 'v':   /*  Display version only of the program.    */
-				Log::log(Log::eQuite, "version %s.\n", FragView::getVersion());
+				Log::log(Log::Quite, "version %s.\n", FragView::getVersion());
 				exit(EXIT_SUCCESS);
 			case 'h':
 				/*  Print help. */
-				Log::log(Log::eQuite, "Help\n");
+				Log::log(Log::Quite, "Help\n");
 				exit(EXIT_SUCCESS);
 			case 'd':   /*  Enable debug mode.  */
 				this->set<int>("debug", 1);
-				Log::setVerbosity(Log::eDebug);
+				Log::setVerbosity(Log::Debug);
 				break;
 			case 'V':   /*  Enable verbosity logging.   */
-				Log::setVerbosity(Log::eVerbose);
+				Log::setVerbosity(Log::Verbose);
 				break;
 			case 'q':   /*  Set logging to quite.   */
-				Log::setVerbosity(Log::eQuite);
+				Log::setVerbosity(Log::Quite);
 				break;
 			default:
 				break;

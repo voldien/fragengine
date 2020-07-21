@@ -19,6 +19,8 @@
 #ifndef _VIDEO_TEXTURE_H_
 #define _VIDEO_TEXTURE_H_ 1
 #include "Renderer/Texture.h"
+#include "../audio/AudioClip.h"
+#include "../Core/SmartReference.h"
 
 namespace fragview {
 	/**
@@ -54,7 +56,7 @@ namespace fragview {
 
 	protected:
 		void *pVideoData;
-		//AudioClip* audioClip;
+		AudioClip* audioClip;
 	};
 }
 

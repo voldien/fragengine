@@ -34,7 +34,7 @@ DebugDrawer::drawContactPoint(const btVector3 &PointOnB, const btVector3 &normal
 }
 
 void DebugDrawer::reportErrorWarning(const char *warningString) {
-	Log::log(Log::eWarning, warningString);
+	Log::log(Log::Warning, warningString);
 }
 
 void DebugDrawer::draw3dText(const btVector3 &location, const char *textString) {

@@ -20,7 +20,9 @@
 #define _GZ_FILE_H_ 1
 #include "IO.h"
 #include "FileIO.h"
+#if defined(FRAGVIEW_CORE_INTERNAL_IMP)	//TODO resolve to a single file or something later
 #include <zlib.h>
+#endif
 
 namespace fragview {
 	/**
@@ -51,7 +53,9 @@ namespace fragview {
 		void open(const char *path, Mode mode) override;
 
 	private:
+#if defined(FRAGVIEW_CORE_INTERNAL_IMP)
 		gzFile gzFile;
+	#endif
 	public:
 		GZFileIO(const char *path, Mode mode);
 	};

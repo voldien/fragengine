@@ -19,6 +19,7 @@
 #ifndef _FRAGVIEW_IRENDERER_H_
 #define _FRAGVIEW_IRENDERER_H_ 1
 #include "../Prerequisites.h"
+#include"ICompute.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "FrameBuffer.h"

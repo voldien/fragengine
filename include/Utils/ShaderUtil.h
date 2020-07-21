@@ -19,12 +19,14 @@
 #ifndef _FRAGVIEW_SHADERUTIL_H_
 #define _FRAGVIEW_SHADERUTIL_H_ 1
 #include "../Core/IO/IO.h"
+#include "../Core/Ref.h"
 #include "Renderer/IRenderer.h"
 
 namespace fragview {
-/**
- *
- */
+	
+	/**
+	 *
+	 */
 	class FVDECLSPEC ShaderUtil {
 	private:
 		/*	*/
@@ -57,9 +59,13 @@ namespace fragview {
 		static void loadProgram(IO *io, IRenderer *renderer, Shader **pShader, unsigned int format);
 		static void loadProgram(const void* pData, long int nBytes, IRenderer *renderer, Shader **pShader, unsigned int format);
 
-		static void loadComputeShader(IO *computeIO, IRenderer *renderer, ProgramPipeline **programPipeline);
-		static void loadComputeShader(const char* pData, long int nBytes, IRenderer *renderer, ProgramPipeline **programPipeline);
+		//TODO rename the IRENDER to ICompute
+		//TODO rename to program
+		static void loadComputeShader(const Ref<IO> &computeIO, Ref<IRenderer> & renderer, ProgramPipeline **programPipeline);
+		//static void loadComputeShader(const Ref<IO> &computeIO, Ref<IRenderer> &*renderer, ProgramPipeline **programPipeline);
+		static void loadComputeShader(const char *pData, long int nBytes, IRenderer *renderer, ProgramPipeline **programPipeline);
 
+		/*	*/
 		static void
 		loadComputeShaderSource(ShaderObject *shaderDesc, IRenderer *renderer, ProgramPipeline **programPipeline);
 

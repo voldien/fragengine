@@ -5,7 +5,10 @@
 #include"Core/IO/IO.h"
 #include"Def.h"
 #include"Prerequisites.h"
+#include"Core/Ref.h"
 #include"Font.h"
+
+
 namespace fragview {
 	/**
 	 *
@@ -19,10 +22,10 @@ namespace fragview {
 			UTF16,
 		};
 
-		static Font *createFont(IRenderer *renderer, IO *io, float size, Encoding encoding = ASCII);
+		static Font *createFont(Ref<IRenderer> &renderer, Ref<IO> &io, float size, Encoding encoding = ASCII);
+		static Font *createSDFFont(Ref<IRenderer> &renderer, Ref<IO> &io, float size, Encoding encoding = ASCII);
 		//static Font *createFont(Image *image, Ref<IO> &io, float size, Encoding encoding = UTF8);
-		//static Font* createFont(IRenderer* renderer, void* pdata, unsigned long nBytes, float size, Encoding encoding = ASCII);
-
+		//static void CreateSDF(void);
 	private:    /*	Prevent one from creating an instance of this class.	*/
 
 		FontFactory(void) = default;

@@ -41,7 +41,6 @@ namespace fragview {
 		 */
 		inline void attachRigidbody(RigidBody* r1,
 		        RigidBody*  r2){
-	//		attachRigidbody(getMappedObject(), r1, r2);
 		}
 
 	protected:

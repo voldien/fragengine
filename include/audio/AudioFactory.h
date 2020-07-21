@@ -6,8 +6,8 @@ namespace fragview {
 	class FVDECLSPEC AudioFactory {
 	public:
 		enum AudioAPI { /*  Official audio api.  */
-			eOpenAL,        /*	*/
-			eFMOD,          /*  */
+			OpenAL,        /*	*/
+			FMOD,          /*  */
 		};
 
 		/**

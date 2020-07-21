@@ -20,15 +20,15 @@ Sync::SyncStatus Sync::waitClient(int timeout) {
 	switch (status) {
 		case GL_CONDITION_SATISFIED:
 		case GL_ALREADY_SIGNALED:
-			return eComplete;
+			return Complete;
 		case GL_TIMEOUT_EXPIRED:
-			return eTimeOutExpired;
+			return TimeOutExpired;
 		case GL_WAIT_FAILED:
-			return eError;
+			return Error;
 	}
 }
 
 intptr_t Sync::getNativePtr(void) const{
 	GLSync *glSync = (GLSync *) this->getObject();
 	return (intptr_t )glSync->sync;
-}
+}	

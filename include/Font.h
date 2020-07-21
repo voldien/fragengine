@@ -45,6 +45,7 @@ namespace fragview {
 
 		Texture *getTexture(void) const;
 
+		//TODO add support for config file for lookup.
 	private:
 
 		Texture *texture;

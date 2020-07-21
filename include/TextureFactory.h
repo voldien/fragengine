@@ -1,7 +1,6 @@
 
 #ifndef _FV_TEXTURE_FACTORY_H_
 #define _FV_TEXTURE_FACTORY_H_ 1
-
 #include "Prerequisites.h"
 #include"Def.h"
 

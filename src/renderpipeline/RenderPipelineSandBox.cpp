@@ -303,7 +303,7 @@ void RenderPipelineSandBox::setViewport(int width, int height, IRenderer *render
 	this->createFrameTexture(*this->renderer, width, height);
 
 	// Wait in till all the resources are ready in 16 msecs.
-	while(this->syncObject->waitClient(16) != Sync::eComplete);
+	while(this->syncObject->waitClient(16) != Sync::Complete);
 }
 
 void updateUniforms(Shader* shaderProgram, const UniformLocation* locations, const FragGraphicUniform *uniforms){

@@ -378,8 +378,11 @@ namespace fragview {
 		//TODO add support for loading compressed data.
 		//TODO add support for texture internal data type.
 		unsigned int type;              /*	Texture data type.	*/
+
+		//TODO REMOVE
 		unsigned int format;            /*	Texture input data type.	*/
 
+		//TODO Remove
 		unsigned int internalformat;    /*	Texture internal data type.	*/
 		TextureFormat pixelFormat;      /*  */
 		GraphicFormat graphicFormat;    /*  */
@@ -441,7 +444,7 @@ namespace fragview {
 		MarkerDebug marker;
 	} ProgramPipelineDesc;
 
-
+	//TOOD rename all enum without the e infront.
 	enum ShaderType {
 		eUnknownShader,
 		eVertex,        /*  */

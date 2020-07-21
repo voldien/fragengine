@@ -145,7 +145,7 @@ FragView::FragView(int argc, const char **argv) {
 			/*  Load fragment program.  */
 			ShaderUtil::loadFragmentProgramPipeline(ref, GLSL, (*this->renderer), &shader);
 			scene->getGLSLSandBoxScene()->addShader(shader);
-			Log::log(Log::eVerbose, "Loaded Shader: %s\n", path.c_str());
+			Log::log(Log::Verbose, "Loaded Shader: %s\n", path.c_str());
 
 			this->notify->registerAsset(path.c_str(), shader, eShader);
 
@@ -165,9 +165,9 @@ FragView::FragView(int argc, const char **argv) {
 
 			IO *ref = FileSystem::getFileSystem()->openFile(path.c_str(), IO::Mode::READ);
 			/*  */
-			ShaderUtil::loadComputeShader(ref, *this->renderer, &compute);
+			//ShaderUtil::loadComputeShader(ref, *this->renderer, &compute);
 			scene->getGLSLSandBoxScene()->addCompute(compute);
-			Log::log(Log::eVerbose, "Loaded Compute Shader: %s\n", path.c_str());
+			Log::log(Log::Verbose, "Loaded Compute Shader: %s\n", path.c_str());
 
 			this->notify->registerAsset(path.c_str(), compute, eShader);
 
@@ -190,7 +190,7 @@ FragView::FragView(int argc, const char **argv) {
 
 					TextureUtil::loadTexture(path, *this->renderer, &texture);
 					scene->getGLSLSandBoxScene()->addTexture(texture);
-					Log::log(Log::eVerbose, "Loaded texture: %s\n", path);
+					Log::log(Log::Verbose, "Loaded texture: %s\n", path);
 				}
 
 				this->notify->registerAsset(path, texture, eTexture);
@@ -347,9 +347,9 @@ void FragView::init(int argc, const char **argv) {
 	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
 
 	/*  Verbose information.    */
-	Log::log(Log::eVerbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
-	Log::log(Log::eVerbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
-	Log::log(Log::eVerbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
+	Log::log(Log::Verbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
+	Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
+	Log::log(Log::Verbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
 
 	status = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER);
 	if (status != 0)
@@ -358,16 +358,22 @@ void FragView::init(int argc, const char **argv) {
 	/*  Initialize HPM.  */
 	if (!Hpm::init((Hpm::HPMSIMD) this->config->get<int>("SIMD")))
 		throw RuntimeException("Failed to initialize the hpm library.");
-	Log::log(Log::eVerbose, "HPM SIMD using: %s\n", hpm_get_simd_symbol(hpm_get_simd()));
+	Log::log(Log::Verbose, "HPM SIMD using: %s\n", hpm_get_simd_symbol(hpm_get_simd()));
 
 	/*  Create rendering interface. */
 	const IConfig &renderConfig = config->getSubConfig("render-driver");
 	this->renderer = Ref<IRenderer>(
 			RenderingFactory::createRendering(config->get<const char *>("renderer-dynamicInterface"), &renderConfig));
-	Log::log(Log::eVerbose, "Loading Renderer: %s-%s\n", (*this->renderer)->getName().c_str(),
+	Log::log(Log::Verbose, "Loading Renderer: %s-%s\n", (*this->renderer)->getName().c_str(),
 	         (*this->renderer)->getVersion());
-	Log::log(Log::eVerbose, "API Internal API version: %s\n", (*this->renderer)->getAPIVersion());
+	Log::log(Log::Verbose, "API Internal API version: %s\n", (*this->renderer)->getAPIVersion());
 	(*this->renderer)->setVSync(renderConfig.get<bool>("v-sync"));
+
+	//TODO remove later
+	Ref<IO> fontIO = Ref<IO>(FileSystem::getFileSystem()->openFile("DroidSansFallback.ttf", IO::READ));
+//	FontFactory::createSDFFont(this->renderer, fontIO, 10);
+	fontIO->seek(0, IO::Seek::SET);
+	FontFactory::createFont(this->renderer, fontIO, 10);
 
 	/*  Create file notify.    */
 	if (this->config->get<bool>("notify-file"))
@@ -524,7 +530,7 @@ void FragView::run(void) {
 							height = event.window.data2;
 							uniform->window.width = (float) width;
 							uniform->window.height = (float) height;
-							Log::log(Log::eDebug, "viewport resized: %dx%d\n", width, height);
+							Log::log(Log::Debug, "viewport resized: %dx%d\n", width, height);
 							this->renderpipeline->setViewport(width, height, *this->renderer);
 							break;
 						case SDL_WINDOWEVENT_MOVED:
@@ -617,9 +623,9 @@ void FragView::run(void) {
 						try {
 							AssetHandler::handleAssetEvent(objectEvent);
 						} catch (RuntimeException &err) {
-							Log::log(Log::eError, err.what());
+							Log::log(Log::Error, err.what());
 						}
-						Log::log(Log::eVerbose, "Updating %s\n", objectEvent->path);
+						Log::log(Log::Verbose, "Updating %s\n", objectEvent->path);
 						this->notify->eventDone(objectEvent);
 						sandbox->updateAllUniformLocations();
 					}

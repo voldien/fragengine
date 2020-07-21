@@ -11,25 +11,32 @@ struct appdata
 	FRAG_VERTEX_INPUT_INSTANCE_ID
 };
 
-OUT vec2 vUV;
-OUT vec3 vNormal;
-OUT vec3 vTangent;
-OUT vec3 vVertex;
-OUT vec3 vWVVertex;
+out gl_PerVertex {
+    vec4 gl_Position;
+    float gl_PointSize;
+    float gl_ClipDistance[];
+};
 
+OUT block {
+	vec4 Vertex;
+	vec4 WorldVertex;
+    vec4 Normal;
+    vec4 Tangent;
+    vec2 UV0;
+    vec2 UV1;
+} Out ;
 
 void main(){
 	appdata data;
 	VertexMain(data);
 
-		/*	*/
+	/*	*/
 	gl_Position = MVP * vec4(vertex, 1.0);
-	vVertex = (Model * vec4(vertex, 0.0)).xyz;
-	vWVVertex = (getViewMatrix() * Model * vec4(vertex, 1.0)).xyz;
+	Out.Vertex = (Model * vec4(vertex, 0.0)).xyz;
+	Out.WorldVertex = (getViewMatrix() * Model * vec4(vertex, 1.0)).xyz;
 
 	/*	*/
-	vUV = uv;
-	vNormal = (Model * vec4(normal, 0.0)).xyz;
-	vTangent = (Model * vec4(tangent, 0.0)).xyz;
-}
+	Out.UV0 = uv;
+	Out.Normal = (Model * vec4(normal, 0.0)).xyz;
+	Out.UV1 = (Model * vec4(tangent, 0.0)).xyz;
 }

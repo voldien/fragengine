@@ -30,9 +30,9 @@ namespace fragview {
 	public:
 
 		enum SyncStatus {
-			eComplete = 0x0,
-			eTimeOutExpired = 0x1,
-			eError = 0x2,
+			Complete = 0x0,
+			TimeOutExpired = 0x1,
+			Error = 0x2,
 		};
 
 		virtual void fence(void);

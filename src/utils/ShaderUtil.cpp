@@ -280,22 +280,23 @@ void ShaderUtil::loadProgram(const void *pData, long int nBytes, IRenderer *rend
 	*pShader = shader;
 }
 
-void ShaderUtil::loadComputeShader(IO *computeIO, IRenderer *renderer, ProgramPipeline **programPipeline) {
+void ShaderUtil::loadComputeShader(const Ref<IO> &computeIO,  Ref<IRenderer>& renderer, ProgramPipeline **programPipeline)
+{
 
 	char *csource;
 	ShaderLanguage language = GLSL;
 
 	//TODO change to use the IO object.
-	unsigned int size = FileSystem::loadString(computeIO, &csource);
-	ShaderObject shaderObject = {
-			.buf = csource,
-			.size = size,
-			.language = language,
-			.type = ShaderDesc::eSourceCode,
-	};
+	// unsigned int size = FileSystem::loadString(computeIO, &csource);
+	// ShaderObject shaderObject = {
+	// 		.buf = csource,
+	// 		.size = size,
+	// 		.language = language,
+	// 		.type = ShaderDesc::eSourceCode,
+	// };
 
 	// Load the shader.
-	loadComputeShaderSource(&shaderObject, renderer, programPipeline);
+	//loadComputeShaderSource(&shaderObject, renderer, programPipeline);
 	free(csource);
 }
 

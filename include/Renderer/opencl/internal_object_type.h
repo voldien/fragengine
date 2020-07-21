@@ -31,9 +31,9 @@ namespace fragview {
 		Shader *current;
 	} OpenCLCore;
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct opencl_texture_object_t {
 		TextureDesc desc;
 		unsigned int target;
@@ -41,17 +41,17 @@ namespace fragview {
 		Texture *interp;
 	} CLTextureObject;
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct opencl_shader_object_t {
 		cl_program program;
 	} CLShaderObject;
 
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct opencl_buffer_object_t {
 		BufferDesc desc;
 		cl_mem target;
@@ -61,9 +61,9 @@ namespace fragview {
 	} CLBufferObject;
 
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct opencl_geometry_object_t {
 		GeometryDesc desc;
 		unsigned int mode;
@@ -74,9 +74,9 @@ namespace fragview {
 	} CLGeometryObject;
 
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct opengl_framebuffer_object_t {
 		FrameBufferDesc desc;
 		unsigned int framebuffer;

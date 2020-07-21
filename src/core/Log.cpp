@@ -1,14 +1,14 @@
 #include <cstdarg>
 #include <cstdio>
-#include <Core/dataStructure/Queue.h>
+#include"Core/dataStructure/Queue.h"
 #include"Core/Log.h"
 #include"Core/Ref.h"
+#include "Exception/RuntimeExecption.h"
 #include<list>
-#include <Exception/RuntimeExecption.h>
 
 using namespace fragview;
 
-static Log::VERBOSITY g_verbosity = Log::eQuite;
+static Log::VERBOSITY g_verbosity = Log::Quite;
 static IO *verboseIO = NULL;
 std::list<Ref<IO>> ios;
 typedef struct log_io_buf_t{
@@ -43,7 +43,7 @@ int Log::log(const char *format, ...) {
 	va_list vl;
 
 	va_start(vl, format);
-	l = Log::logv(eVerbose, format, vl);
+	l = Log::logv(Verbose, format, vl);
 	va_end(vl);
 
 	return l;
@@ -55,7 +55,7 @@ int Log::error(const char *format, ...) {
 
 	va_start(argptr, format);
 	/*	output to stdout	*/
-	l = Log::logv(eError, format, argptr);
+	l = Log::logv(Error, format, argptr);
 	va_end(argptr);
 
 	return l;

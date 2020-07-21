@@ -2,13 +2,6 @@ FRAGLOCATION(0, vec4, fragcolor);
 #ifdef FRAG_PIPELINE_DEFERRED
 #endif
 
-/*  */
-IN vec2 vUV;
-IN vec3 vNormal;
-IN vec3 vTangent;
-IN vec3 vVertex;
-IN vec3 vWVVertex;
-
 
 struct structureVS 
 {
@@ -19,6 +12,15 @@ struct structureVS
 	vec3 viewDir;
 	FRAG_VERTEX_INPUT_INSTANCE_ID
 };
+
+IN block {
+	vec4 Vertex;
+	vec4 WorldVertex;
+    vec4 Normal;
+    vec4 Tangent;
+    vec2 UV0;
+    vec2 UV1;
+} In ;
 
 
 void main(){

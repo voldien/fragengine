@@ -34,7 +34,7 @@ namespace fragview {
 		virtual void closeFile(IO *io);
 
 		//TODO rename.
-		//TODO consider relocate to IOUtil class.
+		//TODO consider relocate to IOUtil class and make it idepedent of filesystem.
 		static long int loadFile(IO *io, char **data);
 
 		static long int loadString(IO *io, char **data);
