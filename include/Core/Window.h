@@ -52,6 +52,8 @@ namespace fragview {
 
 		virtual void setFullScreen(bool fullscreen) = 0;
 
+		virtual void isFullScreen(void) const = 0;
+
 		virtual void setBordered(bool borded) = 0;
 
 		virtual void setMinimumSize(int width, int height) = 0;

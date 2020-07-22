@@ -26,6 +26,7 @@ namespace fragview {
 		 */
 		float randf(void)const;
 
+		float range(float min, float max);
 
 	private:	/*	Attributes.	*/
 //

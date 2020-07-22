@@ -27,7 +27,7 @@ long int IOUtil::loadFileMem(Ref<IO> &io, char **data)
 	return dataSize;
 }
 
-long int IOUtil::loadFile(Ref<IO> &in, Ref<IO> &out)
+long int IOUtil::loadFile(const Ref<IO> &in, Ref<IO> &out)
 {
 	if (!in->isReadable())
 		throw InvalidArgumentException(fvformatf("Failed to read from IO: %s", in->getName()));
@@ -60,7 +60,8 @@ long int IOUtil::loadStringMem(Ref<IO> &io, char **string)
 	return nbytes;
 }
 
-long int IOUtil::loadString(Ref<IO> &in, Ref<IO> &out){
+long int IOUtil::loadString(const Ref<IO> &in, Ref<IO> &out) {
+
 	if (!in->isReadable())
 		throw InvalidArgumentException(fvformatf("Failed to read from IO: %s", in->getName()));
 	if (!out->isWriteable())

@@ -22,9 +22,9 @@
 #include<string>
 
 namespace fragview {
-/**
- *	Load dynamic library in runtime.
- */
+	/**
+	 *	Load dynamic library in runtime.
+	*/
 	class FVDECLSPEC Library {
 	public:
 		Library(void);

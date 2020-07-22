@@ -4,7 +4,7 @@
 using namespace fragview;
 
 void Random::setSeed(unsigned long long seed){
-
+	
 }
 
 unsigned int Random::rand(void){
@@ -12,9 +12,13 @@ unsigned int Random::rand(void){
 }
 
 float Random::randfNormalize(void){
-
+	return 0;
 }
 
 float Random::randf(void) const{
+	return 0;
+}
 
+float Random::range(float min, float max){
+	return 0;
 }

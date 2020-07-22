@@ -5,13 +5,16 @@
 
 namespace fragview{
 
+	/**
+	 * 
+	 */
 	class FVDECLSPEC IOUtil {
 		public:
 			static long int loadFileMem(Ref<IO> &io, char **data);
-			static long int loadFile(Ref<IO> &in, Ref<IO> &out);
+			static long int loadFile(const Ref<IO> &in, Ref<IO> &out);
 
 			static long int loadStringMem(Ref<IO> &io, char **data);
-			static long int loadString(Ref<IO> &in, Ref<IO> &out);
+			static long int loadString(const Ref<IO> &in, Ref<IO> &out);
 	};
 }
 

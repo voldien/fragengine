@@ -28,7 +28,6 @@ void FileSystem::closeFile(IO *io) {
 
 }
 
-
 //TODO remove
 long int FileSystem::loadFile(IO *io, char **data) {
 	char *d = NULL;

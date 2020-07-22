@@ -58,6 +58,7 @@ namespace fragview {
 	#endif
 	public:
 		GZFileIO(const char *path, Mode mode);
+		//GZFileIO(Ref<IO> &io);
 	};
 }
 

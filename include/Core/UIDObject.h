@@ -18,7 +18,6 @@
 */
 #ifndef _UID_OBJECT_H_
 #define _UID_OBJECT_H_ 1
-
 #include"UIDGenerator.h"
 
 namespace fragview {
