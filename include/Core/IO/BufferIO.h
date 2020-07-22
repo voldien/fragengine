@@ -55,12 +55,14 @@ namespace fragview {
 		unsigned int marker;
 		bool readOnly;
 		bool ownMem;
+		bool expandable;
+
 	public:
 		BufferIO(const void *pBuffer, unsigned long size);
 
 		BufferIO(void *pBuffer, unsigned long size);
 
-		BufferIO(unsigned long size);
+		BufferIO(unsigned long size, bool expandable = false);
 	};
 }
 #endif

@@ -24,7 +24,7 @@
 namespace fragview
 {
 	class IScheduler;
-	class FVDECLSPEC Task
+	class FVDECLSPEC Task : UIDObject
 	{
 	public:
 		typedef void (*TaskCallBack)(Task *task);

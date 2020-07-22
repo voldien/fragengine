@@ -11,17 +11,15 @@ class FVDECLSPEC AsyncTask : public Task
 {
 public:
 	virtual void Execute(void) override {
-
 	}
-	virtual void Complete(void)override{
-
+	virtual void Complete(void) override {
 	}
 };
 
 ASyncHandle ASync::aSyncOpen(Ref<IO> &io) {
 
 	if (*scheduler == NULL)
-		throw RuntimeException("Async not initialized with scheduler");
+		throw RuntimeException("Async not initialized with a scheduler object");
 	/*  Check parameters.   */
 	if (!*io)
 		throw InvalidArgumentException("Invalid IO reference.");
@@ -132,6 +130,7 @@ void ASync::asyncWait(fragview::ASyncHandle handle) {
 	AsyncObject *ao = getObject(handle);
 
 	schSemaphoreWait((schSemaphore *) ao->semaphore);
+
 	//schCreateSemaphore(ao->semaphore);
 //	schSemaphorePost((schSemaphore *) ao->semaphore);
 	/*  Set as finished.    */

@@ -49,6 +49,7 @@ namespace fragview {
 			#else
 			void *sch;
 			#endif
+			std::map<int, Task*> tasks;
 	};
 }
 #endif

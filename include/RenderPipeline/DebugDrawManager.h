@@ -64,7 +64,6 @@ namespace fragview {
 			STRING
 		};
 
-
 		typedef struct DebugDrawCommand_t {
 			DrawType type;          /*  */
 			bool depthEnabled;      /*  */
@@ -117,9 +116,12 @@ namespace fragview {
 		std::map<int, Queue<DebugDrawCommand>> commands;  /*  */
 
 		Ref<Mesh> debugGeometry;            /*  Geometry of the debug objects. - multiple sub geometries.   */
-		Ref<Shader> debug;
+
 		std::vector<int> geomtryIndex; /*	*/
+		Ref<Shader> debug;
+		Ref<Shader> line;
 		Ref<Font> font; /*  */
+		Ref<Mesh> debugFont;
 	};
 }
 

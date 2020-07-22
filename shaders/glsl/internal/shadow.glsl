@@ -31,26 +31,15 @@
 	#define VD_BINDING_POINTS
 #endif
 
-
-
-/*	Extensions	*/
-//#extension GPU_shader4 : enable
-//#extension GPU_shader5 : enable
-
-
 /*	*/
-uniform sampler2D DepthTexture;
+//uniform sampler2D DepthTexture;
 
-
-/*
-	Shadows	
-*/
 #if defined(USE_SHADOWS)
 
 #endif
 
-uniform samplerCubeShadow ShadowCube[2];		/*	TODO */
-uniform sampler2DShadow ShadowSampler[8];		/**/
+//uniform samplerCubeShadow ShadowCube[2];		/*	TODO */
+//uniform sampler2DShadow ShadowSampler[8];		/**/
 
 /*	*/
 //uniform samplerBuffer lightbuffer;			/**/
@@ -322,3 +311,29 @@ subroutine uniform getShadowType getShadow;
 subroutine uniform getCubeShadowMap getCubeShadow; 
 #endif
 
+
+
+float CalcShadowFactor(int CascadeIndex, vec4 LightSpacePos)
+{
+    vec3 ProjCoords = LightSpacePos.xyz / LightSpacePos.w;
+
+    vec2 UVCoords;
+    UVCoords.x = 0.5 * ProjCoords.x + 0.5;
+    UVCoords.y = 0.5 * ProjCoords.y + 0.5;
+
+    float z = 0.5 * ProjCoords.z + 0.5;
+    float Depth = texture(gShadowMap[CascadeIndex], UVCoords).x;
+
+    if (Depth < z + 0.00001)
+        return 0.5;
+    else
+        return 1.0;
+}
+
+float ComputeTotalShadowFactor(){
+	for (int i = 0 ; i < NUM_CASCADES ; i++) {
+        if (ClipSpacePosZ <= gCascadeEndClipSpace[i]) {
+            return CalcShadowFactor(i, LightSpacePos[i]);
+        }
+    }
+}

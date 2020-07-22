@@ -87,11 +87,11 @@ BufferIO::BufferIO(void* pBuffer, unsigned long size){
 	this->readOnly = false;
 }
 
-BufferIO::BufferIO(unsigned long size) {
+BufferIO::BufferIO(unsigned long size, bool expandable)
+{
 	this->marker = 0;
 	this->nbytes = size;
 	this->buffer = (char*)malloc(size);
 	this->readOnly = false;
+	this->expandable = expandable;
 }
-
-
