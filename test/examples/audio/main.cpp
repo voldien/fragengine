@@ -2,6 +2,8 @@
 #include <fragview/audio/AudioClip.h>
 #include <fragview/audio/AudioSource.h>
 #include <fragview/audio/AudioListener.h>
+#include<opus/opus.h>
+#include<ogg/ogg.h>
 
 using namespace fragview;
 int main(int argc, const char **argv)
@@ -24,9 +26,12 @@ int main(int argc, const char **argv)
 	Ref<AudioListener> listener = Ref<AudioListener>(iaudio->createAudioListener(&list_desc));
 
 	AudioSourceDesc source_desc = {};
+	source_desc.position = PVVector3::zero();
 	Ref<AudioSource> audioSource = Ref<AudioSource>(iaudio->createAudioSource(&source_desc));
 
 	AudioClipDesc clip_desc = {};
+	const char* path = argv[1];
+
 	Ref<AudioClip> clip = Ref<AudioClip>(iaudio->createAudioClip(&clip_desc));
 	audioSource->setClip(*clip);
 	audioSource->play();
@@ -35,5 +40,5 @@ int main(int argc, const char **argv)
 		sleep(1);
 	}
 
-	
+	delete iaudio;
 }

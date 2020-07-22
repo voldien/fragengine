@@ -29,9 +29,9 @@ namespace fragview {
 	public:
 
 		enum RenderingAPI {
-			eOpenGL,            /*	OpenGL rendering API.	*/
+			eOpenGL,			/*	OpenGL rendering API.	*/
 			eVulkan,            /*	Vulkan rendering API.	*/
-			eDirectX,            /*	DirectX rendering API.	*/
+			eDirectX,           /*	DirectX rendering API.	*/
 			eOpenCL,            /*	OpenCL rendering API.	*/
 		};
 

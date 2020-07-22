@@ -5,11 +5,13 @@
 #include"../Core/Ref.h"
 namespace fragview {
 
+	/*	*/
 	enum AudioFormat {
 		eStero,
 		eMono,
 	};
 
+	/*	*/
 	enum AudioSpeakerMode {
 		Mono,
 		Stero,
@@ -19,11 +21,12 @@ namespace fragview {
 		Mode7Point1,
 	};
 
+	/*	*/
 	typedef struct audio_source_desc_t {
 		PVVector3 position;
 	} AudioSourceDesc;
 
-
+	/*	*/
 	typedef struct audio_clip_desc_t {
 
 		/*  */
@@ -37,17 +40,19 @@ namespace fragview {
 		Ref<IO> io;
 	} AudioClipDesc;
 
+	/*	*/
 	typedef struct audio_listener_desc_t {
 		PVVector3 position;
 		PVQuaternion rotation;
 
 	} AudioListenerDesc;
 
+	/*	*/
 	typedef struct audio_reverb_desc_t{
 
 	}AudioReverbDesc;
 
-
+	/*	*/
 	typedef struct audio_geometry_desc_t{
 
 	} AudioGeometryDesc;

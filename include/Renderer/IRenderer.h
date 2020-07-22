@@ -34,7 +34,7 @@ namespace fragview {
 	/**
 	 *
 	 */
-	enum CLEARBITMASK {
+	enum CLEARBITMASK {	//TODO rename
 		eColor = 0x1,        /*	Clear color.    */
 		eDepth = 0x2,        /*	Clear depth.    */
 		eStencil = 0x4,        /*	Clear stencil.  */

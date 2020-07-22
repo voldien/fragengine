@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _RENDER_DESC_H_
-#define _RENDER_DESC_H_ 1
+#ifndef _FRAG_CORE_RENDER_DESC_H_
+#define _FRAG_CORE_RENDER_DESC_H_ 1
 #include"../Prerequisites.h"
 
 namespace fragview {
@@ -25,12 +25,12 @@ namespace fragview {
 	 *  Support languages.
 	 */
 	enum ShaderLanguage {
-		GLSL            = 0x1,     /*  OpenGL GLSL.    */
-		SPIRV           = 0x2,    /*  SPIRV.  */
-		HLSL            = 0x4,     /*  High Level Shading Language.    */
+		GLSL            = 0x1,		/*  OpenGL GLSL.    */
+		SPIRV           = 0x2,		/*  SPIRV.  */
+		HLSL            = 0x4,      /*  High Level Shading Language.    */
 		CLC             = 0x8,      /*  OpenCL C language.  */
-		CG              = 0x10,      /*  Legacy. */
-		unKnownLanguage = 0x0,
+		CG              = 0x10,     /*  Legacy. */
+		unKnownLanguage = 0x0,		/*	*/
 	};
 
 	typedef struct marker_debug_t {

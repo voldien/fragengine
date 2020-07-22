@@ -16,14 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _QUERY_H_
-#define _QUERY_H_ 1
+#ifndef _FRAG_CORE_QUERY_H_
+#define _FRAG_CORE_QUERY_H_ 1
 #include "RenderObject.h"
 
 namespace fragview {
-/**
- *
- */
+	/**
+	 *
+	 */
 	class FVDECLSPEC QueryObject : public RenderObject {
 	public:
 		inline QueryObject(void) {}

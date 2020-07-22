@@ -22,6 +22,11 @@ namespace fragview {
 		//TODO add memory barrier.
 		virtual void memoryBarrier(void);
 
+		virtual Sync *createSync(SyncDesc *desc);
+
+		virtual void deleteSync(Sync *sync);
+
+		virtual const char *getVersion(void) const;
 	};
 }
 #endif

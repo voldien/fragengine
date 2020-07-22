@@ -21,22 +21,21 @@
 #include "RenderObject.h"
 
 namespace fragview {
-/**
- *
- */
+	/**
+	 *
+	 */
 	class ProgramPipeline : public RenderObject {
 		friend class IRenderer;
-
 	public:
 
 		//TODO change to ShaderType
 		enum ShaderType {
-			VERTEX_SHADER = 0x1,
-			FRAGMENT_SHADER = 0x2,
-			GEOMETRY_SHADER = 0x4,
-			TESSELLATION_CONTROL_SHADER = 0x8,
-			TESSELLATION_EVOLUTION_SHADER = 0x10,
-			COMPUTE_SHADER = 0x20
+			VERTEX_SHADER = 0x1,					/*	*/
+			FRAGMENT_SHADER = 0x2,					/*	*/
+			GEOMETRY_SHADER = 0x4,					/*	*/
+			TESSELLATION_CONTROL_SHADER = 0x8,		/*	*/
+			TESSELLATION_EVOLUTION_SHADER = 0x10,	/*	*/
+			COMPUTE_SHADER = 0x20					/*	*/
 		};
 
 		/**

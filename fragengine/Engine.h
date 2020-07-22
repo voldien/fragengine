@@ -25,13 +25,16 @@
 #include"ResourcesFactory.h"
 #include"SceneFactory.h"
 #include"Config.h"
-#include "SceneManager.h"
+#include"SceneManager.h"
 
+namespace fragengine{
+
+}
 /**
  *	Engine class. Responsible for
  *	combining each component.
  */
-class PVDECLSPEC Engine{
+class PVDECLSPEC Engine : public SmartReference { 
 public:
 
 	/**
