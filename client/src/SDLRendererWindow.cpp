@@ -30,6 +30,11 @@ void SDLRendererWindow::swapBuffer() {
 	}
 }
 
+void SDLRendererWindow::isFullScreen(void) const
+{
+
+}
+
 void SDLRendererWindow::setPosition(int x, int y) {
 	SDL_SetWindowPosition(this->window, x, y);
 }

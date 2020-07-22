@@ -83,6 +83,10 @@ void EditorWindow::setFullScreen(bool fullscreen) {
 
 }
 
+void EditorWindow::isFullScreen(void) const{
+	
+}
+
 void EditorWindow::setBordered(bool borded) {
 	//((QWindow *)this->window)
 }

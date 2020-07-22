@@ -134,6 +134,10 @@ void SDLRendererWindow::setFullScreen(bool fullscreen) {
 		SDL_SetWindowFullscreen(this->window, 0);
 }
 
+bool SDLRendererWindow::isFullScreen(void) const{
+	
+}
+
 void SDLRendererWindow::setBordered(bool bordered) {
 	SDL_SetWindowBordered(this->window, (SDL_bool) bordered);
 }

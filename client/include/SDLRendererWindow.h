@@ -47,6 +47,8 @@ public:
 
 	void setFullScreen(bool fullscreen) override;
 
+	void isFullScreen(void) const;
+
 	void setBordered(bool bordered) override;
 
 	void setMinimumSize(int width, int height) override;
