@@ -19,6 +19,7 @@ OPTION(BUILD_WITH_TEST "Enable Testing." ON)
 OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
 OPTION(BUILD_WITH_CLIENT "Build Client" ON)
+OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
 
 # Build external interface plugin.
 OPTION(BUILD_EXTERNAL_RENDERER "Building external renderer libraries" ON)
@@ -375,6 +376,22 @@ INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" # source directory
 		PATTERN "*.h" # select header files
 		)
 
+
+# Build frag core.
+IF(BUILD_WITH_CORE)
+
+ENDIF()
+
+# Build frag engine.
+IF(BUILD_WITH_ENGINE)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/fragengine)
+ENDIF()
+
+# Build frag editor.
+IF(BUILD_WITH_EDITOR)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
+ENDIF()
+
 # Rendering interfaces.
 IF(BUILD_EXTERNAL_RENDERER)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opengl/)
@@ -398,14 +415,6 @@ IF(BUILD_EXTERNAL_PHYSIC)
 ENDIF()
 
 
-IF(BUILD_WITH_CORE)
-
-ENDIF()
-
-# Editor.
-IF(BUILD_WITH_EDITOR)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
-ENDIF()
 
 # Client
 IF(BUILD_WITH_CLIENT)
