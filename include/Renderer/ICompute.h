@@ -3,9 +3,10 @@
 #include "../Def.h"
 #include "../Core/SmartReference.h"
 #include "../Prerequisites.h"
+#include "../Core/Module.h"
 
 namespace fragview {
-	class FVDECLSPEC ICompute : public SmartReference {
+	class FVDECLSPEC ICompute : public Module {
 	public:
 
 		/*	*/

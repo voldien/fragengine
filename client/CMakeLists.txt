@@ -26,9 +26,9 @@ FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 
 #
 ADD_EXECUTABLE(fragview ${SOURCE_FILES} ${HEADER_FILES})
-TARGET_LINK_LIBRARIES(fragview fragview-core ${SDL2_LIBRARIES})
+TARGET_LINK_LIBRARIES(fragview fragview-core fragengine ${SDL2_LIBRARIES})
 TARGET_INCLUDE_DIRECTORIES(fragview PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-ADD_DEPENDENCIES(fragview fragview-core)
+ADD_DEPENDENCIES(fragview fragview-core fragengine)
 
 # Install binary program
 INSTALL(TARGETS fragview DESTINATION bin)
