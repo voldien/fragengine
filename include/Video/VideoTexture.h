@@ -57,6 +57,7 @@ namespace fragview {
 	protected:
 		void *pVideoData;
 		AudioClip* audioClip;
+		Ref<AudioDecoder> decoder;
 	};
 }
 

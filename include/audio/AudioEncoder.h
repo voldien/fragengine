@@ -6,7 +6,7 @@
 
 namespace fragview
 {
-	class AudioEncoder : public SmartRefrence {
+	class FVDECLSPEC AudioEncoder : public SmartRefrence {
 		public:
 			AudioEncoder(Ref<IO> &io);
 	};

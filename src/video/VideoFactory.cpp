@@ -255,6 +255,7 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 
 
 	//TODO relocate.
+	//TODO add audio decoder.
 	struct AVPacket packet;
 	int res;
 	res = av_seek_frame(header.pformatCtx, header.videoStream, 60000, AVSEEK_FLAG_FRAME);

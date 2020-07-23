@@ -31,8 +31,9 @@ AudioInterface::AudioInterface(IConfig *config) {
 	AudioPhysicalDevices audioPhysicalDevices;
 	audioPhysicalDevices.setName(defaultDevice);
 	setAudioDevice(audioPhysicalDevices);
-}
 
+	Ref<IScheduler> scheduler = Ref<IScheduler>(new TaskScheduler(4, 48));
+}
 
 AudioInterface::~AudioInterface(void) {
 	OpenALInterfaceObject *audio = (OpenALInterfaceObject *) this->pdata;

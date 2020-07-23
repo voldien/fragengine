@@ -61,6 +61,8 @@ namespace fragview {
 		 */
 		virtual void setAudioListener(AudioListener* listener);
 
+		//virtual void createAudioInput();
+
 		/**
 		 *
 		 * @return
