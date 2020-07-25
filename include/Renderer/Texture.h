@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _TEXTURE_H_
-#define _TEXTURE_H_ 1
+#ifndef _FRAG_CORE_TEXTURE_H_
+#define _FRAG_CORE_TEXTURE_H_ 1
 #include "../Core/Object.h"
 #include "RenderObject.h"
 #include "Sampler.h"

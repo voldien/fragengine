@@ -3,6 +3,7 @@
 #include<AL/al.h>
 #include <audio/AudioClip.h>
 #include <Exception/InvalidArgumentException.h>
+#include"Utils/StringUtil.h"
 
 using namespace fragview;
 
@@ -15,20 +16,28 @@ void AudioSource::setClip(AudioClip *clip) {
 	const ALClip *alClip = clip->getObject();
 	// Verify the clio
 	if(!alIsBuffer(alClip->source))
-		throw InvalidArgumentException("");
+		throw InvalidArgumentException(fvformatf("%d", alGetError()));
 
 	alSourcei(source->source, AL_BUFFER, alClip->source);
-	alGetError();
+	int err = alGetError();
+	if (err != AL_NO_ERROR)
+		throw InvalidArgumentException(fvformatf("%d", alGetError()));
 }
 
 void AudioSource::play(void) {
 	ALSource *source = (ALSource *) this->getObject();
 	alSourcePlay(source->source);
+	int err = alGetError();
+	if (err != AL_NO_ERROR)
+		throw InvalidArgumentException(fvformatf("%d", alGetError()));
 }
 
 void AudioSource::stop(void) {
 	ALSource *source = (ALSource *) this->getObject();
 	alSourceStop(source->source);
+	int err = alGetError();
+	if (err != AL_NO_ERROR)
+		throw InvalidArgumentException(fvformatf("%d", alGetError()));
 }
 
 void AudioSource::pause(void) {
@@ -40,6 +49,7 @@ void AudioSource::pause(void) {
 void AudioSource::setVolume(float volume) {
 	ALSource *source = (ALSource *) this->getObject();
 
+	alSourcef(source->source, AL_GAIN, volume);
 	//alSourcef(source->source, AL_PITCH)
 }
 
@@ -77,12 +87,20 @@ void AudioSource::loop(bool loop) {
 	alSourcei(source->source, AL_LOOPING, loop ? AL_TRUE : AL_FALSE);
 }
 
+bool AudioSource::isLooping(void){
+	ALSource *source = (ALSource *)this->getObject();
+
+	int loop;
+	alGetSourcei(source->source, AL_LOOPING, &loop);
+	return loop;
+}
+
 bool AudioSource::isPlaying(void) {
 	ALSource *source = (ALSource *) this->getObject();
 	int playing;
 
-	alGetSourceiv(source->source, AL_PLAYING, &playing);
-	return playing;
+	alGetSourcei(source->source, AL_SOURCE_STATE, &playing);
+	return playing == AL_PLAYING;
 }
 
 float AudioSource::getPos(void) const {

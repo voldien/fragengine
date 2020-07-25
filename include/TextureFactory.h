@@ -1,6 +1,6 @@
 
-#ifndef _FV_TEXTURE_FACTORY_H_
-#define _FV_TEXTURE_FACTORY_H_ 1
+#ifndef _FRAG_CORE_TEXTURE_FACTORY_H_
+#define _FRAG_CORE_TEXTURE_FACTORY_H_ 1
 #include "Prerequisites.h"
 #include"Def.h"
 
@@ -15,7 +15,6 @@ namespace fragview {
 	public:
 
 		static Texture *createChecker(IRenderer *renderer, int w, int h);
-
 		static Texture *createPerlinNoise(IRenderer *renderer, int w, int h);
 
 	public:

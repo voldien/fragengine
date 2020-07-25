@@ -21,39 +21,47 @@ int main(int argc, const char **argv)
 	Ref<IScheduler> sch = Ref<IScheduler>(NULL);
 	FileSystem *fileSystem = FileSystem::createFileSystem(sch);
 
-	std::vector<AudioPhysicalDevices> devices = iaudio->getDevices();
-	std::vector<AudioPhysicalDevices>::iterator it = devices.begin();
+	std::vector<AudioPhysicalDevice> devices = iaudio->getDevices();
+	std::vector<AudioPhysicalDevice>::iterator it = devices.begin();
 
 	for (; it != devices.end(); it++){
 		printf(fvformatf("%s\n", (*it).getName().c_str()).c_str());
 	}
+	//printf("Current Device: %s", iaudio->getAudioDevice().getName());
 
 	AudioListenerDesc list_desc = {
-		.position = PVVector3(0,0,0),
-		.rotation = PVQuaternion::identity()
-	};
+		.position = PVVector3(0, 0, 0),
+		.rotation = PVQuaternion::identity()};
 	Ref<AudioListener> listener = Ref<AudioListener>(iaudio->createAudioListener(&list_desc));
-
+	//listener->setVolume(1.0f);
 	AudioSourceDesc source_desc = {};
 	source_desc.position = PVVector3::zero();
 	Ref<AudioSource> audioSource = Ref<AudioSource>(iaudio->createAudioSource(&source_desc));
 
 	AudioClipDesc clip_desc = {};
 	Ref<IO> f = Ref<IO>(fileSystem->openFile(argv[1], IO::READ));
-	AudioDecoder decoder(f);
-	decoder.readHeader();
-//	clip_desc.source = decoder.getData(&clip_desc.size);
-	clip_desc.samples = 44100;
-	clip_desc.sampleRate = 160000;
+	f->seek(0, IO::SET);
+	Ref<AudioDecoder> decoder = Ref<AudioDecoder>(new AudioDecoder(f));
+	clip_desc.decoder = decoder;
+	clip_desc.samples = 16;
+	clip_desc.sampleRate = 2* 44100;
 	clip_desc.format = AudioFormat::eStero;
+	
 
 	Ref<AudioClip> clip = Ref<AudioClip>(iaudio->createAudioClip(&clip_desc));
+	printf("Created the audio clip.\n");
+	//clip->setData
 	audioSource->setClip(*clip);
+	printf("Playing the sound.\n");
 	audioSource->play();
 
-	while (audioSource->isPlaying()){
-		sleep(1);
+	usleep(10);
+	while (audioSource->isPlaying())
+	{
+		printf("pos sec: %f\n", audioSource->getPos());
+		usleep(500);
 	}
 
+	sleep(10);
 	//delete iaudio;
 }

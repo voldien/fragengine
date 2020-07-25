@@ -1,6 +1,7 @@
 
 #include<FreeImage.h>
 #include"Renderer/Texture.h"
+
 #include"Utils/TextureUtil.h"
 #include"Utils/StringUtil.h"
 #include<stdio.h>
@@ -267,8 +268,45 @@ void TextureUtil::saveTexture(const char *filepath, IRenderer *renderer, Texture
 	FreeImage_DeInitialise();
 }
 
-void TextureUtil::saveTexture(IO* io, IRenderer* renderer, Texture* texture){
+void TextureUtil::saveTexture(Ref<IO> & io, IRenderer* renderer, Texture* texture){
 
+}
+
+Texture *TextureUtil::createTexture(IRenderer* renderer, unsigned int width, unsigned int height, const void *pixels, unsigned int size, TextureFormat format, GraphicFormat graphicformat){
+	/*  */
+	TextureDesc desc = {0};
+	desc.width = width;
+	desc.height = height;
+	desc.depth = 1;
+	desc.pixel = pixels;
+	desc.pixelSize = size;
+	desc.compression = TextureDesc::eNoCompression;
+	desc.nrSamples = 0;
+
+	/*  Texture.    */
+	desc.target = TextureDesc::eTexture2D;
+	desc.format = TextureDesc::eSingleColor;
+	desc.internalformat = TextureDesc::eRGBA;
+
+	desc.pixelFormat = TextureFormat::R8;
+	desc.graphicFormat = GraphicFormat::R8G8B8_SRGB;
+	desc.numlevel = 3;
+	desc.usemipmaps = 1;
+	desc.srgb = 0;
+
+	/*  sampler.    */
+	desc.sampler.AddressU = SamplerDesc::eRepeat;
+	desc.sampler.AddressV = SamplerDesc::eRepeat;
+	desc.sampler.AddressW = SamplerDesc::eRepeat;
+	desc.sampler.anisotropy = 8.0f;
+	desc.sampler.minFilter = SamplerDesc::eLinear;
+	desc.sampler.magFilter = SamplerDesc::eLinear;
+	desc.sampler.mipmapFilter = SamplerDesc::eLinear;
+	desc.sampler.maxLOD = 0;
+	desc.sampler.minLOD = 0;
+	desc.sampler.biasLOD = 0;
+
+	return renderer->createTexture(&desc);
 }
 
 TextureUtil::TextureUtil(void) {

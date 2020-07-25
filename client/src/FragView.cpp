@@ -321,25 +321,8 @@ void FragView::init(int argc, const char **argv) {
 
 	/*  Create task scheduler.  */
 	this->sch = Ref<IScheduler>(new TaskScheduler(2, 48));
-	// schTaskSch *taskSch = (schTaskSch *)malloc(sizeof(schTaskSch));
-	// int sch = schCreateTaskPool(taskSch, 2, SCH_FLAG_NO_AFM, 48);
-	// if (sch != SCH_OK)
-	// 	throw RuntimeException(schErrorMsg(sch));
-	// sch = schRunTaskSch(taskSch);
-	// if (sch != SCH_OK)
-	// 	throw RuntimeException(schErrorMsg(sch));
 
 	this->logicSch = Ref<IScheduler>(new TaskScheduler(SystemInfo::getCPUCoreCount(), 128));
-	// schTaskSch *logicSchu = (schTaskSch *) malloc(sizeof(schTaskSch));
-	// sch = schCreateTaskPool(logicSchu, SystemInfo::getCPUCoreCount(), 0, 128);
-	// if (sch != SCH_OK)
-	// 	throw RuntimeException(schErrorMsg(status));
-	// sch = schRunTaskSch(logicSchu);
-	// if (sch != SCH_OK)
-	// 	throw RuntimeException(schErrorMsg(status));
-
-	// this->logicSch = RefPtr<schTaskSch>(logicSchu);
-	// this->sch = RefPtr<schTaskSch>(taskSch);
 
 	FileSystem::createFileSystem(this->sch);
 

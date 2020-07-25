@@ -61,17 +61,18 @@ namespace fragview {
 		 */
 		virtual void setAudioListener(AudioListener* listener);
 
-		//virtual void createAudioInput();
+		/**/
+		virtual AudioCapture* createAudioCapture(void);
 
 		/**
 		 *
 		 * @return
 		 */
-		virtual std::vector<AudioPhysicalDevices> getDevices(void) const;
+		virtual std::vector<AudioPhysicalDevice> getDevices(void) const;
 		//TODO add mic.
 
-		virtual void setAudioDevice(const AudioPhysicalDevices& device);
-		virtual const AudioPhysicalDevices& getAudioDevice(void) const;
+		virtual void setAudioDevice(const AudioPhysicalDevice& device);
+		virtual const AudioPhysicalDevice &getAudioDevice(void) const;
 
 		//virtual AudioSettings* getAudioSettings(void);
 
@@ -80,7 +81,6 @@ namespace fragview {
 	private:
 		void *pdata;
 	};
-
 
 	/**
 	 * Create internal rendering interface.

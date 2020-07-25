@@ -1,6 +1,6 @@
 /**
-    FrameView for rendering shaders in screen space.
-    Copyright (C) 2018  Valdemar Lindberg
+ * 
+    Copyright (C) 2020  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,19 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAG_CORE_AUDIO_PREREQUISITES_H_
-#define _FRAG_CORE_AUDIO_PREREQUISITES_H_ 1
+#ifndef _FRAG_ENGINE_PREREQUISITES_H_
+#define _FRAG_ENGINE_PREREQUISITES_H_ 1
 
-namespace fragview {
-	class AudioInterface;
-	class AudioClip;
-	class AudioSource;
-	class AudioListener;
-	class AudioPhysicalDevice;
-	class AudioSettings;
-	class AudioObject;
-	class AudioReverb;
-    class AudioCapture;
-} // namespace fragview
+namespace fragengine {
+
+}
 
 #endif

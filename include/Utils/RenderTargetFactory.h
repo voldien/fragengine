@@ -16,16 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FV_RENDER_TARGET_FACTORY_H_
-#define _FV_RENDER_TARGET_FACTORY_H_ 1
+#ifndef _FRAG_ENGINE_RENDER_TARGET_FACTORY_H_
+#define _FRAG_ENGINE_RENDER_TARGET_FACTORY_H_ 1
 #include"../Renderer/IRenderer.h"
 #include"../Renderer/FrameBuffer.h"
 
 namespace fragview {
-/**
- *	Responsible for creating predefined
- *	framebuffer target.
- */
+    /**
+     *	Responsible for creating predefined
+    *	framebuffer target.
+    */
 	class FVDECLSPEC RenderTargetFactory {
 	public:
 

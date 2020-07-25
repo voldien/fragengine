@@ -1,4 +1,6 @@
+#include "audio/AudioDesc.h"
 #include "audio/openal/internal_object_type.h"
+
 using namespace fragview;
 
 ALenum translate2ALFormat(AudioFormat format){

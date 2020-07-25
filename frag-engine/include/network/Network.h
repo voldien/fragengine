@@ -22,120 +22,123 @@
 #include "UIDGenerator.h"
 #include <map>
 
-/**
- *	Responsible for performing connection and
- *	binding for the network.
- */
-class FVDECLSPEC NetWork{
-public:
-	static const int defaultPort = 55555;		/*	Default port for server.	*/
-	static const int broadcastport = 55554;		/*	Default broadcast port.	*/
-
+namespace fragengine
+{
 	/**
-	 *	Transfer protocol.
-	 */
-	enum TransportProtocol{
-		TCP = 0x1,		/*	*/
-		UDP = 0x2,		/*	*/
-	};
+	 *	Responsible for performing connection and
+	*	binding for the network.
+	*/
+	class FVDECLSPEC NetWork{
+	public:
+		static const int defaultPort = 55555;		/*	Default port for server.	*/
+		static const int broadcastport = 55554;		/*	Default broadcast port.	*/
 
-	/**
-	 *	Create binded socket connection.
-	 *
-	 *	\port the process will listen to.
-	 *
-	 *	\protocol the connection shall use.
-	 *
-	 *	\listen only important when using TCP.
-	 *
-	 *	@Return
-	 */
-	static Connection* bind(unsigned int port = defaultPort,
-	        TransportProtocol protocol = eTCP, unsigned int listen = 32);
+		/**
+		 *	Transfer protocol.
+		*/
+		enum TransportProtocol{
+			TCP = 0x1,		/*	*/
+			UDP = 0x2,		/*	*/
+		};
 
-	/**
-	 *	Create connection to IP address.
-	 *	The transport protocol will be assigned by the connection.
-	 *
-	 *	@Return non null pointer if successfully.
-	 */
-	static Connection* connect(const char* host,
-	        unsigned int port = defaultPort);
+		/**
+		 *	Create binded socket connection.
+		*
+		*	\port the process will listen to.
+		*
+		*	\protocol the connection shall use.
+		*
+		*	\listen only important when using TCP.
+		*
+		*	@Return
+		*/
+		static Connection* bind(unsigned int port = defaultPort,
+				TransportProtocol protocol = eTCP, unsigned int listen = 32);
 
-	/**
-	 *	Accept incoming connection.
-	 */
-	static Connection* accept(Connection* binded);
+		/**
+		 *	Create connection to IP address.
+		*	The transport protocol will be assigned by the connection.
+		*
+		*	@Return non null pointer if successfully.
+		*/
+		static Connection* connect(const char* host,
+				unsigned int port = defaultPort);
 
-	/**
-	 *	Create broadcast socket connection.
-	 *
-	 *	@Return non null pointer if successfully.
-	 */
-	static Connection* createBroadcastConnection(void);
+		/**
+		 *	Accept incoming connection.
+		*/
+		static Connection* accept(Connection* binded);
 
-	/**
-	 *	Get connection from unique identifier.
-	 *
-	 *	@Return non null pointer if connection exists.
-	 */
-	static Connection* getClientConnectionByUID(unsigned int uid);
+		/**
+		 *	Create broadcast socket connection.
+		*
+		*	@Return non null pointer if successfully.
+		*/
+		static Connection* createBroadcastConnection(void);
 
-	/**
-	 *	Add client connection to the network of the process.
-	 */
-	static void addClient(Connection* connection);
+		/**
+		 *	Get connection from unique identifier.
+		*
+		*	@Return non null pointer if connection exists.
+		*/
+		static Connection* getClientConnectionByUID(unsigned int uid);
 
-	/**
-	 *	Remove connection from the network of the process.
-	 */
-	static void disconnect(Connection* connection);
+		/**
+		 *	Add client connection to the network of the process.
+		*/
+		static void addClient(Connection* connection);
 
-	/**
-	 *	Disconnect all connection.
-	 */
-	static void disconnectAll(void);
+		/**
+		 *	Remove connection from the network of the process.
+		*/
+		static void disconnect(Connection* connection);
 
-	/**
-	 *	Get number of client connections.
-	 *	@Return number of client connections.
-	 */
-	static unsigned int getNumClientConnections(void);
+		/**
+		 *	Disconnect all connection.
+		*/
+		static void disconnectAll(void);
 
-
-	/**
-	 *
-	 *	@Return connection pointer.
-	 */
-	static Connection* allocateConnection(void);
+		/**
+		 *	Get number of client connections.
+		*	@Return number of client connections.
+		*/
+		static unsigned int getNumClientConnections(void);
 
 
-protected:	/*	Internal methods.	*/
+		/**
+		 *
+		 *	@Return connection pointer.
+		*/
+		static Connection* allocateConnection(void);
 
-	/**
-	 *	Bind
-	 */
-	static int bind(int numip, const char** ips);
 
-	/**
-	 *
-	 */
-	static int internalconnect(const char* ip, unsigned int port);
+	protected:	/*	Internal methods.	*/
 
-private:	/*	Attributes.	*/
+		/**
+		 *	Bind
+		*/
+		static int bind(int numip, const char** ips);
 
-	/*	TODO look at the design.	*/
-	class NetworkInternal{
+		/**
+		 *
+		 */
+		static int internalconnect(const char* ip, unsigned int port);
+
+	private:	/*	Attributes.	*/
+
+		/*	TODO look at the design.	*/
+		class NetworkInternal{
+			static Connection* broadcast;
+			static std::map<unsigned int, Connection*> connections;
+			static UIDGenerator uidgenerator;	/*	*/
+		};
 		static Connection* broadcast;
 		static std::map<unsigned int, Connection*> connections;
 		static UIDGenerator uidgenerator;	/*	*/
+
+		//static NetworkInternal* internal;
 	};
-	static Connection* broadcast;
-	static std::map<unsigned int, Connection*> connections;
-	static UIDGenerator uidgenerator;	/*	*/
 
-	//static NetworkInternal* internal;
-};
-
+} // namespace fragengine
 
 #endif

@@ -24,9 +24,9 @@ namespace fragview {
 	/**
 	 *
 	 */
-	class FVDECLSPEC AudioPhysicalDevices : public Object {
+	class FVDECLSPEC AudioPhysicalDevice : public Object {
 	public:
-		AudioPhysicalDevices(void) {
+		AudioPhysicalDevice(void) {
 
 		}
 

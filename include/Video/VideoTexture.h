@@ -27,6 +27,8 @@ namespace fragview {
 	 *
 	 */
 	class FVDECLSPEC VideoTexture : public SmartReference {
+		friend class VideoFactory;
+
 	public:
 
 		VideoTexture(void);
@@ -56,7 +58,8 @@ namespace fragview {
 
 	protected:
 		void *pVideoData;
-		AudioClip* audioClip;
+		Ref<AudioClip> audioClip;
+		Ref<Texture> texture;
 		Ref<AudioDecoder> decoder;
 	};
 }

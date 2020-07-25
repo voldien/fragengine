@@ -19,79 +19,79 @@
 #ifndef _FRAG_ENGINE_ENGINE_H_
 #define _FRAG_ENGINE_ENGINE_H_ 1
 #include<fragview/FragViewCore.h>
+#include<fragview/Core/SmartReference.h>
 
-namespace fragengine {
+// namespace fragengine {
+// 	using namespace fragview;
+// 	/**
+// 	 *	Engine class. Responsible for
+// 	*	combining each component.
+// 	*/
+// 	class FVDECLSPEC Engine : public SmartReference { 
+// 	public:
 
-}
-/**
- *	Engine class. Responsible for
- *	combining each component.
- */
-class PVDECLSPEC Engine : public SmartReference { 
-public:
+// 		/**
+// 		 * Initialize the engine.
+// 		 * @param argc
+// 		 * @param argv
+// 		 * @param renderinginterface
+// 		 * @param physicinterface
+// 		 * @param config
+// 		 */
+// 		static void init(int argc,
+// 				const char** argv,
+// 				Ref<Config>& config = NULL);
 
-	/**
-	 * Initialize the engine.
-	 * @param argc
-	 * @param argv
-	 * @param renderinginterface
-	 * @param physicinterface
-	 * @param config
-	 */
-	static void init(int argc,
-			const char** argv,
-			Ref<Config>& config = NULL);
+// 		/**
+// 		 * 	Get version of the engine.
+// 		 *
+// 		 *	@Return non-null terminated string.
+// 		*/
+// 		static const char* getVersion(void);
 
-	/**
-	 * 	Get version of the engine.
-	 *
-	 *	@Return non-null terminated string.
-	 */
-	static const char* getVersion(void);
+// 		/*	TODO make engine class a expert object for rendering and physic dynamicInterface.	*/
+// 		/**
+// 		 *	Create a renderable window from the current set rendering interface.
+// 		*
+// 		*	@Return SDL_Window pointer data type.
+// 		*/
+// 		static void* createWindow(RenderingInterface* renderer, const char* title, int x, int y, int width, int height);
 
-	/*	TODO make engine class a expert object for rendering and physic dynamicInterface.	*/
-	/**
-	 *	Create a renderable window from the current set rendering interface.
-	 *
-	 *	@Return SDL_Window pointer data type.
-	 */
-	static void* createWindow(RenderingInterface* renderer, const char* title, int x, int y, int width, int height);
+// 		/**
+// 		 *
+// 		 * @param commandController
+// 		 */
+// 		static void setCommandController(CommandController* commandController);
 
-	/**
-	 *
-	 * @param commandController
-	 */
-	static void setCommandController(CommandController* commandController);
+// 		/**
+// 		 *
+// 		 * @return
+// 		 */
+// 		static SceneManager* getSceneManager(void);
 
-	/**
-	 *
-	 * @return
-	 */
-	static SceneManager* getSceneManager(void);
+// 		/**
+// 		 *	Get engine configuration of the program.
+// 		*	@Return non-null if exists.
+// 		*/
+// 		static Ref<Config> getConfig(void);
 
-	/**
-	 *	Get engine configuration of the program.
-	 *	@Return non-null if exists.
-	 */
-	static Ref<Config> getConfig(void);
+// 		/**
+// 		 * Start running.
+// 		 */
+// 		static void run(void);
 
-	/**
-	 * Start running.
-	 */
-	static void run(void);
+// 	protected:	/*	Engine attributes.	*/
 
-protected:	/*	Engine attributes.	*/
+// 		static Ref<SceneManager> sceneManager;      /*  */
+// 		static Ref<CommandController> controller;   /*  */
+// 		static Ref<Config> config;					/*	*/
+// 		static std::vector<Scene*> scenes;      /*  */ //TODO remove
 
-	static Ref<SceneManager> sceneManager;      /*  */
-	static Ref<CommandController> controller;   /*  */
-	static Ref<Config> config;					/*	*/
-    static std::vector<Scene*> scenes;      /*  */ //TODO remove
+// 	private:	/*	Prevent one from creating an instance of this class.	*/
 
-private:	/*	Prevent one from creating an instance of this class.	*/
+// 		Engine(void);
+// 		Engine(const Engine& other);
 
-	Engine(void);
-	Engine(const Engine& other);
-
-};
-
+// 	};
+// } // namespace fragengine
 #endif

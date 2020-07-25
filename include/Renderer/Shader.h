@@ -16,14 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _SHADER_H_
-#define _SHADER_H_ 1
+#ifndef _FRAG_CORE_SHADER_H_
+#define _FRAG_CORE_SHADER_H_ 1
 #include"Buffer.h"
 
 namespace fragview {
-/**
- * Shader.
- */
+	/**
+	 * Shader.
+	 */
 	class FVDECLSPEC Shader : public RenderObject {
 		friend class IRenderer;
 

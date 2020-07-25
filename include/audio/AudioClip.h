@@ -19,8 +19,10 @@ namespace fragview {
 		virtual unsigned long getSize(void) const;
 		virtual float length(void) const;
 
+		virtual AudioDataMode clipType(void) const;
+
 		virtual void getData(void* pData, unsigned int nsamples, unsigned int offset);
-		virtual void setData(void* pData, unsigned int nsamples, unsigned int offset);
+		virtual void setData(const void* pData, unsigned int nsamples, unsigned int offset);
 
 		intptr_t getNativePtr(void) const override;
 

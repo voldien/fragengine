@@ -1,4 +1,7 @@
 #include "TextureFactory.h"
+#include"Utils/TextureUtil.h"
+#include"Exception/InvalidArgumentException.h"
+#include"Core/Math.h"
 #include"Renderer/IRenderer.h"
 #include"Renderer/Texture.h"
 #include<libnoise/noise.h>
@@ -6,58 +9,37 @@
 using namespace fragview;
 using namespace noise;
 
-Texture* TextureFactory::createChecker(IRenderer *renderer, int w, int h) {
+Texture *TextureFactory::createChecker(IRenderer *renderer, int width, int height)
+{
 	void *pixels;
+	int pixelSize;
+	assert(renderer && width > 0 && height > 0);
 
-	assert(renderer && w > 0 && h > 0);
+	createChecker(width, height, &pixels);
 
-	createChecker(w, h, &pixels);
-
-	TextureDesc desc = {};
-	desc.width = w;
-	desc.height = h;
-	desc.depth = 1;
-	desc.target = TextureDesc::eTexture2D;
-	desc.internalformat = TextureDesc::eRGB;
-	desc.type = TextureDesc::eSignedByte;
-	desc.format = TextureDesc::eRGBA;
-	desc.pixel = pixels;
-
-	Texture *texture = renderer->createTexture(&desc);
+	Texture *texture = TextureUtil::createTexture(renderer, width, height, pixels, pixelSize, TextureFormat::R8, GraphicFormat::R8G8B8_SRGB);
 
 	free(pixels);
 	return texture;
 }
 
-Texture* TextureFactory::createPerlinNoise(IRenderer *renderer, int w, int h) {
-	Texture *textureObject;
-	void *pixels;
+Texture* TextureFactory::createPerlinNoise(IRenderer *renderer, int width, int height) {
+	char *pixels;
+	int pixelSize = width * height * 1;
 
-	assert(renderer && w > 0 && h > 0);
+	assert(renderer && width > 0 && height > 0);
+	if(renderer == NULL)
+		throw InvalidArgumentException();
 
-	/*  */
-//	module::Perlin perlin;
-//	utils::NoiseMap heightMap;
-//	utils::NoiseMapBuilderPlane heightMapBuilder;
-//	heightMapBuilder.SetSourceModule (perlin);
-//	heightMapBuilder.SetDestNoiseMap (heightMap);
-//	heightMapBuilder.SetDestSize (256, 256);
-//	heightMapBuilder.SetBounds (6.0, 10.0, 1.0, 5.0);
-//	heightMapBuilder.Build ();
-	//pixels = PerlinNoise::generatePerlinNoise(w, h, 65, 7, 1.0f, 1.0f);
+	for (int x = 0; x < width; x)
+	{
+		for (int y = 0; y < height; y++)
+		{
+			pixels[y * width + x] = Math::PerlinNoise(x * 0.001f, y * 0.001f);
+		}
+	}
 
-	/*  */
-	TextureDesc desc;
-	desc.width = w;
-	desc.height = h;
-	desc.target = TextureDesc::eTexture2D;
-	desc.internalformat = TextureDesc::eRGB;
-	desc.type = TextureDesc::eUnsignedByte;
-	desc.format = TextureDesc::eSingleColor;
-	desc.pixel = pixels;
-
-	/*  */
-	Texture *texture = renderer->createTexture(&desc);
+	Texture *texture = TextureUtil::createTexture(renderer, width, height, pixels, pixelSize, TextureFormat::R8, GraphicFormat::R8G8B8_SRGB);
 
 	free(pixels);
 	return texture;
@@ -138,6 +120,4 @@ void TextureFactory::createChecker(int width, int Height, char **pixelsResult) {
 		}	// iteration of X
 		continue;
 	}	// iteration of Y
-
 }
-

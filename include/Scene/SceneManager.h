@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _SCENEMANAGER_H_
-#define _SCENEMANAGER_H_ 1
+#ifndef _FRAG_ENGINE_SCENEMANAGER_H_
+#define _FRAG_ENGINE_SCENEMANAGER_H_ 1
 #include"Def.h"
 #include"Scene.h"
 

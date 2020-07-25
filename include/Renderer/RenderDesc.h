@@ -416,11 +416,11 @@ namespace fragview {
 
 		/*	Texture pixel data.	*/
 		union {
-			void *pixel;                    /*  Pixel pointer.  */
+			const void *pixel;                    /*  Pixel pointer.  */
 			struct {
-				void *cubepixel[6];         /*	Cubemap pixel point references. */
+				const void *cubepixel[6];         /*	Cubemap pixel point references. */
 			};
-			void* pixelarray;               /*  */
+			const void *pixelarray; /*  */
 		};
 		unsigned long pixelSize;        /*  Image size in bytes.    */
 		SamplerDesc sampler;            /*  Texture sampling.   */

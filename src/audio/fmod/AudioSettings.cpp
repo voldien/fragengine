@@ -1,20 +1,20 @@
 #include<fmod/fmod.hpp>
-#include"VDAudioSetting.h"
+#include"AudioSetting.h"
 #include"VDEngine.h"
 
-bool VDAudioSetting::isEnable(void){
+bool AudioSetting::isEnable(void){
 	if(engine.audioContext != NULL){
 		return true;
 	}
 	return false;
 }
 
-bool VDAudioSetting::isDisable(void){
+bool AudioSetting::isDisable(void){
 	return engine.audioContext == NULL;
 }
 
-void VDAudioSetting::setMasterVolume(float volume){
-	if(VDAudioSetting::isDisable())
+void AudioSetting::setMasterVolume(float volume){
+	if(AudioSetting::isDisable())
 		return;
 
 	FMOD::SoundGroup* group;
@@ -22,8 +22,8 @@ void VDAudioSetting::setMasterVolume(float volume){
 	group->setVolume(volume);
 }
 
-float VDAudioSetting::getMasterVolume(void){
-	if(VDAudioSetting::isDisable())
+float AudioSetting::getMasterVolume(void){
+	if(AudioSetting::isDisable())
 		return 0;
 
 	float volume;
@@ -35,15 +35,15 @@ float VDAudioSetting::getMasterVolume(void){
 	return volume;
 }
 
-void VDAudioSetting::setSpeakMode(SpeakerMode speakerMode){
-	if(VDAudioSetting::isDisable())
+void AudioSetting::setSpeakMode(SpeakerMode speakerMode){
+	if(AudioSetting::isDisable())
 		return;
 
 	VDCASTP(FMOD::System*,engine.audioContext)->setSpeakerMode((FMOD_SPEAKERMODE)speakerMode);
 }
 
-VDAudioSetting::SpeakerMode VDAudioSetting::getSpeakerMode(void){
-	if(VDAudioSetting::isDisable())
+AudioSetting::SpeakerMode AudioSetting::getSpeakerMode(void){
+	if(AudioSetting::isDisable())
 		return eUnknown;
 
 	FMOD_SPEAKERMODE speakdermode;
@@ -51,8 +51,8 @@ VDAudioSetting::SpeakerMode VDAudioSetting::getSpeakerMode(void){
 	return (SpeakerMode)speakdermode;
 }
 
-int VDAudioSetting::getSampleRate(void){
-	if(VDAudioSetting::isDisable())
+int AudioSetting::getSampleRate(void){
+	if(AudioSetting::isDisable())
 		return 0;
 
 	int sampleRate;
@@ -60,8 +60,8 @@ int VDAudioSetting::getSampleRate(void){
 	return sampleRate;
 }
 
-void VDAudioSetting::setSampleRate(int samplerate){
-	if(VDAudioSetting::isDisable())
+void AudioSetting::setSampleRate(int samplerate){
+	if(AudioSetting::isDisable())
 		return;
 
 	int sampleRate;
@@ -79,8 +79,8 @@ void VDAudioSetting::setSampleRate(int samplerate){
 }
 
 
-VDAudioSetting::Format VDAudioSetting::getFormat(void){
-	if(VDAudioSetting::isDisable())
+AudioSetting::Format AudioSetting::getFormat(void){
+	if(AudioSetting::isDisable())
 		return 0;
 
 	int sampleRate;
@@ -91,23 +91,23 @@ VDAudioSetting::Format VDAudioSetting::getFormat(void){
 
 
 	if(VDCASTP(FMOD::System*,engine.audioContext)->getSoftwareFormat(&sampleRate,&format,&numoutputchannels,&maxinputchannels,&resamplemethod,NULL) == FMOD_OK){
-		return (VDAudioSetting::Format)format;
+		return (AudioSetting::Format)format;
 	}
 	return eNone;
 }
 
-void VDAudioSetting::setFormat(Format format){
-	if(VDAudioSetting::isDisable())
+void AudioSetting::setFormat(Format format){
+	if(AudioSetting::isDisable())
 		return;
 }
 
-int VDAudioSetting::getVolumeSpeed(void){
-	if(VDAudioSetting::isDisable())
+int AudioSetting::getVolumeSpeed(void){
+	if(AudioSetting::isDisable())
 		return 0;
 	return 1;
 }
 
-void VDAudioSetting::setVolumeSpeed(int volumeSpeed){
-	if(VDAudioSetting::isDisable())
+void AudioSetting::setVolumeSpeed(int volumeSpeed){
+	if(AudioSetting::isDisable())
 		return;
 }

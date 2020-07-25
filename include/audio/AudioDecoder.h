@@ -7,27 +7,34 @@
 #include "../Core/SmartReference.h"
 #include "../Core/Ref.h"
 #include "../Core/IO/IO.h"
+#include <ogg/ogg.h>
+#include <opus/opus.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisfile.h>
 
 namespace fragview
 {
+	/**
+	 * 
+	 */
 	class FVDECLSPEC AudioDecoder : public SmartReference
 	{
 	public:
 		AudioDecoder(Ref<IO> &io);
+		virtual ~AudioDecoder(void);
 
-		virtual void seek(int i);
+		virtual void seek(long int microseconds);
 
 		void *getData(long int *size);
 
-		virtual void readHeader(void);
+		void *getPage(int i);
 
 	public:
 		Ref<IO> io;
+		OggVorbis_File *ov;
 		//AudioFormat format;
 		long int channels;
-		long int format;
 		long int samples;
-		long int sampleRate;
 	};
 }
 

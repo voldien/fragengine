@@ -3,8 +3,10 @@
 #include <Utils/StringUtil.h>
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/RuntimeExecption.h>
-#include"Video/VideoFactory.h"
-#include"Core/IO/IO.h"
+#include "Video/VideoFactory.h"
+#include "Core/IO/IO.h"
+#include "audio/AudioInterface.h"
+#include "audio/AudioDecoder.h"
 
 using namespace fragview;
 
@@ -253,7 +255,6 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 	header.frame_timer = av_gettime() / 1000000.0;
 
 
-
 	//TODO relocate.
 	//TODO add audio decoder.
 	struct AVPacket packet;
@@ -341,6 +342,14 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 	}
 
 
+	/*	Create Audio clip.	*/
+	Ref<AudioDecoder> video_audio_decoder;
+	AudioClipDesc clip_desc = {};
+	clip_desc.decoder = video_audio_decoder;
+	clip_desc.samples = header.pVideoCtx->sample_fmt;
+	clip_desc.sampleRate = header.pVideoCtx->channels * header.pVideoCtx->sample_rate;
+	clip_desc.format = (AudioFormat)header.pVideoCtx->channels;
+	*audio = audioInterface->createAudioClip(&clip_desc);
 
 
 	TextureDesc desc = {};
@@ -376,6 +385,9 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 	Texture *texture = renderer->createTexture(&desc);
 
 	VideoTexture* videoTexture =  NULL;
+	videoTexture->audioClip = Ref<AudioClip>(*audio);
+	videoTexture->decoder = video_audio_decoder;
+	videoTexture->texture = Ref<Texture>(texture);
 
 	header.io = ref;
 	header.texture = Ref<Texture>(texture);

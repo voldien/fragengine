@@ -1,8 +1,9 @@
 
-#ifndef FRAGVIEW_AUDIOOBJECT_H_
-#define FRAGVIEW_AUDIOOBJECT_H_ 1
+#ifndef _FRAG_CORE_AUDIOOBJECT_H_
+#define _FRAG_CORE_AUDIOOBJECT_H_ 1
+#include"Prerequisites.h"
 #include"../Core/SmartReference.h"
-
+#include"../Core/Ref.h"
 
 namespace fragview {
 	class AudioInterface; //TODO relocate.

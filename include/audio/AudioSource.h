@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _AUDIOSOURCE_H_
-#define _AUDIOSOURCE_H_ 1
+#ifndef _FRAG_CORE_AUDIOSOURCE_H_
+#define _FRAG_CORE_AUDIOSOURCE_H_ 1
 #include"../Def.h"
 #include"AudioObject.h"
 #include"AudioClip.h"
@@ -52,9 +52,14 @@ namespace fragview {
 		virtual void mute(bool mute);
 
 		virtual void loop(bool loop);
+		virtual bool isLooping(void);
 
 		virtual bool isPlaying(void);
 
+
+
+//		virtual void setTime(float time);
+//		virtual void getTime(void) const;
 
 		virtual float getPos(void) const;
 		virtual void setPos(float position);
