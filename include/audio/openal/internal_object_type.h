@@ -20,6 +20,8 @@ namespace fragview {
 
 	typedef struct openal_audio_source_t {
 		unsigned int source;
+		unsigned long currnet_seek_page;
+		AudioDataMode loadMode;
 	} ALSource;
 
 	typedef struct openal_audio_reverb_t{

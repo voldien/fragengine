@@ -98,12 +98,19 @@ AudioClip *AudioInterface::createAudioClip(AudioClipDesc *desc){
 	alGenBuffers((ALuint)1, &buffer);
 
 	/*	TODO based on the loading type.	*/
-	long int size;
-	void *data = desc->decoder->getData(&size);
+	if(desc->datamode == AudioDataMode::LoadedInMemory){
+		long int size;
+		void *data = desc->decoder->getData(&size);
 
-	/*	*/
-	alBufferData(buffer, to_al_format(desc->format, desc->samples),
-				 data, size, desc->sampleRate);
+		/*	*/
+		alBufferData(buffer, to_al_format(desc->format, desc->samples),
+					data, size, desc->sampleRate);
+
+		free(data);
+	}
+	else{
+
+	}
 
 	int err = alGetError();
 	if (err != ALC_NO_ERROR)
