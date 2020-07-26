@@ -3,24 +3,46 @@
 #include"../Def.h"
 #include"../Renderer/Shader.h"
 #include"../Core/Ref.h"
+#include<map>
+#include<vector>
 
 namespace fragview{
-	
+
+	/**
+	 * 
+	 */
 	class FVDECLSPEC ShaderCompiler{
 	public:
-		class CompilerOptions : UIDObject {
+		class CompilerOption : UIDObject {
+			public:
+			unsigned int type;
 			const char *name;
 			const char *value;
 		};
 
-		class CompilerSources{
+		class CompilerSources {
+		public:
 			Ref<IO> vertex;
 			Ref<IO> fragment;
 			Ref<IO> geometry;
-			Ref<IO> tesselation;
+			Ref<IO> tessellationControl;
+			Ref<IO> tessellationEvolution;
+			Ref<IO> compute;
 		};
 
-		std::vector<Ref<Shader>> CompilePermutation(Ref<IRenderer>& renderer,  std::vector<CompilerOptions>& options);
+		class ShaderResult : UIDObject {
+		public:
+			Ref<Shader> shader;
+			CompilerOption option;
+		};
+
+		class CompilerOptionSet {
+			public:
+			std::vector<CompilerOption> option;
+		};
+
+		std::map<long int, ShaderResult>
+		CompilePermutation(Ref<IRenderer> &renderer, CompilerSources* references, const CompilerOptionSet &optionset);
 	};
 } 
 #endif

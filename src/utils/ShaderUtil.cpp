@@ -163,6 +163,7 @@ void ShaderUtil::loadShader(const char *source, const int size, ShaderType type,
 	const char *sources[4] = {NULL};
 
 	/*	Source code constants for language supporting preprocessors.*/
+	//TODO remove and make part of the shader compiler.
 	static const char *vconst = "#define FV_VERTEX\n";
 	static const char *fconst = "#define FV_FRAGMENT\n";
 	static const char *gconst = "#define FV_GEOMETRY\n";
@@ -279,6 +280,17 @@ void ShaderUtil::loadProgram(const void *pData, long int nBytes, IRenderer *rend
 	shader = renderer->createShader(&desc);
 	*pShader = shader;
 }
+
+void ShaderUtil::loadProgram(
+	ShaderObjectDesc *vertex,
+	ShaderObjectDesc *fragment,
+	ShaderObjectDesc *geometry,
+	ShaderObjectDesc *tesseC,
+	ShaderObjectDesc *tesseT,
+	ShaderObjectDesc *compute,
+	Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader){
+		
+	}
 
 void ShaderUtil::loadComputeShader(const Ref<IO> &computeIO,  Ref<IRenderer>& renderer, ProgramPipeline **programPipeline)
 {
@@ -446,7 +458,7 @@ ShaderType ShaderUtil::getShaderType(const char* filePath){
 	return eFrag;
 }
 
-std::vector<ShaderUtil::DefaultTextureLocation> ShaderUtil::getShaderUniformAttributes(void)
+std::vector<ShaderUtil::UniformLocation> ShaderUtil::getShaderUniformAttributes(void)
 {
 }
 

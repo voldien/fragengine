@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _GZ_FILE_H_
-#define _GZ_FILE_H_ 1
+#ifndef _FRAG_CORE_GZ_FILE_H_
+#define _FRAG_CORE_GZ_FILE_H_ 1
 #include "IO.h"
 #include "FileIO.h"
 #if defined(FRAGVIEW_CORE_INTERNAL_IMP)	//TODO resolve to a single file or something later

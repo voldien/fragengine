@@ -34,18 +34,32 @@ namespace fragview {
 		typedef struct default_texture_location_t {
 			const char *texname;    /*  */
 			int loc;                /*  */
-		} DefaultTextureLocation;
+		} DefaultTextureLocation;	//TODO relocate to to the engine.
+
+		typedef struct uniform_location_t{
+			const char *texname; /*  */
+			int loc;			 /*  */
+		} UniformLocation;
+
 		typedef struct shaderObject {
 			const char *buf;
 			unsigned long size;
 			ShaderLanguage language;
 			ShaderDesc::ShaderCodeType type;
 		} ShaderObject;
-	public:
 
-		// TODO relocate and .
-		static void loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language, IRenderer *renderer,
-		                                        ProgramPipeline **pshader);
+		typedef struct ShaderObjectDesc_t{
+			std::vector<Ref<IO>> &source;
+			ShaderLanguage language;
+			ShaderDesc::ShaderCodeType type;
+		} ShaderObjectDesc;
+
+		public:
+
+			// TODO relocate and .
+			static void
+			loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language, IRenderer *renderer,
+										ProgramPipeline **pshader);
 
 		static void
 		loadProgramPipeline(const ShaderObject *vshader, const ShaderObject *fshader, const ShaderObject *gshader,
@@ -55,6 +69,18 @@ namespace fragview {
 		static void
 		loadShader(const char *source, const int size, ShaderType type, IRenderer *renderer, Shader **pshader,
 		           ShaderLanguage language = GLSL, unsigned int dataType = 0);
+
+		static void loadShader(const Ref<IO> &io, ShaderType, Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader);
+		static void loadProgram(const Ref<IO> &io, Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader);
+		static void loadProgram(
+			ShaderObjectDesc *vertex,
+			ShaderObjectDesc *fragment,
+			ShaderObjectDesc *geometry,
+			ShaderObjectDesc *tesseC,
+			ShaderObjectDesc *tesseT,
+			ShaderObjectDesc *compute,
+			Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader);
+		//static void loadProgram(const )
 
 		static void loadProgram(IO *io, IRenderer *renderer, Shader **pShader, unsigned int format);
 		static void loadProgram(const void* pData, long int nBytes, IRenderer *renderer, Shader **pShader, unsigned int format);
@@ -86,7 +112,7 @@ namespace fragview {
 		//TODO relocate to the engine.
 		static void defaultUniformMap(ProgramPipeline *programPipeline);
 
-		static std::vector<DefaultTextureLocation> getShaderUniformAttributes(void);
+		static std::vector<UniformLocation> getShaderUniformAttributes(void);
 
 		//TODO resolve and act as a helper function.
 		static void copyUniform(Ref<Shader> &shader);

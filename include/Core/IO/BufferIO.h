@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_BUFFERIO_H_
-#define FRAGVIEW_BUFFERIO_H_ 1
+#ifndef _FRAG_CORE_BUFFERIO_H_
+#define _FRAG_CORE_BUFFERIO_H_ 1
 #include"../../Def.h"
 #include"IO.h"
 

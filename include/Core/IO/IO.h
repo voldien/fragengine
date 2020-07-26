@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ABSTRACT_IO_H_
-#define _ABSTRACT_IO_H_ 1
+#ifndef _FRAG_CORE_ABSTRACT_IO_H_
+#define _FRAG_CORE_ABSTRACT_IO_H_ 1
 #include "FileAccess.h"
 #include"../../Prerequisites.h"
 

@@ -37,7 +37,7 @@
 
 #define FV_NAME ""
 #if defined(FRAGVIEW_CORE_INTERNAL_IMP)
-
+#include<zlib.h>
 #else
 
 #endif

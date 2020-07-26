@@ -52,11 +52,12 @@ namespace fragview {
 											unsigned long *pixelSize);
 
 		//TODO remove the filepath.
+		/*	*/
 		static void saveTexture(const char *filepath, IRenderer *renderer, Texture *texture);
 		static void saveTexture(Ref<IO> & io, IRenderer* renderer, Texture* texture);
-		//static void SaveTexture(IO *io, IO *a);
 
-
+		/*	*/
+		static Texture *createTexture(IRenderer *renderer, unsigned int width, unsigned int height, const Ref<IO>& io, TextureFormat format, GraphicFormat graphicformat);
 		static Texture *createTexture(IRenderer *renderer, unsigned int width, unsigned int height, const void *pixels,
 					unsigned int size, TextureFormat format, GraphicFormat graphicformat);
 

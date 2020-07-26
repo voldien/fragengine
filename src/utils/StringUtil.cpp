@@ -1,6 +1,5 @@
 #include "Utils/StringUtil.h"
-#include<vector>
-//using namespace fragview;
+#include <vector>
 
 std::string fvformatf(const std::string &format, ...) {
 	va_list args;

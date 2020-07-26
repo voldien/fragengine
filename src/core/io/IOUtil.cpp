@@ -4,7 +4,7 @@
 
 using namespace fragview;
 
-long int IOUtil::loadFileMem(Ref<IO> &io, char **data)
+long int IOUtil::loadFileMem(const Ref<IO> &io, char **data)
 {
 	char *d = NULL;
 	long dataSize = 0;
@@ -49,7 +49,7 @@ long int IOUtil::loadFile(const Ref<IO> &in, Ref<IO> &out)
 	return dataSize;
 }
 
-long int IOUtil::loadStringMem(Ref<IO> &io, char **string)
+long int IOUtil::loadStringMem(const Ref<IO> &io, char **string)
 {
 	long int nbytes;
 
