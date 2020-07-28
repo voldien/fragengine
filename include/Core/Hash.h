@@ -1,6 +1,8 @@
-#ifndef _FV_HASH_H_
-#define _FV_HASH_H_ 1
+#ifndef _FRAG_CORE_HASH_H_
+#define _FRAG_CORE_HASH_H_ 1
 #include"../Def.h"
+#include"IO/IO.h"
+#include"Ref.h"
 #include"Object.h"
 #include <vector>
 
@@ -18,10 +20,12 @@ namespace fragview {
 			SHA512,     /*  */
 		};
 		Hash(ALGORITHM algorithm);
+
 		~Hash(void);
 
 		/*  Add additional data to be used for computing.   .*/
 		void update(const void* pdata, size_t nbytes);
+		void update(const Ref<IO> &io);
 		/*  Get the final hash value.   */
 		void final(std::vector<unsigned char>& hash);
 

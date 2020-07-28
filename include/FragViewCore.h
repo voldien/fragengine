@@ -16,8 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_FRAGVIEWCORE_H_
-#define FRAGVIEW_FRAGVIEWCORE_H_ 1
+//TOOD rename to match the library tier layer name.
+#ifndef _FRAG_CORE_FRAGVIEWCORE_H_
+#define _FRAG_CORE_FRAGVIEWCORE_H_ 1
 #include"Prerequisites.h"
 #include"Utils/StringUtil.h"
 /*  */

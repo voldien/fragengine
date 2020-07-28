@@ -33,9 +33,24 @@ void Hash::update(const void *pdata, size_t nbytes) {
 		case MD5:
 			MD5_Update ((MD5_CTX*)this->context, pdata, nbytes);
 			break;
+		case SHA128:
+		case SHA256:
+		case SHA512:
 		default:
-			assert(0);
+			throw NotSupportedException("Not supported");
 	}
+}
+
+void Hash::update(const Ref<IO> &io){
+	char buffer[4096];
+	long int prev_pos = io->getPos();
+	long int len;
+
+	while((len = io->read(sizeof(buffer),buffer)) >= 0){
+		this->update(buffer, len);
+	}
+
+	io->seek(prev_pos, IO::Seek::SET);
 }
 
 void Hash::final(std::vector<unsigned char> &hash) {
@@ -44,8 +59,11 @@ void Hash::final(std::vector<unsigned char> &hash) {
 			hash.resize(MD5_DIGEST_LENGTH);
 			MD5_Final (hash.data(),(MD5_CTX*)this->context);
 			break;
+		case SHA128:
+		case SHA256:
+		case SHA512:
 		default:
-			assert(0);
+			throw NotSupportedException("Not supported");
 	}
 }
 

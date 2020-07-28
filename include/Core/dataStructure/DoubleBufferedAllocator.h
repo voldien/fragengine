@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FV_DOUBLE_BUFFERED_ALLACATOR_H_
-#define _FV_DOUBLE_BUFFERED_ALLACATOR_H_ 1
+#ifndef _FRAG_CORE_DOUBLE_BUFFERED_ALLACATOR_H_
+#define _FRAG_CORE_DOUBLE_BUFFERED_ALLACATOR_H_ 1
 #include"StackAllactor.h"
 #include"../SmartReference.h"
 

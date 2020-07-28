@@ -15,13 +15,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _TREE_H_
-#define _TREE_H_ 1
+#ifndef _FRAG_CORE_TREE_H_
+#define _FRAG_CORE_TREE_H_ 1
 #include"../../Exception/InvalidArgumentException.h"
 #include"../../Def.h"
 #include"Iterator.h"
 
 namespace fragview {
+
+	/**
+	 * 
+	 */
 	template<class T>
 	class ITree {
 	public:

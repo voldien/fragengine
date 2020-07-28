@@ -16,14 +16,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _VD_ITERATOR_H_
-#define _VD_ITERATOR_H_ 1
+#ifndef _FRAG_CORE_ITERATOR_H_
+#define _FRAG_CORE_ITERATOR_H_ 1
 #include"../../Def.h"
+#include"../Ref.h"
 
 
 namespace fragview {
 	/**
-	 *	Simple Iterator class for
+	 *	Simple abstract Iterator class for
 	 *	generic classes.
 	 */
 	template<class T>
@@ -40,12 +41,10 @@ namespace fragview {
 		 */
 		virtual Iterator &operator++(int);
 
-
 		/**
 		 *	@Return
 		 */
 		virtual Iterator &operator--(void);
-
 
 		/**
 		 *	@Return
@@ -56,7 +55,6 @@ namespace fragview {
 		 *	@Return
 		 */
 		virtual Iterator &operator-=(int n);
-
 
 		/**
 		 *	@Return

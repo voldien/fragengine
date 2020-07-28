@@ -5,7 +5,7 @@
 #include"Utils/TextureUtil.h"
 #include"Utils/StringUtil.h"
 #include<stdio.h>
-
+#include"Core/Math.h"
 #include<stdexcept>
 #include<Core/IO/FileSystem.h>
 #include <Exception/InvalidArgumentException.h>
@@ -272,6 +272,10 @@ void TextureUtil::saveTexture(Ref<IO> & io, IRenderer* renderer, Texture* textur
 
 }
 
+Texture *TextureUtil::createTexture(IRenderer *renderer, unsigned int width, unsigned int height, const Ref<IO> &io, TextureFormat format, GraphicFormat graphicformat){
+
+}
+
 Texture *TextureUtil::createTexture(IRenderer* renderer, unsigned int width, unsigned int height, const void *pixels, unsigned int size, TextureFormat format, GraphicFormat graphicformat){
 	/*  */
 	TextureDesc desc = {0};
@@ -288,13 +292,13 @@ Texture *TextureUtil::createTexture(IRenderer* renderer, unsigned int width, uns
 	desc.format = TextureDesc::eSingleColor;
 	desc.internalformat = TextureDesc::eRGBA;
 
-	desc.pixelFormat = TextureFormat::R8;
-	desc.graphicFormat = GraphicFormat::R8G8B8_SRGB;
-	desc.numlevel = 3;
+	desc.pixelFormat = format;
+	desc.graphicFormat = graphicformat;
+	desc.numlevel = 5;//Math::clamp((int)(log(width),0, 5);
 	desc.usemipmaps = 1;
 	desc.srgb = 0;
 
-	/*  sampler.    */
+	/*  Sampler.    */
 	desc.sampler.AddressU = SamplerDesc::eRepeat;
 	desc.sampler.AddressV = SamplerDesc::eRepeat;
 	desc.sampler.AddressW = SamplerDesc::eRepeat;

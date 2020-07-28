@@ -16,11 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_BASE16_H_
-#define FRAGVIEW_BASE16_H_ 1
+#ifndef _FRAG_CORE_BASE16_H_
+#define _FRAG_CORE_BASE16_H_ 1
+#include "IBase.h"
 
 namespace fragview {
-	class FVDECLSPEC Base16
+	class FVDECLSPEC Base16 : public IBase
 	{
 	public:
 	};

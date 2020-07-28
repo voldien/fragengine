@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FV_STACK_ALLACTOR_H_
-#define _FV_STACK_ALLACTOR_H_ 1
+#ifndef _FRAG_CORE_STACK_ALLACTOR_H_
+#define _FRAG_CORE_STACK_ALLACTOR_H_ 1
 #include "../../Def.h"
 #include "../SmartReference.h"
 
@@ -26,74 +26,74 @@ namespace fragview {
 	 *	Single stack buffer.
 	 */
 	class FVDECLSPEC StackAllocator {
-			public:
+		public:
 
-			StackAllocator(void);
-			StackAllocator(const StackAllocator &stack);
-			explicit StackAllocator(unsigned int stackSizeBytes);
-			~StackAllocator(void);
+		StackAllocator(void);
+		StackAllocator(const StackAllocator &stack);
+		explicit StackAllocator(unsigned int stackSizeBytes);
+		~StackAllocator(void);
 
-			/**
-			 *	Allocate n number of bytes.
-			 *	@Return first memory address.
-			 */
-			void* alloc(unsigned int sizeBytes);
+		/**
+		 *	Allocate n number of bytes.
+			*	@Return first memory address.
+			*/
+		void* alloc(unsigned int sizeBytes);
 
-			/**
-			 *	Get size of the allocated data block
-			 *	in bytes.
-			 */
-			unsigned int getSize(void)const;
+		/**
+		 *	Get size of the allocated data block
+			*	in bytes.
+			*/
+		unsigned int getSize(void)const;
 
-			/**
-			 *	Allocate aligned memory block.
-			 *	@Return first memory address.
-			 */
-			void* allocateAligned(unsigned int sizeBytes, int alignment);
+		/**
+		 *	Allocate aligned memory block.
+			*	@Return first memory address.
+			*/
+		void* allocateAligned(unsigned int sizeBytes, int alignment);
 
-			/**
-			 *	Set marker to zero.
-			 */
-			void clear(void);
+		/**
+		 *	Set marker to zero.
+			*/
+		void clear(void);
 
 
-			/**
-			 *	@Return marker offset.
-			 */
-			unsigned int getMarker(void)const;
+		/**
+		 *	@Return marker offset.
+			*/
+		unsigned int getMarker(void)const;
 
-			/**
-			 *	@Return non null pointer if successfully.
-			 */
-			void* fetch(unsigned int sizeBytes);
+		/**
+		 *	@Return non null pointer if successfully.
+			*/
+		void* fetch(unsigned int sizeBytes);
 
-			/**
-			 *	Release everything to marker.
-			 */
-			void  freeToMarker(unsigned int marker);
+		/**
+		 *	Release everything to marker.
+			*/
+		void  freeToMarker(unsigned int marker);
 
-			/**
-			 *	@Return
-			 */
-			StackAllocator &operator=(const StackAllocator &alloc);
+		/**
+		 *	@Return
+			*/
+		StackAllocator &operator=(const StackAllocator &alloc);
 
-			/**
-			 *
-			 *	@Return
-			 */
-			bool operator==(const StackAllocator &alloc);
+		/**
+		 *
+		 *	@Return
+			*/
+		bool operator==(const StackAllocator &alloc);
 
-			/**
-			 *
-			 *	@Return
-			 */
-			bool operator!=(const StackAllocator &alloc);
+		/**
+		 *
+		 *	@Return
+			*/
+		bool operator!=(const StackAllocator &alloc);
 
-		private: /*	Attributes.	*/
+	private: /*	Attributes.	*/
 
-			void* mData;            /*	*/
-			unsigned int mSize;        /*	*/
-			unsigned int mMarker;    /*	*/
+		void* mData;            /*	*/
+		unsigned int mSize;        /*	*/
+		unsigned int mMarker;    /*	*/
 	};
 }
 

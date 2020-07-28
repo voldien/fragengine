@@ -13,9 +13,9 @@ namespace fragview {
 	 */
 	class FVDECLSPEC TextureFactory {
 	public:
-
-		static Texture *createChecker(IRenderer *renderer, int w, int h);
-		static Texture *createPerlinNoise(IRenderer *renderer, int w, int h);
+		static Texture *createChecker(IRenderer *renderer, int width, int height);
+		static Texture *createPerlinNoise(IRenderer *renderer, int width, int height);
+		static Texture *createNoiseTexture(IRenderer *renderer, int width, int height);
 
 	public:
 		static void createChecker(int width, int height, char **pixels);

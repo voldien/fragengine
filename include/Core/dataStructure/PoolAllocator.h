@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _POLL_ALLACTOR_H_
-#define _POLL_ALLACTOR_H_ 1
+#ifndef _FRAG_CORE_ALLACTOR_H_
+#define _FRAG_CORE_ALLACTOR_H_ 1
 #include<stdio.h>
 #include<string.h>
 #include<malloc.h>
@@ -29,9 +29,9 @@
 /*TODO extract the pool information into a subclass such that the memory consumption can be monitored.*/
 //TODO add
 namespace fragview {
-/**
- *	Pool allocate
- */
+	/**
+	 *	Pool allocate
+	*/
 	template<class T>
 	class PoolAllocator {
 	public:

@@ -16,12 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _VD_DISJOINT_SET_H_
-#define _VD_DISJOINT_SET_H_ 1
+#ifndef _FRAG_CORE_DISJOINT_SET_H_
+#define _FRAG_CORE_DISJOINT_SET_H_ 1
 #include"../../Def.h"
 #include"Iterator.h"
 
-namespace fragview{
+namespace fragview {
+
 	/**
 	 *
 	 */
@@ -29,8 +30,8 @@ namespace fragview{
 	class FVDECLSPEC DisjointSet {
 
 		typedef struct partition{
-			int parent;
-			T data;
+			int parent;			/*	*/
+			T data;				/*	*/
 		}Partition;
 	public:
 

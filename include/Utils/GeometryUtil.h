@@ -5,7 +5,15 @@
 
 namespace fragview{
 
-
+	/**
+	 * 
+	 */
+	//TODO name class to match the file name.
+	class FVDECLSPEC GeometryUtility {
+	public:
+	
+		static bool TestPlanesAABB(const PVPlane &plane, const PVAABB &bound);
+		
+	};
 }
-
 #endif

@@ -19,14 +19,16 @@
 #ifndef _FRAG_CORE_BASE64_H_
 #define _FRAG_CORE_BASE64_H_ 1
 #include"../Def.h"
+#include"IBase.h"
 
 namespace fragview {
 	/**
 	 *
 	 */
-	class FVDECLSPEC Base64 {
+	class FVDECLSPEC Base64 : public IBase {
 	public:
-		
+
+
 	};
 }
 

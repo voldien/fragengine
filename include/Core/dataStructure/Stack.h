@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _VD_STACK_H_
-#define _VD_STACK_H_ 1
+#ifndef _FRAG_CORE_STACK_H_
+#define _FRAG_CORE_STACK_H_ 1
 #include "../../Def.h"
 #include"Iterator.h"
 
