@@ -1,8 +1,9 @@
-#ifndef FRAGVIEW_MESH_H_
-#define FRAGVIEW_MESH_H_ 1
+#ifndef _FRAG_CORE_MESH_H_
+#define _FRAG_CORE_MESH_H_ 1
 #include"../Core/SmartReference.h"
 
 namespace fragview {
+
 	class FVDECLSPEC Mesh : public SmartReference {
 	public:
 		Mesh(void);

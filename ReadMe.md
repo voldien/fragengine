@@ -1,5 +1,6 @@
-# FragView
+# FragEngine
 [![Travis Build Status](https://travis-ci.org/voldien/fragview.svg?branch=master)](https://travis-ci.org/voldien/fragview)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 Fragment view software program for creating and experiment with shaders with *glsl*/*spirv*/*s*/*opencl-c*.
 

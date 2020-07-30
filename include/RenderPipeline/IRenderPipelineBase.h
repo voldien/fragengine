@@ -1,6 +1,8 @@
 
-#ifndef _FV_IRENDER_PIPELINE_BASE_H_
-#define _FV_IRENDER_PIPELINE_BASE_H_ 1
+
+
+#ifndef _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_
+#define _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_ 1
 #include"../Def.h"
 #include "../Renderer/Buffer.h"
 #include"../Prerequisites.h"

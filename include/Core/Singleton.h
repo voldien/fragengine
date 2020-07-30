@@ -3,9 +3,9 @@
 #include"Def.h"
 #include"Core/SmartReference.h"
 
-namespace fragview{
+namespace fragview {
 	template <class T>
-	class Singleton : SmartReference
+	class FVDECLSPEC Singleton : SmartReference
 	{
 	public:
 		static T* _instance;

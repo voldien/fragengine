@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_DISPLAY_H_
-#define FRAGVIEW_DISPLAY_H_ 1
+#ifndef _FRAG_CORE_DISPLAY_H_
+#define _FRAG_CORE_DISPLAY_H_ 1
 #include"../Def.h"
 #include "Object.h"
 #include"../Renderer/RenderDesc.h"
@@ -56,6 +56,7 @@ namespace fragview {
 		} DPI;
 
 		virtual std::vector<Mode> getModes(void) const = 0;
+		//virtual void setMode(const Mode *mode);
 
 		virtual void getDPI(DPI *dpi) = 0;
 

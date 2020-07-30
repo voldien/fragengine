@@ -22,6 +22,9 @@
 #include"IBase.h"
 
 namespace fragview {
+    /**
+     * 
+     */
 	class FVDECLSPEC Base32 : public IBase
 	{
 	public:

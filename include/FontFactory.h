@@ -1,7 +1,7 @@
 
 
-#ifndef _FV_FONTFACTORY_H_
-#define _FV_FONTFACTORY_H_ 1
+#ifndef _FRAG_CORE_FONTFACTORY_H_
+#define _FRAG_CORE_FONTFACTORY_H_ 1
 #include"Core/IO/IO.h"
 #include"Def.h"
 #include"Prerequisites.h"

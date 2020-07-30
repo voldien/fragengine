@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_TASK_SCHEDULER_H_
-#define _FRAGVIEW_TASK_SCHEDULER_H_ 1
+#ifndef _FRAG_CORE_TASK_SCHEDULER_H_
+#define _FRAG_CORE_TASK_SCHEDULER_H_ 1
 #include "../RefPtr.h"
 #include"IScheduler.h"
 #include "../Ref.h"
@@ -27,6 +27,9 @@
 #include <map>
 
 namespace fragview {
+	/**
+	 * 
+	 */
 	class FVDECLSPEC TaskScheduler : public IScheduler
 	{
 	public:

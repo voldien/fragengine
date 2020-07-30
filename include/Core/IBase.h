@@ -24,7 +24,7 @@ namespace fragview
 {
 	class FVDECLSPEC IBase {
 		public:
-		
-	};
+			// IBase(const Ref<IO> &io);
+    };
 }
 #endif
