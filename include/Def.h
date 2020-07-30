@@ -334,10 +334,11 @@ namespace fragview {
 	#endif
 #endif
 
-
 #if defined(FV_ARM) || defined(FV_I386)
 
 #endif
+
+
 
 /**
  *	String macros.

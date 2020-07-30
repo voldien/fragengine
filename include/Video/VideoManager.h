@@ -1,6 +1,7 @@
 #ifndef _FRAG_CORE_VIDEO_MANAGER_H_
 #define _FRAG_CORE_VIDEO_MANAGER_H_ 1
 #include"../Def.h"
+#include"../Core/Module.h"
 #include"VideoTexture.h"
 #include"Core/Singleton.h"
 #include"Core/TaskScheduler/IScheduler.h"
@@ -10,7 +11,7 @@ namespace fragview
 	/**
 	 * 
 	 */
-	class FVDECLSPEC VideoManager : public Singleton<VideoManager> {
+	class FVDECLSPEC VideoManager : public Module, public Singleton<VideoManager> {
 	public:
 		static void computeVideoTask(Task* task);
 
