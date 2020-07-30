@@ -12,6 +12,7 @@ namespace fragview
 	 */
 	class FVDECLSPEC VideoManager : public Singleton<VideoManager> {
 		
+		static void computeVideoTask(Task* task);
 
 	private: /*	Prevent one from creating an instance of this class.	*/
 		VideoManager(void);

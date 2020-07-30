@@ -16,13 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_ISCHEDULER_H_
-#define _FRAGVIEW_ISCHEDULER_H_ 1
+#ifndef _FRAG_CORE_ISCHEDULER_H_
+#define _FRAG_CORE_ISCHEDULER_H_ 1
 #include"../SmartReference.h"
 #include"../Ref.h"
 
 namespace fragview
 {
+	/**
+	 * 
+	 */
 	class IScheduler;
 	class FVDECLSPEC Task : UIDObject
 	{
@@ -50,7 +53,6 @@ namespace fragview
 		virtual void UnLock(void) = 0;
 
 	private:
-
 	};
 } 
 #endif

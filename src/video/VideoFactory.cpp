@@ -8,6 +8,10 @@
 #include "audio/AudioInterface.h"
 #include "audio/AudioDecoder.h"
 
+//TODO add support if libav does not support it.
+// #include <theora/theora.h>
+// #include<theora/theoradec.h>
+
 using namespace fragview;
 
 #ifdef __cplusplus
@@ -31,7 +35,10 @@ extern "C" {
 #define av_frame_free avcodec_free_frame
 #endif
 
-typedef struct fv_libav_video_header_t {
+extern void libAVComputeVideoTask(Task *task);
+
+typedef struct fv_libav_video_header_t
+{
 
 	/*  */
 	struct AVFormatContext *pformatCtx;
@@ -59,7 +66,6 @@ typedef struct fv_libav_video_header_t {
 	double frame_last_delay;
 
 } FVAVLibVideoHeader;
-
 
 int ReadFunc(void *ptr, uint8_t *buf, int buf_size) {
 	Ref<IO> *pStream = reinterpret_cast<Ref<IO> *>(ptr);
@@ -388,6 +394,7 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 	videoTexture->audioClip = Ref<AudioClip>(*audio);
 	videoTexture->decoder = video_audio_decoder;
 	videoTexture->texture = Ref<Texture>(texture);
+	videoTexture->taskcallback = libAVComputeVideoTask;
 
 	header.io = ref;
 	header.texture = Ref<Texture>(texture);
@@ -397,6 +404,108 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 	return videoTexture;
 }
 
+//TODO determine where it shall be relocated and what class.
+static void libAVComputeVideoTask(Task *task)
+{
+	VideoTexture *texture = (VideoTexture *)task->userData;
+	FVAVLibVideoHeader header = {};	//TODO change to reference.
+	//FVAVLibVideoHeader
+	//TODO relocate.
+	//TODO add audio decoder.
+	struct AVPacket packet;
+	int res;
+	int result;
+	res = av_seek_frame(header.pformatCtx, header.videoStream, 60000, AVSEEK_FLAG_FRAME);
+	while (true)
+	{
+
+		res = av_read_frame(header.pformatCtx, &packet);
+		if (res == 0)
+		{
+			if (packet.stream_index == header.videoStream)
+			{
+				result = avcodec_send_packet(header.pVideoCtx, &packet);
+				if (result < 0)
+				{
+					char buf[AV_ERROR_MAX_STRING_SIZE];
+					av_strerror(result, buf, sizeof(buf));
+					throw RuntimeException(fvformatf("Failed to send packet for decoding picture frame : %s", buf));
+				}
+
+				while (result >= 0)
+				{
+					result = avcodec_receive_frame(header.pVideoCtx, header.frame);
+					if (result == AVERROR(EAGAIN) || result == AVERROR_EOF)
+						break;
+					if (result < 0)
+					{
+						char buf[AV_ERROR_MAX_STRING_SIZE];
+						av_strerror(result, buf, sizeof(buf));
+						throw RuntimeException(fvformatf(" : %s", buf));
+					}
+					if (header.frame->format != AV_PIX_FMT_BGRA)
+					{
+
+						if (header.frame->format == AV_PIX_FMT_YUV420P)
+						{
+							header.frame->data[0] =
+								header.frame->data[0] + header.frame->linesize[0] * (header.pVideoCtx->height - 1);
+							header.frame->data[1] =
+								header.frame->data[1] + header.frame->linesize[0] * header.pVideoCtx->height / 4 -
+								1;
+							header.frame->data[2] =
+								header.frame->data[2] + header.frame->linesize[0] * header.pVideoCtx->height / 4 -
+								1;
+
+							header.frame->linesize[0] *= -1;
+							header.frame->linesize[1] *= -1;
+							header.frame->linesize[2] *= -1;
+							sws_scale(header.sws_ctx,
+									  header.frame->data,
+									  header.frame->linesize,
+									  0,
+									  header.frame->height,
+									  header.frameoutput->data,
+									  header.frameoutput->linesize);
+						}
+					}
+				}
+			}
+			if (packet.stream_index == header.audioStream)
+			{
+				result = avcodec_send_packet(header.pAudioCtx, &packet);
+				if (result < 0)
+				{
+					char buf[AV_ERROR_MAX_STRING_SIZE];
+					av_strerror(result, buf, sizeof(buf));
+					throw RuntimeException(fvformatf("Failed to send packet for decoding audio frame : %s", buf));
+				}
+
+				while (result >= 0)
+				{
+					result = avcodec_receive_frame(header.pAudioCtx, header.frame);
+					if (result == AVERROR(EAGAIN) || result == AVERROR_EOF)
+						break;
+					if (result < 0)
+					{
+						char buf[AV_ERROR_MAX_STRING_SIZE];
+						av_strerror(result, buf, sizeof(buf));
+						throw RuntimeException(fvformatf(" : %s", buf));
+					}
+
+					av_get_channel_layout_nb_channels(header.frame->channel_layout);
+					header.frame->format != AV_SAMPLE_FMT_S16P;
+					header.frame->channel_layout;
+					AudioClip *clip;
+					clip->setData(header.frame->extended_data[0], header.frame->linesize[0], 0);
+				}
+			}
+
+			printf("duration %f\n", (float)packet.duration);
+		}
+		//av_packet_free(&packet);
+	}
+}
 
 /*
 av_seek_frame(header->pformatCtx, header->videoStream, header->video_clock * AV_TIME_BASE +

@@ -16,11 +16,12 @@
     along with this getProgram().  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _VIDEO_TEXTURE_H_
-#define _VIDEO_TEXTURE_H_ 1
+#ifndef _FRAG_CORE_VIDEO_TEXTURE_H_
+#define _FRAG_CORE_VIDEO_TEXTURE_H_ 1
 #include "Renderer/Texture.h"
 #include "../audio/AudioClip.h"
 #include "../Core/SmartReference.h"
+#include"../Core/TaskScheduler/IScheduler.h"
 
 namespace fragview {
 	/**
@@ -28,7 +29,7 @@ namespace fragview {
 	 */
 	class FVDECLSPEC VideoTexture : public SmartReference {
 		friend class VideoFactory;
-
+		friend class VideoManager;
 	public:
 
 		VideoTexture(void);
@@ -57,6 +58,7 @@ namespace fragview {
 		virtual Texture* getTexture(void) const;
 
 	protected:
+		Task::TaskCallBack taskcallback;
 		void *pVideoData;
 		Ref<AudioClip> audioClip;
 		Ref<Texture> texture;

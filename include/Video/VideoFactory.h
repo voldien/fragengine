@@ -15,8 +15,6 @@ namespace fragview {
 
 		static VideoTexture* loadVideoTexture(Ref<IO>& ref, AudioClip** audio, IRenderer* renderer, AudioInterface* audioInterface);
 
-		static void VideoTask(void);
-
 	private: /*	Prevent one from creating an instance of this class.	*/
 		VideoFactory(void);
 		VideoFactory(const VideoFactory &other);

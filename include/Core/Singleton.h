@@ -14,7 +14,8 @@ namespace fragview{
 			if (_instance == NULL)
 			{
 				T *instance = new T();
-				instance->onCreation(Ref<T>(instance));
+				Ref<T> ref = Ref<T>(instance);
+				instance->onCreation(ref);
 			}
 			return Ref<T>(_instance);
 		}
