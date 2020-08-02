@@ -30,19 +30,17 @@ make install
 
 
 ## Dependencies ##
- 
+In order to compile the program, the following Debian packages is required. 
 
 The following command will display current version of gcc.
 ```bash
 gcc --version
 ```
 
-##  Dependencies ##
-----------------
-In order to compile the program, the following Debian packages is required.
-
-
 ### Frag Core ###
+
+
+
 ```bash
 apt install libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
   sudo apt-get install -y libegl1-mesa-dev libgles2-mesa-dev
@@ -64,6 +62,7 @@ External libraries library dependencies.
 ```bash
 sudo apt install check libsubunit-dev
 ```
+### Assert ###
 Tool dependencies.
 ```bash
 apt install zip gzip libgtest-dev 
