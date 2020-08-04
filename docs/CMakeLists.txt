@@ -1,6 +1,6 @@
 FIND_PACKAGE( Doxygen REQUIRED )
 
-Set( HTML_OUTPUT "FragviewDoc_Html" CACHE STRING "Output directory for generated HTML documentation. Defaults to FragviewDoc_Html." )
+Set( HTML_OUTPUT "FragEngineDoc_Html" CACHE STRING "Output directory for generated HTML documentation. Defaults to FragviewDoc_Html." )
 
 # Enable Microsoft CHM help style only on Windows
 SET( MICROSOFT_HELP_WORKSHOP "NO")
@@ -39,3 +39,9 @@ IF( DEFINED CMAKE_INSTALL_DOCDIR )
         DESTINATION ${CMAKE_INSTALL_DOCDIR}/${HTML_OUTPUT}
     )
 ENDIF( DEFINED CMAKE_INSTALL_DOCDIR )
+
+FIND_PROGRAM(PLANTUML plantuml)
+IF(PLANTUML_FOUND)
+ADD_CUSTOM_TARGET(Generate
+            ${PLANTUML} overall-design.pu)
+ENDIF()

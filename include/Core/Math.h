@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_MATH_H_
-#define FRAGVIEW_MATH_H_ 1
+#ifndef _FRAG_CORE_MATH_H_
+#define _FRAG_CORE_MATH_H_ 1
 #include"../Def.h"
 #include<math.h>
 #include<vector>
@@ -144,9 +144,9 @@ namespace fragview {
 		 * 
 		 */
 		static float PerlinNoise(float x, float y);
-		static float PerlinNoiseDifferential(float x, float y);
+		static float PerlinNoise(const PVVector2 &point);
 		static float PerlinNoise(float x, float y, float z);
-		static float PerlinNoiseDifferential(float x, float y, float z);
+		static float PerlinNoise(const PVVector3& point);
 	};
 }
 

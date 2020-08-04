@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_VIEWPORT_H_
-#define FRAGVIEW_VIEWPORT_H_ 1
+#ifndef _FRAG_CORE_VIEWPORT_H_
+#define _FRAG_CORE_VIEWPORT_H_ 1
 #include "RenderObject.h"
 #include"IRenderer.h"
 

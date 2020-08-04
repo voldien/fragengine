@@ -1,5 +1,5 @@
-#ifndef _FV_ICOMPUTE_H_
-#define _FV_ICOMPUTE_H_ 1
+#ifndef _FRAG_CORE_ICOMPUTE_H_
+#define _FRAG_CORE_ICOMPUTE_H_ 1
 #include "../Def.h"
 #include "../Core/SmartReference.h"
 #include "../Prerequisites.h"

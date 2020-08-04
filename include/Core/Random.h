@@ -1,8 +1,12 @@
-#ifndef _FRAGVIEW_RANDOM_H_
-#define _FRAGVIEW_RANDOM_H_ 1
+#ifndef _FRAG_CORE_RANDOM_H_
+#define _FRAG_CORE_RANDOM_H_ 1
 #include"../Def.h"
 
 namespace fragview {
+
+	/**
+	 * 
+	 */
 	class FVDECLSPEC Random {
 	public:
 

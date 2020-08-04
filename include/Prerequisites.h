@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CORE_PREREQUISITES_H_
-#define _CORE_PREREQUISITES_H_ 1
+#ifndef _FRAG_CORE_PREREQUISITES_H_
+#define _FRAG_CORE_PREREQUISITES_H_ 1
 #include"audio/Prerequisites.h"
 #include"physic/Prerequisites.h"
 #include"Renderer/Prerequisites.h"

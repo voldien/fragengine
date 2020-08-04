@@ -23,9 +23,9 @@
 #include"../Renderer/Buffer.h"
 
 namespace fragview {
-/**
- *
- */
+	/**
+	 *
+	 */
 	class FVDECLSPEC RenderPipelineSandBox : public IRenderPipelineBase {
 	public:
 		RenderPipelineSandBox(Ref<IRenderer> &renderer);

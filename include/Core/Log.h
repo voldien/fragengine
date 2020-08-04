@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_LOG_H_
-#define _FRAGVIEW_LOG_H_ 1
+#ifndef _FRAG_CORE_LOG_H_
+#define _FRAG_CORE_LOG_H_ 1
 #include"IO/IO.h"
 #include"Ref.h"
 

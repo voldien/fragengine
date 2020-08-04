@@ -29,37 +29,30 @@ namespace fragview {
 	 *
 	 */
 	class FVDECLSPEC ShaderUtil {
-	private:
-		/*	*/
-		typedef struct default_texture_location_t {
-			const char *texname;    /*  */
-			int loc;                /*  */
-		} DefaultTextureLocation;	//TODO relocate to to the engine.
-
+	public:
 		typedef struct uniform_location_t{
 			const char *texname; /*  */
 			int loc;			 /*  */
 		} UniformLocation;
 
-		typedef struct shaderObject {
+		private:
+		typedef struct shader_object_t{
 			const char *buf;
 			unsigned long size;
 			ShaderLanguage language;
 			ShaderDesc::ShaderCodeType type;
 		} ShaderObject;
+		public:
 
-		typedef struct ShaderObjectDesc_t{
+		typedef struct shader_object_desc_t{
 			std::vector<Ref<IO>> &source;
 			ShaderLanguage language;
 			ShaderDesc::ShaderCodeType type;
 		} ShaderObjectDesc;
 
-		public:
 
-			// TODO relocate and .
-			static void
-			loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language, IRenderer *renderer,
-										ProgramPipeline **pshader);
+
+
 
 		static void
 		loadProgramPipeline(const ShaderObject *vshader, const ShaderObject *fshader, const ShaderObject *gshader,
@@ -73,12 +66,12 @@ namespace fragview {
 		static void loadShader(const Ref<IO> &io, ShaderType, Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader);
 		static void loadProgram(const Ref<IO> &io, Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader);
 		static void loadProgram(
-			ShaderObjectDesc *vertex,
-			ShaderObjectDesc *fragment,
-			ShaderObjectDesc *geometry,
-			ShaderObjectDesc *tesseC,
-			ShaderObjectDesc *tesseT,
-			ShaderObjectDesc *compute,
+			const ShaderObjectDesc *vertex,
+			const ShaderObjectDesc *fragment,
+			const ShaderObjectDesc *geometry,
+			const ShaderObjectDesc *tesseC,
+			const ShaderObjectDesc *tesseT,
+			const ShaderObjectDesc *compute,
 			Ref<IRenderer> &renderer, ShaderLanguage language, Shader **shader);
 		//static void loadProgram(const )
 
@@ -95,28 +88,40 @@ namespace fragview {
 		static void
 		loadComputeShaderSource(ShaderObject *shaderDesc, IRenderer *renderer, ProgramPipeline **programPipeline);
 
-		//TODO relocate to be part of the zip!
-		static void loadDisplayShader(IRenderer *renderer, ProgramPipeline **pProgramPipeline);
-
-
 		static ShaderDesc::ShaderCodeType getCodeType(
 				const char *filePath);    /*  Determine if shader is binary or source file based on the file basename.    */
 		static ShaderLanguage getFileLanguage(
 				const char *filePath);            /*  Determine what shader language based on the file basename.  */
 		static ShaderType getShaderType(const char *filePath);                  /*  */
 
-		/**
-		 *
-		 * @param programPipeline
-		 */
-		//TODO relocate to the engine.
-		static void defaultUniformMap(ProgramPipeline *programPipeline);
 
-		static std::vector<UniformLocation> getShaderUniformAttributes(void);
+		static std::vector<UniformLocation> getShaderUniformAttributes(const Ref<Shader>& shader);
 
 		//TODO resolve and act as a helper function.
 		static void copyUniform(Ref<Shader> &shader);
 		static void pastUniform(Ref<Shader> &shader);
+
+		/*	*/
+		typedef struct default_texture_location_t
+		{
+			const char *texname;  /*  */
+			int loc;			  /*  */
+		} DefaultTextureLocation; //TODO relocate to to the engine.
+
+		//TODO relocate to the engine.
+		static void defaultUniformMap(ProgramPipeline *programPipeline);
+		//TODO relocate to be part of the zip!
+		static void loadDisplayShader(IRenderer *renderer, ProgramPipeline **pProgramPipeline);
+
+		/*	*/
+		static void
+		loadComputeShaderSource(ShaderObject *shaderDesc, IRenderer *renderer, ProgramPipeline **programPipeline);
+		// TODO relocate and .
+		static void
+		loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language, IRenderer *renderer,
+									ProgramPipeline **pshader);
+		//TODO relocate to be part of the zip!
+		static void loadDisplayShader(IRenderer *renderer, ProgramPipeline **pProgramPipeline);
 	};
 }
 

@@ -249,8 +249,6 @@ namespace fragview {
 #   define FV_UNIX 1
 #endif
 
-
-
 /**
  *	Calling function convention.
  */
@@ -282,7 +280,7 @@ namespace fragview {
 #ifndef FV_RESTRICT
 #if defined(FV_GNUC)
 #define FV_RESTRICT __restrict__
-#elif defined(FV_VC) || defined(PV_CLANG)
+#elif defined(FV_VC) || defined(FV_CLANG)
 #define FV_RESTRICT __restrict
 #else
 #define FV_RESTRICT __declspec(restrict)
@@ -299,7 +297,7 @@ namespace fragview {
 #elif defined(FV_GNUC) || defined(FV_GHS)
 #define FV_ALWAYS_INLINE inline __attribute__((always_inline))
 #else
-	/*#pragma message("Warning: You'd need to add FV_ALWAYS_INLINE for this compiler.")*/
+	#pragma message("Warning: You'd need to add FV_ALWAYS_INLINE for this compiler.")
 #endif
 
 
@@ -314,7 +312,8 @@ namespace fragview {
 #define FV_ALIGN(alignment) __attribute__ ((aligned(alignment)))
 	#define FV_VECTORALIGN(alignment) __attribute__ ((__vector_size__ (alignment), __may_alias__))
 	#define FV_VECTORALIGNI(alignment) __attribute__ ((__vector_size__ (alignment)))
-#elif defined(FV_)
+#else
+	#pragma message("Warning: You'd need to add FV_ALIGN, FV_VECTORALIGN, FV_VECTORALIGNI for this compiler.")
 #endif
 
 /**
@@ -338,6 +337,15 @@ namespace fragview {
 
 #endif
 
+/*	Optimized branch predictions.	*/
+#if defined(FV_GCC) || defined(FV_CLANG)
+	#define likely(x)      __builtin_expect(!!(x), 1) 
+	#define unlikely(x)    __builtin_expect(!!(x), 0)  
+#else
+	#define likely(x)      x 
+	#define unlikely(x)    x 
+#endif
+
 
 
 /**
@@ -356,21 +364,15 @@ namespace fragview {
 extern "C" {
 #endif
 
-// /**
-//  * Quaternion data types.
-//  */
-// typedef hpmvecf hpmquatf HPM_VECTORALIGN(16);
-// typedef hpmvecd hpmquatd HPM_VECTORALIGN(32);
+/*	*/
+typedef float fvvec1f FV_VECTORALIGN(4);
+typedef float fvvec2f FV_VECTORALIGN(8);
+typedef float fvvec4f FV_VECTORALIGN(16);
 
-// /**
-//  * Quaternion double data type
-//  * union.
-//  */
-// HPM_ALIGN(32)
-// typedef union{
-// 	hpmquatd m;
-// 	hpmvec2d n[2];
-// }hpmquatud;
+/*	*/
+typedef double fvvec1d FV_VECTORALIGN(8);
+typedef double fvvec2d FV_VECTORALIGN(16);
+typedef double fvvec4d FV_VECTORALIGN(32);
 
 
 #ifdef __cplusplus /*	C++ Environment	*/

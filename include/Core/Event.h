@@ -1,5 +1,5 @@
-#ifndef _FRAGVIEW_EVENT_H_
-#define _FRAGVIEW_EVENT_H_ 1
+#ifndef _FRAG_CORE_EVENT_H_
+#define _FRAG_CORE_EVENT_H_ 1
 //TODO improve for adding event based model for the engine
 
 ///**
