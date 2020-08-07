@@ -1,6 +1,6 @@
 #include"Renderer/IRenderer.h"
 #include"Renderer/vulkan/internal_object_type.h"
-#include"../../../client/include/Config.h"
+#include"Core/IConfig.h"
 #include<SDL2/SDL.h>
 #include<SDL2/SDL_video.h>
 #include<SDL2/SDL_surface.h>

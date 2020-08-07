@@ -1,0 +1,62 @@
+
+#TODO relocate to the core.
+OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
+
+
+
+# Define all file lists.
+FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/audio/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/physic/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/subgraph/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/exception/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/core/io/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/core/Scheduler/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/video/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/shadermodel/*.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/src/shaders/*.cpp)
+FILE(GLOB SOURCE_MAIN_FILES client/src/main.cpp)
+FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Video/*.h
+		${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h)
+# Public headers - subset of header files.
+FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/IO/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h
+									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
+
+#${XATLAS_SOURCE} ${NANOSVG_SOURCE}
+# Core library for adding support for plugin.
+ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES}
+ 							${OPEN_SIMPLEX_NOISE_SOURCE}  ${PCG_C_BASIC_SOURCE}
+							${RECASTNAVIGATION_SOURCE} ${POLYPARITION_SOURCE} ${KISS_FFT_SOURCE}
+							${MISC_SOURCE})
+TARGET_LINK_LIBRARIES(fragview-core ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
+		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
+		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES} )
+ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
+TARGET_COMPILE_DEFINITIONS(fragview-core PRIVATE FRAGVIEW_CORE_INTERNAL_IMP=1)
+
+#
+SET_TARGET_PROPERTIES(fragview-core PROPERTIES
+		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
+		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}")
+TARGET_INCLUDE_DIRECTORIES(fragview-core PRIVATE ${SDL2_INCLUDE_DIRS} ${ZIP_INCLUDE_DIRS} ${JSONC_INCLUDE_DIRS}
+													 ${NANOSVG_INCLUDE_DIRS} ${RECASTNAVIGATION_INCLUDE_DIRS} ${NANOSVG_INCLUDE_DIRS}
+													 ${OPEN_SIMPLEX_NOISE_INCLUDE_DIRS} ${PCG_C_BASIC_INCLUDE_DIRS} ${XATLAS_INCLUDE_DIRS}
+													 ${KISS_FFT_INCLUDE_DIRS} ${MISC_INCLUDE_DIRS}
+										PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
+
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/fragcore.pc.in" "${CMAKE_CURRENT_SOURCE_DIR}/fragcore-core.pc" @ONLY)

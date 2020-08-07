@@ -4,7 +4,7 @@ IF ((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER
 
 ENDIF ()
 
-FIND_PACkAGE(Bullet REQUIRED)
+FIND_PACkAGE(Bullet)
 INCLUDE(FindBullet)
 SET(BULLET_LIB "-lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody")
 
