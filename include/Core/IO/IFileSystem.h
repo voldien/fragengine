@@ -16,7 +16,7 @@ namespace fragview {
 		virtual IO *openFile(const char *path, IO::Mode mode) = 0;   /*  Open based on the filename extension.*/
 		virtual ASyncHandle openASyncFile(const char* path, IO::Mode mode){
 			Ref<IO> io = Ref<IO>(openFile(path, mode));
-			return this->aSyncOpen(io);
+			return this->asyncOpen(io);
 		}
 		virtual void closeFile(IO *io) = 0;
 		//void closeFile(ASyncHandle handle);

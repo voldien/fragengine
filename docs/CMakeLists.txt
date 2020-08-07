@@ -1,6 +1,6 @@
 FIND_PACKAGE( Doxygen REQUIRED )
 
-Set( HTML_OUTPUT "FragEngineDoc_Html" CACHE STRING "Output directory for generated HTML documentation. Defaults to FragviewDoc_Html." )
+SET( HTML_OUTPUT "FragEngineDoc_Html" CACHE STRING "Output directory for generated HTML documentation. Defaults to FragviewDoc_Html." )
 
 # Enable Microsoft CHM help style only on Windows
 SET( MICROSOFT_HELP_WORKSHOP "NO")
@@ -23,7 +23,7 @@ ADD_CUSTOM_TARGET(
     OUTPUT docs.done
     COMMAND ${DOXYGEN_EXECUTABLE}
     COMMAND ${CMAKE_COMMAND} -E touch docs.done
-    COMMENT "Generating fragview documentation"
+    COMMENT "Generating frag documentation"
     VERBATIM
     )
 
@@ -40,8 +40,11 @@ IF( DEFINED CMAKE_INSTALL_DOCDIR )
     )
 ENDIF( DEFINED CMAKE_INSTALL_DOCDIR )
 
+
+# Generate design files.
 FIND_PROGRAM(PLANTUML plantuml)
 IF(PLANTUML_FOUND)
-ADD_CUSTOM_TARGET(Generate
-            ${PLANTUML} overall-design.pu)
+FILE(GLOB PU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.pu)
+ADD_CUSTOM_TARGET(Design
+            ${PLANTUML} ${PU_FILES})
 ENDIF()

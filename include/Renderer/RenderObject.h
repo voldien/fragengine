@@ -32,6 +32,10 @@ namespace fragview {
 			return this->iRenderer;
 		}
 
+		// inline Ref<IRenderer> getRef(void) const{
+
+		// }
+
 		inline void *getObject(void) {
 			return this->pdata;
 		}

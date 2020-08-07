@@ -3,6 +3,7 @@
 #include"../Def.h"
 #include"../Renderer/Shader.h"
 #include"../Core/Ref.h"
+#include"ShaderUtil.h"
 #include<map>
 #include<vector>
 
@@ -22,12 +23,19 @@ namespace fragview{
 
 		class CompilerSources {
 		public:
-			Ref<IO> vertex;
-			Ref<IO> fragment;
-			Ref<IO> geometry;
-			Ref<IO> tessellationControl;
-			Ref<IO> tessellationEvolution;
-			Ref<IO> compute;
+			const ShaderUtil::ShaderObjectDesc *vertex;
+			const ShaderUtil::ShaderObjectDesc *fragment;
+			const ShaderUtil::ShaderObjectDesc *geometry;
+			const ShaderUtil::ShaderObjectDesc *tesseC;
+			const ShaderUtil::ShaderObjectDesc *tesseT;
+			const ShaderUtil::ShaderObjectDesc *compute;
+
+			// Ref<IO> vertex;
+			// Ref<IO> fragment;
+			// Ref<IO> geometry;
+			// Ref<IO> tessellationControl;
+			// Ref<IO> tessellationEvolution;
+			// Ref<IO> compute;
 		};
 
 		class ShaderResult : UIDObject {

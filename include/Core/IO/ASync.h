@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_ASYNC_H_
-#define FRAGVIEW_ASYNC_H_ 1
+#ifndef _FRAG_CORE_ASYNC_H_
+#define _FRAG_CORE_ASYNC_H_ 1
 #include"../RefPtr.h"
 #include"../Ref.h"
 #include"../TaskScheduler/IScheduler.h"
@@ -47,7 +47,7 @@ namespace fragview {
 
 		//TODO determine if adding support for dynamic sized buffer read and write.
 		//TODO add stragety perhaps for how to schedule it.
-		virtual ASyncHandle aSyncOpen(Ref<IO> &io);
+		virtual ASyncHandle asyncOpen(Ref<IO> &io);
 		virtual void asyncReadFile(ASyncHandle handle, char *buffer, unsigned int size, AsyncComplete complete);
 		virtual void asyncReadFile(ASyncHandle handle, Ref<IO>& writeIO, AsyncComplete complete);
 		virtual void asyncWriteFile(ASyncHandle handle, char *buffer, unsigned int size, AsyncComplete complete);

@@ -3,8 +3,8 @@
 #include"../Def.h"
 #include"../Core/Module.h"
 #include"VideoTexture.h"
-#include"Core/Singleton.h"
-#include"Core/TaskScheduler/IScheduler.h"
+#include"../Core/Singleton.h"
+#include "../Core/TaskScheduler/IScheduler.h"
 
 namespace fragview
 {

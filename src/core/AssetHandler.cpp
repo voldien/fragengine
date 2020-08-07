@@ -1,6 +1,7 @@
 #include<cstdio>
-//#include "Utils/ShaderUtil.h"
 #include"Core/IO/FileSystem.h"
+#include"Core/IO/BufferIO.h"
+#include"Core/Ref.h"
 #include"Exception/RuntimeExecption.h"
 #include"Utils/ShaderUtil.h"
 #include "Asset/AssetHandler.h"
@@ -50,7 +51,10 @@ void AssetHandler::handleAssetEvent(FileNotificationEvent *event) {
 			ProgramPipeline *pipeline = (ProgramPipeline *) event->object;
 			Shader *old = pipeline->getShader(shaderType);
 			Shader *shader;
-			ShaderUtil::loadShader((const char *) event->data, event->size, eFrag, pipeline->getRenderer(), &shader, langauge, 0);
+			BufferIO bu(event->data, event->size);
+			Ref<IO> buf = Ref<IO>(&bu);
+			Ref<IRenderer> renderer = Ref<IRenderer>(pipeline->getRenderer());
+			//ShaderUtil::loadShader(buf, eFrag, renderer, langauge, ShaderCodeType::eSourceCode, &shader);
 			pipeline->setShader(shaderType, shader);
 
 			/*  Delete old shader program.  */

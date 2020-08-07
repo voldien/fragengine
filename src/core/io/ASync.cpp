@@ -16,7 +16,7 @@ public:
 	}
 };
 
-ASyncHandle ASync::aSyncOpen(Ref<IO> &io) {
+ASyncHandle ASync::asyncOpen(Ref<IO> &io) {
 
 	if (*scheduler == NULL)
 		throw RuntimeException("Async not initialized with a scheduler object");

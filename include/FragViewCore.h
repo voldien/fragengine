@@ -42,7 +42,7 @@
 #include"Core/TaskScheduler/IScheduler.h"
 #include "Core/TaskScheduler/TaskScheduler.h"
 /*  */
-#include"video/VideoManager.h"
+#include"Video/VideoManager.h"
 #include"Window/WindowFactory.h"
 /*  */
 #include"Core/IO/NetSocket.h"

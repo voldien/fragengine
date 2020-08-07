@@ -1,5 +1,6 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 3.15.7)
-PROJECT(fragview)
+CMAKE_MINIMUM_REQUIRED( VERSION 3.0 )
+
+PROJECT(fragview VERSION 0.11.1)
 
 ENABLE_LANGUAGE(CXX)
 ENABLE_LANGUAGE(C)
@@ -10,6 +11,10 @@ OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." ON)
 OPTION(BUILD_WITH_PROFILER "Enable profiling." ON)
 OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
 OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
+OPTION(BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
+OPTION(BUILD_WITH_UBSAN "" ON)
+OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." OFF )
+OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
 IF(NOT BUILD_SHARED_LIBS)
 	SET(CMAKE_EXE_LINKER_FLAGS "-static")
 	SET(LINK_SEARCH_START_STATIC TRUE)
@@ -23,15 +28,28 @@ OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
 OPTION(BUILD_WITH_CLIENT "Build Client" ON)
 OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
+OPTION(BUILD_WITH_SAMPLES "Build sample codes" OFF)
 
 # Build external interface plugin.
 OPTION(BUILD_EXTERNAL_RENDERER "Building external renderer libraries" ON)
 OPTION(BUILD_EXTERNAL_AUDIO "Building external audio libraries" ON)
 OPTION(BUILD_EXTERNAL_PHYSIC "Building external physic libraries" ON)
 
+IF(MSVC)
+  OPTION( BUILD_INSTALL_PDB
+    "Install MSVC debug files."
+    ON
+  )
+  IF(NOT (MSVC_VERSION LESS 1900))
+    # Multibyte character set is deprecated since at least MSVC2015 (possibly earlier)
+    ADD_DEFINITIONS( -DUNICODE -D_UNICODE )
+  ENDIF()
+ENDIF()
+
+
 # Set version of the project.
 SET(VERSION_MAJOR 0)
-SET(VERSION_MINOR 10)
+SET(VERSION_MINOR 11)
 SET(VERSION_REVISION 0)
 SET(VERSION_STATE a)
 SET(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}${VERSION_STATE}${VERSION_REVISION} )
@@ -40,9 +58,44 @@ SET(PROJECT_VERSION "${VERSION}")
 # Set predefined macro for version.
 ADD_DEFINITIONS(-DFV_VERSION="${VERSION}")
 
-SET(LIBFRAGVIEW_COMPONENT     "libfragview${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}" )
-SET(LIBFRAGVIEW-DEV_COMPONENT "libfragview${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-dev" )
-SET(CPACK_COMPONENTS_ALL fragview-bin ${LIBFRAGVIEW_COMPONENT} ${LIBFRAGVIEW-DEV_COMPONENT} fragview-dev)
+
+IF(NOT FRAG_IGNORE_GIT_HASH)
+  # Get the current working branch
+  EXECUTE_PROCESS(
+    COMMAND git rev-parse --abbrev-ref HEAD
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_BRANCH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+
+  # Get the latest abbreviated commit hash of the working branch
+  EXECUTE_PROCESS(
+    COMMAND git rev-parse --short=8 HEAD
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE GIT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+  )
+ENDIF()
+
+# CONFIGURE_FILE(
+#   ${CMAKE_CURRENT_LIST_DIR}/revision.h.in
+#   ${CMAKE_CURRENT_BINARY_DIR}/revision.h
+# )
+
+
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules" )
+SET(LIBFRAGCORE_COMPONENT "libfragcore{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
+SET(LIBFRAGCORE-DEV_COMPONENT "libfragcore{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-dev")
+SET(LIBFRAGENGINE_COMPONENT "libfragengine{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
+SET(LIBFRAGENGINE-DEV_COMPONENT "libfragengine{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-dev")
+
+SET(FRAGVIEW_COMPONENT "fragview{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
+SET(FRAEDITOR_COMPONENT "frageditor{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
+
+SET(CPACK_COMPONENTS_ALL fragview-bin ${LIBFRAGCORE_COMPONENT} ${LIBFRAGCORE-DEV_COMPONENT}
+	${LIBFRAGENGINE_COMPONENT} ${LIBFRAGENGINE-DEV_COMPONENT} $FRAGVIEW_COMPONENT} ${FRAGEDITOR_COMPONENT})
 SET(FRAGVIEW_LIBRARY_SUFFIX "" CACHE STRING "Suffix to append to library names")
 
 # macro that sets a default (path) if one wasn't specified
@@ -105,10 +158,18 @@ IF((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_
 		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
 		SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -pg")
 	ENDIF()
-
+ELSEIF ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
+  SET(CMAKE_CXX_FLAGS "-fvisibility=hidden -fno-strict-aliasing -Wall -Wno-long-long ${CMAKE_CXX_FLAGS}" )
+  SET(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
 ELSEIF(MSVC)
 	# Enable multi-core compilation with MSVC
-	ADD_COMPILE_OPTIONS(/MP)
+	IF( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" ) # clang-cl
+		ADD_COMPILE_OPTIONS(/bigobj /W4 /WX )
+	ELSE() # msvc
+		ADD_COMPILE_OPTIONS(/MP /bigobj /W4 /WX)
+	ENDIF()
+
+	SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /D_DEBUG /Zi /Od")
 ELSEIF ( "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang" )
 	SET(CMAKE_CXX_FLAGS "-g -fvisibility=hidden -fno-strict-aliasing -Wall -Wno-long-long ${CMAKE_CXX_FLAGS}" )
 	SET(CMAKE_C_FLAGS "-fno-strict-aliasing ${CMAKE_C_FLAGS}")
@@ -119,6 +180,30 @@ ELSEIF( CMAKE_COMPILER_IS_MINGW )
 ELSE()
 
 ENDIF()
+
+IF ( IOS)
+  IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -Og")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode -Og")
+  ELSE()
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -O3")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode -O3")
+    # Experimental for pdb generation
+  ENDIF()
+ENDIF()
+
+IF (BUILD_WITH_UBSAN)
+  MESSAGE(STATUS "Undefined Behavior sanitizer enabled")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
+ENDIF()
+
+IF (BUILD_WITH_ASAN)
+  MESSAGE(STATUS "AddressSanitizer enabled")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+ENDIF()
+
 
 # Set C++ language version required for the project.
 IF( CMAKE_COMPILER_IS_GNUCXX )
@@ -140,7 +225,10 @@ FIND_PACKAGE(Backtrace)
 FIND_PACKAGE(PkgConfig)
 FIND_PACKAGE(OpenSSL)
 FIND_PACKAGE(CUDA)
-INCLUDE(GNUInstallDirs)
+IF( UNIX )
+  # Use GNUInstallDirs for Unix predefined directories
+  INCLUDE(GNUInstallDirs)
+ENDIF()
 
 IF(CUDA_FOUND)
 
@@ -475,6 +563,10 @@ INSTALL( FILES "${PROJECT_BINARY_DIR}/fragview-core.pc" DESTINATION ${FRAGVIEW_L
 
 # Only UNIX systems.
 IF( UNIX )
+	# Use GNUInstallDirs for Unix predefined directories
+	INCLUDE(GNUInstallDirs)
+
+	# 
 	Find_PACKAGE(UnixCommands REQUIRED)
 
 	FIND_PROGRAM(GLSLLANGVALIDATOR glslangValidator)
@@ -670,6 +762,59 @@ IF(WIN32)
 
 	ENDIF(MSVC12 OR MSVC14 OR MSVC15 )
 ENDIF (WIN32)
+
+IF ( BUILD_WITH_INSTALL )
+	IF(CMAKE_CPACK_COMMAND AND UNIX AND BUILD_OPT_BUILD_PACKAGES)
+		# Packing information
+		SET(CPACK_PACKAGE_NAME                    "frag{FRAG_VERSION_MAJOR}.{VERSION_MINOR}")
+		SET(CPACK_PACKAGE_CONTACT "" CACHE STRING "Package maintainer and PGP signer.")
+		SET(CPACK_PACKAGE_VENDOR                  "https://github.com/voldien/fragengine")
+		SET(CPACK_PACKAGE_DISPLAY_NAME            "Frag ${VERSION}")
+		SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY     " -  ${VERSION}")
+		SET(CPACK_PACKAGE_VERSION                 "${VERSION}.${PACKAGE_VERSION}" )
+		SET(CPACK_PACKAGE_VERSION_MAJOR           "${VERSION_MAJOR}")
+		SET(CPACK_PACKAGE_VERSION_MINOR           "${VERSION_MINOR}")
+		SET(CPACK_PACKAGE_VERSION_PATCH           "${VERSION_PATCH}")
+		SET(CPACK_PACKAGE_INSTALL_DIRECTORY       "frag${VERSION_MAJOR}.${VERSION_MINOR}")
+		SET(CPACK_RESOURCE_FILE_LICENSE           "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+
+		STRING(TOUPPER ${LIBFRAGCORE_COMPONENT}     "LIBFRAGCORE_COMPONENT_UPPER")
+		STRING(TOUPPER ${LIBFRAGCORE-DEV_COMPONENT} "LIBFRAGCORE-DEV_COMPONENT_UPPER")
+
+
+		#
+		SET(CPACK_COMPONENT_FRAGCORE-BIN_DISPLAY_NAME                       "tools")
+		SET(CPACK_COMPONENT_FRAGCORE-BIN_DEPENDS                            "${LIBFRAGCORE_COMPONENT}" )
+		SET(CPACK_COMPONENT_${LIBFRAGCORE_COMPONENT_UPPER}_DISPLAY_NAME     "libraries")
+		SET(CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "common headers and installs")
+		SET(CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT_UPPER}_DEPENDS $    "{LIBFRAGCORE_COMPONENT}" )
+		SET(CPACK_COMPONENT_LIBFRAGCORE-DEV_DISPLAY_NAME                       "${CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT}_DISPLAY_NAME}" )
+		SET(CPACK_COMPONENT_LIBFRAGCORE-DEV_DEPENDS                            "${LIBFRAGCORE-DEV_COMPONENT}" )
+		SET(CPACK_DEBIAN_BUILD_DEPENDS debhelper cmake zlib1g-dev pkg-config)
+
+		# debian
+		SET(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+		SET(CPACK_DEBIAN_CMAKE_OPTIONS    "")
+		SET(CPACK_DEBIAN_PACKAGE_SECTION  "libs" )
+		SET(CPACK_DEBIAN_PACKAGE_DEPENDS  "${CPACK_COMPONENTS_ALL}")
+		SET(CPACK_DEBIAN_PACKAGE_SUGGESTS)
+		SET(cPACK_DEBIAN_PACKAGE_NAME     "fragengine")
+		SET(CPACK_DEBIAN_PACKAGE_REMOVE_SOURCE_FILES build doc obj samples packaging)
+		SET(CPACK_DEBIAN_PACKAGE_SOURCE_COPY svn export --force)
+		SET(CPACK_DEBIAN_CHANGELOG)
+		execute_process(COMMAND lsb_release -is
+			OUTPUT_VARIABLE _lsb_distribution OUTPUT_STRIP_TRAILING_WHITESPACE
+			RESULT_VARIABLE _lsb_release_failed)
+		SET(CPACK_DEBIAN_DISTRIBUTION_NAME ${_lsb_distribution} CACHE STRING "Name of the distrubiton")
+		STRING(TOLOWER ${CPACK_DEBIAN_DISTRIBUTION_NAME} CPACK_DEBIAN_DISTRIBUTION_NAME)
+		IF( ${CPACK_DEBIAN_DISTRIBUTION_NAME} STREQUAL "ubuntu" )
+			SET(CPACK_DEBIAN_DISTRIBUTION_RELEASES lucid maverick natty oneiric precise CACHE STRING "Release code-names of the distrubiton release")
+		ENDIF()
+		SET(DPUT_HOST "" CACHE STRING "PPA repository to upload the debian sources")
+		INCLUDE(CPack)
+		INCLUDE(DebSourcePPA)
+	ENDIF()
+ENDIF()
 
 # Final verbose message status.
 MESSAGE(STATUS "")

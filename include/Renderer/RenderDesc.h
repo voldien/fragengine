@@ -455,20 +455,23 @@ namespace fragview {
 		eCompute,       /*  */
 	};
 
+	enum ShaderCodeType
+	{
+		eNoShaderType, /*  Undefined.	*/
+		eSourceCode,   /*  Source code.    */
+		eBinary,	   /*  Binary code.    */
+	};
+
 	/**
 	 *	Shader descriptor.
 	 */
 	typedef struct shader_desc_t {
-		enum ShaderCodeType {
-			eNoShaderType,      /*  */
-			eSourceCode,        /*  Source code.    */
-			eBinary,            /*  Binary code.    */
-		};
+
 
 		struct {
-			const void *pdata;
-			int binarySize;
-			unsigned int format;
+			const void *pdata;		/*	*/
+			int binarySize;			/*	*/
+			unsigned int format;	/*	*/
 		} program;
 
 		//TODO add binary format.
@@ -554,7 +557,7 @@ namespace fragview {
 			ShaderLanguage language;
 		} Compute;
 
-		bool separatetable;
+		bool separatetable;	/*	TODO evoluate if supported on all the API.	*/
 
 		/*  Debug attributes.   */
 		MarkerDebug marker;

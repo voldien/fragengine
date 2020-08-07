@@ -117,8 +117,27 @@ namespace fragview {
 		}
 		template<typename T>
 		static bool IsPowerOfTwo(T v){
-			return false;
+			return  (v && ((v - 1) & v));
 		}
+
+		// static int sntLog2MutExlusive32(unsigned int a)
+		// {
+
+		// 	int i = 0;
+		// 	int po = 0;
+		// 	const int bitlen = 32;
+
+		// 	if (a == 0)
+		// 		return 0;
+
+		// 	for (; i < bitlen; i++)
+		// 	{
+		// 		if ((a >> i) & 0x1)
+		// 			return (i + 1);
+		// 	}
+
+		// 	assert(0);
+		// }
 
 		static PVColor CorrelatedColorTemperatureToRGB(float kelvin);
 

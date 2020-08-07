@@ -67,7 +67,7 @@ TEST_F(IOTest, Async) {
 	ASync async(refPtr);
 	BufferIO bufferIo(bufSize);
 	Ref<IO> redBufIO = Ref<IO>(&bufferIo);
-	ASSERT_NO_THROW(handle = async.aSyncOpen(redBufIO));
+	ASSERT_NO_THROW(handle = async.asyncOpen(redBufIO));
 	ASSERT_NO_THROW(async.asyncWriteFile(handle, buf, bufSize, writecallback));
 	ASSERT_NO_THROW(async.asyncWait(handle));
 	ASSERT_NO_THROW(async.asyncClose(handle));

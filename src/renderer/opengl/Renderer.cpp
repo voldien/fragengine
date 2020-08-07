@@ -762,16 +762,18 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 		goto finished;
 	}
 
-
-	if(desc->Compute.numcompute > 0 || desc->Compute.size > 0 || desc->Compute.type != ShaderDesc::eNoShaderType){
+	if (desc->Compute.numcompute > 0 || desc->Compute.size > 0 || desc->Compute.type != ShaderCodeType::eNoShaderType)
+	{
 		if(desc->Compute.language & supportedLanguage){
-			if(desc->Compute.type == ShaderDesc::eSourceCode){
+			if (desc->Compute.type == ShaderCodeType::eSourceCode)
+			{
 				compute = glCreateShader(GL_COMPUTE_SHADER);
 				glShaderSourceARB(compute, desc->Compute.numcompute, desc->Compute.computeSource, NULL);
 				glCompileShaderARB(compute);
 				checkShaderError(compute);
 			}
-			if(desc->Compute.type == ShaderDesc::eBinary) {
+			if (desc->Compute.type == ShaderCodeType::eBinary)
+			{
 				if(desc->Compute.language == ShaderLanguage::SPIRV)
 					glShaderBinary(1, &compute, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB,  desc->Compute.computeBinary, desc->Compute.size); // glSpecializeShaderARB
 				else
@@ -781,15 +783,17 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 		} else throw RuntimeException("Invalid Compute shader.");
 	}
 
-	if(desc->vertex.numvert > 0 || desc->vertex.size > 0 || desc->vertex.type != ShaderDesc::eNoShaderType) {
+	if (desc->vertex.numvert > 0 || desc->vertex.size > 0 || desc->vertex.type != ShaderCodeType::eNoShaderType)
+	{
 		if (desc->vertex.language & supportedLanguage) {
-			if (desc->vertex.type == ShaderDesc::eSourceCode) {
+			if (desc->vertex.type == ShaderCodeType::eSourceCode)
+			{
 				ver = glCreateShader(GL_VERTEX_SHADER_ARB);
 				glShaderSourceARB(ver, desc->vertex.numvert, desc->vertex.vertexsource, NULL);
 				glCompileShaderARB(ver);
 				checkShaderError(ver);
 			}
-			if (desc->vertex.type == ShaderDesc::eBinary) {
+			if (desc->vertex.type == eBinary) {
 				if (desc->vertex.language == ShaderLanguage::SPIRV)
 					glShaderBinary(1, &ver, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, desc->vertex.binaryFormat,
 					               desc->vertex.size);
@@ -800,15 +804,15 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 		} else throw RuntimeException("Invalid Vertex shader.");
 	}
 
-	if(desc->fragment.numfrag > 0 || desc->fragment.size > 0 || desc->fragment.type != ShaderDesc::eNoShaderType) {
+	if(desc->fragment.numfrag > 0 || desc->fragment.size > 0 || desc->fragment.type != eNoShaderType) {
 		if (desc->fragment.language & supportedLanguage) {
-			if (desc->fragment.type == ShaderDesc::eSourceCode) {
+			if (desc->fragment.type == eSourceCode) {
 				fra = glCreateShader(GL_FRAGMENT_SHADER_ARB);
 				glShaderSourceARB(fra, desc->fragment.numfrag, desc->fragment.fragmentsource, NULL);
 				glCompileShaderARB(fra);
 				checkShaderError(fra);
 			}
-			if (desc->fragment.type == ShaderDesc::eBinary) {
+			if (desc->fragment.type == eBinary) {
 				if (desc->fragment.language == ShaderLanguage::SPIRV)
 					glShaderBinary(1, &fra, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, desc->fragment.fragmentBinary,
 					               desc->fragment.size);
@@ -820,15 +824,16 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 		} else throw RuntimeException("Invalid fragment shader.");
 	}
 
-	if(desc->geometry.numgeo > 0 || desc->geometry.size > 0 || desc->geometry.type != ShaderDesc::eNoShaderType) {
+	if(desc->geometry.numgeo > 0 || desc->geometry.size > 0 || desc->geometry.type != eNoShaderType) {
 		if (desc->geometry.language & supportedLanguage) {
-			if (desc->geometry.type == ShaderDesc::eSourceCode) {
+			if (desc->geometry.type == ShaderCodeType::eSourceCode) {
 				geo = glCreateShader(GL_GEOMETRY_SHADER_ARB);
 				glShaderSourceARB(geo, desc->geometry.numgeo, desc->geometry.geometrysource, NULL);
 				glCompileShaderARB(geo);
 				checkShaderError(geo);
 			}
-			if (desc->geometry.type == ShaderDesc::eBinary) {
+			if (desc->geometry.type == ShaderCodeType::eBinary)
+			{
 				if (desc->geometry.language == ShaderLanguage::SPIRV)
 					glShaderBinary(1, &geo, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, desc->geometry.geometryBinary,
 					               desc->geometry.size);

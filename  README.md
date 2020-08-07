@@ -1,10 +1,14 @@
 # FragEngine
 [![Travis Build Status](https://travis-ci.org/voldien/fragview.svg?branch=master)](https://travis-ci.org/voldien/fragengine)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<!-- Add  -->
+
 
 ![alt text](images/front.png)
 
-## Features
+
+
+# Features
 * Realtime file modification.
 * Dynamic Rendering interface for multiple rendering API.
 * Session Configuration
@@ -29,7 +33,7 @@ make install
 ```
 
 
-## Dependencies ##
+# Dependencies #
 In order to compile the program, the following Debian packages is required. 
 
 The following command will display current version of gcc.
@@ -37,10 +41,10 @@ The following command will display current version of gcc.
 gcc --version
 ```
 
-### Frag Core ###
+# Frag Core #
 
 
-
+## Dependencies ##
 ```bash
 apt install libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
   sudo apt-get install -y libegl1-mesa-dev libgles2-mesa-dev
@@ -74,6 +78,7 @@ apt install zip gzip libgtest-dev
 * konafrag: []()
 * mandelbrot: []()
 * fragview: []()
+
 
 ## License
 This project is licensed under the GPL+3 License - see the [LICENSE](LICENSE) file for details
