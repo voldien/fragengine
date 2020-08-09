@@ -12,7 +12,7 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
 
-namespace fragview
+namespace fragcore
 {
 	/**
 	 * 

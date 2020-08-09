@@ -12,7 +12,7 @@
 #include <Core/SystemInfo.h>
 #include"Core/IO/FileSystem.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 IO *FileSystem::openFile(const char *path, IO::Mode mode) {
 	const char *extension = FileSystem::getFileExtension(path);

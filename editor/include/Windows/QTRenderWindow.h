@@ -8,7 +8,7 @@
 /**
  *
  */
-class FVDECLSPEC QTRendererWindow : public fragview::RendererWindow, public EditorWindow, public QWindow, protected QOpenGLFunctions {
+class FVDECLSPEC QTRendererWindow : public fragcore::RendererWindow, public EditorWindow, public QWindow, protected QOpenGLFunctions {
 	Q_OBJECT
 public:
 	void showWindow(void) override;
@@ -27,7 +27,7 @@ public:
 
 	void vsync(bool state) override;
 
-	fragview::Display* getCurrentDisplay(void) const override;
+	fragcore::Display* getCurrentDisplay(void) const override;
 
 	float getGamma(void) const override;
 
@@ -47,7 +47,7 @@ protected:
 	void useWindow(void *data) override;
 
 protected:
-	bool assertConfigAttributes(const fragview::IConfig *iConfig) override;
+	bool assertConfigAttributes(const fragcore::IConfig *iConfig) override;
 };
 
 #endif

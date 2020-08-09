@@ -1,7 +1,7 @@
 #include"audio/AudioListener.h"
 #include"audio/openal/internal_object_type.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 intptr_t AudioListener::getNativePtr(void) const {
 	return 0;

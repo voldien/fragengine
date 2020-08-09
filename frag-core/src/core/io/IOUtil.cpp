@@ -2,7 +2,7 @@
 #include "Exception/InvalidArgumentException.h"
 #include"Utils/StringUtil.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 long int IOUtil::loadFileMem(const Ref<IO> &io, char **data)
 {

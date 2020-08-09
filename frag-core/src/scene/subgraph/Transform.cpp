@@ -1,6 +1,6 @@
 #include <Core/Math.h>
 #include"Scene/SubGraph/Transform.h"
-using namespace fragview;
+using namespace fragcore;
 
 Transform::Transform(void) {
 	this->pos = PVVector3(0.0f);

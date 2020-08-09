@@ -19,7 +19,7 @@
 #ifndef _CORE_RENDERER_PREREQUISITES_H_
 #define _CORE_RENDERER_PREREQUISITES_H_ 1
 
-namespace fragview {
+namespace fragcore {
 	class RendererWindow;
 	class Shader;
 	class ProgramPipeline;

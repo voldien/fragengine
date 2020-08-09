@@ -5,7 +5,7 @@
 #include "../Core/IO/IO.h"
 #include "../Core/Ref.h"
 
-namespace fragview
+namespace fragcore
 {
 	typedef struct audio_source_desc_t
 	{

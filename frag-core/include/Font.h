@@ -1,10 +1,10 @@
-#ifndef _FV_FONT_H_
-#define _FV_FONT_H_ 1
+#ifndef _FRAG_CORE_FONT_H_
+#define _FRAG_CORE_FONT_H_ 1
 #include "Core/SmartReference.h"
 #include "Renderer/Texture.h"
 #include <map>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

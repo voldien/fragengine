@@ -4,7 +4,7 @@
 #include<hpm/hpm.h>
 #include <Exception/InvalidArgumentException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 SystemInfo::OperatingSystem SystemInfo::getOperatingSystem(void) {
 	/*  */

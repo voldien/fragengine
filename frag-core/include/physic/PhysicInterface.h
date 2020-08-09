@@ -7,7 +7,7 @@
 #include"../Def.h"
 #include"PhysicDesc.h"
 
-namespace fragview {
+namespace fragcore {
 	class RigidBody;
 	class Collision;
 	class RayCastHit;

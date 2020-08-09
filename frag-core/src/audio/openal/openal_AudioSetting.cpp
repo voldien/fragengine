@@ -1,5 +1,5 @@
 #include"audio/AudioSettings.h"
-using namespace fragview;
+using namespace fragcore;
 
 AudioSpeakerMode AudioSettings::getSpeakerMode(void) const
 {

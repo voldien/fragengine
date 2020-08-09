@@ -20,7 +20,7 @@
 #define _FRAG_CORE_BASE16_H_ 1
 #include "IBase.h"
 
-namespace fragview {
+namespace fragcore {
 	class FVDECLSPEC Base16 : public IBase
 	{
 	public:

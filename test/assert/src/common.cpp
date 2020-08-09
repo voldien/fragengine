@@ -4,7 +4,7 @@
 #include<Core/IConfig.h>
 #include"Prerequisites.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 
 void CommonBaseTest::SetUp() {

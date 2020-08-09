@@ -1,5 +1,5 @@
 #include"Renderer/Sync.h"
-using namespace fragview;
+using namespace fragcore;
 
 void Sync::fence(void) {
 

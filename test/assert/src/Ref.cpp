@@ -2,7 +2,7 @@
 #include"Core/Object.h"
 #include<gtest/gtest.h>
 #include<Renderer/Texture.h>
-using namespace fragview;
+using namespace fragcore;
 
 TEST(References, SmartReference){
 

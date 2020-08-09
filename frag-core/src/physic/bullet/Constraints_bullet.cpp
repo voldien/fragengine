@@ -4,7 +4,7 @@
 #include<bullet/btBulletDynamicsCommon.h>
 #include <physic/RigidBody.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 Constraints::~Constraints(void){
 

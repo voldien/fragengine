@@ -10,7 +10,7 @@
 #include<sched.h>
 #include<Core/RefPtr.h>
 #include<FragViewCore.h>
-using namespace fragview;
+using namespace fragcore;
 
 class IOTest : public testing::Test {
 protected:

@@ -4,7 +4,7 @@
 #include "Prerequisites.h"
 #include"Def.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *	Texture factory class responsible

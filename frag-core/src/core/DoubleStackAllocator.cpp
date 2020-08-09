@@ -1,5 +1,5 @@
 #include"Core/dataStructure/DoubleBufferedAllocator.h"
-using namespace fragview;
+using namespace fragcore;
 
 DoubleBufferedAllocator::DoubleBufferedAllocator(void)
 {

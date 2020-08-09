@@ -4,7 +4,7 @@
 #include"../../Renderer/RendererWindow.h"
 #include <SDL2/SDL_video.h>
 
-namespace fragview{
+namespace fragcore{
 	/**
 	 * SDL Window.
 	 */

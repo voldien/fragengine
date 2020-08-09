@@ -12,7 +12,6 @@ OPTION(BUILTIN_MISC "" ON)
 SET(THIRDPARTY_INCLUDE_DIR "")
 SET(THIRDPARTY_SOURCE "")
 
-
 IF(BUILTIN_NANOSVG)
 	SET(NANOSVG_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/extern/nanosvg)
 
@@ -108,9 +107,6 @@ IF(BUILTIN_JEMALLOC)
 	#https://github.com/jemalloc/jemalloc.git
 ENDIF()
 
-MESSAGE(STATUS "Third Party: ${THIRDPARTY_INCLUDE_DIR}")
-MESSAGE(STATUS "Third Source: ${THIRDPARTY_SOURCE}")
-MESSAGE(STATUS "Temp: ${OPEN_SIMPLEX_NOISE_SOURCE}")
 
 # 	# https://github.com/googlefonts/noto-fonts
 # 	# https://github.com/source-foundry/Hack

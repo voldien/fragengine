@@ -10,7 +10,7 @@
 #include<csignal>
 #include <Exception/InvalidArgumentException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 /*	TODO reorder    */
 static const char *shortarg = "vVdqh" "wSp:r:P:dD:Isar:g:C:f:A:t:vF:cRH:E:nNC:G:p:UbP:~_";
@@ -107,7 +107,7 @@ static struct option longoptions[] = {
 		{NULL, 0,                                     NULL, 0},
 };
 
-Config::Config(void) : fragview::IConfig() {}
+Config::Config(void) : fragcore::IConfig() {}
 
 Config::Config(const Config &other) {
 	//*this = other;
@@ -117,7 +117,7 @@ Config::~Config(void) {
 
 }
 
-fragview::IConfig *Config::getSuperInstance(void) {
+fragcore::IConfig *Config::getSuperInstance(void) {
 	return new Config();
 }
 
@@ -141,7 +141,7 @@ void Config::setDefaultOption(void) {
 
 	/*	Default interfaces configuration.	*/
 	global.set("renderer-dynamicInterface",
-	           fragview::RenderingFactory::getInterfaceLibraryPath(fragview::RenderingFactory::eOpenGL));
+	           fragcore::RenderingFactory::getInterfaceLibraryPath(fragcore::RenderingFactory::eOpenGL));
 	global.set<int>("SIMD", Hpm::eHPM_DEFAULT);
 
 	/*TODO determine if to relocate.    */

@@ -6,7 +6,7 @@
 #include<CL/opencl.h>
 #include<SDL2/SDL.h>
 
-namespace fragview {
+namespace fragcore {
 	enum CLRendererInterface {
 		eNone,
 		eVulkan,

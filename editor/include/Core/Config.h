@@ -29,7 +29,7 @@
  *	of the application.
  */
  //TODO move to the client later.
-class FVDECLSPEC EditorConfig : public fragview::IConfig {
+class FVDECLSPEC EditorConfig : public fragcore::IConfig {
 public:
 	~EditorConfig(void);
 

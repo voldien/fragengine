@@ -11,7 +11,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/RuntimeExecption.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 void TextureUtil::loadTexture(const char *path, IRenderer *renderer, Texture **texture) {
 

@@ -5,7 +5,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include"Utils/StringUtil.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 AudioSource::~AudioSource(void) {
 

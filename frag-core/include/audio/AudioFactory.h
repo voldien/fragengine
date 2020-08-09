@@ -2,7 +2,7 @@
 #define PHYSIC_AUDIOFACTORY_H
 #include"AudioInterface.h"
 
-namespace fragview {
+namespace fragcore {
 	class FVDECLSPEC AudioFactory {
 	public:
 		enum AudioAPI { /*  Official audio api.  */

@@ -1,7 +1,7 @@
 #include "Scene/SceneFactory.h"
 #include "Renderer/RenderDesc.h"
 #include "Renderer/IRenderer.h"
-using namespace fragview;
+using namespace fragcore;
 
 Scene *SceneFactory::createScene(IRenderer *rendering, SceneFactory::WorldScene world) {
 	Scene *scene = new Scene();

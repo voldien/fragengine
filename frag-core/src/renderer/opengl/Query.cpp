@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 QueryObject::~QueryObject(void) {
 

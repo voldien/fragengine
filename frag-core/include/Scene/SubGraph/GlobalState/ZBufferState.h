@@ -2,7 +2,7 @@
 #define FRAGVIEW_ZBUFFERSTATE_H_ 1
 #include "GlobalState.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

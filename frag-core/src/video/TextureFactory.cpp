@@ -6,7 +6,7 @@
 #include"Renderer/Texture.h"
 #include<libnoise/noise.h>
 
-using namespace fragview;
+using namespace fragcore;
 using namespace noise;
 
 Texture *TextureFactory::createChecker(IRenderer *renderer, int width, int height)

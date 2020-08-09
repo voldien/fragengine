@@ -10,7 +10,7 @@
 #include<bullet/BulletSoftBody/btSoftBodyHelpers.h>
 #include<bullet/BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h>
 
-namespace fragview {
+namespace fragcore {
 	typedef struct engine_physic_core_t{
 		btBroadphaseInterface* broadphase;
 		btDefaultCollisionConfiguration* collisionConfiguration;

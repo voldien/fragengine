@@ -6,7 +6,7 @@
 #include <Utils/StringUtil.h>
 #include <Exception/InvalidArgumentException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 static unsigned int getCurrentFrameBufferWrite(void) {
 	GLint whichID;

@@ -1,7 +1,7 @@
 #include "Scene/SubGraph/Camera.h"
 //#include "RenderingInterface.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 Camera::Camera(void)
 {

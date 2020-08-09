@@ -16,13 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _SMART_REFERENCE_H_
-#define _SMART_REFERENCE_H_ 1
+#ifndef _FRAG_CORE_SMART_REFERENCE_H_
+#define _FRAG_CORE_SMART_REFERENCE_H_ 1
 #include"../Def.h"
 #include"Object.h"
 #include"AtomicRefCount.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Responsible for preventing
 	 *	data be freed when references

@@ -21,7 +21,7 @@
 #include"../Def.h"
 #include"IBase.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

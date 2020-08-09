@@ -23,7 +23,7 @@
 #include<string>
 #include<string.h>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Base abstract object for scene
 	 *	objects.

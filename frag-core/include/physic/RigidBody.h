@@ -21,7 +21,7 @@
 #include"../Def.h"
 
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Rigidbody.
 	 */

@@ -5,7 +5,7 @@
 #include <opus/opus.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
-using namespace fragview;
+using namespace fragcore;
 
 
 //TODO resolve.

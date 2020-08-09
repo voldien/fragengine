@@ -4,7 +4,7 @@
 #include"../Def.h"
 #include "AudioObject.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

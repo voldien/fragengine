@@ -20,7 +20,7 @@
 #define _RAY_CAST_HIT_H_ 1
 #include"PhysicInterface.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	RayCastHit.
 	 */

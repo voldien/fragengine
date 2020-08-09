@@ -28,7 +28,7 @@
 //TODO resolve bug.
 /*TODO extract the pool information into a subclass such that the memory consumption can be monitored.*/
 //TODO add
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Pool allocate
 	*/

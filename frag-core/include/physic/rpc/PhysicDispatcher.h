@@ -21,7 +21,7 @@
 #include"Prerequisites.h"
 #include"../../Def.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *	Responsible for dispatching

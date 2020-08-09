@@ -16,7 +16,7 @@
 #include<vector>
 
 #define ArraySize(a) (sizeof(a)/sizeof(*a))
-namespace fragview {
+namespace fragcore {
 
 	typedef struct _SwapchainBuffers {
 		struct SwapChainSupportDetails {
@@ -176,13 +176,13 @@ namespace fragview {
 
 
 /*  Helper functions.   */
-extern uint32_t findMemoryType(fragview::VulkanCore *vulkanCore, uint32_t typeFilter, VkMemoryPropertyFlags properties);
+extern uint32_t findMemoryType(fragcore::VulkanCore *vulkanCore, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 extern void
-createBuffer(fragview::VulkanCore *vulkanCore, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
+createBuffer(fragcore::VulkanCore *vulkanCore, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
              VkBuffer &buffer, VkDeviceMemory &bufferMemory);
 
-extern VkImageView createImageView(fragview::VulkanCore *vulkanCore, VkImage image, VkFormat format);
+extern VkImageView createImageView(fragcore::VulkanCore *vulkanCore, VkImage image, VkFormat format);
 
 extern VkShaderModule createShaderModule(VkDevice device, const char *pdata, size_t size);
 
@@ -199,19 +199,19 @@ extern VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR
 extern VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
 //TODO move to the helper file.
-extern unsigned int getTextureFormat(fragview::TextureDesc::Format format);
+extern unsigned int getTextureFormat(fragcore::TextureDesc::Format format);
 
-extern unsigned int getTextureTarget(fragview::TextureDesc::Target target);
+extern unsigned int getTextureTarget(fragcore::TextureDesc::Target target);
 
-extern unsigned int getTextureType(fragview::TextureDesc::Type type);
+extern unsigned int getTextureType(fragcore::TextureDesc::Type type);
 
-extern unsigned int getBufferType(fragview::BufferDesc::BufferType type);
+extern unsigned int getBufferType(fragcore::BufferDesc::BufferType type);
 
-extern unsigned int getBufferHint(fragview::BufferDesc::BufferHint hint);
+extern unsigned int getBufferHint(fragcore::BufferDesc::BufferHint hint);
 
-extern unsigned int getPrimitive(fragview::GeometryDesc::Primitive primitive);
+extern unsigned int getPrimitive(fragcore::GeometryDesc::Primitive primitive);
 
-extern unsigned int getAttributeDataType(fragview::GeometryDesc::AttributeType type);
+extern unsigned int getAttributeDataType(fragcore::GeometryDesc::AttributeType type);
 
 extern unsigned int getState(unsigned int state);
 

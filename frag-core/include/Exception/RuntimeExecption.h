@@ -1,9 +1,9 @@
-#ifndef _FRAGVIEW_RUNETIMEEXECPTION_H_
-#define _FRAGVIEW_RUNETIMEEXECPTION_H_ 1
+#ifndef _FRAG_CORE_RUNETIMEEXECPTION_H_
+#define _FRAG_CORE_RUNETIMEEXECPTION_H_ 1
 #include <stdexcept>
 #include "IException.h"
 
-namespace fragview {
+namespace fragcore {
 /**
  *
  */

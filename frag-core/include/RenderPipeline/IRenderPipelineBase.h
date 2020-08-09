@@ -15,7 +15,7 @@
 #include "RenderQueue.h"
 #include "RenderPipelineSettings.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Responsible for rendering scene to default
 	 *	framebuffer.
@@ -65,6 +65,6 @@ namespace fragview {
 }
 
 /*  Plugin interface function for creating custom rendering pipeline.   */
-extern "C" fragview::RenderPipelineBase *createPipeLine(fragview::IRenderer *interface);
+extern "C" fragcore::RenderPipelineBase *createPipeLine(fragcore::IRenderer *interface);
 
 #endif

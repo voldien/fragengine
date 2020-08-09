@@ -8,7 +8,7 @@
 #include <Utils/StringUtil.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 using namespace std;
 
 VDVector<AudioSource *> audioSources;

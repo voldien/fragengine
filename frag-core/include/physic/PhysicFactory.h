@@ -20,7 +20,7 @@
 #define _PHYSIC_FACTORY_H_ 1
 #include"PhysicInterface.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Responsible for creating the physic interface.
 	 */

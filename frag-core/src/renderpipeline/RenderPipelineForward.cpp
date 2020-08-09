@@ -1,5 +1,5 @@
 #include"RenderPipeline/RenderPipelineForward.h"
-using namespace fragview;
+using namespace fragcore;
 
 RenderPipelineForward::RenderPipelineForward(Ref<IRenderer> render) {
 

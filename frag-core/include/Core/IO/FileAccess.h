@@ -2,7 +2,7 @@
 #define _FRAGVIEW_FILEACCESS_H_ 1
 #include"../SmartReference.h"
 
-namespace fragview {
+namespace fragcore {
 	
 	/**
 	 *

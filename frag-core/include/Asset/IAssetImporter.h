@@ -3,7 +3,7 @@
 #define _FRAGVIEW_IASSETIMPORTER_H_ 1
 #include "../Core/SmartReference.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

@@ -23,7 +23,7 @@
 #include"ASync.h"
 #include"IFileSystem.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 * IO operations.
 	 */

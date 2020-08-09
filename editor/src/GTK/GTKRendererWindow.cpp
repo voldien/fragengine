@@ -34,7 +34,7 @@ void GTKRendererWindow::vsync(bool state) {
 
 }
 
-fragview::Display* GTKRendererWindow::getCurrentDisplay(void) const {
+fragcore::Display* GTKRendererWindow::getCurrentDisplay(void) const {
 	return NULL;
 }
 

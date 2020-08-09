@@ -1,5 +1,5 @@
 #include"Font.h"
-using namespace fragview;
+using namespace fragcore;
 
 Font::Font(void) {
 	this->texture = NULL;

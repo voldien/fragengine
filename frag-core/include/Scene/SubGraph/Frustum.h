@@ -20,7 +20,7 @@
 #define _FV_FRUSTUM_H_ 1
 #include"Node.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/*
 	 *

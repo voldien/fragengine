@@ -1,7 +1,7 @@
 #ifndef FRAGVIEW_GRAPH_H_
 #define FRAGVIEW_GRAPH_H_ 1
 
-namespace fragview{
+namespace fragcore{
 	template<class T>
 	class Graph{
 

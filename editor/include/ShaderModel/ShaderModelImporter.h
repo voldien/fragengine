@@ -3,7 +3,7 @@
 #define FRAGVIEW_MODELIMPORT_H_ 1
 #include "TargetNode.h"
 
-namespace fragview {
+namespace fragcore {
 /**
  *
  */

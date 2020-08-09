@@ -10,7 +10,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/RuntimeExecption.h>
 
-using namespace fragview;
+using namespace fragcore;
 typedef IRenderer *(*pcreateinternalrendering)(IConfig *config);
 
 IRenderer *RenderingFactory::createRendering(RenderingFactory::RenderingAPI renderingapi, IConfig *config) {

@@ -21,7 +21,7 @@
 #include "../../Def.h"
 #include "../SmartReference.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Single stack buffer.
 	 */

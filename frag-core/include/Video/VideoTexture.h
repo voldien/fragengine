@@ -23,7 +23,7 @@
 #include "../Core/SmartReference.h"
 #include"../Core/TaskScheduler/IScheduler.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

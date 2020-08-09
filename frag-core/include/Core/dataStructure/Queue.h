@@ -5,7 +5,7 @@
 #include"../../Exception/InvalidArgumentException.h"
 #include "Iterator.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Rotating Queue data struct.
 	 */

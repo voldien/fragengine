@@ -28,7 +28,7 @@
  *	Responsible for the configuration
  *	of the application.
  */
-class FVDECLSPEC Config : public fragview::IConfig {
+class FVDECLSPEC Config : public fragcore::IConfig {
 public:
 	~Config(void);
 
@@ -42,7 +42,7 @@ private:	/*	Internal methods.	*/
 	 */
 	virtual void parseGetOpt(int argc, const char** argv);
 
-    fragview::IConfig *getSuperInstance(void);
+    fragcore::IConfig *getSuperInstance(void);
 
 	/**
 	 *	Set default configuration options

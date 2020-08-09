@@ -19,7 +19,7 @@
 #define _VD_OCTREE_H_ 1
 #include<iostream>
 
-namespace fragview {
+namespace fragcore {
 	template<class T>
 	class Octree {
 		typedef struct node {

@@ -1,5 +1,5 @@
 #include"Core/Object.h"
-using namespace fragview;
+using namespace fragcore;
 
 UIDGenerator UIDObject::generator = UIDGenerator();
 

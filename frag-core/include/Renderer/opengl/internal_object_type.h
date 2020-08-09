@@ -7,7 +7,7 @@
 #include<SDL2/SDL.h>
 #include <Renderer/RendererWindow.h>
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *
@@ -15,7 +15,7 @@ namespace fragview {
 	typedef struct OpenGLCore_t {
 		void *openglcontext;
 		SDL_Window *tpmwindow;
-		fragview::RendererWindow *drawwindow;
+		fragcore::RendererWindow *drawwindow;
 
 		bool useCoreProfile;
 		bool useCompatibility;
@@ -126,62 +126,62 @@ namespace fragview {
 /**
  * Helper functions.
  */
-extern void addMarkerLabel(const fragview::OpenGLCore *glcore, unsigned int identifier,
-		unsigned int object, const fragview::MarkerDebug *debug);
+extern void addMarkerLabel(const fragcore::OpenGLCore *glcore, unsigned int identifier,
+		unsigned int object, const fragcore::MarkerDebug *debug);
 
 extern void resetErrorFlag(void);
-extern unsigned int getWrapMode(fragview::SamplerDesc::AddressMode mode);
+extern unsigned int getWrapMode(fragcore::SamplerDesc::AddressMode mode);
 
-extern unsigned int getFilterMode(fragview::SamplerDesc::FilterMode mode, fragview::SamplerDesc::FilterMode mips);
+extern unsigned int getFilterMode(fragcore::SamplerDesc::FilterMode mode, fragcore::SamplerDesc::FilterMode mips);
 
-extern unsigned int getCompareMode(fragview::SamplerDesc::CompareFunc mode);
+extern unsigned int getCompareMode(fragcore::SamplerDesc::CompareFunc mode);
 
-extern unsigned int getGraphicFormat(fragview::GraphicFormat graphicFormat);
-extern unsigned int getTextureFormat(fragview::TextureFormat textureFormat, unsigned int* pixelType);
+extern unsigned int getGraphicFormat(fragcore::GraphicFormat graphicFormat);
+extern unsigned int getTextureFormat(fragcore::TextureFormat textureFormat, unsigned int* pixelType);
 
-extern unsigned int getTextureFormat(fragview::TextureDesc::Format format);
-extern unsigned int getInternalTextureFormat(fragview::TextureDesc::Format format, bool sRGB,
-                                             fragview::TextureDesc::Compression compression, fragview::TextureDesc::Type type);
+extern unsigned int getTextureFormat(fragcore::TextureDesc::Format format);
+extern unsigned int getInternalTextureFormat(fragcore::TextureDesc::Format format, bool sRGB,
+                                             fragcore::TextureDesc::Compression compression, fragcore::TextureDesc::Type type);
 
-extern unsigned int getTextureTarget(fragview::TextureDesc::Target target, int nrSamples);
+extern unsigned int getTextureTarget(fragcore::TextureDesc::Target target, int nrSamples);
 
-extern unsigned int getTextureType(fragview::TextureDesc::Type type);
+extern unsigned int getTextureType(fragcore::TextureDesc::Type type);
 
-extern unsigned int getTextureSwizzle(fragview::TextureDesc::Swizzle swizzle);
+extern unsigned int getTextureSwizzle(fragcore::TextureDesc::Swizzle swizzle);
 
-extern unsigned int getBufferType(fragview::BufferDesc::BufferType type);
+extern unsigned int getBufferType(fragcore::BufferDesc::BufferType type);
 
-extern unsigned int getBufferHint(fragview::BufferDesc::BufferHint hint);
+extern unsigned int getBufferHint(fragcore::BufferDesc::BufferHint hint);
 
-extern unsigned int getPrimitive(fragview::GeometryDesc::Primitive primitive);
+extern unsigned int getPrimitive(fragcore::GeometryDesc::Primitive primitive);
 
-extern unsigned int getAttributeDataType(fragview::GeometryDesc::AttributeType type);
+extern unsigned int getAttributeDataType(fragcore::GeometryDesc::AttributeType type);
 
-extern unsigned int getState(fragview::IRenderer::State state);
+extern unsigned int getState(fragcore::IRenderer::State state);
 
-extern unsigned int getTextureFilterModeNoMip(fragview::Texture::FilterMode format);
+extern unsigned int getTextureFilterModeNoMip(fragcore::Texture::FilterMode format);
 
 // FrameBuffer
-extern unsigned int getBlendEqu(fragview::FrameBuffer::BlendEqu equ);
+extern unsigned int getBlendEqu(fragcore::FrameBuffer::BlendEqu equ);
 
-extern unsigned int getBlendFunc(fragview::FrameBuffer::BlendFunc func);
+extern unsigned int getBlendFunc(fragcore::FrameBuffer::BlendFunc func);
 
-extern unsigned int getClearBitMask(fragview::CLEARBITMASK clearbitmask);
+extern unsigned int getClearBitMask(fragcore::CLEARBITMASK clearbitmask);
 
 // Texture.
-extern unsigned int getTextureWrapMode(fragview::Texture::WrapMode mode);
+extern unsigned int getTextureWrapMode(fragcore::Texture::WrapMode mode);
 
-extern unsigned int getTextureFilterMode(fragview::Texture::FilterMode mode);
+extern unsigned int getTextureFilterMode(fragcore::Texture::FilterMode mode);
 
-extern unsigned int getTextureCompareMode(fragview::Texture::CompareFunc compareFunc);
+extern unsigned int getTextureCompareMode(fragcore::Texture::CompareFunc compareFunc);
 
-extern unsigned getImageInternalFormat(fragview::Texture::Format format);
+extern unsigned getImageInternalFormat(fragcore::Texture::Format format);
 
-extern unsigned int getAccess(fragview::Texture::MapTarget target);
+extern unsigned int getAccess(fragcore::Texture::MapTarget target);
 
-extern unsigned int getTextureGLFormat(fragview::Texture::Format format);
+extern unsigned int getTextureGLFormat(fragcore::Texture::Format format);
 
-extern fragview::Texture::Format getTextureFormatUserSpace(unsigned int format);
+extern fragcore::Texture::Format getTextureFormatUserSpace(unsigned int format);
 
 
 #endif

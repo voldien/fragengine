@@ -16,43 +16,49 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CURVE_H_ 
-#define _CURVE_H_ 1 
+#ifndef _FRAG_CORE_CURVE_H_ 
+#define _FRAG_CORE CURVE_H_ 1 
 #include"KeyFrame.h"
 
-class Curve : public Object{
-public:
-	Curve(void);
-	~Curve(void);
+namespace fragcore
+{
+	/**
+	 * 
+	 */
+	class FVDECLSPEC Curve : public Object{
+	public:
+		Curve(void);
+		~Curve(void);
 
-	void release(void);
-	void addKey(const KeyFrame& keyFrame,int index = -1);
-	KeyFrame getKey(unsigned int  index)const;
-	int getKeyCount(void)const;
-	void removeKey(unsigned int  index);
+		void release(void);
+		void addKey(const KeyFrame& keyFrame,int index = -1);
+		KeyFrame getKey(unsigned int  index)const;
+		int getKeyCount(void)const;
+		void removeKey(unsigned int  index);
 
-	inline float linearInterpolation(unsigned int index,float time);
-//--------------------------------------------------
-/* Get Curve Value based on Tangent Out & In Value.
-*/
-	inline  float tangentInterpolation(unsigned int index,float time);
+		inline float linearInterpolation(unsigned int index,float time);
+		//--------------------------------------------------
+		/* Get Curve Value based on Tangent Out & In Value.
+		*/
+		inline  float tangentInterpolation(unsigned int index,float time);
 
 
 
-private:
-	KeyFrame* keysFrame;
-	unsigned int length;
-	char* NodeName;
-	unsigned int* pointer;
-	unsigned int curveFlag;
+	private:
+		KeyFrame* keysFrame;
+		unsigned int length;
+		char* NodeName;
+		unsigned int* pointer;
+		unsigned int curveFlag;
 
-	//--------------------------------------------------
-	/**/
-	//inline Transform* ELTAPIFASTENTRY transform(void){return CASTP(Transform*,this->pointer);}
-	//--------------------------------------------------
-	/**/
-	//template<class T> INLINE T* ELTAPIFASTENTRY GetPointerType(Void){return CASTP(T*,this->pointer);}
+		//--------------------------------------------------
+		/**/
+		//inline Transform* ELTAPIFASTENTRY transform(void){return CASTP(Transform*,this->pointer);}
+		//--------------------------------------------------
+		/**/
+		//template<class T> INLINE T* ELTAPIFASTENTRY GetPointerType(Void){return CASTP(T*,this->pointer);}
 
-};
+	};
+}
 
 #endif

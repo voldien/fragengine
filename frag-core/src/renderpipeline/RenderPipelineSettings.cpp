@@ -1,5 +1,5 @@
 #include"RenderPipeline/RenderPipelineSettings.h"
-using namespace fragview;
+using namespace fragcore;
 
 RenderPipelineSettings::RenderPipelineSettings(const IConfig &other) : IConfig(other) {
 

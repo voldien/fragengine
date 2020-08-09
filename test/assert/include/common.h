@@ -13,8 +13,8 @@ protected:
 	void TearDown() override;
 };
 
-extern fragview::IRenderer *createOpenGLRenderer(void);
-extern fragview::IRenderer *createRendererInterface(fragview::RenderingFactory::RenderingAPI api, fragview::IConfig* config);
-extern void deleteRenderer(fragview::IRenderer *renderer);
+extern fragcore::IRenderer *createOpenGLRenderer(void);
+extern fragcore::IRenderer *createRendererInterface(fragcore::RenderingFactory::RenderingAPI api, fragcore::IConfig* config);
+extern void deleteRenderer(fragcore::IRenderer *renderer);
 
 #endif

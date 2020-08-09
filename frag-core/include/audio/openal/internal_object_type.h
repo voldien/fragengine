@@ -11,7 +11,7 @@
 #include"../../Core/dataStructure/PoolAllocator.h"
 
 
-namespace fragview {
+namespace fragcore {
 
 	typedef struct openal_audio_clip_t {
 		unsigned int source;

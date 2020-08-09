@@ -20,7 +20,7 @@
 #define FRAGVIEW_SYNC_H_ 1
 #include"RenderObject.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

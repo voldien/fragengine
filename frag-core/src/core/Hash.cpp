@@ -4,7 +4,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/NotSupportedException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 Hash::Hash(Hash::ALGORITHM algorithm) {
 	switch(algorithm) {

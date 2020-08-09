@@ -16,12 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _UID_GENERATOR_H_
-#define _UID_GENERATOR_H_ 1
+#ifndef _FRAG_CORE_UID_GENERATOR_H_
+#define _FRAG_CORE_UID_GENERATOR_H_ 1
 #include"../Def.h"
 #include"UIDObject.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Unique Identifier generator.
 	 *	This is a simple UID generator.

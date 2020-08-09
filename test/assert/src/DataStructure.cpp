@@ -1,7 +1,7 @@
 #include<gtest/gtest.h>
 #include<Utils/TextureUtil.h>
 #include <Core/dataStructure/PoolAllocator.h>
-using namespace fragview;
+using namespace fragcore;
 
 TEST (DataStructure, PoolAllocator) {
 	PoolAllocator<int> allocator(32);

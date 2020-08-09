@@ -21,7 +21,7 @@
 #include <cstdio>
 #include "IO.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

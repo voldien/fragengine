@@ -4,7 +4,7 @@
 #include <Core/SmartReference.h>
 #include"Mesh.h"
 
-namespace fragview {
+namespace fragcore {
 
 	class FVDECLSPEC MeshFilter : public SmartReference {
 	public:

@@ -3,7 +3,7 @@
 #define _FRAG_CORE_SYSTEMINFO_H_ 1
 #include"../Def.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

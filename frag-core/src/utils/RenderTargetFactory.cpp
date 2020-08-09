@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <Exception/InvalidArgumentException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 FrameBuffer* RenderTargetFactory::createShadow(IRenderer* render, int width, int height){
 

@@ -1,5 +1,5 @@
 #include"physic/CharacterController.h"
-using namespace fragview;
+using namespace fragcore;
 
 CharacterController::~CharacterController(void){
 

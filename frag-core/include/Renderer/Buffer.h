@@ -22,7 +22,7 @@
 #include"../Prerequisites.h"
 #include "RenderObject.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Primitive buffer.
 	 */

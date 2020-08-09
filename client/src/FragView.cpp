@@ -34,7 +34,7 @@
 #include <Exception/NotSupportedException.h>
 #include <Exception/InvalidArgumentException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 FragView::FragView(int argc, const char **argv) {
 
@@ -557,7 +557,7 @@ void FragView::run(void) {
 					} else if (event.key.keysym.sym == SDLK_F12) {
 						/* Save current framebuffer.  */
 						FrameBuffer *def = (*this->renderer)->getDefaultFramebuffer(this->rendererWindow);
-						TextureUtil::saveTexture(fvformatf("screen - %s.png", fragview::Time::getDate()).c_str(),
+						TextureUtil::saveTexture(fvformatf("screen - %s.png", fragcore::Time::getDate()).c_str(),
 						                         *this->renderer, def->getAttachment(0));
 
 					} else {

@@ -16,7 +16,7 @@
 #include <Renderer/RendererWindow.h>
 #include <Exception/InvalidArgumentException.h>
 #include"Renderer/ViewPort.h"
-using namespace fragview;
+using namespace fragcore;
 
 //GL_NV_gpu_program4: SM 4.0 or better.
 //GL_NV_vertex_program3: SM 3.0 or better.

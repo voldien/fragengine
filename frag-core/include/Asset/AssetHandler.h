@@ -16,14 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_ASSETHANDLER_H_
-#define _FRAGVIEW_ASSETHANDLER_H_ 1
+#ifndef _FRAG_ENGINE_ASSETHANDLER_H_
+#define _FRAG_ENGINE_ASSETHANDLER_H_ 1
 #include "FileNotify.h"
 
-namespace fragview {
-/**
- *
- */
+namespace fragcore {
+	/**
+	 *
+	 */
 	class AssetHandler {
 	public:
 

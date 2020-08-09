@@ -20,7 +20,7 @@
 #define _FRAG_CORE_RENDER_DESC_H_ 1
 #include"../Prerequisites.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *  Support languages.
 	 */

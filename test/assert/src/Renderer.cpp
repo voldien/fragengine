@@ -7,5 +7,5 @@
 #include <Renderer/Query.h>
 #include <FontFactory.h>
 #include<Font.h>
-using namespace fragview;
+using namespace fragcore;
 

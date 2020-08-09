@@ -7,7 +7,7 @@
 #include <Renderer/ProgramPipeline.h>
 #include"IShaderNode.h"
 
-namespace fragview {
+namespace fragcore {
 /**
  *
  */

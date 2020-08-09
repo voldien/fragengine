@@ -22,7 +22,7 @@
 #include "RigidBody.h"
 #include "Collider.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *	Constrains physic object.

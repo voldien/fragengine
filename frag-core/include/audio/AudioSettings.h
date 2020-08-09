@@ -2,7 +2,7 @@
 #define _FRAG_CORE_AUDIOSETTINGS_H_ 1
 #include "AudioInterface.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

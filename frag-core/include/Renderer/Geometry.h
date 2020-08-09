@@ -20,7 +20,7 @@
 #define _GEOMETRY_H_ 1
 #include"IRenderer.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

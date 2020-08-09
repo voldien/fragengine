@@ -8,7 +8,7 @@
 #include <Exception/NotImplementedException.h>
 #include <Exception/InvalidArgumentException.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 ZipFileIO::ZipFileIO(zip_file_t *file, zip_int64_t index, Ref<ZipFile> ref) {
 	this->file = file;

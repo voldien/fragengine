@@ -21,7 +21,7 @@
 #include"../Def.h"
 #include<string>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Load dynamic library in runtime.
 	*/

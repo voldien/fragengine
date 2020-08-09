@@ -10,7 +10,7 @@
 
 #include<vector>
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

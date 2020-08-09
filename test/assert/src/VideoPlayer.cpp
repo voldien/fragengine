@@ -3,7 +3,7 @@
 #include <Core/IO/BufferIO.h>
 #include <Video/VideoFactory.h>
 #include <RenderingInterfaceTest.h>
-using namespace fragview;
+using namespace fragcore;
 
 TEST_F(RenderingInterfaceTest, loadFile){
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();

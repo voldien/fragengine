@@ -23,7 +23,7 @@
 #include"../Def.h"
 #include"../Core/Ref.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

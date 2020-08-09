@@ -4,7 +4,8 @@
 #include <Core/SystemInfo.h>
 #include"FragViewEditor.h"
 
-using namespace fragview;
+using namespace frageditor;
+using namespace fragcore;
 
 FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char **argv) {
 	splashWindow->showWindow();

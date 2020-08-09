@@ -22,7 +22,7 @@
 /**
  *
  */
-namespace fragview {
+namespace fragcore {
 
 	enum RenderQueue {
 		Background,         /*  */

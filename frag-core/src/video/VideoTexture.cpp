@@ -2,7 +2,7 @@
 #include"video/VideoManager.h"
 #include"audio/AudioDecoder.h"
 #include"Core/Ref.h"
-using namespace fragview;
+using namespace fragcore;
 
 VideoTexture::VideoTexture(void) {
 	//VideoManager::getInstance()->registerVideo(Ref<VideoTexture>(this));

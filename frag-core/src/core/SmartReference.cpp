@@ -1,5 +1,5 @@
 #include"Core/SmartReference.h"
-using namespace fragview;
+using namespace fragcore;
 
 SmartReference::SmartReference(void) {
 	this->counter.init(1);

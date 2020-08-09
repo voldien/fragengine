@@ -6,7 +6,7 @@
 #include"Object.h"
 #include <vector>
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

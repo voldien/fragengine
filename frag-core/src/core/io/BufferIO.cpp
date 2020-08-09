@@ -1,7 +1,7 @@
 #include <stdexcept>
 #include <Exception/InvalidArgumentException.h>
 #include"Core/IO/BufferIO.h"
-using namespace fragview;
+using namespace fragcore;
 
 void BufferIO::open(const char *path, Mode mode) {
 

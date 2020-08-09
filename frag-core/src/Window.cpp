@@ -1,7 +1,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include"Core/Window.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 void Window::calculateGammaLookupTable(float gamma, ushort *rgbRamp) const {
 	if (gamma < 0.0)

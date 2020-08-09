@@ -21,7 +21,7 @@
 #include"RenderPipelineBase.h"
 #include"../Core/Ref.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Responsible for rendering scene to default
 	 *	framebuffer.

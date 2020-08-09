@@ -1,7 +1,7 @@
 #include <Renderer/opengl/internal_object_type.h>
 #include"Renderer/Sync.h"
 #include<GL/glew.h>
-using namespace fragview;
+using namespace fragcore;
 
 void Sync::fence(void) {
 	GLSync *glSync = (GLSync *) this->getObject();

@@ -21,7 +21,7 @@
 #include"../Def.h"
 #include <atomic>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 * Atomic counter.
 	 */

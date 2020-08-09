@@ -8,6 +8,7 @@
 #include <QApplication>
 #endif
 
+using namespace frageditor;
 
 void *createSplashScreen(char *image_path, int time, int width, int height) {
 
@@ -115,7 +116,7 @@ int main(int argc, char **argv) {
 		app->exec();
 #endif
 		return EXIT_SUCCESS;
-	} catch (fragview::IException &ex) {
+	} catch (fragcore::IException &ex) {
 		std::cerr << "Internal exception: " << ex.getName() << std::endl;
 		std::cerr << ex.what() << std::endl;
 		std::cerr << ex.getBackTrace() << std::endl;

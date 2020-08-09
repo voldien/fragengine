@@ -3,7 +3,7 @@
 #include<Renderer/opencl/internal_object_type.h>
 #include<stdexcept>
 #include <Utils/StringUtil.h>
-using namespace fragview;
+using namespace fragcore;
 
 void Texture::bind(unsigned int index) {
 

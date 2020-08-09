@@ -9,7 +9,7 @@
 #include"Font.h"
 
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

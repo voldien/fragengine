@@ -1,7 +1,7 @@
 #include"RenderPipeline/DebugDrawManager.h"
 #include"RenderPipeline/Mesh.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 void DebugDrawManager::draw(Scene *scene, FrameBuffer *frame, IRenderer *render) {
 	/*  */

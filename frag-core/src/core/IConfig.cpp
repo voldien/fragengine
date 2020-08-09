@@ -13,7 +13,7 @@
 #include <Exception/RuntimeExecption.h>
 #include <Core/Log.h>
 
-using namespace fragview;
+using namespace fragcore;
 IConfig::IConfig(void) {
 	this->parent = NULL;
 }

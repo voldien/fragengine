@@ -1,7 +1,7 @@
 #include"audio/AudioClip.h"
 #include"audio/openal/internal_object_type.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 AudioClip::~AudioClip(void) {
 

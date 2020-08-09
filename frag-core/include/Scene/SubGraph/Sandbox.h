@@ -4,7 +4,7 @@
 #include<Scene/SandBoxSubScene.h>
 #include"Node.h"
 
-namespace fragview{
+namespace fragcore{
 /**
  *
  */

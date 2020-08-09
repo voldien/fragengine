@@ -20,7 +20,7 @@
 #define _FRAGVIEW_SCENEFACTORY_H_ 1
 #include "Scene.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Responsible for creating scene object
 	 *	where object will be added in order for them

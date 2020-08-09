@@ -12,7 +12,7 @@
 // #include <theora/theora.h>
 // #include<theora/theoradec.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 #ifdef __cplusplus
 extern "C" {

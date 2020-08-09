@@ -6,7 +6,7 @@
 /**
  *
  */
-class FVDECLSPEC GTKRendererWindow : public fragview::RendererWindow, public EditorWindow {
+class FVDECLSPEC GTKRendererWindow : public fragcore::RendererWindow, public EditorWindow {
 public:
 	void showWindow(void) override;
 
@@ -24,7 +24,7 @@ public:
 
 	void vsync(bool state) override;
 
-	fragview::Display* getCurrentDisplay(void) const override;
+	fragcore::Display* getCurrentDisplay(void) const override;
 
 	float getGamma(void) const override;
 
@@ -44,7 +44,7 @@ protected:
 	void useWindow(void *data) override;
 
 protected:
-	bool assertConfigAttributes(const fragview::IConfig *iConfig) override;
+	bool assertConfigAttributes(const fragcore::IConfig *iConfig) override;
 };
 
 #endif

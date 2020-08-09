@@ -30,7 +30,7 @@
 
 
 struct json_object;
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

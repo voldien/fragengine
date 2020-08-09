@@ -5,7 +5,7 @@
 #include <execinfo.h>
 #include <dlfcn.h>
 #include <Exception/IException.h>
-using namespace fragview;
+using namespace fragcore;
 
 void handler(int sig) {
 	switch (sig) {
@@ -42,7 +42,7 @@ int main(int argc, const char **argv) {
 		//TODO add support for logging support.
 		//Log::addIOOutput(stdoutIO, Log::VERBOSITY);
 		FragView(argc, argv).run();
-	} catch (fragview::IException &ex) {
+	} catch (fragcore::IException &ex) {
 		std::cerr << "Internal exception - " << ex.getName() << std::endl;
 		std::cerr << ex.what() << std::endl;
 		std::cerr << ex.getBackTrace() << std::endl;

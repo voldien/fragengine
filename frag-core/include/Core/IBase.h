@@ -20,7 +20,7 @@
 #define _FRAG_CORE_IBASE_H_ 1
 #include"../Def.h"
 
-namespace fragview
+namespace fragcore
 {
 	class FVDECLSPEC IBase {
 		public:

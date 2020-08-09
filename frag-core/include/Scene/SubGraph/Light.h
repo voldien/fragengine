@@ -20,7 +20,7 @@
 #define _LIGHT_H_ 1
 #include"Frustum.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Light.
 	 */

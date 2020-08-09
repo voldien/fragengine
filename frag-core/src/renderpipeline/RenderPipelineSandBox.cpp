@@ -4,7 +4,7 @@
 #include <Utils/ShaderUtil.h>
 #include <Scene/SandBoxSubScene.h>
 #include <Utils/RenderTargetFactory.h>
-using namespace fragview;
+using namespace fragcore;
 /*	Display quad.	*/
 const float gc_quad[4][3] = {
 		{-1.0f, -1.0f, 0.0f},

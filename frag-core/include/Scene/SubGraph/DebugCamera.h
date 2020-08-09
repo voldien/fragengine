@@ -20,7 +20,7 @@
 #define _DEBUG_CAMERA_H_ 1
 #include"Camera.h"
 
-namespace fragview {
+namespace fragcore {
 /**
  *	TODO this class will be able to have access to the gizmo class.
  *

@@ -3,7 +3,7 @@
 #define _FV_IMAGE_H_ 1
 #include "Renderer/Texture.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

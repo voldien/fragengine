@@ -7,7 +7,8 @@
 #include<ogg/ogg.h>
 #include<hpmcpp/HpmCpp.h>
 
-using namespace fragview;
+using namespace fragcore;
+
 int main(int argc, const char **argv)
 {
 	IConfig config;

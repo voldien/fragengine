@@ -3,7 +3,7 @@
 #include"Scene/Scene.h"
 #include"Renderer/ProgramPipeline.h"
 #include"Core/Log.h"
-using namespace fragview;
+using namespace fragcore;
 
 void SandBoxSubScene::addTexture(Texture *texture) {
 	this->textures.push_back(texture);

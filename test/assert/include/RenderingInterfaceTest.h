@@ -1,7 +1,7 @@
 #ifndef FRAGVIEW_TEST_RENDERINGINTERFACETEST_H_
 #define FRAGVIEW_TEST_RENDERINGINTERFACETEST_H_ 1
 #include "common.h"
-using namespace fragview;
+using namespace fragcore;
 
 #define SETRENDERAPISCOPE(obj, renderingApi)   \
     {                                               \

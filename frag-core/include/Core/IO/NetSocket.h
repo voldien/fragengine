@@ -4,7 +4,7 @@
 #include "../SmartReference.h"
 #include "IP.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

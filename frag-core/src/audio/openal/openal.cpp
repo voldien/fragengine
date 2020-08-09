@@ -9,7 +9,7 @@
 #include <Utils/StringUtil.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 //
 //void AudioInterface::initAllocate(InitAllocateTableInfo *table) {
 //	table->interfacetype = eAudio;

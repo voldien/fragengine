@@ -1,7 +1,7 @@
 #include"Renderer/ViewPort.h"
 #include"Renderer/opengl/internal_object_type.h"
 #include<GL/glew.h>
-using namespace fragview;
+using namespace fragcore;
 
 void ViewPort::depthRange(double near, double far){
     const GLViewPort* viewPort = (const GLViewPort*)this->getObject();

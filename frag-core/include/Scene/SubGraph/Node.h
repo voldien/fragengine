@@ -25,7 +25,7 @@
 #include <list>
 
 
-namespace fragview {
+namespace fragcore {
 
 	class FVDECLSPEC Node : public Object, public ITree<Node> {
 	public:

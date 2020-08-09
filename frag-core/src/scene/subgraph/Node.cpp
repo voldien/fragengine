@@ -1,5 +1,5 @@
 #include"Scene/SubGraph/Node.h"
-using namespace fragview;
+using namespace fragcore;
 
 Node::Node(void) : ITree() {
 }

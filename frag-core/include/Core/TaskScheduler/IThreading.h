@@ -3,7 +3,7 @@
 #include"../Def.h"
 #include"../Object.h"
 
-namespace fragview
+namespace fragcore
 {
 	/**
 	 * 

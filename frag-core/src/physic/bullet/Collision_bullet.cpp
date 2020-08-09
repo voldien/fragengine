@@ -2,7 +2,7 @@
 
 #include<bullet/btBulletCollisionCommon.h>
 #include<bullet/btBulletDynamicsCommon.h>
-using namespace fragview;
+using namespace fragcore;
 
 Collision::~Collision(void){}
 

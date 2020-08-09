@@ -5,7 +5,7 @@
 #include"../Core/Object.h"
 #include<string>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

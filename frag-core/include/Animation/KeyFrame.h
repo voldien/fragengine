@@ -16,22 +16,28 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _KEY_FRAME_H_ 
-#define _KEY_FRAME_H_ 1
+#ifndef _FRAG_CORE_KEY_FRAME_H_
+#define _FRAG_CORE_KEY_FRAME_H_ 1
 
-class KeyFrame{
-public:
-	KeyFrame(void);
-	KeyFrame(const KeyFrame& keyframe);
-	KeyFrame(float value,float time);
-	KeyFrame(float value,float time,float tangentIn,float tangentOut);
-	~KeyFrame(void);
+namespace fragcore{
+    /**
+     * 
+     */
+    class FVDECLSPEC KeyFrame {
+    public:
+        KeyFrame(void);
+        KeyFrame(const KeyFrame& keyframe);
+        KeyFrame(float value,float time);
+        KeyFrame(float value, float time, float tangentIn, float tangentOut);
+        ~KeyFrame(void);
 
-private:
-	float tangentIn;
-	float tangentOut;
-	float time;
-	float value;
-};
+        float getValue(float time);
+    private:
+        float tangentIn;
+        float tangentOut;
+        float value;
+        float time;
 
+    };
+}
 #endif

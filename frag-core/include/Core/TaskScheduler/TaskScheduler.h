@@ -26,7 +26,7 @@
 #endif
 #include <map>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 * 
 	 */

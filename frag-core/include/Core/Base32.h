@@ -21,7 +21,7 @@
 #define _FRAG_CORE_BASE32_H_ 1
 #include"IBase.h"
 
-namespace fragview {
+namespace fragcore {
     /**
      * 
      */

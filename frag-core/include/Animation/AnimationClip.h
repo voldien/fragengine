@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _ANIMATION_CLIP_H_
-#define _ANIMATION_CLIP_H_ 1
+#ifndef _FRAG_ENGINE_ANIMATION_CLIP_H_
+#define _FRAG_ENGINE_ANIMATION_CLIP_H_ 1
 #include"Object.h"
 #include"KeyFrame.h"
 #include"Curve.h"
@@ -27,41 +27,43 @@
 #include"Stack.h"
 #include<string>
 
-enum eAnimationState {
-	eDefault = 0x1,
-	eOnce = 0x2,
-	eLoop = 0x4,
-	ePingPong = 0x8
-};
+namespace fragengine {
 
-class AnimationClip : public Object{
-public:
-	AnimationClip(void);
-	AnimationClip(const AnimationClip& clip);
-	~AnimationClip(void);
+	enum AnimationState {
+		Default = 0x1,
+		Once = 0x2,
+		Loop = 0x4,
+		PingPong = 0x8
+	};
 
-	void setPosition(const Vector3& position);
-	Vector3 getPosition(void)const;
+	class FVDECLSPEC AnimationClip : public Object {
+	public:
+		AnimationClip(void);
+		AnimationClip(const AnimationClip& clip);
+		~AnimationClip(void);
 
-	void setRotation(const Quaternion& rotation);
-	Quaternion getRotation(void)const;
+		void setPosition(const Vector3& position);
+		Vector3 getPosition(void)const;
 
-	void setScale(const Vector3& scale);
-	Vector3 getScale(void)const;
+		void setRotation(const Quaternion& rotation);
+		Quaternion getRotation(void)const;
 
-	void  reIndex(void);
+		void setScale(const Vector3& scale);
+		Vector3 getScale(void)const;
 
-	void release(void);
+		void  reIndex(void);
 
-private:
-	Vector<Curve> curves;
-	float duration;
-	float frameTicks;
-	eAnimationState animationState;
-	void findNodeDataPointer(Transform* transform);
+		void release(void);
 
-	void releaseCurveData(void);
+	private:
+		std::vector<Curve> curves;
+		float duration;
+		float frameTicks;
+		AnimationState animationState;
+		void findNodeDataPointer(Transform* transform);
 
-};
+		void releaseCurveData(void);
 
+	};
+}
 #endif

@@ -2,7 +2,7 @@
 #include"Renderer/Buffer.h"
 #include"Renderer/opengl/internal_object_type.h"
 #include<GL/glew.h>
-using namespace fragview;
+using namespace fragcore;
 
 //TODO add for retaining current binded buffer.
 Buffer::~Buffer(void) {}

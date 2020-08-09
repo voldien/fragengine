@@ -5,9 +5,9 @@
 #include <Exception/InvalidArgumentException.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
-uint32_t findMemoryType(fragview::VulkanCore* vulkanCore, uint32_t typeFilter, VkMemoryPropertyFlags properties){
+uint32_t findMemoryType(fragcore::VulkanCore* vulkanCore, uint32_t typeFilter, VkMemoryPropertyFlags properties){
 
 
 	for (uint32_t i = 0; i < vulkanCore->memProperties.memoryTypeCount; i++) {

@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <Exception/RuntimeExecption.h>
 #include"Utils/StringUtil.h"
-using namespace fragview;
+using namespace fragcore;
 
 Library::Library(void) {
 	this->mlib = NULL;

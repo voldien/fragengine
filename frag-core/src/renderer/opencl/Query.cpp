@@ -1,6 +1,6 @@
 #include"Renderer/Query.h"
 #include"Renderer/opencl/internal_object_type.h"
-using namespace fragview;
+using namespace fragcore;
 
 QueryObject::~QueryObject(void) {
 

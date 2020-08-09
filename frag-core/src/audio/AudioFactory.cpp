@@ -2,7 +2,7 @@
 #include"audio/AudioFactory.h"
 #include"Core/Library.h"
 #include"Core/Log.h"
-using namespace fragview;
+using namespace fragcore;
 
 typedef AudioInterface *(*pcreateinternalaudio)(IConfig *config);
 

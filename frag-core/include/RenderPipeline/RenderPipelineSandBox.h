@@ -22,7 +22,7 @@
 #include "IRenderPipelineBase.h"
 #include"../Renderer/Buffer.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

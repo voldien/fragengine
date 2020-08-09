@@ -8,7 +8,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/RuntimeExecption.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 IO *ZipFile::openFile(const char *path, IO::Mode mode) {
 	struct zip_file *zfile;

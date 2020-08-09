@@ -20,7 +20,7 @@
 #define _FRAGVIEW_PROGRAMPIPELINE_H_ 1
 #include "RenderObject.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

@@ -6,7 +6,7 @@
 #include<openssl/aes.h>
 /*	*/
 
-using namespace fragview;
+using namespace fragcore;
 using namespace fragengine;
 
 // Connection::Connection(void){

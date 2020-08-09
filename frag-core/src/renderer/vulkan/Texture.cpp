@@ -5,7 +5,7 @@
 #include <Utils/StringUtil.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 void Texture::bind(unsigned int index) {
 

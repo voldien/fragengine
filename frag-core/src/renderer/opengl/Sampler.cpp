@@ -2,7 +2,7 @@
 #include"Renderer/Texture.h"
 #include"Renderer/Sampler.h"
 #include <GL/glew.h>
-using namespace fragview;
+using namespace fragcore;
 Sampler::~Sampler(void) {
 
 }

@@ -63,7 +63,7 @@ void *EditorWindow::getIcon(void) const {
 	return NULL;
 }
 
-fragview::Display* EditorWindow::getCurrentDisplay(void) const {
+fragcore::Display* EditorWindow::getCurrentDisplay(void) const {
 	return NULL;
 }
 

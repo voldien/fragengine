@@ -12,7 +12,7 @@
 #include<FragViewCore.h>
 #include <Core/Hash.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 
 TEST(Hash, Hash){

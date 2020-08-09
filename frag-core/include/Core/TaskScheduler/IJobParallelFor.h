@@ -21,7 +21,7 @@
 #define _FRAGVIEW_TASK_IJOB_PARALLELFOR_H_ 1
 #include "IScheduler.h"
 
-namespace fragview
+namespace fragcore
 {
 	class FVDECLSPEC IJobParallelFor
 	{

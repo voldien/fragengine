@@ -22,7 +22,7 @@
 #include"../Renderer/Texture.h"
 #include"../Core/Ref.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

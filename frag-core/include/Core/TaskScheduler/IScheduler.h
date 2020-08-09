@@ -21,7 +21,7 @@
 #include"../SmartReference.h"
 #include"../Ref.h"
 
-namespace fragview
+namespace fragcore
 {
 	/**
 	 * 

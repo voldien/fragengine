@@ -1,11 +1,11 @@
 
-#ifndef FRAGVIEW_WINDOW_H_
-#define FRAGVIEW_WINDOW_H_ 1
-
+#ifndef _FRAG_CORE_WINDOW_H_
+#define _FRAG_CORE_WINDOW_H_ 1
 #include "SmartReference.h"
 #include "Display.h"
 
-namespace fragview {
+namespace fragcore {
+	
 	/**
 	 *
 	 */

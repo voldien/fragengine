@@ -1,5 +1,5 @@
 #include"Renderer/FrameBuffer.h"
-using namespace fragview;
+using namespace fragcore;
 
 void FrameBuffer::bind(void) {
 

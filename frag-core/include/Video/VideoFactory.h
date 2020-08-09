@@ -1,11 +1,11 @@
-#ifndef FRAGVIEW_VIDEOFACTORY_H
-#define FRAGVIEW_VIDEOFACTORY_H
+#ifndef _FRAG_CORE_VIDEOFACTORY_H_
+#define _FRAG_CORE_VIDEOFACTORY_H_ 1
 
 #include "audio/AudioClip.h"
 #include "Core/Ref.h"
 #include "VideoTexture.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 * 

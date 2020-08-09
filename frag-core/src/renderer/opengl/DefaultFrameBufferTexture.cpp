@@ -8,7 +8,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include"Renderer/RendererWindow.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 FrameBufferTexture::FrameBufferTexture(void) {
 	//this->setName("Default frambuffer back color attachment");
@@ -97,7 +97,7 @@ unsigned int FrameBufferTexture::width(void) {
 	int width;
 	int height;
 	OpenGLCore *glcore = (OpenGLCore *) this->getRenderer()->getData();
-	fragview::Window *window = (fragview::Window *) glcore->drawwindow;
+	fragcore::Window *window = (fragcore::Window *) glcore->drawwindow;
 	window->getSize(&width, &height);
 	//SDL_GetWindowSize(glcore->drawwindow, &width, &height);
 	return width;
@@ -107,7 +107,7 @@ unsigned int FrameBufferTexture::height(void) {
 	int width;
 	int height;
 	OpenGLCore *glcore = (OpenGLCore *) this->getRenderer()->getData();
-	fragview::Window *window = (fragview::Window *) glcore->drawwindow;
+	fragcore::Window *window = (fragcore::Window *) glcore->drawwindow;
 	window->getSize(&width, &height);
 	//SDL_GetWindowSize(glcore->drawwindow, &width, &height);
 	return height;

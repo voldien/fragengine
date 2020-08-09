@@ -20,7 +20,7 @@
 #define FRAGVIEW_USEREVENT_H_ 1
 
 //TODO move to fragivew client
-namespace fragview {
+namespace fragcore {
 /**
  *
  */

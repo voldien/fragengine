@@ -3,7 +3,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 long BZFileIO::read(long int nbytes, void *pbuffer) {
 	int bzerror;

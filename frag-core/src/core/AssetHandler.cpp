@@ -9,7 +9,7 @@
 #include "Utils/TextureUtil.h"
 #include "Renderer/Texture.h"
 #include "Renderer/ProgramPipeline.h"
-using namespace fragview;
+using namespace fragcore;
 
 void AssetHandler::handleAssetEvent(FileNotificationEvent *event) {
 

@@ -30,7 +30,7 @@
 #include <vector>
 
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */
@@ -350,6 +350,6 @@ namespace fragview {
  * @param config
  * @return non-null renderinginterface object.
  */
-extern "C" fragview::IRenderer* createInternalRenderer(fragview::IConfig* config);
+extern "C" fragcore::IRenderer* createInternalRenderer(fragcore::IConfig* config);
 
 #endif

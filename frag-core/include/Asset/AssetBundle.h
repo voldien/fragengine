@@ -1,7 +1,7 @@
-#ifndef PHYSIC_ASSETBUNDLE_H_
-#define PHYSIC_ASSETBUNDLE_H_ 1
+#ifndef _FRAG_ENGINE_ASSETBUNDLE_H_
+#define _FRAG_ENGINE_ASSETBUNDLE_H_ 1
 
-class AssetBundle{
+class AssetBundle {
 public:
 };
 

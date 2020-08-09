@@ -20,7 +20,7 @@
 #define _FRAG_CORE_SHADER_H_ 1
 #include"Buffer.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 * Shader.
 	 */

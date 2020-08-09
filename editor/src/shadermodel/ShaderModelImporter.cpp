@@ -8,7 +8,7 @@
 //#include"xatlas.h"
 //#include"Recast.h"
 
-using namespace fragview;
+using namespace fragcore;
 //extern const char* shortarg;
 //extern struct option* longoptions;
 TargetNode* ShaderModelImporter::createTargetModel(int argc, const char **argv) {

@@ -22,7 +22,7 @@
 #include"AudioObject.h"
 #include"AudioClip.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

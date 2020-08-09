@@ -4,7 +4,7 @@
 #include"physic/PhysicDesc.h"
 #include"physic/bullet/debugDrawer.h"
 #include"physic/bullet/internal_object_type.h"
-using namespace fragview;
+using namespace fragcore;
 
 
 //void PhysicInterface::initAllocate(InitAllocateTableInfo* table){

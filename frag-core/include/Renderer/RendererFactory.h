@@ -20,7 +20,7 @@
 #define _RENDERING_FACTORY_H_ 1
 #include "IRenderer.h"
 
-namespace fragview {
+namespace fragcore {
 /**
  *	Responsible for creating a rendering
  *	interface.

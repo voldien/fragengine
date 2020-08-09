@@ -1,9 +1,9 @@
-#ifndef _FRAGVIEW_IEXCEPTION_H_
-#define _FRAGVIEW_IEXCEPTION_H_ 1
+#ifndef _FRAG_CORE_IEXCEPTION_H_
+#define _FRAG_CORE_IEXCEPTION_H_ 1
 #include<stdexcept>
 #include"../Def.h"
 
-namespace fragview {
+namespace fragcore {
 
 	//TODO add declspec
 	class FVDECLSPEC IException : public std::exception {

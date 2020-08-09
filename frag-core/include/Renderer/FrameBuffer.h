@@ -21,7 +21,7 @@
 #include"RenderObject.h"
 #include "IRenderer.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

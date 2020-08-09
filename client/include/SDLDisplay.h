@@ -2,7 +2,7 @@
 #define FRAGVIEW_SDLDISPLAY_H_ 1
 #include <Core/Display.h>
 
-class SDLDisplay : public fragview::Display {
+class SDLDisplay : public fragcore::Display {
 public:
 	SDLDisplay(int index);
 
@@ -20,7 +20,7 @@ public:
 
 	void getDPI(DPI *dpi) override;
 
-	fragview::TextureFormat getFormat(void) override;
+	fragcore::TextureFormat getFormat(void) override;
 
 protected:
 	unsigned int translateFormat(unsigned int format);

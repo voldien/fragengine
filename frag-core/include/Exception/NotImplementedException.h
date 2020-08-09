@@ -16,13 +16,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _NOT_IMPLEMENTED_EXCEPTION_H_
-#define _NOT_IMPLEMENTED_EXCEPTION_H_ 1
+#ifndef _FRAG_CORE_NOT_IMPLEMENTED_EXCEPTION_H_
+#define _FRAG_CORE_NOT_IMPLEMENTED_EXCEPTION_H_ 1
 #include<stdexcept>
 #include<string>
 #include "IException.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Class responsible for showing
 	 *	the method is not implemented and thus

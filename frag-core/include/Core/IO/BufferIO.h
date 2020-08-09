@@ -21,7 +21,7 @@
 #include"../../Def.h"
 #include"IO.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

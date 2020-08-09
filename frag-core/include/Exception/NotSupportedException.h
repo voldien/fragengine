@@ -1,8 +1,8 @@
-#ifndef _FV_CORE_NOTSUPPORTEDEXCEPTION_H_
-#define _FV_CORE_NOTSUPPORTEDEXCEPTION_H_ 1
+#ifndef _FRAG_CORE_NOTSUPPORTEDEXCEPTION_H_
+#define _FRAG_CORE_NOTSUPPORTEDEXCEPTION_H_ 1
 #include "IException.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Class responsible for showing
 	 *	the method is not supported.

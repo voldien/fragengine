@@ -7,7 +7,7 @@
 #include"../Core/Ref.h"
 #include"AudioDecoderFactory.h"
 
-namespace fragview {
+namespace fragcore {
 
 	enum AudioDecoderCodec
 	{

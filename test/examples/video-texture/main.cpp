@@ -1,6 +1,6 @@
 #include <fragview/FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 int main(int argc, const char **argv)
 {
 	Ref<IRenderer> renderer = Ref<IRenderer>(RenderingFactory::createRendering(RenderingFactory::eOpenGL, NULL));

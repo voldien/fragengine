@@ -5,7 +5,7 @@
 #include"../Def.h"
 #include "SmartReference.h"
 
-namespace fragview {
+namespace fragcore {
 
 	template<class T>
 	class RefPtr {

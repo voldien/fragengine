@@ -4,7 +4,7 @@
 #include"ASync.h"
 #include<vector>
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

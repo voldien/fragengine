@@ -1,7 +1,7 @@
 #include "Core/dataStructure/StackAllactor.h"
 #include <malloc.h>
 #include <cstring>
-using namespace fragview;
+using namespace fragcore;
 
 StackAllocator::StackAllocator(void)
 {

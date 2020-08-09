@@ -5,7 +5,7 @@
 #include"Core/IO/ASync.h"
 #include <taskSch.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 class FVDECLSPEC AsyncTask : public Task
 {
@@ -126,7 +126,7 @@ Ref<IScheduler> ASync::getScheduler(void) const
 	return this->scheduler;
 }
 
-void ASync::asyncWait(fragview::ASyncHandle handle) {
+void ASync::asyncWait(fragcore::ASyncHandle handle) {
 	AsyncObject *ao = getObject(handle);
 
 	schSemaphoreWait((schSemaphore *) ao->semaphore);

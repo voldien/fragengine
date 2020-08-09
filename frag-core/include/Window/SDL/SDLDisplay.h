@@ -3,7 +3,7 @@
 #include"../../Def.h"
 #include"../../Core/Display.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ namespace fragview {
 
 		void getDPI(DPI *dpi) override;
 
-		fragview::TextureFormat getFormat(void) override;
+		fragcore::TextureFormat getFormat(void) override;
 
 	protected:
 		unsigned int translateFormat(unsigned int format);

@@ -25,7 +25,7 @@
 #include<taskSch.h>
 #include<map>
 
-namespace fragview {
+namespace fragcore {
 
 	typedef long ASyncHandle;											/*  */
 	typedef void (*AsyncComplete)(ASync* async, ASyncHandle handle);	/*  */

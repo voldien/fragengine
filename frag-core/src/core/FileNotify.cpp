@@ -11,7 +11,7 @@
 #include"Core/IO/FileSystem.h"
 
 
-using namespace fragview;
+using namespace fragcore;
 
 FileNotify::FileNotify(Ref<IScheduler>& sch) {
 

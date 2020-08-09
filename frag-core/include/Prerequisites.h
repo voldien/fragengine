@@ -22,7 +22,7 @@
 #include"physic/Prerequisites.h"
 #include"Renderer/Prerequisites.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/*  Core.   */
 	class FileNotify;

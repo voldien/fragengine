@@ -2,7 +2,7 @@
 #define FRAGVIEW_GLOBALSTATE_H_ 1
 #include <Core/Object.h>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

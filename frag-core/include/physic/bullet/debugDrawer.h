@@ -6,7 +6,7 @@
 #include <Renderer/IRenderer.h>
 #include"internal_object_type.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

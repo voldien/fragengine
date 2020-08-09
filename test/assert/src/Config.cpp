@@ -6,7 +6,7 @@
 
 #define CONFIG_DEFAULT_NAME "Config"
 
-using namespace fragview;
+using namespace fragcore;
 
 void IConfigTest::TearDown() {
 	Test::TearDown();

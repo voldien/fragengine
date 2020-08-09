@@ -3,7 +3,7 @@
 #define _FRAGVIEW_IP_H_ 1
 #include"../Object.h"
 
-namespace fragview {
+namespace fragcore {
 	class FVDECLSPEC IP : public Object {
 	public:
 		IP(void);

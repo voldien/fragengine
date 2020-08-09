@@ -19,7 +19,7 @@
 #ifndef _CORE_PHYSIC_PREREQUISITES_H_
 #define _CORE_PHYSIC_PREREQUISITES_H_ 1
 
-namespace fragview {
+namespace fragcore {
 	class PhysicInterface;
 	class PhysicFactory;
 	class PhysicDispatcher;

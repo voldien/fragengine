@@ -8,7 +8,7 @@
 #include "Core/IO/FileSystem.h"
 #include "Exception/InvalidArgumentException.h"
 #include FT_FREETYPE_H
-using namespace fragview;
+using namespace fragcore;
 
 Font *FontFactory::createFont(Ref<IRenderer> &renderer, Ref<IO> &io, float size, Encoding encoding)
 {

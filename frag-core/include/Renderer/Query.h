@@ -20,7 +20,7 @@
 #define _FRAG_CORE_QUERY_H_ 1
 #include "RenderObject.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

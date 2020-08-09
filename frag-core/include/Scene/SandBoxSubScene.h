@@ -26,7 +26,7 @@
 #include <vector>
 #include <map>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

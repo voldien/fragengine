@@ -19,7 +19,7 @@
 #define _VD_QUAD_TREE_H_ 1
 #include<iostream>
 
-namespace fragview {
+namespace fragcore {
 	template<class T>
 	class QuadTree {
 		typedef struct node {

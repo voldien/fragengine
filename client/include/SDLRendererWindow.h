@@ -6,7 +6,7 @@
 /**
  * SDL Window.
  */
-class FVDECLSPEC SDLRendererWindow : public fragview::RendererWindow {
+class FVDECLSPEC SDLRendererWindow : public fragcore::RendererWindow {
 public:
 	virtual ~SDLRendererWindow(void);
 
@@ -43,7 +43,7 @@ public:
 
 	void *getIcon(void) const override;
 
-	virtual fragview::Display* getCurrentDisplay(void) const;
+	virtual fragcore::Display* getCurrentDisplay(void) const;
 
 	void setFullScreen(bool fullscreen) override;
 
@@ -66,7 +66,7 @@ public:
 
 protected:
 	virtual void createWindow(int x, int y, int width, int height, const char *api) override;
-	virtual bool assertConfigAttributes(const fragview::IConfig *iConfig) override;
+	virtual bool assertConfigAttributes(const fragcore::IConfig *iConfig) override;
 	virtual void useWindow(void *pdata) override;
 
 private:

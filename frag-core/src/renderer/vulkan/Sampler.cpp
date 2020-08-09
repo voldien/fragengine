@@ -1,7 +1,7 @@
 #include <Renderer/vulkan/internal_object_type.h>
 #include"Renderer/Texture.h"
 #include"Renderer/Sampler.h"
-using namespace fragview;
+using namespace fragcore;
 
 Sampler::~Sampler(void) {
 

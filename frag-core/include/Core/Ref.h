@@ -16,12 +16,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_REF_H_
-#define _FRAGVIEW_REF_H_ 1
+#ifndef _FRAG_CORE_REF_H_
+#define _FRAG_CORE_REF_H_ 1
 #include"../Def.h"
 #include"SmartReference.h"
 
-namespace fragview {
+namespace fragcore {
 /*  TODO fix!   */
 	template<class T>
 	class Ref { //TODO perhaps use the RefPtr as base?

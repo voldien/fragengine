@@ -21,7 +21,7 @@
 #include"../../Def.h"
 #include"Iterator.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

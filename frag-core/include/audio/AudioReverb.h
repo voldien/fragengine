@@ -3,7 +3,7 @@
 
 #include "AudioObject.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

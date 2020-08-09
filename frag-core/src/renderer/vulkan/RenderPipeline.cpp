@@ -16,7 +16,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 #define RENDER_VULKAN_MAJOR 0
 #define RENDER_VULKAN_MINOR 1

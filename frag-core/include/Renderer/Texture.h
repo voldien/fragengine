@@ -23,7 +23,7 @@
 #include "Sampler.h"
 #include "RenderDesc.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Texture object.
 	*/

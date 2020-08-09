@@ -6,7 +6,7 @@
 #include "Exception/RuntimeExecption.h"
 #include<list>
 
-using namespace fragview;
+using namespace fragcore;
 
 static Log::VERBOSITY g_verbosity = Log::Quite;
 static IO *verboseIO = NULL;

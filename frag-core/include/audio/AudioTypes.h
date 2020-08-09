@@ -1,7 +1,7 @@
 #ifndef _FRAG_CORE_AUDIO_TYPES_H_
 #define _FRAG_CORE_AUDIO_TYPES_H_ 1
 
-namespace fragview
+namespace fragcore
 {
 
 	enum AudioFormat

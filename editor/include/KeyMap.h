@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _PV_KEY_MAP_H_
-#define _PV_KEY_MAP_H_ 1
+#ifndef _FRAG_EDITOR_KEY_MAP_H_
+#define _FRAG_EDITOR_KEY_MAP_H_ 1
 #include"System.h"
 #include "CommandKey.h"
 #include "CommandMouse.h"

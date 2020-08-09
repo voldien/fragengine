@@ -1,6 +1,6 @@
 #include"Scene/Layer.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 void Layer::setIndextName(unsigned int index, const char *cname) {
 

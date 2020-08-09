@@ -21,7 +21,7 @@
 #include "FileAccess.h"
 #include"../../Prerequisites.h"
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

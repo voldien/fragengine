@@ -1,6 +1,6 @@
 #include"Renderer/vulkan/internal_object_type.h"
 #include"Renderer/ViewPort.h"
-using namespace fragview;
+using namespace fragcore;
 
 void ViewPort::depthRange(double near, double far) {
 

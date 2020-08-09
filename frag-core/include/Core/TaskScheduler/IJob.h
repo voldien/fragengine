@@ -20,7 +20,7 @@
 #define _FRAG_CORE_TASK_IJOB_H_ 1
 #include "IScheduler.h"
 
-namespace fragview
+namespace fragcore
 {
 	class FVDECLSPEC IJob
 	{

@@ -5,7 +5,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/RuntimeExecption.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 void GZFileIO::open(const char *path, Mode mode) {
 	FileIO::open(path, mode);

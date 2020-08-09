@@ -24,7 +24,7 @@
 #include"../Ref.h"
 #include<zip.h>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

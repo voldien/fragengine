@@ -27,6 +27,7 @@ OPTION(BUILD_WITH_TEST "Enable Testing." ON)
 OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
 OPTION(BUILD_WITH_CLIENT "Build Client" ON)
+OPTION(BUILD_WITH_CORE "Build Core" ON)
 OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
 OPTION(BUILD_WITH_SAMPLES "Build sample codes" OFF)
 
@@ -192,12 +193,14 @@ IF ( IOS)
   ENDIF()
 ENDIF()
 
+#
 IF (BUILD_WITH_UBSAN)
   MESSAGE(STATUS "Undefined Behavior sanitizer enabled")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
   SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
 ENDIF()
 
+#
 IF (BUILD_WITH_ASAN)
   MESSAGE(STATUS "AddressSanitizer enabled")
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
@@ -295,8 +298,8 @@ ELSE()
 	# Attempt to find it manually.
 ENDIF()
 
+# Inlucde external resources.
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
-
 
 IF(BUILD_WITH_EXTERNAL_PROJECT)
 
@@ -442,36 +445,27 @@ ELSEIF(CYGWIN)
 
 ENDIF()
 
-# Core library for adding support for plugin.
-ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES}
- 							${OPEN_SIMPLEX_NOISE_SOURCE} ${XATLAS_SOURCE} ${NANOSVG_SOURCE} ${PCG_C_BASIC_SOURCE}
-							${RECASTNAVIGATION_SOURCE} ${POLYPARITION_SOURCE} ${KISS_FFT_SOURCE}
-							${MISC_SOURCE})
-TARGET_LINK_LIBRARIES(fragview-core ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
-		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
-		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES} )
-ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
-TARGET_COMPILE_DEFINITIONS(fragview-core PRIVATE FRAGVIEW_CORE_INTERNAL_IMP=1)
+# #${XATLAS_SOURCE} ${NANOSVG_SOURCE}
+# # Core library for adding support for plugin.
+# ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES}
+#  							${OPEN_SIMPLEX_NOISE_SOURCE}  ${PCG_C_BASIC_SOURCE}
+# 							${RECASTNAVIGATION_SOURCE} ${POLYPARITION_SOURCE} ${KISS_FFT_SOURCE}
+# 							${MISC_SOURCE})
+# TARGET_LINK_LIBRARIES(fragview-core ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
+# 		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
+# 		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES} )
+# ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
+# TARGET_COMPILE_DEFINITIONS(fragview-core PRIVATE FRAGVIEW_CORE_INTERNAL_IMP=1)
 
-#
-SET_TARGET_PROPERTIES(fragview-core PROPERTIES
-		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
-		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}")
-TARGET_INCLUDE_DIRECTORIES(fragview-core PRIVATE ${SDL2_INCLUDE_DIRS} ${ZIP_INCLUDE_DIRS} ${JSONC_INCLUDE_DIRS}
-													 ${NANOSVG_INCLUDE_DIRS} ${RECASTNAVIGATION_INCLUDE_DIRS} ${NANOSVG_INCLUDE_DIRS}
-													 ${OPEN_SIMPLEX_NOISE_INCLUDE_DIRS} ${PCG_C_BASIC_INCLUDE_DIRS} ${XATLAS_INCLUDE_DIRS}
-													 ${KISS_FFT_INCLUDE_DIRS} ${MISC_INCLUDE_DIRS}
-										PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-
-#TODO add logic for installing only the development headers.
-INSTALL(TARGETS fragview-core LIBRARY DESTINATION lib)
-#INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include/fragview-core)
-
-INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" # source directory
-		DESTINATION "fragview" # target directory
-		FILES_MATCHING # install only matched files
-		PATTERN "*.h" # select header files
-		)
+# #
+# SET_TARGET_PROPERTIES(fragview-core PROPERTIES
+# 		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
+# 		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}")
+# TARGET_INCLUDE_DIRECTORIES(fragview-core PRIVATE ${SDL2_INCLUDE_DIRS} ${ZIP_INCLUDE_DIRS} ${JSONC_INCLUDE_DIRS}
+# 													 ${NANOSVG_INCLUDE_DIRS} ${RECASTNAVIGATION_INCLUDE_DIRS} ${NANOSVG_INCLUDE_DIRS}
+# 													 ${OPEN_SIMPLEX_NOISE_INCLUDE_DIRS} ${PCG_C_BASIC_INCLUDE_DIRS} ${XATLAS_INCLUDE_DIRS}
+# 													 ${KISS_FFT_INCLUDE_DIRS} ${MISC_INCLUDE_DIRS}
+# 										PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 # Build frag core.
 IF(BUILD_WITH_CORE)
@@ -498,22 +492,22 @@ ENDIF()
 
 # Rendering interfaces.
 IF(BUILD_EXTERNAL_RENDERER)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opengl/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/directx/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/vulkan/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/opengl/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/directx/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/vulkan/)
 	#TODO changed to a compute base class and module extension.
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/opencl/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/opencl/)
 ENDIF()
 
 IF(BUILD_EXTERNAL_AUDIO)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/audio/openal/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/audio/fmod/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/audio/openal/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/audio/fmod/)
 ENDIF()
 
 IF(BUILD_EXTERNAL_PHYSIC)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/bullet/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/bullet/)
 #	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/bullet3/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/physx/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/physx/)
 		#TODO moved to the PVEngine
 #	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/rpc/)
 ENDIF()
@@ -548,6 +542,11 @@ IF(NOT ANDROID)
 	ENDIF(BUILD_WITH_TEST)
 ENDIF()
 
+#TODO control it from main cmake file.
+IF(BUILD_WITH_SAMPLES)
+	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/examples)
+ENDIF()
+
 # Generate documentations.
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)
@@ -558,8 +557,9 @@ IF(DOXYGEN_FOUND)
 ENDIF()
 
 # Generate package configuration file.
-CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/fragview-core.pc.in" "${PROJECT_BINARY_DIR}/fragview-core.pc" @ONLY )
-INSTALL( FILES "${PROJECT_BINARY_DIR}/fragview-core.pc" DESTINATION ${FRAGVIEW_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGVIEW-DEV_COMPONENT})
+
+
+CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/fragengine.pc.in" "${PROJECT_BINARY_DIR}/fragengine.pc" @ONLY )
 
 # Only UNIX systems.
 IF( UNIX )
@@ -606,20 +606,21 @@ IF( UNIX )
 		MESSAGE(STATUS "zip found: ${ZIP}")
 
 	ENDIF()
-	# Install main icon image.
-	ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
-	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
+		# Install main icon image.
+		ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
+		IF(BUILD_WITH_INSTALL)
+		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
 
-	# Install samples.
-	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop DESTINATION /usr/share/fragview/ )
-	INSTALL( FILES ${SAMPLE_GLSL_FILES} DESTINATION /usr/share/fragview/samples/glsl )
-	INSTALL( FILES ${SAMPLE_HLSL_FILES} DESTINATION /usr/share/fragview/samples/hlsl )
-	INSTALL( FILES ${SAMPLE_SPIRV_FILES} DESTINATION /usr/share/fragview/samples/spriv )
-	INSTALL( FILES ${SAMPLE_CLC_FILES} DESTINATION /usr/share/fragview/samples/clc )
+		# Install samples.
+		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop DESTINATION /usr/share/fragview/ )
+		INSTALL( FILES ${SAMPLE_GLSL_FILES} DESTINATION /usr/share/fragview/samples/glsl )
+		INSTALL( FILES ${SAMPLE_HLSL_FILES} DESTINATION /usr/share/fragview/samples/hlsl )
+		INSTALL( FILES ${SAMPLE_SPIRV_FILES} DESTINATION /usr/share/fragview/samples/spriv )
+		INSTALL( FILES ${SAMPLE_CLC_FILES} DESTINATION /usr/share/fragview/samples/clc )
 
-	# Install scripts
-	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )
-
+		# Install scripts
+		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )
+	ENDIF()
 	# Create distribution tarball.
 	SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
 	ADD_CUSTOM_TARGET(	distribution
@@ -718,19 +719,37 @@ ELSE()
 	MESSAGE(WARNING "Could not find the program tools for creating window icons.")
 ENDIF()
 
-# TODO add some logic for determine if exists.
-IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/images/icons)
-	FOREACH(size 16 24 32 48 64 128 256)
 
-		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/apps/
-				RENAME fragview.png)
-		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/mimetypes/
-				RENAME application-fragview-doc.png)
-	ENDFOREACH()
+IF(BUILD_WITH_INSTALL)
+	#TODO add logic for installing only the development headers.
+	INSTALL(TARGETS fragview-core LIBRARY DESTINATION lib)
+	#INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include/fragview-core)
+
+	INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" # source directory
+			DESTINATION "fragview" # target directory
+			FILES_MATCHING # install only matched files
+			PATTERN "*.h" # select header files
+			)
+
+	#
+	INSTALL( FILES "${PROJECT_BINARY_DIR}/fragcore.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGCORE-DEV_COMPONENT})
+	INSTALL( FILES "${PROJECT_BINARY_DIR}/fragengine.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGENGINE-DEV_COMPONENT})
+
+	# TODO add some logic for determine if exists.
+	IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/images/icons AND UNIX)
+		FOREACH(size 16 24 32 48 64 128 256)
+			INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/apps/
+					RENAME fragview.png)
+			INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/mimetypes/
+					RENAME application-fragview-doc.png)
+		ENDFOREACH()
+	ENDIF()
+
 ENDIF()
 
 FIND_PACKAGE(PythonInterp)
 IF(PYTHONINTERP_FOUND)
+	#TODO relocate to the fragengine and editor.
 	ADD_CUSTOM_TARGET( compile-shader
 			COMMENT "Creating header and source file for display shaders."
 			COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/utils/glsl2CString.py ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/
@@ -781,10 +800,13 @@ IF ( BUILD_WITH_INSTALL )
 		STRING(TOUPPER ${LIBFRAGCORE_COMPONENT}     "LIBFRAGCORE_COMPONENT_UPPER")
 		STRING(TOUPPER ${LIBFRAGCORE-DEV_COMPONENT} "LIBFRAGCORE-DEV_COMPONENT_UPPER")
 
-
 		#
 		SET(CPACK_COMPONENT_FRAGCORE-BIN_DISPLAY_NAME                       "tools")
 		SET(CPACK_COMPONENT_FRAGCORE-BIN_DEPENDS                            "${LIBFRAGCORE_COMPONENT}" )
+		SET(CPACK_COMPOENTT_${LIBFRAGENGINE_COMPONENT_UPPER}_DISPLAY_NAME "")
+		SET(CPACK_COMPOENTT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "")
+		SET(CPACK_COMPONENT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DEPENDS $    "{LIBFRAGCORE_COMPONENT}" )
+		SET(CPACK_COMPOENTT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "")
 		SET(CPACK_COMPONENT_${LIBFRAGCORE_COMPONENT_UPPER}_DISPLAY_NAME     "libraries")
 		SET(CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "common headers and installs")
 		SET(CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT_UPPER}_DEPENDS $    "{LIBFRAGCORE_COMPONENT}" )

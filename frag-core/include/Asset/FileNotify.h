@@ -27,7 +27,7 @@
 #include<libfswatch/c/cevent.h>
 #include<map>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

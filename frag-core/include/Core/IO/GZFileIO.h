@@ -24,7 +24,7 @@
 #include <zlib.h>
 #endif
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

@@ -1,7 +1,7 @@
 #include"Scene/SubGraph/Frustum.h"
 #include"Core/Math.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 Frustum::Frustum(void) {
 //	this->setObjectType(Object::eFrustum);

@@ -21,7 +21,7 @@
 #include"../Renderer/IRenderer.h"
 #include"../Renderer/FrameBuffer.h"
 
-namespace fragview {
+namespace fragcore {
     /**
      *	Responsible for creating predefined
     *	framebuffer target.

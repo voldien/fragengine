@@ -20,7 +20,7 @@
 #define _COLLIDER_H_ 1
 #include"../Def.h"
 
-namespace fragview{
+namespace fragcore{
 	/**
 	 *	Collision object.
 	 *

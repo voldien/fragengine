@@ -2,7 +2,7 @@
 #include "Scene/SubGraph/Node.h"
 #include "Scene/SubGraph/Camera.h"
 #include "Scene/SubGraph/Light.h"
-using namespace fragview;
+using namespace fragcore;
 
 SandBoxSubScene *Scene::getGLSLSandBoxScene(void) {
 	return this->glslSandBoxSubScene;

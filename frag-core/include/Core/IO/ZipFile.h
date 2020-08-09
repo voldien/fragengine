@@ -24,7 +24,7 @@
 #include"../RefPtr.h"
 #include<vector>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Zip file container.
 	 */

@@ -4,7 +4,7 @@
 #include <Renderer/RenderDesc.h>
 #include <Exception/RuntimeExecption.h>
 #include"SDLDisplay.h"
-using namespace fragview;
+using namespace fragcore;
 
 unsigned int SDLDisplay::x(void) const {
 	SDL_Rect bound;

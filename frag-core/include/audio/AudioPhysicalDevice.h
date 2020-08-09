@@ -20,7 +20,7 @@
 #define _AUDIO_PHYSICAL_DEVICE_H_ 1
 #include"../Def.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

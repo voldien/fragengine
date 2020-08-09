@@ -7,7 +7,7 @@
 #include "../../../client/include/SDLRendererWindow.h"
 #include "../../../client/include/SDLDisplay.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 //TODO relocate to fragview client seperate code section.
 /*

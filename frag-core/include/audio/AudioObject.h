@@ -5,7 +5,7 @@
 #include"../Core/SmartReference.h"
 #include"../Core/Ref.h"
 
-namespace fragview {
+namespace fragcore {
 	class AudioInterface; //TODO relocate.
 	//TODO add based on a dynamic interface object class. Similar to the rendering and possibliy physic.
 	/**

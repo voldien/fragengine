@@ -16,11 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _SAMPLER_H_
-#define _SAMPLER_H_ 1
+#ifndef _FRAG_CORE_SAMPLER_H_
+#define _FRAG_CORE_SAMPLER_H_ 1
 #include "RenderObject.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */
@@ -96,6 +96,6 @@ namespace fragview {
 
 		intptr_t getNativePtr(void) const override;
 	};
-}
+} // namespace fragcore
 
 #endif

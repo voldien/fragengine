@@ -1,7 +1,7 @@
 #include"Renderer/ProgramPipeline.h"
 #include"Renderer/Shader.h"
 #include"Renderer/vulkan/internal_object_type.h"
-using namespace fragview;
+using namespace fragcore;
 
 void ProgramPipeline::bind(void) {
 

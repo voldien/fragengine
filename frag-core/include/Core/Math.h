@@ -22,7 +22,7 @@
 #include<math.h>
 #include<vector>
 
-namespace fragview {
+namespace fragcore {
 
 	/**
 	 *

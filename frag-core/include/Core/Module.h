@@ -3,7 +3,7 @@
 #define _FRAG_CORE_MODULE_H_ 1
 #include"SmartReference.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 * 
 	 */

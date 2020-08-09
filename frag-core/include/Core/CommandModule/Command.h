@@ -23,7 +23,7 @@
 #include"Prerequisites.h"
 
 
-namespace fragview {
+namespace fragcore {
 	
 }
 /**

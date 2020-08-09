@@ -1,7 +1,7 @@
 #include"physic/rpc/PhysicDispatcher.h"
 #include"physic/PhysicInterface.h"
 #include<stdarg.h>
-using namespace fragview;
+using namespace fragcore;
 
 PhysicDispatcher::PhysicDispatcher(void){
 	this->connection = NULL;

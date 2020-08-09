@@ -10,7 +10,7 @@ protected:
 
 	void SetUp() override;
 
-	fragview::IConfig* config;
+	fragcore::IConfig* config;
 };
 
 #endif

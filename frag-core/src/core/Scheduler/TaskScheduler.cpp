@@ -2,7 +2,7 @@
 #include "Exception/RuntimeExecption.h"
 #include <taskSch.h>
 
-using namespace fragview;
+using namespace fragcore;
 TaskScheduler::TaskScheduler(void)
 {
 	schTaskSch *taskSch = (schTaskSch *)malloc(sizeof(schTaskSch));

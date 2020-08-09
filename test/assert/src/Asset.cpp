@@ -1,6 +1,6 @@
 #include<gtest/gtest.h>
 #include<Utils/TextureUtil.h>
-using namespace fragview;
+using namespace fragcore;
 
 TEST(FileNotification, Create){
 

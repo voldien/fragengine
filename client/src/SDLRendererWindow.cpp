@@ -6,7 +6,7 @@
 #include <Exception/NotImplementedException.h>
 #include"SDLRendererWindow.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 void SDLRendererWindow::showWindow() {
 	SDL_ShowWindow(this->window);
@@ -47,7 +47,7 @@ void SDLRendererWindow::vsync(bool state) {
 	SDL_GL_SetSwapInterval(state);
 }
 
-bool SDLRendererWindow::assertConfigAttributes(const fragview::IConfig *iConfig) {
+bool SDLRendererWindow::assertConfigAttributes(const fragcore::IConfig *iConfig) {
 	//	for (int i = 0; i < numReqConfigKeys; i++){
 //	if(!iConfig->isSet(reqConfigKey[i]))
 //
@@ -86,7 +86,7 @@ void SDLRendererWindow::getSize(int *width, int *height) const {
 	SDL_GetWindowSize(this->window, width, height);
 }
 
-fragview::Display *SDLRendererWindow::getCurrentDisplay(void) const {
+fragcore::Display *SDLRendererWindow::getCurrentDisplay(void) const {
 	int index;
 	index = SDL_GetWindowDisplayIndex(this->window);
 	return new SDLDisplay(index);

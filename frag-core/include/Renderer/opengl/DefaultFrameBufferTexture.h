@@ -2,7 +2,7 @@
 #define FRAGVIEW_DEFAULTFRAMEBUFFERTEXTURE_H_ 1
 #include"../Texture.h"
 
-namespace fragview {
+namespace fragcore {
 
 	class FrameBufferTexture : public Texture {
 	public:

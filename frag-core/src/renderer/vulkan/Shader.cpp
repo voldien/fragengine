@@ -1,6 +1,6 @@
 #include"Renderer/Shader.h"
 #include"Renderer/vulkan/internal_object_type.h"
-using namespace fragview;
+using namespace fragcore;
 
 void Shader::bind(void) {
 	VKShaderObject  *shadobj = (VKShaderObject *) this->pdata;

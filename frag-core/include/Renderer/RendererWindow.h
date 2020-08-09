@@ -27,7 +27,7 @@
 #include "../Core/Window.h"
 #include "IRenderer.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

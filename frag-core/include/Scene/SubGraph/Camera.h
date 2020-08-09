@@ -21,7 +21,7 @@
 #include"Frustum.h"
 #include"../../RenderPipeline/IRenderPipelineBase.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Camera responsible for configuring the
 	*	view in rendering.

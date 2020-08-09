@@ -5,7 +5,7 @@
 #include "../Prerequisites.h"
 #include "../Core/Module.h"
 
-namespace fragview {
+namespace fragcore {
 	class FVDECLSPEC ICompute : public Module {
 	public:
 

@@ -22,7 +22,7 @@
 #include"../Ref.h"
 
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *	Simple abstract Iterator class for
 	 *	generic classes.

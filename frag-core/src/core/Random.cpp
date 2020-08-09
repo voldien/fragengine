@@ -1,7 +1,7 @@
 #include"Core/Random.h"
 #include<pcg_basic.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 void Random::setSeed(unsigned long long seed){
 	

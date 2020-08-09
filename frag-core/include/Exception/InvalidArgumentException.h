@@ -1,8 +1,8 @@
-#ifndef FRAGVIEW_INVALIDARGUMENTEXCEPTION_H_
-#define FRAGVIEW_INVALIDARGUMENTEXCEPTION_H_ 1
+#ifndef _FRAG_CORE_INVALIDARGUMENTEXCEPTION_H_
+#define _FRAG_CORE_INVALIDARGUMENTEXCEPTION_H_ 1
 #include "IException.h"
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

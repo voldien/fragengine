@@ -11,7 +11,7 @@
 #include <RenderingInterfaceTest.h>
 #include<Core/IConfig.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 
 void RenderingInterfaceTest::TearDown() {

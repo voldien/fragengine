@@ -6,7 +6,7 @@
 #include "../Core/Ref.h"
 #include"../Core/IO/IO.h"
 
-namespace fragview
+namespace fragcore
 {
 	class FVDECLSPEC AudioEncoder : public SmartReference {
 	public:

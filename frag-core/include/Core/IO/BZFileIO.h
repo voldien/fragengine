@@ -23,7 +23,7 @@
 #include "FileIO.h"
 #include <bzlib.h>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

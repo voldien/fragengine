@@ -16,18 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CONNECTION_H_
-#define _CONNECTION_H_ 1
+#ifndef _FRAG_ENGINE_CONNECTION_H_
+#define _FRAG_ENGINE_CONNECTION_H_ 1
 #include<FragViewCore.h>
 
-namespace fragengine{
+namespace fragengine{ 
 	/**
 	 *	Connection class.
 	*
 	*	Responsible for transfer low level data and
 	*	associated data with the connection.
 	*/
-	class FVDECLSPEC Connection : public fragview::UIDObject {
+	class FVDECLSPEC Connection : public fragcore::UIDObject {
 		friend class NetWork;
 	public:
 		enum Compression{

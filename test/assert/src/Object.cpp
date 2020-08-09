@@ -4,4 +4,4 @@
 #include <Core/IO/IP.h>
 #include <Core/IO/NetSocket.h>
 
-using namespace fragview;
+using namespace fragcore;

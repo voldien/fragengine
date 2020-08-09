@@ -7,7 +7,7 @@
 #include <Renderer/RenderDesc.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 int supportgl(char *extenions);
 

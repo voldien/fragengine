@@ -3,7 +3,7 @@
 #define _FRAGVIEW_TRANSFORM_H_ 1
 #include"../../Def.h"
 
-namespace fragview {
+namespace fragcore {
 	class FVDECLSPEC Transform {
 	public:
 		Transform(void);

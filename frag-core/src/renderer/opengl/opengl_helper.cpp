@@ -4,7 +4,7 @@
 #include <Utils/StringUtil.h>
 #include <Exception/InvalidArgumentException.h>
 #include"Renderer/IRenderer.h"
-using namespace fragview;
+using namespace fragcore;
 /*  Assign marker for debugging.    */
 //GL_MAX_LABEL_LENGTH
 void addMarkerLabel(const OpenGLCore *glcore, unsigned int identifier, unsigned int object, const MarkerDebug *debug) {

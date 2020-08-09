@@ -4,7 +4,7 @@
 #include"Core/IO/BufferIO.h"
 #include"Utils/StringUtil.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 std::map<long int, ShaderCompiler::ShaderResult>
 ShaderCompiler::CompilePermutation(Ref<IRenderer> &renderer, CompilerSources *references, const CompilerOptionSet &optionset)

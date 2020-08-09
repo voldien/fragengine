@@ -1,5 +1,5 @@
 #include"Renderer/Shader.h"
-using namespace fragview;
+using namespace fragcore;
 
 void Shader::bind(void){
 	

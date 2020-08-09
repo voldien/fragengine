@@ -8,7 +8,7 @@
 /**
  * Contains all dynamic object references.
  */
-namespace fragview {
+namespace fragcore {
 
 	class FVDECLSPEC DynamicObjects {
 		friend class PhysicInterface;

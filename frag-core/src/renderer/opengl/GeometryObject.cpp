@@ -3,7 +3,7 @@
 #include"Renderer/Buffer.h"
 #include"Renderer/opengl/internal_object_type.h"
 #include<GL/glew.h>
-using namespace fragview;
+using namespace fragcore;
 
 unsigned int GeometryObject::getVertexCount() {
 	GLGeometryObject *geobj = (GLGeometryObject *) this->pdata;

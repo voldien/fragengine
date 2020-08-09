@@ -1,7 +1,7 @@
 #include"Renderer/Shader.h"
 #include"Renderer/opengl/internal_object_type.h"
 #include<GL/glew.h>
-using namespace fragview;
+using namespace fragcore;
 
 void Shader::bind(void) {
 	GLShaderObject *shadobj = (GLShaderObject *) this->pdata;

@@ -23,7 +23,7 @@
 #include"../Renderer/RenderDesc.h"
 #include<vector>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */
@@ -55,6 +55,10 @@ namespace fragview {
 			float vdpi;
 		} DPI;
 
+		typedef struct lut_t{
+			
+		} LUT;
+
 		virtual std::vector<Mode> getModes(void) const = 0;
 		//virtual void setMode(const Mode *mode);
 
@@ -63,6 +67,8 @@ namespace fragview {
 		virtual TextureFormat getFormat(void) = 0;
 
 	public:
+		// virtual void calculateGammaLookupTable(float gamma, ushort *rgbRamp) const; /*  */
+		// virtual float computeGammaExponent(const ushort *rgbRamp) const;			/*  */
 
 		//TODO perhaps move to the internal display manager.
 //		static int getNumDisplays(void);

@@ -44,7 +44,7 @@
 
 //TODO relocate.
 //TODO rename to none prefix versions.
-namespace fragview {
+namespace fragcore {
 	typedef HCVector3 PVVector3;
 	typedef HCVector4 PVVector4;
 	typedef HCVector2 PVVector2;

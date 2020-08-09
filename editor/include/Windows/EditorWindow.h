@@ -2,6 +2,7 @@
 #define FRAGVIEW_EDITOR_EDITORWINDOW_H_ 1
 #include <Core/SmartReference.h>
 #include <Core/Window.h>
+#include"Windows/Widget.h"
 #if defined(FRAG_GTK_WINDOW_MANAGER)
 #include"Core/gtkconfig.h"
 #elif defined(FRAG_QT_WINDOW_MANAGER)
@@ -16,7 +17,7 @@ namespace fragview_editor{
 /**
  *
  */
-class FVDECLSPEC EditorWindow : public fragview::Window {
+class FVDECLSPEC EditorWindow : public fragcore::Window {
 public:
 	EditorWindow();
 
@@ -54,11 +55,13 @@ public:
 
 	void *getIcon(void) const override;
 
-	fragview::Display* getCurrentDisplay(void) const override;
+	fragcore::Display* getCurrentDisplay(void) const override;
 
 	void AddWidget(Widget *widget);
 
 	void setFullScreen(bool fullscreen) override;
+
+	void isFullScreen(void) const;
 
 	void setBordered(bool borded) override;
 

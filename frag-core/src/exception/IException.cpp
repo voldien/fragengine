@@ -3,7 +3,7 @@
 #include <cxxabi.h>
 #include <sstream>
 #include"Exception/IException.h"
-using namespace fragview;
+using namespace fragcore;
 
 static std::string Backtrace(int skip = 0) {
 	void *callstack[128];

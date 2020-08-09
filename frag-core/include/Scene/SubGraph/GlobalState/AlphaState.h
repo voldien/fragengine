@@ -3,7 +3,7 @@
 
 #include "GlobalState.h"
 
-namespace fragview {
+namespace fragcore {
 	class FVDECLSPEC AlphaState : public GlobalState {
 
 	};

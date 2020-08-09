@@ -2,7 +2,7 @@
 #include<fragview/Utils/ShaderCompiler.h>
 //#include"Config.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 int main(int argc, const char **argv)
 {

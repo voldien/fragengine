@@ -7,7 +7,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <FragViewCore.h>
 
-using namespace fragview;
+using namespace fragcore;
 
 //TODO add for checking by the target
 static int getCurrentTexture(void) {

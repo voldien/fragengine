@@ -11,7 +11,7 @@
 #include"Renderer/ProgramPipeline.h"
 #include"Core/IO/IOUtil.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 const char* vertexs[] = {
 		NULL,                           /*  None shader language.   */

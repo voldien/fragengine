@@ -55,15 +55,15 @@ protected:
 
 private:    /*  */
 
-    fragview::Ref<fragview::IRenderer> renderer;            /*  Low level rendering API interface.  */
-	fragview::Ref<fragview::IRenderPipelineBase> renderpipeline;
+    fragcore::Ref<fragcore::IRenderer> renderer;            /*  Low level rendering API interface.  */
+	fragcore::Ref<fragcore::IRenderPipelineBase> renderpipeline;
 //    EventController* controller;
-    fragview::Ref<fragview::IScheduler> sch;       /*  */
-    fragview::Ref<fragview::IScheduler> logicSch;  /*  */
+    fragcore::Ref<fragcore::IScheduler> sch;       /*  */
+    fragcore::Ref<fragcore::IScheduler> logicSch;  /*  */
     Config* config;                                 /*  Current config.    */
-	fragview::FileNotify* notify;                   /*  Notify Asset changes.  */
-	fragview::Scene *scene;                         /*  Current scene.  */
-	fragview::RendererWindow *rendererWindow;
+	fragcore::FileNotify* notify;                   /*  Notify Asset changes.  */
+	fragcore::Scene *scene;                         /*  Current scene.  */
+	fragcore::RendererWindow *rendererWindow;
 	//fragview::Ref<fragview::IFileSystem> fileSystem;
 };
 

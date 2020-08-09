@@ -2,7 +2,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include"physic/PhysicFactory.h"
 #include"Core/Library.h"
-using namespace fragview;
+using namespace fragcore;
 
 /**
  *	Internal function data type for creating physic

@@ -3,7 +3,7 @@
 #include <float.h>
 #include <math.h>
 #include<open-simplex-noise.h>
-using namespace fragview;
+using namespace fragcore;
 
 const float Math::Epsilon = FLT_EPSILON;
 const float Math::PI = HPM_PI;
@@ -25,8 +25,44 @@ static void guassian2Df(float *guassian, int height, float theta)
 
 }
 
+// void Window::calculateGammaLookupTable(float gamma, ushort *rgbRamp) const
+// {
+// 	if (gamma < 0.0)
+// 		throw InvalidArgumentException("gamma exponent must be positive");
+
+// 	float exponent = 1.0f / gamma;
+
+// 	/*  Create lookup table.    */
+// 	for (uint i = 0; i < 256; ++i)
+// 	{
+// 		/*  */
+// 		float linear = float(i) * 1.0f / 255u;
+// 		float corrected = (float)pow(linear, exponent);
+// 		ushort entry = ushort(corrected * 65535);
+
+// 		rgbRamp[i] = rgbRamp[i + 256] = rgbRamp[i + 512] = entry;
+// 	}
+// }
+
+// float Window::computeGammaExponent(const ushort *rgbRamp) const
+// {
+// 	float gamma = 0.0;
+
+// 	//TODO improve
+// 	for (uint i = 64; i < 256; ++i)
+// 	{
+// 		double corrected = (double)rgbRamp[i] / 65535.0;
+// 		double linear = double(i) * 1.0 / 255u;
+// 		gamma += log(linear) / log(corrected);
+// 		break;
+// 	}
+// 	return gamma;
+// }
+
 float Math::linearToGammaSpace(float linear)
 {
+	const float exponent = 2.2f;
+	return (float)pow(linear, exponent);
 	// 	double corrected = (double)rgbRamp[i] / 65535.0;
 	// 	double linear = double(i) * 1.0 / 255u;
 	// 	gamma += log(linear) / log(corrected);

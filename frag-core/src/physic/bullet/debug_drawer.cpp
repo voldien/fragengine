@@ -2,7 +2,7 @@
 #include"physic/bullet/internal_object_type.h"
 #include"physic/bullet/debugDrawer.h"
 
-using namespace fragview;
+using namespace fragcore;
 
 DebugDrawer::DebugDrawer(IRenderer *renderer) {
 	renderer->increment();

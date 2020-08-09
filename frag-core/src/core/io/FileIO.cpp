@@ -4,7 +4,7 @@
 #include <Exception/InvalidArgumentException.h>
 #include <Exception/RuntimeExecption.h>
 #include"Core/IO/FileIO.h"
-using namespace fragview;
+using namespace fragcore;
 
 FileIO::FileIO(void) {
 	this->mode = (Mode) 0;
@@ -133,8 +133,8 @@ bool FileIO::flush(void) {
 	return fflush(this->file) == 0;
 }
 
-FileIO *fragview::stdoutIO = new FileIO(stdout);
-FileIO *fragview::stdinIO = new FileIO(stdin);
-FileIO *fragview::stderrIO = new FileIO(stderr);
+FileIO *fragcore::stdoutIO = new FileIO(stdout);
+FileIO *fragcore::stdinIO = new FileIO(stdin);
+FileIO *fragcore::stderrIO = new FileIO(stderr);
 
 

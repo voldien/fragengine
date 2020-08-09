@@ -6,7 +6,7 @@
 #include <Font.h>
 #include <Scene/SubGraph/Transform.h>
 
-namespace fragview {
+namespace fragcore {
 	/**
 	 *
 	 */

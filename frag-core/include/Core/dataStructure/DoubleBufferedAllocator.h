@@ -21,7 +21,7 @@
 #include"StackAllactor.h"
 #include"../SmartReference.h"
 
-namespace fragview{
+namespace fragcore{
 	/**
 	 *	DoubleBufferedAllocator is two allocate buffer.
 	*/

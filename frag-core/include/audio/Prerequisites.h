@@ -19,7 +19,7 @@
 #ifndef _FRAG_CORE_AUDIO_PREREQUISITES_H_
 #define _FRAG_CORE_AUDIO_PREREQUISITES_H_ 1
 
-namespace fragview {
+namespace fragcore {
 	class AudioInterface;
 	class AudioClip;
 	class AudioSource;
