@@ -1,24 +1,24 @@
 
+OPTION(FRAGVIEW_BUILD_WITH_SANITY_CHECK "" ON)
+#OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
 
-OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
+# # Find packages.
+# FIND_PACKAGE(PkgConfig)
+# FIND_PROGRAM(OPENSSL openssl)
+# IF(PKG_CONFIG_FOUND)
+# 	IF(BUILD_WITH_SDL_WINDOW)
+# 		PKG_CHECK_MODULES(SDL2 REQUIRED sdl2)
+# 	ENDIF()
+# ELSE()
+# 	MESSAGE(WARNING "Could not find pgk-config, attempting default values.")
+# 	#TODO default values for SDL2
+# ENDIF()
 
-# Find packages.
-FIND_PACKAGE(PkgConfig)
-FIND_PROGRAM(OPENSSL openssl)
-IF(PKG_CONFIG_FOUND)
-	IF(BUILD_WITH_SDL_WINDOW)
-		PKG_CHECK_MODULES(SDL2 REQUIRED sdl2)
-	ENDIF()
-ELSE()
-	MESSAGE(WARNING "Could not find pgk-config, attempting default values.")
-	#TODO default values for SDL2
-ENDIF()
+# IF(SDL2_FOUND)
+# 	MESSAGE(STATUS "SDL2 found: ${SDL2_LIBRARIES} -- ${SDL2_VERSION}")
+# ELSE()
 
-IF(SDL2_FOUND)
-	MESSAGE(STATUS "SDL2 found: ${SDL2_LIBRARIES} -- ${SDL2_VERSION}")
-ELSE()
-
-ENDIF()
+# ENDIF()
 
 # Source files.
 FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
@@ -26,12 +26,14 @@ FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 
 #
 ADD_EXECUTABLE(fragview ${SOURCE_FILES} ${HEADER_FILES})
-TARGET_LINK_LIBRARIES(fragview fragview-core fragengine ${SDL2_LIBRARIES})
+TARGET_LINK_LIBRARIES(fragview fragcore fragengine)
 TARGET_INCLUDE_DIRECTORIES(fragview PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-ADD_DEPENDENCIES(fragview fragview-core fragengine)
+ADD_DEPENDENCIES(fragview fragcore fragengine)
 
 # Install binary program
-INSTALL(TARGETS fragview DESTINATION bin)
+IF(BUILD_WITH_INSTALL)
+	INSTALL(TARGETS fragview DESTINATION bin)
+ENDIF()
 #TODO add development header for the fragview for the editor.
 #INSTALL(TARGET)
 
@@ -52,8 +54,12 @@ IF(UNIX)
 	ADD_DEPENDENCIES(fragview mangzip)
 	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.1.gz DESTINATION /usr/share/man/man1/)
 
+	#TOOD add spriv generating file.
+
 	IF(ZIP)
-		# TODO add addition for adding support for spirv and combine multiple files.
+		# TODO add addition for adding support for spirv and combine multiple files
+
+
 		ADD_CUSTOM_TARGET(	internal-shader-generation
 				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/shaders
 				COMMAND ${CP} -r ${PROJECT_SOURCE_DIR}/shaders/* ${CMAKE_CURRENT_SOURCE_DIR}/shaders/
@@ -68,7 +74,7 @@ IF(UNIX)
 
 ENDIF()
 
-IF(OPENSSL)
+IF(OPENSSL AND FRAGVIEW_BUILD_WITH_SANITY_CHECK)
 	# Generate verification finger print.
 	MESSAGE(STATUS "openssl found: ${OPENSSL}")
 	# ADD_CUSTOM_TARGET(hash-resources

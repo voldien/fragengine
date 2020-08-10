@@ -12,8 +12,8 @@ SET(BULLET_LIB "-lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody
 FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 ADD_LIBRARY(fragview-pbu ${SOURCE_FILES})
-TARGET_LINK_LIBRARIES(fragview-pbu ${BULLET_LIB} fragview-core )
-ADD_DEPENDENCIES(fragview-pbu fragview-core)
+TARGET_LINK_LIBRARIES(fragview-pbu ${BULLET_LIB} fragcore )
+ADD_DEPENDENCIES(fragview-pbu fragcore)
 INSTALL(TARGETS fragview-pbu DESTINATION lib)
 
 IF ((CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") )

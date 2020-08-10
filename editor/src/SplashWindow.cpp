@@ -2,6 +2,8 @@
 #include <FragViewCore.h>
 #include"Windows/SplashWindow.h"
 
+using namespace frageditor;
+
 SplashWindow::SplashWindow(const char *imagePath) {
 
 	this->setBordered(false);

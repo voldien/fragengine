@@ -484,7 +484,6 @@ IF(NOT ANDROID)
 	ENDIF()
 ENDIF()
 
-
 # Client
 IF(BUILD_WITH_CLIENT)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
@@ -721,19 +720,19 @@ ENDIF()
 
 
 IF(BUILD_WITH_INSTALL)
-	#TODO add logic for installing only the development headers.
-	INSTALL(TARGETS fragview-core LIBRARY DESTINATION lib)
-	#INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include/fragview-core)
+	# #TODO add logic for installing only the development headers.
+	# INSTALL(TARGETS fragview-core LIBRARY DESTINATION lib)
+	# #INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include/fragview-core)
 
-	INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" # source directory
-			DESTINATION "fragview" # target directory
-			FILES_MATCHING # install only matched files
-			PATTERN "*.h" # select header files
-			)
+	# INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" # source directory
+	# 		DESTINATION "fragview" # target directory
+	# 		FILES_MATCHING # install only matched files
+	# 		PATTERN "*.h" # select header files
+	# 		)
 
 	#
-	INSTALL( FILES "${PROJECT_BINARY_DIR}/fragcore.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGCORE-DEV_COMPONENT})
-	INSTALL( FILES "${PROJECT_BINARY_DIR}/fragengine.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGENGINE-DEV_COMPONENT})
+	# INSTALL( FILES "${PROJECT_BINARY_DIR}/fragcore.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGCORE-DEV_COMPONENT})
+	# INSTALL( FILES "${PROJECT_BINARY_DIR}/fragengine.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGENGINE-DEV_COMPONENT})
 
 	# TODO add some logic for determine if exists.
 	IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/images/icons AND UNIX)

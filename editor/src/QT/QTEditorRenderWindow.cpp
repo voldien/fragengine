@@ -1,5 +1,7 @@
 #include"Windows/EditorRenderWindow.h"
 
+using namespace frageditor;
+
 void EditorRendererWindow::swapBuffer(void) {
 
 }

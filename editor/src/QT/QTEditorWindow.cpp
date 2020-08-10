@@ -4,8 +4,10 @@
 #include <QWindow>
 #include<QDialog>
 #include <QMainWindow>
+using namespace frageditor;
 
-EditorWindow::EditorWindow(){
+EditorWindow::EditorWindow()
+{
 	this->window = new QMainWindow();
 
 	QToolBar *myToolBar = new QToolBar();

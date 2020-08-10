@@ -12,7 +12,7 @@ FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 #
 ADD_LIBRARY(fragview-rvk ${SOURCE_FILES})
-TARGET_LINK_LIBRARIES(fragview-rvk -lvulkan fragview-core) #
+TARGET_LINK_LIBRARIES(fragview-rvk -lvulkan fragcore) #
 TARGET_INCLUDE_DIRECTORIES(fragview-rvk PRIVATE ${Vulkan_INCLUDE_DIRS})
-ADD_DEPENDENCIES(fragview-rvk fragview-core)
+ADD_DEPENDENCIES(fragview-rvk fragcore)
 INSTALL(TARGETS fragview-rvk DESTINATION lib)

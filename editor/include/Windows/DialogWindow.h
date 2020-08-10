@@ -1,9 +1,13 @@
-#ifndef _FV_DIALOG_WINDOW_H_
-#define _FV_DIALOG_WINDOW_H_ 1
+#ifndef _FRAG_CORE_DIALOG_WINDOW_H_
+#define _FRAG_CORE_DIALOG_WINDOW_H_ 1
 #include"EditorWindow.h"
 
-class FVDECLSPEC DialogWindow : public EditorWindow {
-	public:
-};
-
+namespace frageditor{
+	/**
+	 * 
+	 */
+	class FVDECLSPEC DialogWindow : public EditorWindow {
+		public:
+	};
+}
 #endif

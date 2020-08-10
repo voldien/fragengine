@@ -2,8 +2,6 @@
 #TODO relocate to the core.
 OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
 
-
-
 # Define all file lists.
 FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 		${CMAKE_CURRENT_SOURCE_DIR}/src/audio/*.cpp
@@ -38,6 +36,7 @@ FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
 									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
 
 #${XATLAS_SOURCE} ${NANOSVG_SOURCE}
+
 # Core library for adding support for plugin.
 ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES}
  							${OPEN_SIMPLEX_NOISE_SOURCE}  ${PCG_C_BASIC_SOURCE}
@@ -59,4 +58,6 @@ TARGET_INCLUDE_DIRECTORIES(fragview-core PRIVATE ${SDL2_INCLUDE_DIRS} ${ZIP_INCL
 													 ${KISS_FFT_INCLUDE_DIRS} ${MISC_INCLUDE_DIRS}
 										PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
+#
 CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/fragcore.pc.in" "${CMAKE_CURRENT_SOURCE_DIR}/fragcore-core.pc" @ONLY)
+

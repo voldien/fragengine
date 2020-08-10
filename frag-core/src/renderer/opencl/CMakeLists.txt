@@ -11,7 +11,7 @@ FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 #
 ADD_LIBRARY(fragview-rcl  ${SOURCE_FILES} )
-TARGET_LINK_LIBRARIES(fragview-rcl ${OpenCL_LIBRARIES} fragview-core)
+TARGET_LINK_LIBRARIES(fragview-rcl ${OpenCL_LIBRARIES} fragcore)
 TARGET_INCLUDE_DIRECTORIES(fragview-rcl PRIVATE ${OpenCL_INCLUDE_DIRS})
-ADD_DEPENDENCIES(fragview-rcl fragview-core)
+ADD_DEPENDENCIES(fragview-rcl fragcore)
 INSTALL(TARGETS fragview-rcl DESTINATION lib)
