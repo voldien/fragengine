@@ -52,7 +52,7 @@ namespace fragcore {
 
 		virtual void setFullScreen(bool fullscreen) = 0;
 
-		virtual void isFullScreen(void) const = 0;
+		virtual bool isFullScreen(void) const = 0;
 
 		virtual void setBordered(bool borded) = 0;
 

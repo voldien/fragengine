@@ -1,7 +1,5 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 3.0 )
-
 PROJECT(fragview VERSION 0.11.1)
-
 ENABLE_LANGUAGE(CXX)
 ENABLE_LANGUAGE(C)
 
@@ -486,7 +484,7 @@ ENDIF()
 
 # Client
 IF(BUILD_WITH_CLIENT)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
+	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
 ENDIF()
 
 # Rendering interfaces.
@@ -558,12 +556,16 @@ ENDIF()
 # Generate package configuration file.
 
 
-CONFIGURE_FILE( "${PROJECT_SOURCE_DIR}/fragengine.pc.in" "${PROJECT_BINARY_DIR}/fragengine.pc" @ONLY )
+
 
 # Only UNIX systems.
 IF( UNIX )
 	# Use GNUInstallDirs for Unix predefined directories
 	INCLUDE(GNUInstallDirs)
+
+	SET( FRAG_LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+	SET( FRAG_INCLUDE_INSTALL_DIR ${CMAKE_INSTALL_INCLUDEDIR})
+	SET( FRAG_BIN_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
 
 	# 
 	Find_PACKAGE(UnixCommands REQUIRED)
@@ -611,7 +613,7 @@ IF( UNIX )
 		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
 
 		# Install samples.
-		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop DESTINATION /usr/share/fragview/ )
+
 		INSTALL( FILES ${SAMPLE_GLSL_FILES} DESTINATION /usr/share/fragview/samples/glsl )
 		INSTALL( FILES ${SAMPLE_HLSL_FILES} DESTINATION /usr/share/fragview/samples/hlsl )
 		INSTALL( FILES ${SAMPLE_SPIRV_FILES} DESTINATION /usr/share/fragview/samples/spriv )
@@ -703,7 +705,17 @@ IF( UNIX )
 ELSEIF(WIN32)
 
 ELSE()
+	# Cache these to allow the user to override them on non-Unix platforms
+	SET( FRAG_LIB_INSTALL_DIR "lib" CACHE STRING
+	"Path the built library files are installed to." )
+	SET( FRAG_INCLUDE_INSTALL_DIR "include" CACHE STRING
+	"Path the header files are installed to." )
+	SET( FRAG_BIN_INSTALL_DIR "bin" CACHE STRING
+	"Path the tool executables are installed to." )
 
+	SET(CMAKE_INSTALL_FULL_INCLUDEDIR ${CMAKE_INSTALL_PREFIX}/${FRAG_INCLUDE_INSTALL_DIR})
+	SET(CMAKE_INSTALL_FULL_LIBDIR ${CMAKE_INSTALL_PREFIX}/${FRAG_LIB_INSTALL_DIR})
+	SET(CMAKE_INSTALL_FULL_BINDIR ${CMAKE_INSTALL_PREFIX}/${FRAG_BIN_INSTALL_DIR})
 ENDIF()
 
 FIND_PACKAGE(Icotool)
@@ -730,11 +742,8 @@ IF(BUILD_WITH_INSTALL)
 	# 		PATTERN "*.h" # select header files
 	# 		)
 
-	#
-	# INSTALL( FILES "${PROJECT_BINARY_DIR}/fragcore.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGCORE-DEV_COMPONENT})
-	# INSTALL( FILES "${PROJECT_BINARY_DIR}/fragengine.pc" DESTINATION ${FRAGCORE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGENGINE-DEV_COMPONENT})
-
 	# TODO add some logic for determine if exists.
+	# TODO relocate to their respective locations.
 	IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/images/icons AND UNIX)
 		FOREACH(size 16 24 32 48 64 128 256)
 			INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/apps/

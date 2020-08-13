@@ -16,12 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAG_CORE_RENDERPIPELINESETTINGS_H_
-#define _FRAG_CORE_RENDERPIPELINESETTINGS_H_ 1
-#include "../Renderer/Buffer.h"
-#include"../Core/IConfig.h"
-#include"../Def.h"
-#include"../Core/Ref.h"
+#ifndef _FRAG_ENGINE_RENDERPIPELINESETTINGS_H_
+#define _FRAG_ENGINE_RENDERPIPELINESETTINGS_H_ 1
+#include<Renderer/Prerequisites.h>
+#include<Core/Ref.h>
+#include<Core/IConfig.h>
 
 namespace fragcore {
 	/**

@@ -1,5 +1,12 @@
 #include"RenderPipeline/DebugDrawManager.h"
 #include"RenderPipeline/Mesh.h"
+#include<Font.h>
+#include<Renderer/Buffer.h>
+#include<Renderer/ViewPort.h>
+#include<Renderer/FrameBuffer.h>
+#include<Renderer/Query.h>
+#include <Renderer/ProgramPipeline.h>
+#include <Renderer/Sync.h>
 
 using namespace fragcore;
 

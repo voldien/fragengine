@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_IRENDERER_H_
-#define _FRAGVIEW_IRENDERER_H_ 1
+#ifndef _FRAG_CORE_IRENDERER_H_
+#define _FRAG_CORE_IRENDERER_H_ 1
 #include "../Prerequisites.h"
 #include"ICompute.h"
 #include "Texture.h"

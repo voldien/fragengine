@@ -18,8 +18,9 @@
 */
 #ifndef _FRAG_ENGINE_TIME_H_
 #define _FRAG_ENGINE_TIME_H_ 1
-#include"Def.h"
-#include"../Core/Object.h"
+#include<FragCore.h>
+// #include"Def.h"
+// #include"../Core/Object.h"
 
 namespace fragcore {
 	/**

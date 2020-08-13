@@ -1,6 +1,6 @@
 
-#ifndef FRAGVIEW_STATUSBAR_H_
-#define FRAGVIEW_STATUSBAR_H_ 1
+#ifndef _FRAG_EDITOR_STATUSBAR_H_
+#define _FRAG_EDITOR_STATUSBAR_H_ 1
 #include"Widget.h"
 
 /**

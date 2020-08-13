@@ -18,11 +18,10 @@
 */
 #ifndef _FRAGVIEW_SCENE_H_
 #define _FRAGVIEW_SCENE_H_ 1
-#include"Def.h"
 #include"Time.h"
-#include"Prerequisites.h"
-#include"Renderer/Buffer.h"
-#include"SandBoxSubScene.h"
+#include "SandBoxSubScene.h"
+//#include"Prerequisites.h"
+
 
 namespace fragcore {
 	/**

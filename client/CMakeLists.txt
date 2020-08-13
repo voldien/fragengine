@@ -27,12 +27,13 @@ FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 #
 ADD_EXECUTABLE(fragview ${SOURCE_FILES} ${HEADER_FILES})
 TARGET_LINK_LIBRARIES(fragview fragcore fragengine)
-TARGET_INCLUDE_DIRECTORIES(fragview PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
+TARGET_INCLUDE_DIRECTORIES(fragview PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/ )
 ADD_DEPENDENCIES(fragview fragcore fragengine)
 
 # Install binary program
 IF(BUILD_WITH_INSTALL)
 	INSTALL(TARGETS fragview DESTINATION bin)
+
 ENDIF()
 #TODO add development header for the fragview for the editor.
 #INSTALL(TARGET)
@@ -59,7 +60,6 @@ IF(UNIX)
 	IF(ZIP)
 		# TODO add addition for adding support for spirv and combine multiple files
 
-
 		ADD_CUSTOM_TARGET(	internal-shader-generation
 				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/shaders
 				COMMAND ${CP} -r ${PROJECT_SOURCE_DIR}/shaders/* ${CMAKE_CURRENT_SOURCE_DIR}/shaders/
@@ -71,6 +71,8 @@ IF(UNIX)
 	ELSE()
 
 	ENDIF()
+
+	INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop DESTINATION /usr/share/fragview/ )
 
 ENDIF()
 

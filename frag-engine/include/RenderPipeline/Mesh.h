@@ -1,6 +1,6 @@
 #ifndef _FRAG_CORE_MESH_H_
 #define _FRAG_CORE_MESH_H_ 1
-#include"../Core/SmartReference.h"
+#include<Core/SmartReference.h>
 
 namespace fragcore {
 

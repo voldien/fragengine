@@ -16,12 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _PV_NODE_H_
-#define _PV_NODE_H_  1
-#include "Core/dataStructure/ITree.h"
-#include"../../Core/Object.h"
+#ifndef _FRAG_ENGINE_NODE_H_
+#define _FRAG_ENGINE_NODE_H_ 1
 #include "Transform.h"
-#include "Scene/SubGraph/GlobalState/GlobalState.h"
+#include "GlobalState/GlobalState.h"
+#include<Core/dataStructure/ITree.h>
 #include <list>
 
 

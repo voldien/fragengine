@@ -1,10 +1,11 @@
 
-#ifndef _FRAGVIEW_DEBUGMANAGER_H_
-#define _FRAGVIEW_DEBUGMANAGER_H_ 1
-#include <RenderPipeline/IRenderPipelineBase.h>
+#ifndef _FRAG_ENGINE_DEBUGMANAGER_H_
+#define _FRAG_ENGINE_DEBUGMANAGER_H_ 1
+#include <Renderer/Prerequisites.h>
 #include <Core/dataStructure/Queue.h>
-#include <Font.h>
-#include <Scene/SubGraph/Transform.h>
+#include"IRenderPipelineBase.h"
+#include"../Scene/SubGraph/Transform.h"
+
 
 namespace fragcore {
 	/**

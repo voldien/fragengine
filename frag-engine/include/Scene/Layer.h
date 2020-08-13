@@ -1,8 +1,7 @@
 
-#ifndef _FV_LAYER_H_
-#define _FV_LAYER_H_ 1
-#include"../Def.h"
-#include"../Core/Object.h"
+#ifndef _FRAG_ENGINE_LAYER_H_
+#define _FRAG_ENGINE_LAYER_H_ 1
+#include<FragCore.h>
 #include<string>
 
 namespace fragcore {

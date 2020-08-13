@@ -18,11 +18,10 @@
 */
 #ifndef _FRAGVIEW_GLSLSANDBOXSUBSCENE_H_
 #define _FRAGVIEW_GLSLSANDBOXSUBSCENE_H_ 1
-#include "../Renderer/Shader.h"
-#include "../Renderer/Texture.h"
-#include "../Renderer/ProgramPipeline.h"
+#include<FragCore.h>
+#include<Renderer/Prerequisites.h>
+#include<Renderer/ProgramPipeline.h>
 #include "Scene.h"
-#include"../Core/Ref.h"
 #include <vector>
 #include <map>
 

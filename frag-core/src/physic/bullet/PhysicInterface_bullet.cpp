@@ -1,5 +1,4 @@
-#include <Core/Ref.h>
-#include <FragViewCore.h>
+#include<FragCore.h>
 #include"physic/PhysicInterface.h"
 #include"physic/PhysicDesc.h"
 #include"physic/bullet/debugDrawer.h"

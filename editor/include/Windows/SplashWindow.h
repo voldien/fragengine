@@ -1,5 +1,5 @@
-#ifndef _FRAGVIEW_SPLASHWINDOW_H_
-#define _FRAGVIEW_SPLASHWINDOW_H_ 1
+#ifndef _FRAG_EDITOR_SPLASHWINDOW_H_
+#define _FRAG_EDITOR_SPLASHWINDOW_H_ 1
 #include "DialogWindow.h"
 
 namespace frageditor{

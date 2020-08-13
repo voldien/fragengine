@@ -18,8 +18,8 @@
 */
 #ifndef _FRAG_ENGINE_ENGINE_H_
 #define _FRAG_ENGINE_ENGINE_H_ 1
-#include<fragview/FragViewCore.h>
-#include<fragview/Core/SmartReference.h>
+#include<FragCore.h>
+#include<Core/SmartReference.h>
 
 // namespace fragengine {
 // 	using namespace fragview;

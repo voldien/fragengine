@@ -18,7 +18,7 @@
 */
 #ifndef _RENDER_PIPELINE_BASE_H_
 #define _RENDER_PIPELINE_BASE_H_ 1
-#include "../Def.h"
+#include <FragCore.h>
 #include "IRenderPipelineBase.h"
 #include "RenderQueue.h"
 

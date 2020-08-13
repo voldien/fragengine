@@ -1,8 +1,14 @@
 #include <Exception/InvalidArgumentException.h>
 #include "Scene/SandBoxSubScene.h"
 #include"Scene/Scene.h"
-#include"Renderer/ProgramPipeline.h"
-#include"Core/Log.h"
+
+#include <Renderer/Buffer.h>
+#include <Renderer/ViewPort.h>
+#include <Renderer/FrameBuffer.h>
+#include <Renderer/Query.h>
+#include <Renderer/ProgramPipeline.h>
+#include <Renderer/Sync.h>
+
 using namespace fragcore;
 
 void SandBoxSubScene::addTexture(Texture *texture) {

@@ -1,4 +1,11 @@
 #include"RenderPipeline/RenderPipelineForward.h"
+#include <Renderer/Buffer.h>
+#include <Renderer/ViewPort.h>
+#include <Renderer/FrameBuffer.h>
+#include <Renderer/Query.h>
+#include <Renderer/ProgramPipeline.h>
+#include <Renderer/Sync.h>
+
 using namespace fragcore;
 
 RenderPipelineForward::RenderPipelineForward(Ref<IRenderer> render) {

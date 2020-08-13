@@ -1,7 +1,8 @@
 
-#ifndef _FRAGVIEW_TRANSFORM_H_
-#define _FRAGVIEW_TRANSFORM_H_ 1
-#include"../../Def.h"
+#ifndef _FRAG_ENGINE_TRANSFORM_H_
+#define _FRAG_ENGINE_TRANSFORM_H_ 1
+#include<FragCore.h>
+
 
 namespace fragcore {
 	class FVDECLSPEC Transform {

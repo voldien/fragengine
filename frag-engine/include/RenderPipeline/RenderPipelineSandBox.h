@@ -18,9 +18,7 @@
 */
 #ifndef _FRAGENGINE_RENDERPIPELINE_SANDBOX_H_
 #define _FRAGENGINE_RENDERPIPELINE_SANDBOX_H_ 1
-#include"../Def.h"
 #include "IRenderPipelineBase.h"
-#include"../Renderer/Buffer.h"
 
 namespace fragcore {
 	/**

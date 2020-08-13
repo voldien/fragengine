@@ -19,8 +19,8 @@
 #ifndef _RENDER_PIPELINE_FORWARD_H_
 #define _RENDER_PIPELINE_FORWARD_H_ 1
 #include"RenderPipelineBase.h"
-#include"../Core/Ref.h"
 
+//TOOD rename namespace
 namespace fragcore {
 	/**
 	 *	Responsible for rendering scene to default

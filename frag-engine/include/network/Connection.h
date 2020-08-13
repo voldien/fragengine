@@ -18,7 +18,7 @@
 */
 #ifndef _FRAG_ENGINE_CONNECTION_H_
 #define _FRAG_ENGINE_CONNECTION_H_ 1
-#include<FragViewCore.h>
+#include<FragCore.h>
 
 namespace fragengine{ 
 	/**

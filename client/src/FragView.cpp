@@ -1,8 +1,5 @@
-#include"../include/FragView.h"
+#include<FragView.h>
 #include<SDL2/SDL.h>
-#include"../include/FragView.h"
-#include"Renderer/ProgramPipeline.h"
-#include"RenderPipeline/RenderPipelineSandBox.h"
 #include<Asset/FileNotify.h>
 #include"Core/IO/ZipFile.h"
 #include<cassert>
@@ -11,13 +8,10 @@
 #include<Utils/StringUtil.h>
 #include <Asset/AssetHandler.h>
 #include <Scene/SceneFactory.h>
-#include"RenderPipeline/RenderPipelineForward.h"
-#include"Exception/RuntimeExecption.h"
 #include <Core/IO/FileSystem.h>
 #include <Renderer/Query.h>
 #include <FontFactory.h>
 #include <Core/IO/FileIO.h>
-#include"Core/Log.h"
 #include"Renderer/RendererFactory.h"
 #include"Scene/Scene.h"
 #include"Core/UserEvent.h"

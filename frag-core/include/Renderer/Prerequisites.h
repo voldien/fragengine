@@ -27,6 +27,7 @@ namespace fragcore {
 	class Sampler;
 	class FrameBuffer;
 	class Shader;
+	class Buffer;
 	class GeometryObject;
 	class IRenderer;
 	class ViewPort;

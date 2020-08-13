@@ -3,17 +3,13 @@
 
 #ifndef _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_
 #define _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_ 1
-#include"../Def.h"
-#include "../Renderer/Buffer.h"
-#include"../Prerequisites.h"
-#include"../Core/Ref.h"
-#include"../Core/SmartReference.h"
-#include"../Renderer/IRenderer.h"
-#include"../Renderer/RenderObject.h"
-#include"../Renderer/Sync.h"
-#include"../Renderer/ProgramPipeline.h"
+#include<FragCore.h>
+#include<Renderer/Prerequisites.h>
 #include "RenderQueue.h"
 #include "RenderPipelineSettings.h"
+#include<Core/SmartReference.h>
+#include<Core/Ref.h>
+
 
 namespace fragcore {
 	/**

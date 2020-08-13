@@ -1,5 +1,4 @@
-#include <Utils/StringUtil.h>
-#include <FragViewCore.h>
+#include<FragCore.h>
 #include"Windows/SplashWindow.h"
 
 using namespace frageditor;
