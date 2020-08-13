@@ -29,6 +29,6 @@ namespace fragcore {
 	class AudioObject;
 	class AudioReverb;
     class AudioCapture;
-} // namespace fragview
+}
 
 #endif

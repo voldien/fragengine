@@ -6,7 +6,12 @@
 FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 						${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
 						${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp)
-FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
+FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Navigation/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Asset/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Scene/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h)
 
 #
 # FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
@@ -19,6 +24,8 @@ FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 SET(FRAG_ENGINE_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 SET(FRAG_CORE_INCLUDE_SUB_DIR 
 				${CMAKE_CURRENT_SOURCE_DIR}/include/
+				${CMAKE_CURRENT_SOURCE_DIR}/include/Animation
+				${CMAKE_CURRENT_SOURCE_DIR}/include/Asset
 				${CMAKE_CURRENT_SOURCE_DIR}/include/Navigation
 				${CMAKE_CURRENT_SOURCE_DIR}/include/network
 				${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline

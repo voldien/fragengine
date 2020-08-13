@@ -16,14 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef FRAGVIEW_USEREVENT_H_
-#define FRAGVIEW_USEREVENT_H_ 1
+#ifndef _FRAG_CORE_USEREVENT_H_
+#define _FRAG_CORE_USEREVENT_H_ 1
 
 //TODO move to fragivew client
 namespace fragcore {
-/**
- *
- */
+    /**
+     *
+     */
 	enum UserEvent {
 		ASSET_UPDATE = 0,   /*  */
 		ASSET_REMOVE = 1,   /*  */

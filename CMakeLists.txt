@@ -628,8 +628,8 @@ IF( UNIX )
 			COMMENT "Creating distrubtion file."
 			COMMAND mkdir -p ${TARGETDIR}
 			COMMAND ${CP} -r   ${CMAKE_CURRENT_SOURCE_DIR}/src
-			${CMAKE_CURRENT_SOURCE_DIR}/include
-			${CMAKE_CURRENT_SOURCE_DIR}/shaders
+			${CMAKE_CURRENT_SOURCE_DIR}/frag-core
+			${CMAKE_CURRENT_SOURCE_DIR}/frag-engine
 			${CMAKE_CURRENT_SOURCE_DIR}/samples
 			${CMAKE_CURRENT_SOURCE_DIR}/scripts
 			${CMAKE_CURRENT_SOURCE_DIR}/utils
@@ -638,9 +638,7 @@ IF( UNIX )
 			${CMAKE_CURRENT_SOURCE_DIR}/client
 			${CMAKE_CURRENT_SOURCE_DIR}/editor
 			${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
-			${CMAKE_CURRENT_SOURCE_DIR}/travis.yaml
-			${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop
-			client/fragview.1
+			${CMAKE_CURRENT_SOURCE_DIR}/.travis.yaml
 			${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
 			${CMAKE_CURRENT_SOURCE_DIR}/fragview.png
 			${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
