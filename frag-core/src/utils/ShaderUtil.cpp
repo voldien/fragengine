@@ -57,6 +57,273 @@ const unsigned int fShaderType[] = {
 		eSourceCode,    /*  HLSL.   */
 };
 
+void ShaderUtil::loadProgramFromMem(const ShaderObject *vshader, const ShaderObject *fshader, const ShaderObject *gshader,
+				   const ShaderObject *tcshader,
+				   const ShaderObject *teshader,
+				   const ShaderObject *compute, Ref<IRenderer>& renderer, Shader **pshader) {
+
+//	validateShaderArguments(type, language, codetype);
+	if (pshader == NULL)
+		throw InvalidArgumentException("");
+
+	ShaderDesc desc = {0};
+	Shader *shader = NULL;
+	int nsources;
+
+
+
+	/*	Source code constants for language supporting preprocessors.*/
+	static const char *vconst = "#define FV_VERTEX\n";
+	static const char *fconst = "#define FV_FRAGMENT\n";
+	static const char *gconst = "#define FV_GEOMETRY\n";
+	static const char *tcconst = "#define FV_TCTESSELLATION\n";
+	static const char *teconst = "#define FV_TETESSELLATION\n";
+	static const char *comConst = "#define FV_COMPUTE\n";
+
+// 	/*  Process the shader description based on the shader language.    */
+// 	//TODO add glsl debug when builiding debug.
+// 	//TODO add extension list and macro for features and etc.
+// 	switch (language)
+// 	{
+// 	case GLSL:
+// 		/*  Get GLSL version.   */
+// #if defined(_DEBUG)
+// 		sprintf(glver, "#version %d\n//#pragma debug(on)\n", (int)(strtof(renderer->getShaderVersion(GLSL), NULL)));
+// #elif defined(NDEBUG)
+// 		sprintf(glver, "#version %d\n //#pragma optimize(on)\n  //#pragma debug(off)\n", (int)(strtof(renderer->getShaderVersion(GLSL), NULL)));
+// #endif
+// 		sources[0] = glver;
+// 		/*  */
+// 		sources[1] = invshad;
+// 		/*  */
+// 		sources[3] = source;
+// 		nsources = 4;
+// 		break;
+// 	case SPIRV:
+// 		sources[0] = source;
+// 		nsources = size;
+// 		nsources = 1;
+// 		break;
+// 	case CLC:
+// 	case HLSL:
+// 	case CG:
+// 	default:
+// 		assert(NULL);
+// 	}
+
+	char vglver[256];
+	char fglver[256];
+	char gglver[256];
+	const char *vsources[4] = {NULL};
+	const char *fsources[4] = {NULL};
+	const char *gsources[4] = {NULL};
+	const char *csources[4] = {NULL};
+	if (vshader){
+
+
+
+			switch (vshader->language)
+			{
+			case GLSL:
+				sprintf(vglver, "#version %d\n", (int)(strtof(renderer->getShaderVersion(GLSL), NULL)));
+				/*  Get GLSL version.   */
+				vsources[0] = vglver;
+				/*  */
+				vsources[1] = vconst;
+				/*  */
+				vsources[2] = vshader->buf;
+				nsources = 3;
+				break;
+			case SPIRV:
+				vsources[0] = vshader->buf;
+				nsources = 1;
+				break;
+			case CLC:
+			case HLSL:
+			case CG:
+			default:
+				assert(NULL);
+			}
+		desc.vertex.language = vshader->language;
+		desc.vertex.size = vshader->size;
+		desc.vertex.type = vshader->type;
+		desc.vertex.numvert = nsources;
+		if (vshader->type == eSourceCode)
+			desc.vertex.vertexsource = (const char **)&vsources;
+		else{
+			desc.vertex.vertexBinary = (const char *)vshader->buf;
+			desc.vertex.binaryFormat = 0;
+		}
+	}
+
+	if (fshader)
+	{
+		switch (fshader->language)
+		{
+		case GLSL:
+			sprintf(fglver, "#version %d\n", (int)(strtof(renderer->getShaderVersion(GLSL), NULL)));
+			/*  Get GLSL version.   */
+			fsources[0] = fglver;
+			/*  */
+			fsources[1] = fconst;
+			/*  */
+			fsources[2] = fshader->buf;
+			nsources = 3;
+			break;
+		case SPIRV:
+			fsources[0] = fshader->buf;
+			nsources = 1;
+			break;
+		case CLC:
+		case HLSL:
+		case CG:
+		default:
+			assert(NULL);
+		}
+		desc.fragment.language = fshader->language;
+		desc.fragment.size = fshader->size;
+		desc.fragment.type = fshader->type;
+		desc.fragment.numfrag = nsources;
+		if (fshader->type == eSourceCode)
+			desc.fragment.fragmentsource = (const char **)&fsources;
+		else
+		{
+			desc.fragment.fragmentBinary = (const char *)fshader->buf;
+			desc.fragment.binaryFormat = 0;
+		}
+	}
+
+	if (gshader)
+	{
+		switch (gshader->language)
+		{
+		case GLSL:
+			sprintf(fglver, "#version %d\n", (int)(strtof(renderer->getShaderVersion(GLSL), NULL)));
+			/*  Get GLSL version.   */
+			gsources[0] = fglver;
+			/*  */
+			gsources[1] = fconst;
+			/*  */
+			gsources[2] = gshader->buf;
+			nsources = 3;
+			break;
+		case SPIRV:
+			gsources[0] = gshader->buf;
+			nsources = 1;
+			break;
+		case CLC:
+		case HLSL:
+		case CG:
+		default:
+			assert(NULL);
+		}
+		desc.geometry.language = gshader->language;
+		desc.geometry.size = gshader->size;
+		desc.geometry.type = gshader->type;
+		desc.geometry.numgeo = nsources;
+		if (gshader->type == eSourceCode)
+			desc.geometry.geometrysource = (const char **)&gsources;
+		else
+		{
+			desc.geometry.geometryBinary = (const char *)gshader->buf;
+			desc.geometry.binaryFormat = 0;
+		}
+	}
+
+	if(compute){
+		switch (compute->language)
+		{
+		case GLSL:
+			sprintf(gglver, "#version %d\n", (int)(strtof(renderer->getShaderVersion(GLSL), NULL)));
+			/*  Get GLSL version.   */
+			csources[0] = gglver;
+			/*  */
+			csources[1] = gconst;
+			/*  */
+			csources[2] = fshader->buf;
+			nsources = 3;
+			break;
+		case SPIRV:
+			csources[0] = fshader->buf;
+			nsources = 1;
+			break;
+		case CLC:
+		case HLSL:
+		case CG:
+		default:
+			assert(NULL);
+		}
+		desc.Compute.language = compute->language;
+		desc.Compute.size = compute->size;
+		desc.Compute.type = compute->type;
+		desc.Compute.numcompute = nsources;
+		if (fshader->type == eSourceCode)
+			desc.Compute.computeSource = (const char **)&csources;
+		else
+		{
+			desc.Compute.computeBinary = (const char *)compute->buf;
+			desc.Compute.binaryFormat = 0;
+		}
+	}
+
+		// //TODO add support for combo of shaders
+		// //TODO add support for code type.
+
+		// switch (type)
+		// {
+		// case eVertex:
+		// 	sources[2] = vconst;
+		// 	desc.vertex.numvert = nsources;
+		// 	desc.vertex.vertexsource = sources;
+		// 	desc.vertex.type = (ShaderCodeType)codetype;
+		// 	desc.vertex.language = language;
+		// 	break;
+		// case eFrag:
+		// 	sources[2] = fconst;
+		// 	desc.fragment.numfrag = nsources;
+		// 	desc.fragment.fragmentsource = sources;
+		// 	desc.fragment.type = (ShaderCodeType)codetype;
+		// 	desc.fragment.language = language;
+		// 	break;
+		// case eGeom:
+		// 	sources[2] = gconst;
+		// 	desc.geometry.numgeo = nsources;
+		// 	desc.geometry.geometrysource = sources;
+		// 	desc.geometry.type = (ShaderCodeType)codetype;
+		// 	desc.geometry.language = language;
+		// 	break;
+		// case eTesseC:
+		// 	sources[2] = tcconst;
+		// 	desc.tessellationControl.numtesco = nsources;
+		// 	desc.tessellationControl.tessellationco = sources;
+		// 	desc.tessellationControl.language = language;
+		// 	desc.tessellationControl.type = (ShaderCodeType)codetype;
+		// 	break;
+		// case eTesseE:
+		// 	sources[2] = teconst;
+		// 	desc.tessellationEvolution.numtesev = nsources;
+		// 	desc.tessellationEvolution.tessellationev = sources;
+		// 	desc.tessellationEvolution.language = language;
+		// 	desc.tessellationEvolution.type = (ShaderCodeType)codetype;
+		// 	break;
+		// case eCompute:
+		// 	sources[2] = comConst;
+		// 	desc.Compute.numcompute = nsources;
+		// 	desc.Compute.computeSource = sources;
+		// 	desc.Compute.type = (ShaderCodeType)codetype;
+		// 	desc.Compute.language = language;
+		// 	break;
+		// default:
+		// 	assert(NULL);
+		// 	break;
+		// }
+
+
+	/*	Create shader object.	*/
+	shader = renderer->createShader(&desc);
+	*pshader = shader;
+}
+
 //TODO relocate to fragview.
 void ShaderUtil::loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language, IRenderer *renderer,
                                              ProgramPipeline **pshader) {
@@ -84,6 +351,8 @@ void ShaderUtil::loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language
 	/*  */
 	free(fragment);
 }
+
+
 
 void ShaderUtil::loadProgramPipeline(const ShaderObject *vshader, const ShaderObject *fshader, const ShaderObject *gshader,
                                      const ShaderObject *tcshader,
@@ -308,6 +577,60 @@ void ShaderUtil::loadProgram(const void *pData, long int nBytes, IRenderer *rend
 	*pShader = shader;
 }
 
+void ShaderUtil::loadProgram(const void *vertex, const int vsize,
+							 const void *fragment, const int fsize,
+							 const void *geometry, const int gsize,
+							 const void *tesselationc, const int tcsize,
+							 const void *tesselatione, const int tesize,
+							 ShaderCodeType codetype, ShaderLanguage language, Ref<IRenderer> &renderer, Shader **pshader)
+{
+	validateShaderArguments(eVertex, language, codetype);
+	if (pshader == NULL)
+		throw InvalidArgumentException("");
+
+	ShaderObject v, f, g, tc, te;
+	ShaderObject *pv, *pf, *pg, *ptc, *pte;
+	pv = pf = pg = ptc = pte = NULL;
+	if (vertex)
+	{
+		v.language = language;
+		v.type = codetype;
+		v.buf = (const char*)vertex;
+		v.size = vsize;
+		pv = &v;
+	}
+	if(fragment){
+		f.language = language;
+		f.type = codetype;
+		f.buf = (const char *)fragment;
+		f.size = fsize;
+		pf = &f;
+	}
+	if(geometry){
+		g.language = language;
+		g.type = codetype;
+		g.buf = (const char *)geometry;
+		g.size = gsize;
+		pg = &g;
+	}
+	if(tesselationc){
+		v.language = language;
+		v.type = codetype;
+		v.buf = (const char *)tesselationc;
+		v.size = tcsize;
+		ptc = &tc;
+	}
+	if(tesselatione){
+		te.language = language;
+		te.type = codetype;
+		te.buf = (const char *)tesselatione;
+		te.size = tesize;
+		pte = &te;
+	}
+
+	loadProgramFromMem(pv, pf, pg, ptc, pte, NULL, renderer, pshader);
+}
+
 void ShaderUtil::loadProgram(
 	const ShaderObjectDesc *vertex,
 	const ShaderObjectDesc *fragment,
@@ -316,8 +639,7 @@ void ShaderUtil::loadProgram(
 	const ShaderObjectDesc *tesseT,
 	const ShaderObjectDesc *compute,
 	Ref<IRenderer> &renderer, Shader **shader){
-
-	}
+}
 
 void ShaderUtil::loadComputeProgram(Ref<IO> &computeIO, Ref<IRenderer> &renderer, ShaderLanguage language, ShaderCodeType codetype, Shader **program)
 {
@@ -327,6 +649,16 @@ void ShaderUtil::loadComputeProgram(Ref<IO> &computeIO, Ref<IRenderer> &renderer
 	desc.source.push_back(computeIO);
 	desc.type = codetype;
 	ShaderUtil::loadProgram(NULL, NULL, NULL, NULL, NULL, &desc, renderer, program);
+}
+
+void ShaderUtil::loadComputeProgram(const char *pData, long int nBytes, ShaderLanguage language, ShaderCodeType codetype, Ref<IRenderer> &renderer, Shader **program)
+{
+	ShaderObject compute;
+	compute.language = language;
+	compute.size = nBytes;
+	compute.type = codetype;
+	compute.buf = pData;
+	ShaderUtil::loadProgramFromMem(NULL, NULL, NULL, NULL, NULL, &compute, renderer, program);
 }
 
 void ShaderUtil::loadComputeShaderSource(ShaderObject *shaderDesc, IRenderer *renderer,

@@ -85,7 +85,7 @@ void EditorWindow::setFullScreen(bool fullscreen) {
 
 }
 
-void EditorWindow::isFullScreen(void) const{
+bool EditorWindow::isFullScreen(void) const{
 	
 }
 

@@ -18,7 +18,7 @@
 */
 #ifndef _FRAGVIEW_PREREQUISITES_H_
 #define _FRAGVIEW_PREREQUISITES_H_ 1
-#include<FragViewCore.h>
+#include<FragCore.h>
 
 //TODO all the client classes.
 namespace fragcore {

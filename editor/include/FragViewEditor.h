@@ -21,7 +21,7 @@
 #include <Def.h>
 #include<Core/Ref.h>
 #include<Scene/Scene.h>
-#include<FragViewCore.h>
+#include<FragCore.h>
 #include "Windows/EditorWindow.h"
 #include"Windows/EditorRenderWindow.h"
 

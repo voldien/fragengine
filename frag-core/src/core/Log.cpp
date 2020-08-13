@@ -74,6 +74,10 @@ int Log::logv(VERBOSITY verbosity, const char *format, va_list va) {
 			return vprintf(format, va);
 		}
 	}
+	if (verbosity <= getVerbosity())
+	{
+		return vprintf(format, va);
+	}
 	return 0;
 }
 

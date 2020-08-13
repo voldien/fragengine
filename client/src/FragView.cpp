@@ -1,4 +1,7 @@
 #include<FragView.h>
+#include"RenderPipeline/RenderPipelineSettings.h"
+#include "RenderPipeline/RenderPipelineForward.h"
+#include "RenderPipeline/RenderPipelineSandBox.h"
 #include<SDL2/SDL.h>
 #include<Asset/FileNotify.h>
 #include"Core/IO/ZipFile.h"

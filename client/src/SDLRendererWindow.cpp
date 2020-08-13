@@ -30,9 +30,9 @@ void SDLRendererWindow::swapBuffer() {
 	}
 }
 
-void SDLRendererWindow::isFullScreen(void) const
+bool SDLRendererWindow::isFullScreen(void) const
 {
-
+	return false;
 }
 
 void SDLRendererWindow::setPosition(int x, int y) {

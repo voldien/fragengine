@@ -1,6 +1,6 @@
 #include<gtest/gtest.h>
-#include<Utils/TextureUtil.h>
-#include <Core/dataStructure/PoolAllocator.h>
+#include"Utils/TextureUtil.h"
+#include"Core/dataStructure/PoolAllocator.h"
 using namespace fragcore;
 
 TEST (DataStructure, PoolAllocator) {

@@ -1,6 +1,6 @@
 # Asserting the functonality.
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/assert)
-SET(FRAGVIEW_BIN ${CMAKE_CURRENT_SOURCE_DIR}/../client/fragview)
+#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/assert)
+#SET(FRAGVIEW_BIN ${CMAKE_CURRENT_SOURCE_DIR}/../client/fragview)
 
 IF (UNIX)
 	#TODO improve with arguments for more flexiable testing.
@@ -23,4 +23,4 @@ ENDIF ()
 
 
 #TODO perhaps relocate
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/examples)
+#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/examples)

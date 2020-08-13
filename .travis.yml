@@ -1,8 +1,6 @@
 language: cpp
-#sudo: true
 
 dist: bionic
-
 stages:
   - build
 
@@ -55,3 +53,5 @@ script:
   - cmake ..
   - cmake --build .
   - ctest -VV
+
+#  cmake -DCMAKE_TOOLCHAIN_FILE=android.toolchain.cmake -DANDROID_NDK=<ndk_path> -DCMAKE_BUILD_TYPE=Release -DANDROID_ABI="armeabi-v7a with NEON" <source_path> &&

@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FV_DEF_H_
-#define _FV_DEF_H_ 1
+#ifndef _FRAG_CORE_DEF_H_
+#define _FRAG_CORE_DEF_H_ 1
 #include<stdio.h>
 #include<stdint.h>
 #include<string.h>
@@ -36,7 +36,7 @@
 #include<hpmcpp/HpmCpp.h>
 
 #define FV_NAME ""
-#if defined(FRAGVIEW_CORE_INTERNAL_IMP)
+#if defined(FRAG_CORE_INTERNAL_IMP)
 #include<zlib.h>
 #else
 

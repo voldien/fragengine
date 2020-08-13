@@ -74,12 +74,16 @@ long ZipFileIO::length(void) {
 	zip_int64_t prev;
 	zip_int64_t len;
 
-//	prev = zip_ftell(this->file);
-//
-//	zip_fseek(this->file, 0, SEEK_END);
-//	len = zip_ftell(this->file);
-//	zip_fseek(this->file, prev, 0);
-	return len;
+	struct zip_stat state;
+	//TODO add error check.
+	zip_stat_index((zip_t*)this->zipfile->pzip, this->index, 0, &state);
+
+	//	prev = zip_ftell(this->file);
+	//
+	//	zip_fseek(this->file, 0, SEEK_END);
+	//	len = zip_ftell(this->file);
+	//	zip_fseek(this->file, prev, 0);
+	return state.size;
 }
 
 void ZipFileIO::seek(long int nbytes, Seek seek) {

@@ -18,11 +18,12 @@
 */
 #ifndef _FILE_NOTIFY_H_
 #define _FILE_NOTIFY_H_ 1
+#include<Prerequisites.h>
 #include"../Prerequisites.h"
 #include"FileChangeEvent.h"
-#include"../Core/Object.h"
-#include"../Core/TaskScheduler/TaskScheduler.h"
-#include"../Core/dataStructure/PoolAllocator.h"
+#include<Core/Object.h>
+#include<Core/TaskScheduler/TaskScheduler.h>
+#include<Core/dataStructure/PoolAllocator.h>
 #include<libfswatch/c/libfswatch_types.h>
 #include<libfswatch/c/cevent.h>
 #include<map>

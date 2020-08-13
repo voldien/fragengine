@@ -1,12 +1,12 @@
 # FragEngine
 [![Travis Build Status](https://travis-ci.org/voldien/fragview.svg?branch=master)](https://travis-ci.org/voldien/fragengine)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-<!-- Add  -->
+[![GitHub release](https://img.shields.io/github/release/voldien/fragview.svg)](https://github.com/voldien/fragview/releases)
+<!-- TODO, LGMT, version  -->
 
+[image]
 
-![alt text](images/front.png)
-
-
+# Work in Progress
 
 # Features
 * Realtime file modification.

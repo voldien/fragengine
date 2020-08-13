@@ -71,7 +71,6 @@ IF(BUILD_WITH_QT)
 	ENDIF()
 ENDIF()
 
-
 #
 IF(UNIX)
 

@@ -10,7 +10,7 @@ OPTION(BUILD_WITH_PROFILER "Enable profiling." ON)
 OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
 OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
 OPTION(BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
-OPTION(BUILD_WITH_UBSAN "" ON)
+OPTION(BUILD_WITH_UBSAN "" OFF)
 OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." OFF )
 OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
 IF(NOT BUILD_SHARED_LIBS)
@@ -180,6 +180,8 @@ ELSE()
 
 ENDIF()
 
+
+#
 IF ( IOS)
   IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -Og")
@@ -193,18 +195,17 @@ ENDIF()
 
 #
 IF (BUILD_WITH_UBSAN)
-  MESSAGE(STATUS "Undefined Behavior sanitizer enabled")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
+	MESSAGE(STATUS "Undefined Behavior sanitizer enabled")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
 ENDIF()
 
 #
 IF (BUILD_WITH_ASAN)
-  MESSAGE(STATUS "AddressSanitizer enabled")
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+	MESSAGE(STATUS "AddressSanitizer enabled")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 ENDIF()
-
 
 # Set C++ language version required for the project.
 IF( CMAKE_COMPILER_IS_GNUCXX )
@@ -246,6 +247,7 @@ ELSE()
 
 ENDIF()
 
+#
 IF(PKG_CONFIG_FOUND)
 	MESSAGE(STATUS "Found pgk-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
 	# Find library and compiling options.
@@ -426,11 +428,7 @@ FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
 									${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
 									${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h
 									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
-#
-FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
-FILE(GLOB SAMPLE_HLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/hlsl/* )
-FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
-FILE(GLOB SAMPLE_CLC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/clc/* )
+
 FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
 FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
 
@@ -442,28 +440,6 @@ ELSEIF(APPLE)
 ELSEIF(CYGWIN)
 
 ENDIF()
-
-# #${XATLAS_SOURCE} ${NANOSVG_SOURCE}
-# # Core library for adding support for plugin.
-# ADD_LIBRARY(fragview-core ${SOURCE_FILES} ${HEADER_FILES}
-#  							${OPEN_SIMPLEX_NOISE_SOURCE}  ${PCG_C_BASIC_SOURCE}
-# 							${RECASTNAVIGATION_SOURCE} ${POLYPARITION_SOURCE} ${KISS_FFT_SOURCE}
-# 							${MISC_SOURCE})
-# TARGET_LINK_LIBRARIES(fragview-core ${SDL2_LIBRARIES} ${ZLIB_LIBRARIES} ${LIBXML2_LIBRARIES} ${Backtrace_LIBRARIES} ${FREETYPE_LIBRARIES}
-# 		${ZIP_LIBRARIES} freeimage m dl taskSch fswatch ${JSONC_LIBRARIES} yaml hpmcpp hpm ${ASSIMP_LIBRARIES} ${OPENSSL_CRYPTO_LIBRARY}
-# 		${AVFORMAT_LIBRARIES} ${AVCODEC_LIBRARIES} ${SWSCALE_LIBRARIES} )
-# ADD_DEPENDENCIES(fragview-core taskSch hpm hpmcpp)
-# TARGET_COMPILE_DEFINITIONS(fragview-core PRIVATE FRAGVIEW_CORE_INTERNAL_IMP=1)
-
-# #
-# SET_TARGET_PROPERTIES(fragview-core PROPERTIES
-# 		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
-# 		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}")
-# TARGET_INCLUDE_DIRECTORIES(fragview-core PRIVATE ${SDL2_INCLUDE_DIRS} ${ZIP_INCLUDE_DIRS} ${JSONC_INCLUDE_DIRS}
-# 													 ${NANOSVG_INCLUDE_DIRS} ${RECASTNAVIGATION_INCLUDE_DIRS} ${NANOSVG_INCLUDE_DIRS}
-# 													 ${OPEN_SIMPLEX_NOISE_INCLUDE_DIRS} ${PCG_C_BASIC_INCLUDE_DIRS} ${XATLAS_INCLUDE_DIRS}
-# 													 ${KISS_FFT_INCLUDE_DIRS} ${MISC_INCLUDE_DIRS}
-# 										PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
 # Build frag core.
 IF(BUILD_WITH_CORE)
@@ -482,7 +458,7 @@ IF(NOT ANDROID)
 	ENDIF()
 ENDIF()
 
-# Client
+# Client - TODO relocate to its own project folder.
 IF(BUILD_WITH_CLIENT)
 	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
 ENDIF()
@@ -611,13 +587,6 @@ IF( UNIX )
 		ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
 		IF(BUILD_WITH_INSTALL)
 		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
-
-		# Install samples.
-
-		INSTALL( FILES ${SAMPLE_GLSL_FILES} DESTINATION /usr/share/fragview/samples/glsl )
-		INSTALL( FILES ${SAMPLE_HLSL_FILES} DESTINATION /usr/share/fragview/samples/hlsl )
-		INSTALL( FILES ${SAMPLE_SPIRV_FILES} DESTINATION /usr/share/fragview/samples/spriv )
-		INSTALL( FILES ${SAMPLE_CLC_FILES} DESTINATION /usr/share/fragview/samples/clc )
 
 		# Install scripts
 		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )

@@ -47,7 +47,7 @@ public:
 
 	void setFullScreen(bool fullscreen) override;
 
-	void isFullScreen(void) const;
+	bool isFullScreen(void) const;
 
 	void setBordered(bool bordered) override;
 

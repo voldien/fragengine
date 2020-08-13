@@ -85,6 +85,7 @@ namespace fragcore {
 		 * @return
 		 */
 		static int error(const char *format, ...);
+		static int debug(const char *format, ...);
 
 		/*  TOOD improve the design.    */
 		//TODO add support.

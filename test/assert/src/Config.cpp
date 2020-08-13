@@ -1,7 +1,6 @@
 #include<gtest/gtest.h>
-#include "../../../client/include/Config.h"
-#include <Renderer/RendererFactory.h>
-#include <Core/IO/BufferIO.h>
+#include"Renderer/RendererFactory.h"
+#include"Core/IO/BufferIO.h"
 #include"IConfigTest.h"
 
 #define CONFIG_DEFAULT_NAME "Config"

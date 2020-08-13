@@ -1,6 +1,7 @@
 #ifndef _FV_EDITOR_WIDGET_H_
 #define _FV_EDITOR_WIDGET_H_ 1
-#include<fragview/Core/SmartReference.h>
+#include"Core/SmartReference.h"
+
 
 class FVDECLSPEC Widget : public fragcore::SmartReference
 {
