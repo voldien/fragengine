@@ -6,6 +6,7 @@
 #include <dlfcn.h>
 #include <Exception/IException.h>
 using namespace fragcore;
+using namespace fragview;
 
 void handler(int sig) {
 	switch (sig) {

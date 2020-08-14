@@ -9,7 +9,6 @@ IF(DOXYGEN_FOUND)
         SET( MICROSOFT_HELP_WORKSHOP "YES" )
     ENDIF( MSVC )
 
-
     # Generate doxygen file.
     CONFIGURE_FILE(
         ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
@@ -35,19 +34,21 @@ IF(DOXYGEN_FOUND)
             DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${HTML_OUTPUT}
             DESTINATION ${CMAKE_INSTALL_DOCDIR}
         )
+        #TODO add 
         INSTALL(FILES
-            ${CMAKE_CURRENT_SOURCE_DIR}/FragviewDoc_Html/FragViewOverview.png
-            ${CMAKE_CURRENT_SOURCE_DIR}/FragviewDoc_Html/FragViewOverview.svg
-            ${CMAKE_CURRENT_SOURCE_DIR}/FragviewDoc_Html/fragviewsplash.png
+            ${CMAKE_CURRENT_SOURCE_DIR}/FragviewDoc_Html/FragEngineOverview.png
+            ${CMAKE_CURRENT_SOURCE_DIR}/FragviewDoc_Html/FragEnginesplash.png
             DESTINATION ${CMAKE_INSTALL_DOCDIR}/${HTML_OUTPUT}
         )
     ENDIF( DEFINED CMAKE_INSTALL_DOCDIR )
 
 ENDIF()
+
 # Generate design files.
 FIND_PROGRAM(PLANTUML plantuml)
 IF(PLANTUML_FOUND)
-FILE(GLOB PU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.pu)
-ADD_CUSTOM_TARGET(Design
-            ${PLANTUML} ${PU_FILES})
+    #TODO improve the logic.
+    FILE(GLOB PU_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.pu)
+    ADD_CUSTOM_TARGET(Design
+                ${PLANTUML} ${PU_FILES})
 ENDIF()

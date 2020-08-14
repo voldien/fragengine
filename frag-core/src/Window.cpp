@@ -3,6 +3,8 @@
 
 using namespace fragcore;
 
+
+//TOOD relocate the compute to the math library since there are other component that will be using it. (like LUT)
 void Window::calculateGammaLookupTable(float gamma, ushort *rgbRamp) const {
 	if (gamma < 0.0)
 		throw InvalidArgumentException("gamma exponent must be positive");

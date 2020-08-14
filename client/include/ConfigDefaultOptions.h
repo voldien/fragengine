@@ -21,12 +21,16 @@
 #include"Def.h"
 #include "Config.h"
 
-/**
- * 
- */
-class FVDECLSPEC ConfigDefaultOptions {
-public:
-	static Config* createDefaultConfig(void);
-};
+namespace fragview
+{
+    /**
+     * 
+     */
+    class FVDECLSPEC ConfigDefaultOptions
+    {
+    public:
+        static Config *createDefaultConfig(void);
+    };
+}
 
 #endif

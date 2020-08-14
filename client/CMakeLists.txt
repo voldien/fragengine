@@ -82,6 +82,11 @@ IF(BUILD_WITH_INSTALL)
 
 		ENDIF()
 
+		# Install scripts
+		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )
+		ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
+
+		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
 		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop DESTINATION /usr/share/fragview/ )
 
 	ENDIF()

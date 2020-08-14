@@ -32,6 +32,7 @@
 #include <Exception/InvalidArgumentException.h>
 
 using namespace fragcore;
+using namespace fragview;
 
 FragView::FragView(int argc, const char **argv) {
 

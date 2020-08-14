@@ -24,58 +24,60 @@
 #include<map>
 #include<typeinfo>
 
-/**
- *	Responsible for the configuration
- *	of the application.
- */
-class FVDECLSPEC Config : public fragcore::IConfig {
-public:
-	~Config(void);
-
-private:	/*	Internal methods.	*/
-
-
+namespace fragview {
 	/**
-	 *	Parser getopt option argument and
-	 *	assign it to config object.
-	 *
-	 */
-	virtual void parseGetOpt(int argc, const char** argv);
+	 *	Responsible for the configuration
+	*	of the application.
+	*/
+	class FVDECLSPEC Config : public fragcore::IConfig {
+	public:
+		~Config(void);
 
-    fragcore::IConfig *getSuperInstance(void);
+	private:	/*	Internal methods.	*/
 
-	/**
-	 *	Set default configuration options
-	 *	for this application.
-	 */
-	virtual void setDefaultOption(void);
 
-private:	/*	*/
+		/**
+		 *	Parser getopt option argument and
+		*	assign it to config object.
+		*
+		*/
+		virtual void parseGetOpt(int argc, const char** argv);
 
-	Config(void);
-	Config(const Config& other);
+		fragcore::IConfig *getSuperInstance(void);
 
-public:	/*	Static factory methods.	*/
+		/**
+		 *	Set default configuration options
+		*	for this application.
+		*/
+		virtual void setDefaultOption(void);
 
-	/**
-	 * 
-	 * @param argc number of argument in argv pointer array.
-	 * @param argv string pointer array.
-	 * @param configpath path for override the default
-	 * configuration of the system
-	 * @throws invalid_argument: for invalid configuration file path.
-	 * @return non-null Config object.
-	 */
-	static Config* createConfig(int argc, const char** argv,    //TODO add sandbox config
-	        const char* configpath);
+	private:	/*	*/
 
-	/**
-	 * Get configuration file path.
-	 * @param argc
-	 * @param argv
-	 * @return non-null string.
-	 */
-	static const char* getConfigFilePath(int argc, const char** argv);
-};
+		Config(void);
+		Config(const Config& other);
+
+	public:	/*	Static factory methods.	*/
+
+		/**
+		 * 
+		 * @param argc number of argument in argv pointer array.
+		 * @param argv string pointer array.
+		 * @param configpath path for override the default
+		 * configuration of the system
+		 * @throws invalid_argument: for invalid configuration file path.
+		 * @return non-null Config object.
+		 */
+		static Config* createConfig(int argc, const char** argv,    //TODO add sandbox config
+				const char* configpath);
+
+		/**
+		 * Get configuration file path.
+		 * @param argc
+		 * @param argv
+		 * @return non-null string.
+		 */
+		static const char* getConfigFilePath(int argc, const char** argv);
+	};
+}
 
 #endif

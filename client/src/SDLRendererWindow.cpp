@@ -8,6 +8,7 @@
 
 using namespace fragcore;
 
+
 void SDLRendererWindow::showWindow() {
 	SDL_ShowWindow(this->window);
 }

@@ -21,7 +21,7 @@
 #include<FragCore.h>
 
 //TODO all the client classes.
-namespace fragcore {
+namespace fragview {
 
 }
 

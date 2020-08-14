@@ -14,6 +14,7 @@
 #include <Exception/InvalidArgumentException.h>
 
 using namespace fragcore;
+using namespace fragview;
 
 /*	TODO reorder    */
 static const char *shortarg = "vVdqh" "wSp:r:P:dD:Isar:g:C:f:A:t:vF:cRH:E:nNC:G:p:UbP:~_";

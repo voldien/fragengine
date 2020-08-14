@@ -52,8 +52,6 @@ void TextureFactory::createChecker(int width, int Height, char **pixelsResult) {
 	unsigned int x, y, Xpatter, Ypatter, bpp = 4;
 
 	*pixelsResult = malloc(width * Height * bpp);
-//	if (!VDIntMallocTexture((void**) pixelsResult, Width, Height, TextureType))
-//		return SDL_FALSE;
 
 	int CheckerXDimension = 32;
 	int CheckerYDimension = 32;

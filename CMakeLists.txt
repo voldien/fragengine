@@ -357,43 +357,65 @@ ENDIF()
 
 
 #TODO relocate to the core.
-OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
+#OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
 
 # Define all file lists.
-FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/audio/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/physic/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/subgraph/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/exception/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/core/io/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/core/Scheduler/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/video/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/shadermodel/*.cpp
-		${CMAKE_CURRENT_SOURCE_DIR}/src/shaders/*.cpp)
-FILE(GLOB SOURCE_MAIN_FILES client/src/main.cpp)
-FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/Video/*.h
-		${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h)
-# Public headers - subset of header files.
-FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
-									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
-									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/IO/*.h
-									${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
-									${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h
-									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
+# FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/audio/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/physic/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/subgraph/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/exception/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/io/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/Scheduler/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/video/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/shadermodel/*.cpp
+# 		${CMAKE_CURRENT_SOURCE_DIR}/src/shaders/*.cpp)
+# FILE(GLOB SOURCE_MAIN_FILES client/src/main.cpp)
+# FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Video/*.h
+# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h)
+# # Public headers - subset of header files.
+# FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
+# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/IO/*.h
+# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
+# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h
+# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
 
-FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
-FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
+#TODO resolve if needed or not.
+#FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
+#FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
+
+
+#TODO resolve and add options and etc.
+# Add platform specific information.
+IF(Android)
+	MESSAGE(STATUS "Hello from Android build!")
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/android/)
+ENDIF()
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Tmp")
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows/)
+ENDIF()
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Tmp")
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/uwp/)
+ENDIF()
+IF(UNIX)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/)
+ENDIF()
+IF(APPLE)
+#TODO add support for mac and apple platforms.
+#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/)
+ENDIF()
 
 #TODO Add platform source code
 IF(UNIX)
@@ -423,7 +445,7 @@ ENDIF()
 
 # Client - TODO relocate to its own project folder.
 IF(BUILD_WITH_CLIENT)
-	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/client/)
 ENDIF()
 
 # Rendering interfaces.
@@ -444,7 +466,7 @@ IF(BUILD_EXTERNAL_PHYSIC)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/bullet/)
 #	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/bullet3/)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/physx/)
-		#TODO moved to the PVEngine
+	#TODO moved to the PVEngine
 #	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/rpc/)
 ENDIF()
 
@@ -454,23 +476,8 @@ IF(BUILD_WITH_EXTERNAL_PLUGINS)
 ENDIF()
 
 
-#TODO resolve and add options and etc.
-IF(Android)
-	MESSAGE(STATUS "Hello from Android build!")
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/android/)
-ENDIF()
-
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Tmp")
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows/)
-ENDIF()
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Tmp")
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/uwp/)
-ENDIF()
-IF(UNIX)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/)
-ENDIF()
-
-# Testing.
+# Testing and assertion and other.
+#TODO attempt to remove so it works on all platforms.
 IF(NOT ANDROID)
 	IF(BUILD_WITH_TEST)
 		ENABLE_TESTING()
@@ -478,7 +485,7 @@ IF(NOT ANDROID)
 	ENDIF(BUILD_WITH_TEST)
 ENDIF()
 
-#TODO control it from main cmake file.
+# Generate sample executables.
 IF(BUILD_WITH_SAMPLES)
 	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/examples)
 ENDIF()
@@ -487,9 +494,6 @@ ENDIF()
 IF(BUILD_WITH_DOCS)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/docs/)
 ENDIF(BUILD_WITH_DOCS)
-
-
-# Generate package configuration file.
 
 # Only UNIX systems.
 IF( UNIX )
@@ -507,6 +511,7 @@ IF( UNIX )
 	FIND_PROGRAM(SPIRVDIS spirv-dis)
 	FIND_PROGRAM(SPIRVAS spirv-as)
 	FIND_PROGRAM(SPIRVREMAP spirv-remap)
+	
 	IF(GLSLLANGVALIDATOR)
 		MESSAGE(STATUS "glslangValidator found: ${GLSLLANGVALIDATOR}")
 		#TODO add for all shaders.
@@ -545,9 +550,8 @@ IF( UNIX )
 		IF(BUILD_WITH_INSTALL)
 		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
 
-		# Install scripts
-		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/scripts/newshad.sh DESTINATION /usr/share/fragview/ )
 	ENDIF()
+
 	# Create distribution tarball.
 	SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
 	ADD_CUSTOM_TARGET(	distribution
@@ -557,7 +561,7 @@ IF( UNIX )
 			${CMAKE_CURRENT_SOURCE_DIR}/frag-core
 			${CMAKE_CURRENT_SOURCE_DIR}/frag-engine
 			${CMAKE_CURRENT_SOURCE_DIR}/samples
-			${CMAKE_CURRENT_SOURCE_DIR}/scripts
+
 			${CMAKE_CURRENT_SOURCE_DIR}/utils
 			${CMAKE_CURRENT_SOURCE_DIR}/test
 			${CMAKE_CURRENT_SOURCE_DIR}/images
@@ -647,24 +651,15 @@ IF(ICOTOOL_FOUND)
 	MESSAGE(STATUS "icotool: ${ICOTOOL_EXECUTABLE} -- ${ICOTOOL_VERSION_STRING}")
 	# Generate icon for window platforms.
 	# -c -o favicon.ico mysite_32x32.png mysite_64x64.png
-	#    ADD_CUSTOM_TARGET( create-icon-type
-	#            COMMENT "Creating header and source file for display shaders."
-	#            COMMAND ${ICOTOOL_EXECUTABLE} -c -o favicon.ico mysite_32x32.png mysite_64x64.png)
+	ADD_CUSTOM_TARGET( create-icon-type
+			COMMENT "Creating header and source file for display shaders."
+			COMMAND ${ICOTOOL_EXECUTABLE} -c -o favicon.ico mysite_32x32.png mysite_64x64.png)
 ELSE()
 	MESSAGE(WARNING "Could not find the program tools for creating window icons.")
 ENDIF()
 
 
 IF(BUILD_WITH_INSTALL)
-	# #TODO add logic for installing only the development headers.
-	# INSTALL(TARGETS fragview-core LIBRARY DESTINATION lib)
-	# #INSTALL(FILES ${DEVELOPMENT_HEADER_FILES} DESTINATION include/fragview-core)
-
-	# INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include" # source directory
-	# 		DESTINATION "fragview" # target directory
-	# 		FILES_MATCHING # install only matched files
-	# 		PATTERN "*.h" # select header files
-	# 		)
 
 	# TODO add some logic for determine if exists.
 	# TODO relocate to their respective locations.
@@ -682,6 +677,7 @@ ENDIF()
 FIND_PACKAGE(PythonInterp)
 IF(PYTHONINTERP_FOUND)
 	#TODO relocate to the fragengine and editor.
+	#TODO add as cmake tool
 	ADD_CUSTOM_TARGET( compile-shader
 			COMMENT "Creating header and source file for display shaders."
 			COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/utils/glsl2CString.py ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/
@@ -714,6 +710,8 @@ IF(WIN32)
 	ENDIF(MSVC12 OR MSVC14 OR MSVC15 )
 ENDIF (WIN32)
 
+
+# Create install package.
 IF ( BUILD_WITH_INSTALL )
 	IF(CMAKE_CPACK_COMMAND AND UNIX AND BUILD_OPT_BUILD_PACKAGES)
 		# Packing information

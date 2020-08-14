@@ -5,6 +5,7 @@
 #include "OptionDicSet.h"
 
 using namespace fragcore;
+using namespace fragview;
 
 Config *ConfigDefaultOptions::createDefaultConfig(void){
 
