@@ -238,15 +238,6 @@ ELSE()
 
 ENDIF()
 
-# Find and include libxml2 for supporting configuration.
-FIND_PACKAGE(LibXml2)
-IF ( LIBXML2_FOUND )
-	MESSAGE(STATUS "Using xml2 version ${LIBXML2_VERSION_STRING}.")
-	INCLUDE_DIRECTORIES(${LIBXML2_INCLUDE_DIR})
-ELSE()
-
-ENDIF()
-
 #
 IF(PKG_CONFIG_FOUND)
 	MESSAGE(STATUS "Found pgk-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
@@ -268,34 +259,6 @@ ENDIF()
 IF(GIT_FOUND)
 	MESSAGE(STATUS "git found: ${GIT_EXECUTABLE} -- ${GIT_VERSION_STRING}")
 ELSE()
-ENDIF()
-
-IF(ZLIB_FOUND)
-	MESSAGE(STATUS "zlib found: ${ZLIB_LIBRARIES} -- ${ZLIB_VERSION_STRING}")
-	INCLUDE_DIRECTORIES(${ZLIB_INCLUDE_DIRS})
-ELSE()
-ENDIF()
-
-IF(Backtrace_FOUND)
-	MESSAGE(STATUS "backtrace found: ${Backtrace_LIBRARIES} -- ${Backtrace_HEADER}")
-	INCLUDE_DIRECTORIES(${Backtrace_INCLUDE_DIRS})
-ELSE()
-ENDIF()
-
-IF(OPENSSL_FOUND)
-	MESSAGE(STATUS "backtrace found: ${OPENSSL_LIBRARIES} -- ${OPENSSL_VERSION}")
-	INCLUDE_DIRECTORIES(${OPENSSL_INCLUDE_DIR})
-ELSE()
-
-ENDIF()
-
-#
-FIND_PACKAGE(Freetype)
-IF(FREETYPE_FOUND)
-	MESSAGE(STATUS "Using freetype version ${FREETYPE_VERSION_STRING}.")
-	INCLUDE_DIRECTORIES(${FREETYPE_INCLUDE_DIRS})
-ELSE()
-	# Attempt to find it manually.
 ENDIF()
 
 # Inlucde external resources.
@@ -521,18 +484,12 @@ IF(BUILD_WITH_SAMPLES)
 ENDIF()
 
 # Generate documentations.
-FIND_PACKAGE(Doxygen)
-IF(DOXYGEN_FOUND)
-	MESSAGE(STATUS "Doxygen found: ${DOXYGEN_EXECUTABLE} -- ${DOXYGEN_VERSION}")
-	IF(BUILD_WITH_DOCS)
-		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/docs/)
-	ENDIF(BUILD_WITH_DOCS)
-ENDIF()
+IF(BUILD_WITH_DOCS)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/docs/)
+ENDIF(BUILD_WITH_DOCS)
+
 
 # Generate package configuration file.
-
-
-
 
 # Only UNIX systems.
 IF( UNIX )
@@ -629,7 +586,7 @@ IF( UNIX )
 		MESSAGE(STATUS "desktop-file-install: ${DESKTOP_FILE_INSTALL}")
 		MESSAGE(STATUS "update-desktop-database: ${UPDATE_DESKTOP_DATABASE}")
 
-		# Install icons.
+		# Install icons. TODO relocate 
 		ADD_CUSTOM_TARGET(install-desktop
 				COMMENT "Validating and installing desktop entry."
 				COMMAND desktop-file-validate ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop
