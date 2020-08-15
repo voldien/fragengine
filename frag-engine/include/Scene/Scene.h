@@ -53,7 +53,7 @@ namespace fragcore {
 
 	private:
 
-		SandBoxSubScene *glslSandBoxSubScene;
+		SandBoxSubScene *glslSandBoxSubScene;	//TODO remove
 		Time *time;
 
 		/*  Camera. */

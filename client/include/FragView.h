@@ -19,12 +19,12 @@
 #ifndef _FRAG_VIEW_H_
 #define _FRAG_VIEW_H_ 1
 #include "Renderer/IRenderer.h"
-#include "Asset/FileNotify.h"
+#include <FileNotify.h>
 #include "Config.h"
 #include <Core/RefPtr.h>
 #include <Renderer/RendererWindow.h>
-
 namespace fragview {
+
     /**
      * Main class for the fragment viewer
      * executable program.

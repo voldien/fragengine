@@ -1,9 +1,9 @@
-#include<FragView.h>
+#include"FragView.h"
 #include"RenderPipeline/RenderPipelineSettings.h"
 #include "RenderPipeline/RenderPipelineForward.h"
-#include "RenderPipeline/RenderPipelineSandBox.h"
+#include"RenderPipelineSandBox.h"
 #include<SDL2/SDL.h>
-#include<Asset/FileNotify.h>
+#include<FileNotify.h>
 #include"Core/IO/ZipFile.h"
 #include<cassert>
 #include<Utils/TextureUtil.h>
@@ -145,7 +145,7 @@ FragView::FragView(int argc, const char **argv) {
 			scene->getGLSLSandBoxScene()->addShader(shader);
 			Log::log(Log::Verbose, "Loaded Shader: %s\n", path.c_str());
 
-			this->notify->registerAsset(path.c_str(), shader, eShader);
+			//this->notify->registerAsset(path.c_str(), shader, eShader);
 
 			delete ref;
 		}
@@ -167,7 +167,7 @@ FragView::FragView(int argc, const char **argv) {
 			scene->getGLSLSandBoxScene()->addCompute(compute);
 			Log::log(Log::Verbose, "Loaded Compute Shader: %s\n", path.c_str());
 
-			this->notify->registerAsset(path.c_str(), compute, eShader);
+			//this->notify->registerAsset(path.c_str(), compute, eShader);
 
 			delete ref;
 		}
@@ -185,13 +185,12 @@ FragView::FragView(int argc, const char **argv) {
 					/*  Determine file type.    */
 					const char* ext = FileSystem::getFileExtension(path);
 
-
 					TextureUtil::loadTexture(path, *this->renderer, &texture);
 					scene->getGLSLSandBoxScene()->addTexture(texture);
 					Log::log(Log::Verbose, "Loaded texture: %s\n", path);
 				}
 
-				this->notify->registerAsset(path, texture, eTexture);
+				//this->notify->registerAsset(path, texture, eTexture);
 			}
 		}
 
@@ -592,7 +591,7 @@ void FragView::run(void) {
 				case SDL_DROPFILE: {
 					/*  Determine what file.  */
 					/*  Send to task scheduler to deal with.    */
-					AssetHandler::handleAssetDrop(event.drop.file);//TODO improve.
+					//AssetHandler::handleAssetDrop(event.drop.file);//TODO improve.
 					event.drop.file;
 					this->sch;
 				}
@@ -602,7 +601,7 @@ void FragView::run(void) {
 						/*  Asset notification handle current graphic context. */
 						FileNotificationEvent *objectEvent = (FileNotificationEvent *) event.user.data1;
 						try {
-							AssetHandler::handleAssetEvent(objectEvent);
+							//AssetHandler::handleAssetEvent(objectEvent);
 						} catch (RuntimeException &err) {
 							Log::log(Log::Error, err.what());
 						}

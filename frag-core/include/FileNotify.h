@@ -16,23 +16,27 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FILE_NOTIFY_H_
-#define _FILE_NOTIFY_H_ 1
-#include<Prerequisites.h>
-#include"../Prerequisites.h"
+#ifndef _FRAG_CORE_FILE_NOTIFY_H_
+#define _FRAG_CORE_FILE_NOTIFY_H_ 1
+#include"Prerequisites.h"
 #include"FileChangeEvent.h"
-#include<Core/Object.h>
-#include<Core/TaskScheduler/TaskScheduler.h>
-#include<Core/dataStructure/PoolAllocator.h>
+#include"Core/Object.h"
+#include"Core/TaskScheduler/TaskScheduler.h"
+#include"Core/dataStructure/PoolAllocator.h"
 #include<libfswatch/c/libfswatch_types.h>
 #include<libfswatch/c/cevent.h>
 #include<map>
+#include<vector>
 
 namespace fragcore {
+
+	typedef void *NotifyHandle;
+//	typedef void (*AsyncComplete)(ASync *async, ASyncHandle handle); /*  */
 	/**
 	 *
 	 */
-	class FVDECLSPEC FileNotify : public SmartReference {	//TOOD determine if shall be change to interface based.
+	//TOOD determine if shall be change to interface based.
+	class FVDECLSPEC FileNotify : public SmartReference {
 	public:
 
 		/**
@@ -51,18 +55,27 @@ namespace fragcore {
 			int key;                /*  */
 			std::string filepath;   /*  */
 			Object *assetObject;    /*  */
-			AssetType type;         /*  */
+			void *userdata;
+			//TOOD change! 
+			//AssetType type;         /*  */
+
 		};
 
 	public:
 
-		void registerAsset(const char *filepath, Object *object, AssetType type);
+		void registerAsset(const char *filepath, Object *object);
+		void registerAsset(Ref<IO> &io);
 
 		void unregisterAsset(Object *notify);
+		void unregisterAsset(Ref<IO> &io);
 
 		void unRegisterAllAsset(void);
 
 		void eventDone(FileNotificationEvent *event);
+
+		bool pollEvent();
+		void eventDone(const std::vector<FileNotificationEvent> &events) const;
+		bool releaseEventBuffer(void);
 
 	private:
 

@@ -16,11 +16,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGENGINE_RENDERPIPELINE_SANDBOX_H_
-#define _FRAGENGINE_RENDERPIPELINE_SANDBOX_H_ 1
-#include "IRenderPipelineBase.h"
+#ifndef _FRAGVIEW_RENDERPIPELINE_SANDBOX_H_
+#define _FRAGVIEW_RENDERPIPELINE_SANDBOX_H_ 1
+#include<RenderPipeline/IRenderPipelineBase.h>
 
-namespace fragcore {
+using namespace fragcore;
+
+namespace fragview {
+
 	/**
 	 *
 	 */
@@ -49,7 +52,6 @@ namespace fragcore {
 		//virtual void updateUniform(void);
 
 	private:
-
 		Ref<GeometryObject> quadDisplay;
 		Ref<Buffer> quadDisplayIndirect;
 		Ref<ProgramPipeline> displayShader;

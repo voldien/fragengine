@@ -18,18 +18,26 @@
 */
 #ifndef _FRAG_ENGINE_FILECHANGEEVENT_H_
 #define _FRAG_ENGINE_FILECHANGEEVENT_H_ 1
-#include"FileNotify.h"
-#include"AssetType.h"
+//#include"AssetType.h"
+#include"Prerequisites.h"
 #include<string>
 
 namespace fragcore {
+
+	enum AssetEvent
+	{
+		//	Update,
+		//	Removed,
+		//	Moved,
+		//	PermissionAltered,
+	};
 	/**
 	 *
 	 */
 	class FileNotificationEvent {
 	public:
 		Object *object;
-		AssetType type;
+//		AssetType type;
 		AssetEvent event;
 		const char *path;
 		long int timestamp;

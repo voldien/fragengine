@@ -1,4 +1,4 @@
-#include"RenderPipeline/RenderPipelineSandBox.h"
+#include"RenderPipelineSandBox.h"
 #include <Utils/ShaderUtil.h>
 #include "Scene/SandBoxSubScene.h"
 #include <Utils/RenderTargetFactory.h>
@@ -9,7 +9,10 @@
 #include <Renderer/ProgramPipeline.h>
 #include <Renderer/Sync.h>
 
+using namespace fragview;
+//using namespace fragengine;
 using namespace fragcore;
+
 /*	Display quad.	*/
 const float gc_quad[4][3] = {
 		{-1.0f, -1.0f, 0.0f},
@@ -19,7 +22,8 @@ const float gc_quad[4][3] = {
 };
 
 extern void updateUniforms(Shader* shaderProgram, const UniformLocation* locations, const FragGraphicUniform *uniforms);
-void RenderPipelineSandBox::draw(Scene *scene, FrameBuffer *frame, IRenderer *render) {
+void RenderPipelineSandBox::draw(Scene *scene, FrameBuffer *frame, IRenderer *render)
+{
 
 	(*this->renderer)->clear(eColor | eDepth);
 	(*this->renderer)->clearColor(0.15f, 0.15f, 0.15f, 1.0f);
@@ -408,6 +412,6 @@ void RenderPipelineSandBox::init(Ref<IRenderer> &renderer, const IConfig *config
 }
 
 RenderQueue RenderPipelineSandBox::getSupportedQueue(void) const {
-	return AlphaTest;
+	return (RenderQueue)(Geometry | Overlay);
 }
 

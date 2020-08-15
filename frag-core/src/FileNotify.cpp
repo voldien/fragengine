@@ -1,4 +1,4 @@
-#include"Asset/FileNotify.h"
+#include"FileNotify.h"
 #include"Core/UserEvent.h"
 #include"Core/IO/FileSystem.h"
 #include<SDL2/SDL_events.h>
@@ -9,7 +9,6 @@
 #include <Exception/RuntimeExecption.h>
 #include"Utils/StringUtil.h"
 #include"Core/IO/FileSystem.h"
-
 
 using namespace fragcore;
 
@@ -44,7 +43,7 @@ FileNotify::~FileNotify(void) {
 	schDeleteThread(this->pthread);
 }
 
-void FileNotify::registerAsset(const char *filepath, Object *object, AssetType assetType) {
+void FileNotify::registerAsset(const char *filepath, Object *object) {
 
 	/*  */
 	if (access(filepath, R_OK))
@@ -67,7 +66,7 @@ void FileNotify::registerAsset(const char *filepath, Object *object, AssetType a
 	entry.assetObject = object;
 	entry.filepath = filepath;
 	entry.key = object->getUID();
-	entry.type = assetType;
+	//entry.type = assetType;
 
 	/*  Add file and path entry.    */
 	this->notify[uid] = entry;
