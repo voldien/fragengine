@@ -20,31 +20,33 @@
 #define _ASSET_MANAGER_H_ 1
 #include"../Prerequisites.h"
 
-/**
- *
- *
- */
-class AssetManager{
-public:
-
+namespace fragengine{
 	/**
 	 *
-	 */
-	void setRootPath(const char* path);
-
-	/**
-	 * 
-	 */
-	const char* getRootPath(void);
-
-
-	/**
 	 *
-	 * @return
 	 */
-	const std::vector<std::string> getSearchPaths(void) const;
+	class AssetManager{
+	public:
 
-private:
-};
+		/**
+		 *
+		 */
+		void setRootPath(const char* path);
+
+		/**
+		 * 
+		 */
+		const char* getRootPath(void);
+
+
+		/**
+		 *
+		 * @return
+		 */
+		const std::vector<std::string> getSearchPaths(void) const;
+
+	private:
+	};
+} // namespace fragengine
 
 #endif

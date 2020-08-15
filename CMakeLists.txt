@@ -5,8 +5,8 @@ ENABLE_LANGUAGE(C)
 
 # Build shared/dynamic library option
 OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
-OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." ON)
-OPTION(BUILD_WITH_PROFILER "Enable profiling." ON)
+OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." OFF)
+OPTION(BUILD_WITH_PROFILER "Enable profiling." OFF)
 OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
 OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
 OPTION(BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
@@ -354,47 +354,6 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 	INCLUDE_DIRECTORIES(${HPMCPP_INCLUDE_DIR})
 
 ENDIF()
-
-
-#TODO relocate to the core.
-#OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
-
-# Define all file lists.
-# FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/audio/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/physic/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/scene/subgraph/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/renderer/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/exception/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/io/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/core/Scheduler/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/video/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/shadermodel/*.cpp
-# 		${CMAKE_CURRENT_SOURCE_DIR}/src/shaders/*.cpp)
-# FILE(GLOB SOURCE_MAIN_FILES client/src/main.cpp)
-# FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Video/*.h
-# 		${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h)
-# # Public headers - subset of header files.
-# FILE(GLOB DEVELOPMENT_HEADER_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
-# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/*.h
-# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Core/IO/*.h
-# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Renderer/*.h
-# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Utils/*.h
-# 									${CMAKE_CURRENT_SOURCE_DIR}/include/Exception/*.h)
-
-#TODO resolve if needed or not.
-#FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
-#FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
 
 
 #TODO resolve and add options and etc.

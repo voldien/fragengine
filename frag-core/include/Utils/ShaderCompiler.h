@@ -7,7 +7,7 @@
 #include<map>
 #include<vector>
 
-namespace fragcore{
+namespace fragcore {
 
 	/**
 	 * 

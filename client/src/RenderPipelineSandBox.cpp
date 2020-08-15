@@ -403,9 +403,7 @@ void RenderPipelineSandBox::init(Ref<IRenderer> &renderer, const IConfig *config
 	computeDesc.marker.markerName = "Compute indirect dispatch";
 	this->computeIndirect = Ref<Buffer>((*this->renderer)->createBuffer(&computeDesc));
 
-
 	createFrameTexture(*renderer, width, height);
-
 
 	//TODO relocate later!
 	//this->font = FontFactory::createFont("ipag.ttf", 10, *this->renderer);

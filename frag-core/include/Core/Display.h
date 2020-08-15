@@ -27,6 +27,7 @@ namespace fragcore {
 	/**
 	 *
 	 */
+	//TODO relocate to the window directory
 	class FVDECLSPEC Display : public Object {
 	public:
 
@@ -70,11 +71,6 @@ namespace fragcore {
 		// virtual void calculateGammaLookupTable(float gamma, ushort *rgbRamp) const; /*  */
 		// virtual float computeGammaExponent(const ushort *rgbRamp) const;			/*  */
 
-		//TODO perhaps move to the internal display manager.
-//		static int getNumDisplays(void);
-//		static Display getDisplay(unsigned int index);
-		//static Display getAssociatedDisplay(SDL_Window* windiw9);
-		//static void VDAPIENTRY getPrimaryScreenResolutions(int* num, Resolution** resolutions);
 	};
 
 }

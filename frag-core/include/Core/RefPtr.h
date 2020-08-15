@@ -1,12 +1,15 @@
 
-#ifndef FRAGVIEW_REFPTR_H_
-#define FRAGVIEW_REFPTR_H_ 1
+#ifndef _FRAG_CORE_REFPTR_H_
+#define _FRAG_CORE_REFPTR_H_ 1
 
 #include"../Def.h"
 #include "SmartReference.h"
 
 namespace fragcore {
 
+	/**
+	 * 
+	 */
 	template<class T>
 	class RefPtr {
 	public:

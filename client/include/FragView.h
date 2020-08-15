@@ -59,14 +59,13 @@ namespace fragview {
         fragcore::Ref<fragcore::IRenderer> renderer;            /*  Low level rendering API interface.  */
         fragcore::Ref<fragcore::IRenderPipelineBase> renderpipeline;
     //    EventController* controller;
-        fragcore::Ref<fragcore::IScheduler> sch;       /*  */
-        fragcore::Ref<fragcore::IScheduler> logicSch;  /*  */
-        Config* config;                                 /*  Current config.    */
-        fragcore::FileNotify* notify;                   /*  Notify Asset changes.  */
-        fragcore::Scene *scene;                         /*  Current scene.  */
-        fragcore::RendererWindow *rendererWindow;
-        //fragview::Ref<frav
-        //fragview::Ref<fragview::IFileSystem> fileSystem;
+        fragcore::Ref<fragcore::IScheduler> sch;            /*  */
+        fragcore::Ref<fragcore::IScheduler> logicSch;       /*  */
+        Config* config;                                     /*  Current config.    */   //TODO add suport for reference.
+        fragcore::FileNotify* notify;                       /*  Notify Asset changes.  */
+        fragcore::Scene *scene;                             /*  Current scene.  */
+        fragcore::RendererWindow *rendererWindow;           /*  */
+        fragcore::Ref<fragcore::IFileSystem> fileSystem;    /*  */
     };
 }
 

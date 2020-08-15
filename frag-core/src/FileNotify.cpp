@@ -1,7 +1,7 @@
 #include"FileNotify.h"
 #include"Core/UserEvent.h"
 #include"Core/IO/FileSystem.h"
-#include<SDL2/SDL_events.h>
+//#include<SDL2/SDL_events.h>
 #include<libfswatch/c/libfswatch.h>
 #include<libfswatch/c/libfswatch.h>
 #include <SDL2/SDL_timer.h>
@@ -17,6 +17,7 @@ FileNotify::FileNotify(Ref<IScheduler>& sch) {
 	if (sch == NULL)
 		throw InvalidArgumentException("Requires scheduler object.");
 
+	/*	Initilize the notification library.	*/
 	FSW_STATUS ret = fsw_init_library();
 	if (ret != FSW_OK)
 		throw RuntimeException(fvformatf("Failed to initialize the Filesystem watch: %d.", ret));
@@ -31,6 +32,7 @@ FileNotify::FileNotify(Ref<IScheduler>& sch) {
 		throw RuntimeException(fvformatf("Failed to disable overflow with Filesystem watch: %d.", ret));
 	fsw_set_verbose(false);
 
+	/*	*/
 	this->scheduler = sch;
 
 	/*  Allocate change events. */
@@ -45,7 +47,7 @@ FileNotify::~FileNotify(void) {
 
 void FileNotify::registerAsset(const char *filepath, Object *object) {
 
-	/*  */
+	/*  TODO resolve and make part of the filesystem or IO.	*/
 	if (access(filepath, R_OK))
 		throw InvalidArgumentException(fvformatf("Not a valid file - %s", filepath));
 
@@ -124,6 +126,8 @@ FileNotify::FileNoticationEntry *FileNotify::getEntry(Object *object) {
 }
 
 int FileNotify::fileFetchTask(Task *package) {
+	//TODO reolcate to the application specific.	
+	
 	// std::string *path = (std::string *) package->puser;
 	// FileNotify *fileNotify = (FileNotify *) package->begin;
 	// FileNoticationEntry *entry = (FileNoticationEntry *) package->end;
@@ -248,16 +252,16 @@ void *FileNotify::fswatch(const void *psession) {
 void FileNotify::start(void) {
     //TODO 
 	/*  Create monitoring thread.   */
-	//if (!fsw_is_running(this->session)) {
+	if (!fsw_is_running(this->session)) {
 		this->pthread = schCreateThread(-1, (void*)FileNotify::fswatch, this->session);
-	//}
+	}
 }
 
 void FileNotify::stop(void) {
 	FSW_STATUS ret;
-	//if (fsw_is_running(this->session)) {
+	if (fsw_is_running(this->session)) {
 		ret = fsw_stop_monitor(this->session);
 		if(ret != FSW_OK)
 			throw RuntimeException(fvformatf("Error on stopping monitoring with the Filesystem watch: %d.", ret));
-	//}
+	}
 }

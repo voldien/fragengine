@@ -273,30 +273,10 @@ FragView::~FragView(void) {
 	this->notify->unRegisterAllAsset();
 
 	/*  Terminate scheduler.    */
-	// if (*this->sch) {
-	// 	int status = schTerminateTaskSch(*this->sch);
-	// 	if (status != SCH_OK) {
-	// 		throw RuntimeException(fvformatf("schTerminateTaskSch failed : %d - %s", status, schErrorMsg(status)));
-	// 	}
-	// 	status = schReleaseTaskSch(*this->sch);
-	// 	if (status != SCH_OK) {
-	// 		throw RuntimeException(fvformatf("schReleaseTaskSch failed : %d - %s", status, schErrorMsg(status)));
-	// 	}
-	// 	free(*this->sch);
-	// }
-
-	// /*  Terminate scheduler.    */
-	// if (*this->logicSch) {
-	// 	int status = schTerminateTaskSch(*this->logicSch);
-	// 	if (status != SCH_OK) {
-	// 		throw RuntimeException(fvformatf("schTerminateTaskSch failed : %d - %s", status, schErrorMsg(status)));
-	// 	}
-	// 	status = schReleaseTaskSch(*this->logicSch);
-	// 	if (status != SCH_OK) {
-	// 		throw RuntimeException(fvformatf("schReleaseTaskSch failed : %d - %s", status, schErrorMsg(status)));
-	// 	}
-	// 	free(*this->logicSch);
-	// }
+	this->sch->terminate();
+	delete *this->sch;
+	this->logicSch->terminate();
+	delete *this->logicSch;
 
 	this->rendererWindow->closeWindow();
 

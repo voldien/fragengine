@@ -9,6 +9,7 @@ namespace fragcore {
 	/**
 	 *
 	 */
+	//TODO relocate to window directory
 	class FVDECLSPEC Window : public SmartReference {
 	public:
 		virtual void showWindow(void) = 0;

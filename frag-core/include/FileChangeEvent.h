@@ -24,12 +24,12 @@
 
 namespace fragcore {
 
-	enum AssetEvent
+	enum FileNotificationType
 	{
-		//	Update,
-		//	Removed,
-		//	Moved,
-		//	PermissionAltered,
+		Update,					/*	*/
+		Removed,				/*	*/
+		Moved,					/*	*/
+		PermissionAltered,		/*	*/
 	};
 	/**
 	 *
@@ -38,7 +38,7 @@ namespace fragcore {
 	public:
 		Object *object;
 //		AssetType type;
-		AssetEvent event;
+		FileNotificationType event;
 		const char *path;
 		long int timestamp;
 		long int size;

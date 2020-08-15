@@ -20,7 +20,9 @@
 #define _FRAG_CORE_FILE_NOTIFY_H_ 1
 #include"Prerequisites.h"
 #include"FileChangeEvent.h"
+#include"IFileNotify.h"
 #include"Core/Object.h"
+#include"Core/TaskScheduler/IThreading.h"
 #include"Core/TaskScheduler/TaskScheduler.h"
 #include"Core/dataStructure/PoolAllocator.h"
 #include<libfswatch/c/libfswatch_types.h>
@@ -35,8 +37,8 @@ namespace fragcore {
 	/**
 	 *
 	 */
-	//TOOD determine if shall be change to interface based.
-	class FVDECLSPEC FileNotify : public SmartReference {
+	//TODO make it more generic in order to reduce coupling and increase cohession!
+	class FVDECLSPEC FileNotify : public IFileNotify {
 	public:
 
 		/**
@@ -44,6 +46,7 @@ namespace fragcore {
 		 */
 		void start(void);
 		void stop(void);
+		//void restart(void);
 
 	protected:
 
@@ -73,7 +76,8 @@ namespace fragcore {
 
 		void eventDone(FileNotificationEvent *event);
 
-		bool pollEvent();
+		//TODO improve
+		bool pollEvent(void);
 		void eventDone(const std::vector<FileNotificationEvent> &events) const;
 		bool releaseEventBuffer(void);
 
@@ -134,6 +138,7 @@ namespace fragcore {
 		FSW_HANDLE session;                         /*  */
 
 		void *pthread;      /*  Thread for async operations. */
+		Ref<IThreading> thread;
 		Ref<IScheduler> scheduler;
 		PoolAllocator<FileNotificationEvent> fileChangeEvents;
 
