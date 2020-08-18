@@ -29,7 +29,7 @@ namespace fragcore {
 	template<class T>
 	class FVDECLSPEC DisjointSet {
 
-		typedef struct partition{
+		typedef struct partition {
 			int parent;			/*	*/
 			T data;				/*	*/
 		}Partition;
