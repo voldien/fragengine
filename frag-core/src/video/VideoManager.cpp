@@ -1,5 +1,5 @@
-#include"video/VideoManager.h"
-#include"video/VideoTexture.h"
+#include"Video/VideoManager.h"
+#include"Video/VideoTexture.h"
 #include"Core/TaskScheduler/IScheduler.h"
 using namespace fragcore;
 
