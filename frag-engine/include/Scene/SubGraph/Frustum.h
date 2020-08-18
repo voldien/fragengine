@@ -20,8 +20,8 @@
 #define _FV_FRUSTUM_H_ 1
 #include"Node.h"
 
-namespace fragcore {
-
+namespace fragengine {
+	using namespace fragcore;
 	/*
 	 *
 	 */
@@ -139,6 +139,6 @@ namespace fragcore {
 		float fov, ratio, Znear, Zfar, tang;/*	*/
 		float nw, nh, fh, fw;               /*	*/
 	};
-}
+} // namespace fragengine
 
 #endif

@@ -2,7 +2,7 @@
 #define _FRAG_CORE_MESH_H_ 1
 #include<Core/SmartReference.h>
 
-namespace fragcore {
+namespace fragengine {
 
 	class FVDECLSPEC Mesh : public SmartReference {
 	public:
@@ -61,5 +61,5 @@ namespace fragcore {
 	//	static Mesh* findMesh(const std::string& pathName);
 	//	static Mesh* findMesh(const char* meshName);
 	};
-}
+} // namespace fragengine
 #endif

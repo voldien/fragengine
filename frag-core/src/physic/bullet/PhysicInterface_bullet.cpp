@@ -233,10 +233,10 @@ RigidBody *PhysicInterface::createRigibody(const RigidBodyDesc *desc) {
 	RigidBody *body = NULL;            /*	*/
 	btCollisionShape *shape = NULL;    /*	*/
 
-	assert(desc->node && desc->collision);
+	//assert(desc->node && desc->collision);
 
-	if (desc->node == NULL)
-		throw RuntimeException("Requires a non-null node reference");
+	// if (desc->node == NULL)
+	// 	throw RuntimeException("Requires a non-null node reference");
 
 	if (desc->collision == NULL)
 		throw RuntimeException("Requires a non-null collision reference");

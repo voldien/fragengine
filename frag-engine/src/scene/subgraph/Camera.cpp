@@ -2,6 +2,7 @@
 //#include "RenderingInterface.h"
 
 using namespace fragcore;
+using namespace fragengine;
 
 Camera::Camera(void)
 {

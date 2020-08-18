@@ -20,7 +20,26 @@
 #define _FRAG_ENGINE_PREREQUISITES_H_ 1
 
 namespace fragengine {
+    /**
+	 *
+	 */
+    class Scene;
     
+    /**
+	 *
+	 */
+    class Node;
+    class Camera;
+    class Frustum;
+    class Light;
+
+    //TODO relocate to to the engine.
+    class IRenderPipelineBase;
+    class RenderPipelineBase;
+    class Mesh;
+    class MeshFilter;
+    class ParticleSystem;
+    class Renderer;
 }
 
 #endif

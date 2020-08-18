@@ -23,63 +23,64 @@
 #include"Material.h"
 
 #include<vector>
-
-/**
- *	Responsible for containing
- *	geometries and shaders.
- */
-class PVDECLSPEC Renderer : public Node {
-public:
-	Renderer(void);
-
+namespace fragengine{
 	/**
-	 *
-	 * @param material
-	 * @param index
-	 */
-	void setMaterial(Material *material, int index = 0);
+	 *	Responsible for containing
+	*	geometries and shaders.
+	*/
+	class PVDECLSPEC Renderer : public Node
+	{
+	public:
+		Renderer(void);
 
-	/**
-	 *
-	 * @param geometry
-	 * @param index
-	 */
-	void setGeometry(GeometryObject *geometry, int index = 0);
+		/**
+		 *
+		 * @param material
+		 * @param index
+		 */
+		void setMaterial(Material *material, int index = 0);
 
-	/**
-	 *
-	 * @param index
-	 * @return
-	 */
-	Material *getMaterial(int index);
+		/**
+		 *
+		 * @param geometry
+		 * @param index
+		 */
+		void setGeometry(GeometryObject *geometry, int index = 0);
 
-	/**
-	 *
-	 * @param index
-	 * @return
-	 */
-	GeometryObject *getGeometry(int index);
+		/**
+		 *
+		 * @param index
+		 * @return
+		 */
+		Material *getMaterial(int index);
 
-	/**
-	 *
-	 * @return
-	 */
-	int getNumGeometry(void) const;
+		/**
+		 *
+		 * @param index
+		 * @return
+		 */
+		GeometryObject *getGeometry(int index);
 
-	/**
-	 *
-	 * @return
-	 */
-	int getNumMaterial(void) const;
+		/**
+		 *
+		 * @return
+		 */
+		int getNumGeometry(void) const;
+
+		/**
+		 *
+		 * @return
+		 */
+		int getNumMaterial(void) const;
 
 
-	/*  TODO add properties */
-private:    /*	Attributes.	*/
+		/*  TODO add properties */
+	private:    /*	Attributes.	*/
 
-	std::vector<Material *> materials;
-	std::vector<GeometryObject *> geometries;
-	int numGeometry;                /*	*/
-	int numMaterial;
-};
-
+		std::vector<Material *> materials;
+		std::vector<GeometryObject *> geometries;
+		int numGeometry;                /*	*/
+		int numMaterial;
+	};
+}
 #endif

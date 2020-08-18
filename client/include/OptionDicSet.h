@@ -1,5 +1,5 @@
-#ifndef _FV_OPTIONDICSET_H_
-#define _FV_OPTIONDICSET_H_ 1
+#ifndef _FRAGVIEW_OPTIONDICSET_H_
+#define _FRAGVIEW_OPTIONDICSET_H_ 1
 
 /*  */
 #define CONFIG_RENDERER_DRIVER "render-driver"

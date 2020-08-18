@@ -1,6 +1,6 @@
 #include <Exception/InvalidArgumentException.h>
-#include "Scene/SandBoxSubScene.h"
-#include"Scene/Scene.h"
+#include "SandBoxSubScene.h"
+#include<Scene/Scene.h>
 
 #include <Renderer/Buffer.h>
 #include <Renderer/ViewPort.h>
@@ -10,6 +10,8 @@
 #include <Renderer/Sync.h>
 
 using namespace fragcore;
+using namespace fragengine;
+using namespace fragview;
 
 void SandBoxSubScene::addTexture(Texture *texture) {
 	this->textures.push_back(texture);

@@ -3,7 +3,7 @@
 
 #include "GlobalState.h"
 
-namespace fragcore {
+namespace fragengine {
 	class FVDECLSPEC AlphaState : public GlobalState {
 
 	};

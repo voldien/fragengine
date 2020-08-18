@@ -3,14 +3,15 @@
 #include "Scene/SubGraph/Camera.h"
 #include "Scene/SubGraph/Light.h"
 using namespace fragcore;
+using namespace fragengine;
 
-SandBoxSubScene *Scene::getGLSLSandBoxScene(void) {
-	return this->glslSandBoxSubScene;
-}
+// SandBoxSubScene *Scene::getGLSLSandBoxScene(void) {
+// 	return this->glslSandBoxSubScene;
+// }
 
-void Scene::createGLSLSandBoxScene(void) {
-	this->glslSandBoxSubScene = new SandBoxSubScene();
-}
+// void Scene::createGLSLSandBoxScene(void) {
+// 	this->glslSandBoxSubScene = new SandBoxSubScene();
+// }
 
 Time *Scene::getTime(void) const {
 	return this->time;

@@ -1,5 +1,5 @@
-#ifndef PHYSIC_AUDIOCLIP_H_
-#define PHYSIC_AUDIOCLIP_H_ 1
+#ifndef _FRAG_CORE_AUDIOCLIP_H_
+#define _FRAG_CORE_AUDIOCLIP_H_ 1
 #include"../Def.h"
 #include "AudioObject.h"
 #include"AudioDesc.h"

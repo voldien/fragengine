@@ -18,16 +18,15 @@
 */
 #ifndef _FRAGVIEW_RENDERPIPELINE_SANDBOX_H_
 #define _FRAGVIEW_RENDERPIPELINE_SANDBOX_H_ 1
+#include <FragCore.h>
 #include<RenderPipeline/IRenderPipelineBase.h>
 
-using namespace fragcore;
-
 namespace fragview {
-
+	using namespace fragcore;
 	/**
 	 *
 	 */
-	class FVDECLSPEC RenderPipelineSandBox : public IRenderPipelineBase {
+	class FVDECLSPEC RenderPipelineSandBox : public fragengine::IRenderPipelineBase {
 	public:
 		RenderPipelineSandBox(Ref<IRenderer> &renderer);
 
@@ -41,9 +40,9 @@ namespace fragview {
 
 		void setViewport(int width, int height, IRenderer *render) override;
 
-		virtual void draw(Scene *scene, FrameBuffer *frame, IRenderer *render) override;
+		virtual void draw(fragengine::Scene *scene, FrameBuffer *frame, IRenderer *render) override;
 
-		RenderQueue getSupportedQueue(void) const override;
+		fragengine::RenderQueue getSupportedQueue(void) const override;
 
 	protected:
 		virtual void createFrameTexture(IRenderer *renderer, unsigned int width, unsigned height);

@@ -5,6 +5,9 @@
 using namespace fragcore;
 namespace fragview
 {
+	/**
+	 * 
+	 */
 	class FVDECLSPEC ShaderLoader{
 		public:
 		/*	*/

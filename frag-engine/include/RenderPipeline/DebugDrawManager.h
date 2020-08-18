@@ -1,13 +1,14 @@
 
 #ifndef _FRAG_ENGINE_DEBUGMANAGER_H_
 #define _FRAG_ENGINE_DEBUGMANAGER_H_ 1
+#include"../Prerequisites.h"
 #include <Renderer/Prerequisites.h>
 #include <Core/dataStructure/Queue.h>
 #include"IRenderPipelineBase.h"
 #include"../Scene/SubGraph/Transform.h"
 
-
-namespace fragcore {
+namespace fragengine {
+	using namespace fragcore;
 	/**
 	 *
 	 */
@@ -124,6 +125,6 @@ namespace fragcore {
 		Ref<Font> font; /*  */
 		Ref<Mesh> debugFont;
 	};
-}
+} // namespace fragengine
 
 #endif

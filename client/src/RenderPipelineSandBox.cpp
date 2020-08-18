@@ -1,7 +1,7 @@
 #include"RenderPipelineSandBox.h"
+#include"SandBoxSubScene.h"
 #include"ShaderLoader.h"
 #include <Utils/ShaderUtil.h>
-#include "Scene/SandBoxSubScene.h"
 #include <Utils/RenderTargetFactory.h>
 #include <Renderer/Buffer.h>
 #include <Renderer/ViewPort.h>
@@ -11,7 +11,7 @@
 #include <Renderer/Sync.h>
 
 using namespace fragview;
-//using namespace fragengine;
+using namespace fragengine;
 using namespace fragcore;
 
 /*	Display quad.	*/
@@ -29,7 +29,8 @@ void RenderPipelineSandBox::draw(Scene *scene, FrameBuffer *frame, IRenderer *re
 	(*this->renderer)->clear(eColor | eDepth);
 	(*this->renderer)->clearColor(0.15f, 0.15f, 0.15f, 1.0f);
 	/*  Check if sandbox sub scene exists.  */
-	SandBoxSubScene *sandbox = scene->getGLSLSandBoxScene();
+	SandBoxSubScene *sandbox = NULL;
+	//scene->getGLSLSandBoxScene();
 
 	/*  TODO add rendering settings for handle the execution.   */
 	//TODO add fragment sampling.

@@ -23,9 +23,8 @@
 #include<Core/dataStructure/ITree.h>
 #include <list>
 
-
-namespace fragcore {
-
+namespace fragengine {
+	using namespace fragcore;
 	class FVDECLSPEC Node : public Object, public ITree<Node> {
 	public:
 		Node(void);

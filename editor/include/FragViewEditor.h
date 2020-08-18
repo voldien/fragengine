@@ -44,7 +44,7 @@ namespace frageditor
 		//fragview::Ref<EditorRendererWindow> renderWindow;
 		fragcore::IConfig *config;
 		fragcore::Ref<fragcore::IRenderer> renderer;
-		fragcore::Ref<fragcore::Scene> scene;
+		fragcore::Ref<fragengine::Scene> scene;
 	};
 }
 #endif

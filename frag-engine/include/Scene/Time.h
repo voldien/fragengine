@@ -22,11 +22,11 @@
 // #include"Def.h"
 // #include"../Core/Object.h"
 
-namespace fragcore {
+namespace fragengine {
 	/**
 	 *
 	 */
-	class FVDECLSPEC Time : public Object {
+	class FVDECLSPEC Time : public fragcore::Object {
 	public:
 		Time(void);
 

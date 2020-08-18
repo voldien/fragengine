@@ -4,7 +4,7 @@
 #include <Core/SmartReference.h>
 #include"Mesh.h"
 
-namespace fragcore {
+namespace fragengine {
 
 	class FVDECLSPEC MeshFilter : public SmartReference {
 	public:
@@ -17,6 +17,6 @@ namespace fragcore {
 	private:
 	//	Mesh* mesh;
 	};
-}
+} // namespace fragengine
 
 #endif

@@ -52,31 +52,16 @@ namespace fragcore {
 	class IP;
 	class NetSocket;
 	
-	/**
-	 *
-	 */
-	class Scene;
-	class SandBoxSubScene;
+
+	//class SandBoxSubScene;
 	class RenderPipeline;
+
 
 	/**
 	 *
 	 */
-	class Node;
-	class Camera;
-	class Frustum;
-	class Light;
-	/**
-	 *
-	 */
 	class TargetNode;
-	//TODO relocate to to the engine.
-	class IRenderPipelineBase;
-	class RenderPipelineBase;
-	class Mesh;
-	class MeshFilter;
-	class ParticleSystem;
-	class Renderer;
+
 
 	class Font;
 	class FontFactory;

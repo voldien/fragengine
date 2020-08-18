@@ -21,11 +21,12 @@
 #include"Frustum.h"
 #include"../../RenderPipeline/IRenderPipelineBase.h"
 
-namespace fragcore {
+namespace fragengine {
+	using namespace fragcore;
 	/**
 	 *	Camera responsible for configuring the
-	*	view in rendering.
-	*/
+	 *	view in rendering.
+	 */
 	class FVDECLSPEC Camera : public Frustum {
 	public:
 		enum ClearMode {

@@ -4,7 +4,11 @@
 #include<FragCore.h>
 
 
-namespace fragcore {
+namespace fragengine {
+	using namespace fragcore;
+	/**
+	 * 
+	 */
 	class FVDECLSPEC Transform {
 	public:
 		Transform(void);

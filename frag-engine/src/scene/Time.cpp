@@ -4,6 +4,7 @@
 #include <Scene/Time.h>
 
 using namespace fragcore;
+using namespace fragengine;
 
 Time *Time::curTime = NULL;
 

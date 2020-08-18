@@ -1,8 +1,10 @@
 #include"FragView.h"
 #include"RenderPipeline/RenderPipelineSettings.h"
 #include "RenderPipeline/RenderPipelineForward.h"
+#include"SandBoxSubScene.h"
 #include"RenderPipelineSandBox.h"
 #include"ShaderLoader.h"
+#include<Scene/Scene.h>
 #include<SDL2/SDL.h>
 #include<FileNotify.h>
 #include"Core/IO/ZipFile.h"
@@ -24,7 +26,6 @@
 #include<hpmcpp/HpmCpp.h>
 #include <Core/SystemInfo.h>
 #include <SDLRendererWindow.h>
-#include<Scene/Time.h>
 #include <SDLDisplay.h>
 #include <Scene/Scene.h>
 #include <Video/VideoFactory.h>
@@ -33,6 +34,7 @@
 #include <Exception/InvalidArgumentException.h>
 
 using namespace fragcore;
+using namespace fragengine;
 using namespace fragview;
 
 FragView::FragView(int argc, const char **argv) {
@@ -83,7 +85,7 @@ FragView::~FragView(void) {
 	/*  Reduce reference and delete resources.  */
 	if (this->renderer->deincreemnt())
 		delete *this->renderer;
-	delete this->scene->getGLSLSandBoxScene();
+	//delete this->scene->getGLSLSandBoxScene();
 	delete this->scene;
 	delete this->notify;
 	delete this->config;
@@ -189,7 +191,8 @@ void FragView::loadDefaultSceneAsset(void){
 
 		/*  Create Scene.   */
 		this->scene = SceneFactory::createScene(*this->renderer, SceneFactory::eSandBox);
-		SandBoxSubScene *sandBoxSubScene = this->scene->getGLSLSandBoxScene();
+		SandBoxSubScene *sandBoxSubScene = NULL;
+		//this->scene->getGLSLSandBoxScene();
 
 		/*  TODO add internal verification of asset if enabled.    */
 
@@ -259,7 +262,7 @@ void FragView::loadDefaultSceneAsset(void){
 
 			/*  Load fragment program.  */
 			ShaderLoader::loadFragmentProgramPipeline(ref, GLSL, (*this->renderer), &shader);
-			scene->getGLSLSandBoxScene()->addShader(shader);
+			//scene->getGLSLSandBoxScene()->addShader(shader);
 			Log::log(Log::Verbose, "Loaded Shader: %s\n", path.c_str());
 
 			//this->notify->registerAsset(path.c_str(), shader, eShader);
@@ -282,7 +285,7 @@ void FragView::loadDefaultSceneAsset(void){
 			IO *ref = FileSystem::getFileSystem()->openFile(path.c_str(), IO::Mode::READ);
 			/*  */
 			//ShaderUtil::loadComputeShader(ref, *this->renderer, &compute);
-			scene->getGLSLSandBoxScene()->addCompute(compute);
+			//scene->getGLSLSandBoxScene()->addCompute(compute);
 			Log::log(Log::Verbose, "Loaded Compute Shader: %s\n", path.c_str());
 
 			//this->notify->registerAsset(path.c_str(), compute, eShader);
@@ -307,7 +310,7 @@ void FragView::loadDefaultSceneAsset(void){
 					const char *ext = FileSystem::getFileExtension(path);
 
 					TextureUtil::loadTexture(path, *this->renderer, &texture);
-					scene->getGLSLSandBoxScene()->addTexture(texture);
+					//scene->getGLSLSandBoxScene()->addTexture(texture);
 					Log::log(Log::Verbose, "Loaded texture: %s\n", path);
 				}
 
@@ -511,7 +514,8 @@ void FragView::run(void) {
 	/*  Main logic loop.    */
 	while (isAlive) {
 		Scene *currentScene = this->scene;
-		SandBoxSubScene *sandbox = currentScene->getGLSLSandBoxScene();
+		SandBoxSubScene *sandbox = NULL;
+		//currentScene->getGLSLSandBoxScene();
 		FragGraphicUniform *uniform = &tmp;//TODO resolve sandbox->getFragUniform();
 
 		while (SDL_PollEvent(&event)) {
@@ -569,7 +573,7 @@ void FragView::run(void) {
 					} else if (event.key.keysym.sym == SDLK_F12) {
 						/* Save current framebuffer.  */
 						FrameBuffer *def = (*this->renderer)->getDefaultFramebuffer(this->rendererWindow);
-						TextureUtil::saveTexture(fvformatf("screen - %s.png", fragcore::Time::getDate()).c_str(),
+						TextureUtil::saveTexture(fvformatf("screen - %s.png", Time::getDate()).c_str(),
 						                         *this->renderer, def->getAttachment(0));
 
 					} else {

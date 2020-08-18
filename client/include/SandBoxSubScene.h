@@ -21,11 +21,12 @@
 #include<FragCore.h>
 #include<Renderer/Prerequisites.h>
 #include<Renderer/ProgramPipeline.h>
-#include "Scene.h"
+#include<Scene/Scene.h>
 #include <vector>
 #include <map>
+using namespace fragcore;
 
-namespace fragcore {
+namespace fragview {
 	/**
 	 *
 	 */

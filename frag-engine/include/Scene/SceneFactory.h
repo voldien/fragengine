@@ -16,17 +16,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_SCENEFACTORY_H_
-#define _FRAGVIEW_SCENEFACTORY_H_ 1
+#ifndef _FRAG_ENGINE_SCENEFACTORY_H_
+#define _FRAG_ENGINE_SCENEFACTORY_H_ 1
 #include "Scene.h"
 
-namespace fragcore {
+namespace fragengine {
 	/**
 	 *	Responsible for creating scene object
 	 *	where object will be added in order for them
 	 *	be part of physic simulation and rendered to screen.
 	 */
-	class SceneFactory {
+	class FVDECLSPEC SceneFactory {
 	public:
 
 		/**
@@ -43,12 +43,11 @@ namespace fragcore {
 		 * @param world
 		 * @return non-null scene object.
 		 */
-		static Scene *createScene(IRenderer *rendering, WorldScene world);
+		static Scene *createScene(fragcore::IRenderer *rendering, WorldScene world);
 
 	private:    /*	Prevent one from creating an instance of this class.	*/
 
 		SceneFactory(void);
-
 		SceneFactory(const SceneFactory &other);
 	};
 }

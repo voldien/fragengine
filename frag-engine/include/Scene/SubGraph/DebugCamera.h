@@ -20,14 +20,14 @@
 #define _DEBUG_CAMERA_H_ 1
 #include"Camera.h"
 
-namespace fragcore {
-/**
- *	TODO this class will be able to have access to the gizmo class.
- *
- *	This camera will always be able to override the main camera at
- *	any given point in time.
- *
- */
+namespace fragengine {
+	/**
+	 *	TODO this class will be able to have access to the gizmo class.
+	*
+	*	This camera will always be able to override the main camera at
+	*	any given point in time.
+	*
+	*/
 	class DebugCamera : public Camera {
 	public:
 		DebugCamera(void);
@@ -46,6 +46,6 @@ namespace fragcore {
 		float Ysensity;
 
 	};
-}
+} 
 
 #endif

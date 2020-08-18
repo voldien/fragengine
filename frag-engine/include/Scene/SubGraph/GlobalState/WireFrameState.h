@@ -3,7 +3,8 @@
 
 #include "GlobalState.h"
 
-namespace fragcore {
+namespace fragengine
+{
 	/**
 	 *
 	 */
@@ -16,6 +17,6 @@ namespace fragcore {
 
 		bool Enabled; // default: false
 	};
-}
+} // namespace fragengine
 
 #endif

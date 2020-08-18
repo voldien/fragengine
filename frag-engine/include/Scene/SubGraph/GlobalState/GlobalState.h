@@ -2,11 +2,11 @@
 #define FRAGVIEW_GLOBALSTATE_H_ 1
 #include <Core/Object.h>
 
-namespace fragcore {
+namespace fragengine {
 	/**
 	 *
 	 */
-	class FVDECLSPEC GlobalState : public Object {
+	class FVDECLSPEC GlobalState : public fragcore::Object {
 	public:
 
 		enum {
@@ -27,6 +27,6 @@ namespace fragcore {
 	protected:
 		GlobalState(void) = default;
 	};
-}
+} // namespace fragengine
 
 #endif

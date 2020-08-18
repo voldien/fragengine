@@ -22,8 +22,8 @@
 #include "IRenderPipelineBase.h"
 #include "RenderQueue.h"
 
-namespace fragcore {
-/**
+namespace fragengine {
+	/**
  *	Responsible for rendering scene to default
  *	framebuffer.
  */
@@ -193,6 +193,6 @@ namespace fragcore {
 //	GeometryObject* boundbox;
 
 	};
-}
+} // namespace fragengine
 
 #endif

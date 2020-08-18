@@ -16,18 +16,19 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAGVIEW_SCENE_H_
-#define _FRAGVIEW_SCENE_H_ 1
+#ifndef _FRAG_ENGINE_SCENE_H_
+#define _FRAG_ENGINE_SCENE_H_ 1
 #include"Time.h"
-#include "SandBoxSubScene.h"
+#include"../Prerequisites.h"
+#include<Core/SmartReference.h>
+//#include "SandBoxSubScene.h"
 //#include"Prerequisites.h"
 
-
-namespace fragcore {
+namespace fragengine {
 	/**
 	 *
 	 */
-	class FVDECLSPEC Scene : public SmartReference {
+	class FVDECLSPEC Scene : public fragcore::SmartReference {
 		friend class SceneFactory;
 
 	protected:
@@ -43,7 +44,7 @@ namespace fragcore {
 		 *
 		 * @return
 		 */
-		SandBoxSubScene *getGLSLSandBoxScene(void);
+		//SandBoxSubScene *getGLSLSandBoxScene(void);
 
 		/**
 		 *
@@ -53,7 +54,7 @@ namespace fragcore {
 
 	private:
 
-		SandBoxSubScene *glslSandBoxSubScene;	//TODO remove
+		//SandBoxSubScene *glslSandBoxSubScene;	//TODO remove
 		Time *time;
 
 		/*  Camera. */

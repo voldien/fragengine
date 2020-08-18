@@ -3,15 +3,16 @@
 
 #ifndef _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_
 #define _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_ 1
-#include<FragCore.h>
 #include<Renderer/Prerequisites.h>
-#include "RenderQueue.h"
-#include "RenderPipelineSettings.h"
 #include<Core/SmartReference.h>
 #include<Core/Ref.h>
+#include"Prerequisites.h"
+#include"Scene/Scene.h"
+#include"RenderQueue.h"
+#include"RenderPipelineSettings.h"
 
-
-namespace fragcore {
+namespace fragengine {
+	using namespace fragcore;
 	/**
 	 *	Responsible for rendering scene to default
 	 *	framebuffer.
@@ -61,6 +62,6 @@ namespace fragcore {
 }
 
 /*  Plugin interface function for creating custom rendering pipeline.   */
-extern "C" fragcore::RenderPipelineBase *createPipeLine(fragcore::IRenderer *interface);
+extern "C" fragengine::IRenderPipelineBase *createPipeLine(fragcore::IRenderer *interface);
 
 #endif

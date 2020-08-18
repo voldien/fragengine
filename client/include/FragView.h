@@ -19,6 +19,8 @@
 #ifndef _FRAG_VIEW_H_
 #define _FRAG_VIEW_H_ 1
 #include "Renderer/IRenderer.h"
+#include<FragEngine.h>
+
 #include <FileNotify.h>
 #include "Config.h"
 #include <Core/RefPtr.h>
@@ -61,13 +63,13 @@ namespace fragview {
     private:    /*  */
 
         fragcore::Ref<fragcore::IRenderer> renderer;            /*  Low level rendering API interface.  */
-        fragcore::Ref<fragcore::IRenderPipelineBase> renderpipeline;
+        fragcore::Ref<fragengine::IRenderPipelineBase> renderpipeline;
     //    EventController* controller;
         fragcore::Ref<fragcore::IScheduler> sch;            /*  */
         fragcore::Ref<fragcore::IScheduler> logicSch;       /*  */
         Config* config;                                     /*  Current config.    */   //TODO add suport for reference.
         fragcore::FileNotify* notify;                       /*  Notify Asset changes.  */
-        fragcore::Scene *scene;                             /*  Current scene.  */
+        fragengine::Scene *scene;                             /*  Current scene.  */
         fragcore::RendererWindow *rendererWindow;           /*  */
         fragcore::Ref<fragcore::IFileSystem> fileSystem;    /*  */
     };

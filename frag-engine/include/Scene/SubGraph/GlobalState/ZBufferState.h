@@ -2,7 +2,8 @@
 #define FRAGVIEW_ZBUFFERSTATE_H_ 1
 #include "GlobalState.h"
 
-namespace fragcore {
+namespace fragengine
+{
 
 	/**
 	 *
@@ -18,6 +19,6 @@ namespace fragcore {
 		bool Writable;
 		int Compare;
 	};
-}
+} // namespace fragengine
 
 #endif

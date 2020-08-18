@@ -9,6 +9,7 @@
 #include <Renderer/Sync.h>
 
 using namespace fragcore;
+using namespace fragengine;
 
 void DebugDrawManager::draw(Scene *scene, FrameBuffer *frame, IRenderer *render) {
 	/*  */

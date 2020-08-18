@@ -22,9 +22,9 @@
 /**
  *
  */
-namespace fragcore {
+namespace fragengine {
 
-	enum RenderQueue {
+    enum RenderQueue {
 		Background,         /*  */
 		Geometry,           /*  */
 		AlphaTest,          /*  */

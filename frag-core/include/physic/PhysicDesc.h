@@ -124,9 +124,9 @@ namespace fragcore {
 	}
 	CollisionDesc;
 
-/**
- *	Rigidbody description.
- */
+	/**
+	 *	Rigidbody description.
+	*/
 	typedef struct rigidbody_desc_t {
 
 		Collision *collision;            /*	Collision shape attached to rigidbody.	*/
@@ -142,7 +142,7 @@ namespace fragcore {
 		HCVector3 position;                /*	Position in world space.	*/
 		HCQuaternion quat;                /*	Oritention in world space.	*/
 
-		Node *node;                        /*	Attached node.	*/
+		//Node *node;                        /*	Attached node.	*/
 
 	}
 	RigidBodyDesc;
