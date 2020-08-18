@@ -3,6 +3,8 @@
 #include <Core/Base64.h>
 #include <gtest/gtest.h>
 
+using namespace fragcore;
+
 TEST(Base, AllBase)
 {
 	Base16 base16;
