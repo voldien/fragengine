@@ -232,7 +232,7 @@ void Config::setDefaultOption(void) {
 	resourceConfig.set("settings", "");
 	resourceConfig.set("dump-configuration", "fragview.xml");
 	resourceConfig.set("save-configuration", false);
-	resourceConfig.set("fragview-internal-shaders-files", "fragview-internal-shaders.zip");
+	resourceConfig.set("fragview-internal-shaders-files", FRAGVIEW_INTERNAL_ASSET_FILENAME);
 	resourceConfig.set("cache-directory", ".");
 
 	IConfig &sandboxConfig = this->getSubConfig("sandbox");
@@ -298,7 +298,9 @@ void Config::parseGetOpt(int argc, const char **argv) {
 	opterr = 0;
 
 	while ((c = getopt_long(argc, (char *const *) argv, shortarg, longoptions, &index)) != EOF) {
-		const char *option = longoptions[index].name;
+		const char *option = NULL;
+		if (index >= 0 && index < sizeof(longoptions) / sizeof(longoptions[0]))
+			option = longoptions[index].name;
 
 		switch (c) {
 			case 'w':   /*  */
@@ -375,39 +377,44 @@ void Config::parseGetOpt(int argc, const char **argv) {
 				break;
 			case 'U':   /*  */
 				this->set<bool>("save-configuration", true);
-				if (optarg) {
+				if (optarg)
+				{
 					this->set<const char *>("dump-configuration", optarg);
 				}
 				break;
 			case ' ':    /*	Parse long option with string argument.	*/
 				/*  renderer-dynamicInterface   */
-				if (optarg) {
-					this->set<const char *>(longoptions[index].name, (const char *) optarg);
+				if (optarg && option)
+				{
+					this->set<const char *>(option, (const char *)optarg);
 				}
 				break;
 			case '_': {    /*	Parse long option with no argument.	*/
-				if (optarg) {
-					this->set(longoptions[index].name, (int) strtol(optarg, NULL, 10));
+				if (optarg && option)
+				{
+					this->set(option, (int)strtol(optarg, NULL, 10));
 				}
 			}
 				break;
 			case '~':   /*  Special type of options.    */
-				if (strcmp(option, "renderer-opengl") == 0)
-					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eOpenGL));
-				if (strcmp(option, "renderer-vulkan") == 0)
-					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eVulkan));
-				if (strcmp(option, "renderer-opencl") == 0)
-					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eOpenCL));
-				if (strcmp(option, "renderer-directx") == 0)
-					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eDirectX));
-				if (strcmp(option, "no-decoration") == 0)
-					this->set("window-bordered", false);
-				if (strcmp(option, "v-sync") == 0)
-					this->set("v-sync", true);
+				if (option){
+					if (strcmp(option, "renderer-opengl") == 0)
+						this->set<const char *>("renderer-dynamicInterface",
+												RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eOpenGL));
+					if (strcmp(option, "renderer-vulkan") == 0)
+						this->set<const char *>("renderer-dynamicInterface",
+												RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eVulkan));
+					if (strcmp(option, "renderer-opencl") == 0)
+						this->set<const char *>("renderer-dynamicInterface",
+												RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eOpenCL));
+					if (strcmp(option, "renderer-directx") == 0 )
+						this->set<const char *>("renderer-dynamicInterface",
+												RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eDirectX));
+					if (strcmp(option, "no-decoration") == 0)
+						this->set("window-bordered", false);
+					if (strcmp(option, "v-sync") == 0)
+						this->set("v-sync", true);
+				}
 				break;
 			default:    /*  */
 				break;

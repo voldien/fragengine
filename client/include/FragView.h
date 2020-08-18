@@ -48,6 +48,10 @@ namespace fragview {
     protected:
 
         void init(int argc, const char** argv);
+        void loadDefaultSceneAsset(void);
+        void cacheShaders(void);
+        void loadCachedShaders(void);
+        void loadShaders(void);
 
         /**
          * Create window for displaying.

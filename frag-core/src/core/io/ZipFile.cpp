@@ -230,7 +230,7 @@ static zip_int64_t io_callback(void *userdata, void *data, zip_uint64_t len, zip
 		case ZIP_SOURCE_SEEK: {
 			struct zip_source_args_seek *seek = (struct zip_source_args_seek *) data;
 			if (len < sizeof(*seek)) {
-				//::zip_error_set(&ctx->libzip_error_, ZIP_ER_INVAL, 0);
+				//zip_error_set(&ctx->libzip_error_, ZIP_ER_INVAL, 0);
 				return -1;
 			}
 			//ZIP_SOURCE_GET_ARGS
@@ -278,6 +278,7 @@ ZipFile *ZipFile::createZipFileObject(Ref<IO> &ioRef, Ref<IScheduler> ref)
 
 	zip_error_init(&error);
 
+	/*	*/
 	ioRef->seek(0, IO::SET);
 	zip_source *zipSource = zip_source_function_create(io_callback, &ioRef, NULL);
 	ioRef->increment();
@@ -297,8 +298,7 @@ ZipFile *ZipFile::createZipFileObject(Ref<IO> &ioRef, Ref<IScheduler> ref)
 		if (err == ZIP_ER_NOENT)
 			throw InvalidArgumentException(fvformatf("can't open zip archive - %s", buf));
 		else
-			throw RuntimeException(fvformatf("%s", buf));
-
+			throw RuntimeException(fvformatf("Can't open zip file: %s", zip_error_strerror(&error)));
 	}
 	zip_source_keep(zipSource);
 
@@ -306,7 +306,7 @@ ZipFile *ZipFile::createZipFileObject(Ref<IO> &ioRef, Ref<IScheduler> ref)
 	zipfile = new ZipFile(ref);
 	zipfile->pzip = zip;
 
-
+	/*	*/
 	zip_error_fini(&error);
 	return zipfile;
 }

@@ -25,41 +25,10 @@ IO *FileSystem::openFile(const char *path, IO::Mode mode) {
 }
 
 void FileSystem::closeFile(IO *io) {
-
+	io->close();
+	//TODO determine what shall be done more.
+	//TODO determine how it can be released in a proper manner.
 }
-
-//TODO remove
-long int FileSystem::loadFile(IO *io, char **data) {
-	char *d = NULL;
-	long dataSize = 0;
-
-	/*  Check if file is readable.  */
-	if (!io->isReadable())
-		throw InvalidArgumentException(fvformatf("Failed to read from IO: %s", io->getName()));
-
-	// Page aligned;
-	char buf[1024 * 4];
-	long nbytes;
-	while ((nbytes = io->read(sizeof(buf), buf)) > 0) {
-		d = (char *) realloc(d, dataSize + nbytes);
-		memcpy(&d[dataSize], buf, nbytes);
-		dataSize += nbytes;
-	}
-
-	*data = d;
-	return dataSize;
-}
-
-long int FileSystem::loadString(IO *io, char **string) {
-	long int nbytes;
-
-	nbytes = loadFile(io, string);
-	*string = (char *) realloc(*string, nbytes + 1);
-	(*string)[nbytes] = '\0';
-
-	return nbytes;
-}
-
 const char *FileSystem::getBaseName(const char *path) {
 	return basename(path);  //TODO relocate to the OS IO table lookup.
 }

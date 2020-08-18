@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,6 @@
 */
 #ifndef _FRAG_CORE_WINDOWRENDERER_H_
 #define _FRAG_CORE_WINDOWRENDERER_H_ 1
-
 #include "../Def.h"
 #include "../Core/Display.h""
 #include "../Core/Ref.h"

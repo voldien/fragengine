@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ namespace fragcore {
 	/**
 	 *	Primitive buffer.
 	 */
-	class Buffer : public RenderObject {
+	class FVDECLSPEC Buffer : public RenderObject {
 		friend class IRenderer;
 
 	public:
@@ -37,14 +37,13 @@ namespace fragcore {
 	public:
 
 		enum MapTarget {
-			eRead = 0x1,  /*  */
-			eWrite = 0x2,  /*  */
-			eReadWrite = 0x4,  /*  */
-			eNoSync = 0x8,  /*  Disable implicit synchronization.*/
-			ePERSISTENT = 0x10, /*  */
-			eCOHERENT = 0x20, /*  */
-			eFlushExplicit = 0x40, /*  */
-
+			eRead = 0x1,  			/*  */
+			eWrite = 0x2,  			/*  */
+			eReadWrite = 0x4,  		/*  */
+			eNoSync = 0x8,  		/*  Disable implicit synchronization.*/
+			ePERSISTENT = 0x10, 	/*  */
+			eCOHERENT = 0x20, 		/*  */
+			eFlushExplicit = 0x40, 	/*  */
 		};
 
 		virtual void bind(void);

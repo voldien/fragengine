@@ -1,5 +1,5 @@
 /**
-    Simple physic simulation with a server-client model support.
+    FragEngine, A Two layer Game Engine.
     Copyright (C) 2017  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@ namespace fragcore {
 	 *	the method is not implemented and thus
 	 *	not supported.
 	 */
-	class NotImplementedException : public IException {
+	class FVDECLSPEC NotImplementedException : public IException {
 	public:
 
 		NotImplementedException(void) : IException("Not implemented yet!") {}

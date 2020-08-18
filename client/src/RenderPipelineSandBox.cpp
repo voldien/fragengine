@@ -1,4 +1,5 @@
 #include"RenderPipelineSandBox.h"
+#include"ShaderLoader.h"
 #include <Utils/ShaderUtil.h>
 #include "Scene/SandBoxSubScene.h"
 #include <Utils/RenderTargetFactory.h>
@@ -383,7 +384,7 @@ void RenderPipelineSandBox::init(Ref<IRenderer> &renderer, const IConfig *config
 
 	/*  Create display shader.  */
 	ProgramPipeline* programPipeline;
-	ShaderUtil::loadDisplayShader(*this->renderer, &programPipeline);
+	ShaderLoader::loadDisplayShader(*this->renderer, &programPipeline);
 	this->displayShader = Ref<ProgramPipeline>(programPipeline);
 
 	int width, height;

@@ -22,6 +22,7 @@ Hash::Hash(Hash::ALGORITHM algorithm) {
 
 	/*      */
 	this->algorithm = algorithm;
+	this->nbytes = 0;
 }
 
 Hash::~Hash(void) {
@@ -31,7 +32,7 @@ Hash::~Hash(void) {
 void Hash::update(const void *pdata, size_t nbytes) {
 	switch(this->algorithm){
 		case MD5:
-			MD5_Update ((MD5_CTX*)this->context, pdata, nbytes);
+			nbytes += MD5_Update((MD5_CTX *)this->context, pdata, nbytes);
 			break;
 		case SHA128:
 		case SHA256:
@@ -49,7 +50,7 @@ void Hash::update(const Ref<IO> &io){
 	while((len = io->read(sizeof(buffer),buffer)) >= 0){
 		this->update(buffer, len);
 	}
-
+	/*	retain the original state.	*/
 	io->seek(prev_pos, IO::Seek::SET);
 }
 
@@ -57,7 +58,7 @@ void Hash::final(std::vector<unsigned char> &hash) {
 	switch(this->algorithm){
 		case MD5:
 			hash.resize(MD5_DIGEST_LENGTH);
-			MD5_Final (hash.data(),(MD5_CTX*)this->context);
+			MD5_Final(hash.data(), (MD5_CTX *)this->context);
 			break;
 		case SHA128:
 		case SHA256:
@@ -67,6 +68,9 @@ void Hash::final(std::vector<unsigned char> &hash) {
 	}
 }
 
+long int Hash::getByteRead(void) const{
+	return this->nbytes;
+}
 
 Hash::ALGORITHM Hash::getAlgorithm(void) const {
 	return this->algorithm;

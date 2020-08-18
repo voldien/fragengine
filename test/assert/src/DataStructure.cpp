@@ -1,6 +1,8 @@
 #include<gtest/gtest.h>
 #include"Utils/TextureUtil.h"
 #include"Core/dataStructure/PoolAllocator.h"
+#include<Core/dataStructure/StackAllactor.h>
+#include<Core/dataStructure/DoubleBufferedAllocator.h>
 using namespace fragcore;
 
 TEST (DataStructure, PoolAllocator) {
@@ -21,3 +23,22 @@ TEST (DataStructure, PoolAllocator) {
 
 }
 
+TEST(DataStructure, StackAllocator){
+	const int s_size = 128;
+	StackAllocator stackAllocator(s_size);
+	/*	Test initial state.	*/
+	GTEST_ASSERT_EQ(stackAllocator.getSize(), s_size);
+	GTEST_ASSERT_EQ(stackAllocator.getMarker(), 0);
+
+	/*	*/
+	void *p = stackAllocator.allocateAligned(84, 8);
+	GTEST_ASSERT_NE(p, NULL);
+	GTEST_ASSERT_EQ(stackAllocator.getMarker(), 0);
+	GTEST_ASSERT_EQ(stackAllocator.getSize(), 88);
+
+	/*	*/
+	stackAllocator.freeToMarker(64);
+	GTEST_ASSERT_EQ(stackAllocator.getMarker(), 64);
+
+	DoubleBufferedAllocator dobuleStackAllocator;
+}

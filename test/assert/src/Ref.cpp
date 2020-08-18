@@ -8,6 +8,7 @@ TEST(References, SmartReference){
 
 	SmartReference smartReference;
 
+	/*	*/
 	ASSERT_TRUE(smartReference.increment());
 	ASSERT_EQ(smartReference.getIndexCount(), 2);
 	ASSERT_EQ(smartReference.deincreemnt(), false);

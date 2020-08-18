@@ -1,5 +1,5 @@
-#ifndef _FV_AUDIOREVERB_H_
-#define _FV_AUDIOREVERB_H_ 1
+#ifndef _FRAG_CORE_AUDIOREVERB_H_
+#define _FRAG_CORE_AUDIOREVERB_H_ 1
 
 #include "AudioObject.h"
 

@@ -1,5 +1,5 @@
-/*
-    VDEngine virtual dimension game engine.
+/**
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2014  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify

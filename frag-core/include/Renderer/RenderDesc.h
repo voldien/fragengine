@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -801,6 +801,18 @@ namespace fragcore {
 
 		int sMinMapBufferAlignment;
 	} Capability;
+
+	/**
+	 * 
+	 */
+//TODO improve.	
+	typedef struct device_info_t
+	{
+		const char *name;
+		const int deviceType;
+		const char *vendor;
+		Capability capability;
+	} DeviceInfo;
 }
 
 #endif

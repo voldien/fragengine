@@ -1,5 +1,6 @@
 #include <Utils/StringUtil.h>
 #include"Core/IConfig.h"
+#include"Core/IO/IOUtil.h"
 #include <stdio.h>
 #include <Core/IO/FileIO.h>
 #include<libxml/parser.h>
@@ -519,7 +520,7 @@ void IConfig::parse_xml(Ref<IO>& io) {
 	xmlNode* root, *first_child, *node, *rootnode;
 
 	char* buffer;
-	int size = FileSystem::loadFile(*io, &buffer);
+	int size = IOUtil::loadFileMem(io, &buffer);
 
 	/*	Load xml file.  */
 	//document = xmlReadFile(path, NULL, 0);
@@ -563,7 +564,7 @@ void IConfig::parse_yaml(Ref<IO>& io) {
 	if (!yaml_parser_initialize(&parser))
 		throw RuntimeException("Failed to initialize parser.");
 
-	size_t size = (size_t) FileSystem::loadFile(*io, &data);
+	size_t size = (size_t) IOUtil::loadFileMem(io, &data);
 	yaml_parser_set_input_string(&parser, (const unsigned char *) data, size);
 	yaml_parser_set_encoding(&parser, YAML_UTF8_ENCODING);
 

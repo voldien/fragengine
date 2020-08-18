@@ -2,6 +2,7 @@
 #include"RenderPipeline/RenderPipelineSettings.h"
 #include "RenderPipeline/RenderPipelineForward.h"
 #include"RenderPipelineSandBox.h"
+#include"ShaderLoader.h"
 #include<SDL2/SDL.h>
 #include<FileNotify.h>
 #include"Core/IO/ZipFile.h"
@@ -38,220 +39,19 @@ FragView::FragView(int argc, const char **argv) {
 
 	init(argc, argv);
 
-	/*  Assert dependent variables. */
+	/*  Assert dependent variables that should not be null at this point. */
 	assert(this->config && *this->renderer && this->rendererWindow && *this->sch);
 
-	Capability capability;
-	(*this->renderer)->getCapability(&capability);
-	ShaderLanguage supportedLanguages = this->renderer->getShaderLanguage();
-
-	IConfig& global = *this->config;
-	bool useSandBox = this->config->get<bool>("sandbox");   // Fragment sandbox.
-	IConfig &resourceConfig = this->config->getSubConfig("resource-settings");
-
-	/*  Display information.    */
-	Display::DPI dpi;
-	this->rendererWindow->getCurrentDisplay()->getDPI(&dpi);
-	TextureFormat format = this->rendererWindow->getCurrentDisplay()->getFormat();
-
-	if (useSandBox) {
-		IConfig &sandBoxSettings = this->config->getSubConfig("render-sandbox-graphic-settings");
-		IConfig &sandboxConfig = this->config->getSubConfig("sandbox");
-
-		RenderPipelineSettings setting(sandBoxSettings);
-		this->renderpipeline = Ref<IRenderPipelineBase>(new RenderPipelineSandBox(this->renderer));
-
-		/*  Create Scene.   */
-		this->scene = SceneFactory::createScene(*this->renderer, SceneFactory::eSandBox);
-		SandBoxSubScene* sandBoxSubScene = this->scene->getGLSLSandBoxScene();
-
-		/*  TODO add internal verification of asset.    */
-
-		/*  TODO relocate all shader loading logic to the shader model import.  */
-		//ShaderModelImporter importer = ShaderModelImporter(this->renderer);
-		//TargetNode* target = importer.createTargetModel(argc, argv);
-		//this->scene->getGLSLSandBoxScene()->
-
-		ZipFile *internalShader = NULL;
-		Ref<IO> internal_zip_io;
-
-		// Load internal resources.
-		const char *fragview_shaders = resourceConfig.get<const char *>("fragview-internal-shaders-files");
-		const char *apppath = fvformatf("%s/%s", resourceConfig.get<const char *>("shaddir"), fragview_shaders).c_str();
-		std::string fullPath = FileSystem::getAbsolutePath(apppath);
-		if (FileSystem::getFileSystem()->exists(fragview_shaders))
-			internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(fragview_shaders, IO::READ));
-		else if (FileSystem::getFileSystem()->exists(fullPath.c_str()))
-			internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(fullPath.c_str(), IO::READ));
-		else
-			throw RuntimeException(
-					fvformatf("Could not find internal resources for default shaders : %s", fragview_shaders));
-
-		internalShader = ZipFile::createZipFileObject(internal_zip_io, this->sch);
-
-		bool internalShaderNotLoaded = false;
-		const char* cache_directory = resourceConfig.get<const char*>("cache-directory");
-		std::string shader_cache_filepath = fvformatf("%s/shader-cache.json", cache_directory);
-		if(this->config->get<bool>("use-cache-shaders")) {
-			IConfig shaderCache;
-			try {
-				//TODO
-				//shaderCache.parseConfigFile(Ref<IO>(NULL), IConfig::JSON);
-				internalShaderNotLoaded = true;
-			}catch(const IException& ex){
-				internalShaderNotLoaded = false;
-			}
-		}
-
-		/*  */
-		ASyncHandle displayFragV = 0;
-		ASyncHandle displayFragF = 0;
-		if(!internalShaderNotLoaded) {
-			/*  Load default display shader.    */
-			if (supportedLanguages & GLSL) {
-				displayFragV = internalShader->openASyncFile("shaders/glsl/display.vert", IO::READ);
-				displayFragF = internalShader->openASyncFile("shaders/glsl/display.frag", IO::READ);
-			} else if (supportedLanguages & SPIRV) {
-				displayFragV = internalShader->openASyncFile("shaders/spirv/displayV.spv", IO::READ);
-				displayFragF = internalShader->openASyncFile("shaders/spirv/displayF.spv", IO::READ);
-			} else
-				throw NotSupportedException(fvformatf("Non-Supported shader for language %d", supportedLanguages));
-
-			/*  Invoke async load.  */
-			internalShader->asyncWriteFile(displayFragV, NULL, 0, NULL);
-			internalShader->asyncWriteFile(displayFragF, NULL, 0, NULL);
-		}
-
-		/*  */
-		// Get local share directory. TODO
-		//"binary-program"
-		//for(int i = 0; i < sandboxConfig.get())
-
-		/*  Create shaders. */
-		const int nShadersInSandBox = sandboxConfig.get<int>("num_shaders");
-		for (int i = 0; i < sandboxConfig.get<int>("num_shaders"); i++) {
-			ProgramPipeline *shader;
-
-			/*  Check if fragment shader is supported.  */
-			if (!capability.sFragmentShader)
-				throw RuntimeException(
-						fvformatf("Fragment shader is not support for %s\n", (*this->renderer)->getName()));
-
-			std::string path = sandboxConfig.get<std::string>(fvformatf("shader%d", i)).c_str();
-			IO *ref = FileSystem::getFileSystem()->openFile(path.c_str(), IO::Mode::READ);
-
-			/*  Load fragment program.  */
-			ShaderUtil::loadFragmentProgramPipeline(ref, GLSL, (*this->renderer), &shader);
-			scene->getGLSLSandBoxScene()->addShader(shader);
-			Log::log(Log::Verbose, "Loaded Shader: %s\n", path.c_str());
-
-			//this->notify->registerAsset(path.c_str(), shader, eShader);
-
-			delete ref;
-		}
-
-		/*  Create compute shaders.    */
-		const int nComputeInSandBox = sandboxConfig.get<int>("num_compute");
-		for (int i = 0; i < sandboxConfig.get<int>("num_compute"); i++) {
-			ProgramPipeline *compute;
-
-			/*  Check if compute shader is supported.  */
-			std::string path = sandboxConfig.get<std::string>(fvformatf("compute%d", i)).c_str();
-			if (!capability.sComputeShader)
-				throw RuntimeException(
-						fvformatf("Compute shader is not support for %s\n", (*this->renderer)->getName()));
-
-			IO *ref = FileSystem::getFileSystem()->openFile(path.c_str(), IO::Mode::READ);
-			/*  */
-			//ShaderUtil::loadComputeShader(ref, *this->renderer, &compute);
-			scene->getGLSLSandBoxScene()->addCompute(compute);
-			Log::log(Log::Verbose, "Loaded Compute Shader: %s\n", path.c_str());
-
-			//this->notify->registerAsset(path.c_str(), compute, eShader);
-
-			delete ref;
-		}
-
-		/*  Create textures.    */
-		//TODO add video texture support.
-		const int nTexturesInSandBox = sandboxConfig.get<int>("num_textures");
-		for (int i = 0; i < capability.sMaxTextureUnitActive; i++) {
-			Texture *texture;
-			const char *path = NULL;
-			const std::string tex_key = fvformatf("texture%d", i);
-			if (sandboxConfig.isSet(tex_key.c_str())) {
-				path = sandboxConfig.get<const char *>(tex_key);
-				if (path) {
-					/*  Determine file type.    */
-					const char* ext = FileSystem::getFileExtension(path);
-
-					TextureUtil::loadTexture(path, *this->renderer, &texture);
-					scene->getGLSLSandBoxScene()->addTexture(texture);
-					Log::log(Log::Verbose, "Loaded texture: %s\n", path);
-				}
-
-				//this->notify->registerAsset(path, texture, eTexture);
-			}
-		}
-
-		if(!internalShaderNotLoaded) {
-			/*  Close async.    */
-			internalShader->asyncClose(displayFragV);
-			internalShader->asyncClose(displayFragF);
-
-			/*  Load display shaders.   */
-	//		internalShader->asyncWait(displayFragV);
-	//		internalShader->asyncWait(displayFragF);
-
-			/*  Load shaders.   */
-		}
-
-		//TODO add support for caching shaders. -- as json files.
-		if(this->config->get<bool>("cache-shaders")) {
-			IConfig internaCache;
-			internaCache.setName("shader-cache");
-			for(int i = 0; i < sandBoxSubScene->getNumShaders(); i++){
-				Shader* shader = sandBoxSubScene->getShader(i)->getShader(ProgramPipeline::VERTEX_SHADER);
-
-				IConfig& shaderCache = internaCache.getSubConfig(shader->getName());
-				long int bsize;
-				unsigned int format;
-				const void* pbinary = shader->getBinary(&bsize, &format);
-				shaderCache.setBlob("shader", pbinary, bsize);
-				shaderCache.set<int>("format", bsize);
-			}
-
-			Ref<IO> f = Ref<IO>(FileSystem::getFileSystem()->openFile(shader_cache_filepath.c_str(), IO::WRITE));
-			internaCache.save(f, IConfig::JSON);
-		}
-
-		internalShader->deincreemnt();
-		delete internalShader;
-	} else {
-		/*  Create 3D view scene.   */
-		this->scene = SceneFactory::createScene(*this->renderer, SceneFactory::eWorldSpace);
-		this->renderpipeline = Ref<IRenderPipelineBase>(new RenderPipelineForward(this->renderer));
-
-		// Read from options for loading the scene.
-		const char *fragview_shaders = resourceConfig.get<const char *>("fragview-internal-shaders-files");
-
-		ZipFile *internalShader = ZipFile::createZipFileObject(fragview_shaders, this->sch);
-		ASyncHandle displayFragV = internalShader->openASyncFile("shaders/glsl/skybox.vert", IO::READ);
-		ASyncHandle displayFragF = internalShader->openASyncFile("shaders/glsl/skybox.frag", IO::READ);
-
-		internalShader->deincreemnt();
-		delete internalShader;
-	}
-
-	// Assert the variables
-	assert(this->scene && *this->renderpipeline);
+	loadDefaultSceneAsset();
 
 	/*  Start the notify change.   */
 	this->notify->start();
 
 	/*  Print debug.    */
-	if (config->get<bool>("debug"))
+	if (config->get<bool>("debug")){
+		Log::log(Log::Debug, "Configuration internal value tree\n");
 		config->printTable();
+	}
 }
 
 FragView::~FragView(void) {
@@ -264,7 +64,7 @@ FragView::~FragView(void) {
 		/*  TODO  */
 
 		/*  */
-		this->config->save(ref_io, Config::XML);
+		this->config->save(ref_io, Config::JSON);
 		fileIO->close();
 		delete fileIO;
 	}
@@ -298,9 +98,9 @@ void FragView::init(int argc, const char **argv) {
 
 	/*  Create task scheduler.  */
 	this->sch = Ref<IScheduler>(new TaskScheduler(2, 48));
-
 	this->logicSch = Ref<IScheduler>(new TaskScheduler(SystemInfo::getCPUCoreCount(), 128));
 
+	/*	Initilize the fileystem with scheduler.	*/
 	FileSystem::createFileSystem(this->sch);
 
 	/*  Read first options.   */
@@ -308,9 +108,12 @@ void FragView::init(int argc, const char **argv) {
 
 	/*  Verbose information.    */
 	Log::log(Log::Verbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
+	Log::log(Log::Verbose, "CPU Cores: %d", SystemInfo::getCPUCoreCount());
 	Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
 	Log::log(Log::Verbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
+	Log::log(Log::Verbose, "page size: %d bytes\n", SystemInfo::getPageSize());
 
+	/*	TODO determine how much shall be handle by the window manager once supported.	*/
 	status = SDL_Init(SDL_INIT_EVENTS | SDL_INIT_TIMER);
 	if (status != 0)
 		throw RuntimeException(fvformatf("failed to initialize SDL library : %d - %s", status, SDL_GetError()));
@@ -329,12 +132,6 @@ void FragView::init(int argc, const char **argv) {
 	Log::log(Log::Verbose, "API Internal API version: %s\n", (*this->renderer)->getAPIVersion());
 	(*this->renderer)->setVSync(renderConfig.get<bool>("v-sync"));
 
-	//TODO remove later
-	Ref<IO> fontIO = Ref<IO>(FileSystem::getFileSystem()->openFile("DroidSansFallback.ttf", IO::READ));
-//	FontFactory::createSDFFont(this->renderer, fontIO, 10);
-	fontIO->seek(0, IO::Seek::SET);
-	FontFactory::createFont(this->renderer, fontIO, 10);
-
 	/*  Create file notify.    */
 	if (this->config->get<bool>("notify-file"))
 		this->notify = new FileNotify(this->sch);
@@ -343,6 +140,244 @@ void FragView::init(int argc, const char **argv) {
 	const IConfig &windowConfig = this->config->getSubConfig("render-window-settings");
 	this->createWindow(windowConfig.get<int>("screen-x"), windowConfig.get<int>("screen-y"),
 	                   windowConfig.get<int>("screen-width"), windowConfig.get<int>("screen-height"));
+}
+
+void FragView::loadDefaultSceneAsset(void){
+	/*	*/
+	Capability capability;
+	(*this->renderer)->getCapability(&capability);
+	ShaderLanguage supportedLanguages = this->renderer->getShaderLanguage();
+
+	IConfig &global = *this->config;
+	bool useSandBox = this->config->get<bool>("sandbox"); // Fragment sandbox.
+	IConfig &resourceConfig = this->config->getSubConfig("resource-settings");
+
+	/*  Display information.    */
+	Display::DPI dpi;
+	this->rendererWindow->getCurrentDisplay()->getDPI(&dpi);
+	TextureFormat format = this->rendererWindow->getCurrentDisplay()->getFormat();
+
+	ZipFile *internalAsset = NULL;
+	Ref<IO> internal_zip_io;
+
+	/*	Search for the file.	*/
+	const char *internal_asset_filename = resourceConfig.get<const char *>("fragview-internal-shaders-files");
+	Log::log(Log::Verbose, "Reading asset file: %s\n", internal_asset_filename);
+	const char *apppath = fvformatf("%s/%s", resourceConfig.get<const char *>("shaddir"), internal_asset_filename).c_str();
+	std::string fullPath = FileSystem::getAbsolutePath(apppath);
+	if (FileSystem::getFileSystem()->exists(internal_asset_filename))
+		internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(internal_asset_filename, IO::READ));
+	else if (FileSystem::getFileSystem()->exists(fullPath.c_str()))
+		internal_zip_io = Ref<IO>(FileSystem::getFileSystem()->openFile(fullPath.c_str(), IO::READ));
+	else
+		throw RuntimeException(
+			fvformatf("Could not find internal resources for default shaders : %s", internal_asset_filename));
+	internalAsset = ZipFile::createZipFileObject(internal_zip_io, this->sch);
+
+	//TODO add support.
+	// Ref<IO> fontIO = Ref<IO>(internalAsset->openFile("DroidSansFallback.ttf", IO::READ));
+	// fontIO->seek(0, IO::Seek::SET);
+	// FontFactory::createSDFFont(this->renderer, fontIO, 10);
+
+	if (useSandBox)
+	{
+		IConfig &sandBoxSettings = this->config->getSubConfig("render-sandbox-graphic-settings");
+		IConfig &sandboxConfig = this->config->getSubConfig("sandbox");
+
+		RenderPipelineSettings setting(sandBoxSettings);
+		this->renderpipeline = Ref<IRenderPipelineBase>(new RenderPipelineSandBox(this->renderer));
+
+		/*  Create Scene.   */
+		this->scene = SceneFactory::createScene(*this->renderer, SceneFactory::eSandBox);
+		SandBoxSubScene *sandBoxSubScene = this->scene->getGLSLSandBoxScene();
+
+		/*  TODO add internal verification of asset if enabled.    */
+
+		bool internalShaderNotLoaded = false;
+		const char *cache_directory = resourceConfig.get<const char *>("cache-directory");
+		//TODO determine if directory or filepath.
+		std::string shader_cache_filepath = fvformatf("%s/shader-cache.json", cache_directory);
+		if (this->config->get<bool>("use-cache-shaders"))
+		{
+			IConfig shaderCache;
+			try
+			{
+				//TODO
+				//shaderCache.parseConfigFile(Ref<IO>(NULL), IConfig::JSON);
+				internalShaderNotLoaded = true;
+			}
+			catch (const IException &ex)
+			{
+				internalShaderNotLoaded = false;
+			}
+		}
+
+		/*  */
+		ASyncHandle displayFragV = 0;
+		ASyncHandle displayFragF = 0;
+		if (!internalShaderNotLoaded)
+		{
+			/*  Load default display shader.    */
+			if (supportedLanguages & GLSL)
+			{
+				displayFragV = internalAsset->openASyncFile("shaders/glsl/display.vert", IO::READ);
+				displayFragF = internalAsset->openASyncFile("shaders/glsl/display.frag", IO::READ);
+			}
+			else if (supportedLanguages & SPIRV)
+			{
+				displayFragV = internalAsset->openASyncFile("shaders/spirv/displayV.spv", IO::READ);
+				displayFragF = internalAsset->openASyncFile("shaders/spirv/displayF.spv", IO::READ);
+			}
+			else
+				throw NotSupportedException(fvformatf("Non-Supported shader for language %d", supportedLanguages));
+
+			/*  Invoke async load.  */
+			internalAsset->asyncWriteFile(displayFragV, NULL, 0, NULL);
+			internalAsset->asyncWriteFile(displayFragF, NULL, 0, NULL);
+		}
+
+		//ShaderUtil::loadShader
+
+		/*  */
+		// Get local share directory. TODO
+		//"binary-program"
+		//for(int i = 0; i < sandboxConfig.get())
+
+		/*  Create shaders. */
+		const int nShadersInSandBox = sandboxConfig.get<int>("num_shaders");
+		for (int i = 0; i < sandboxConfig.get<int>("num_shaders"); i++)
+		{
+			ProgramPipeline *shader;
+
+			/*  Check if fragment shader is supported.  */
+			if (!capability.sFragmentShader)
+				throw RuntimeException(
+					fvformatf("Fragment shader is not support for %s\n", (*this->renderer)->getName()));
+
+			std::string path = sandboxConfig.get<std::string>(fvformatf("shader%d", i)).c_str();
+			IO *ref = FileSystem::getFileSystem()->openFile(path.c_str(), IO::Mode::READ);
+
+			/*  Load fragment program.  */
+			ShaderLoader::loadFragmentProgramPipeline(ref, GLSL, (*this->renderer), &shader);
+			scene->getGLSLSandBoxScene()->addShader(shader);
+			Log::log(Log::Verbose, "Loaded Shader: %s\n", path.c_str());
+
+			//this->notify->registerAsset(path.c_str(), shader, eShader);
+
+			delete ref;
+		}
+
+		/*  Create compute shaders.    */
+		const int nComputeInSandBox = sandboxConfig.get<int>("num_compute");
+		for (int i = 0; i < sandboxConfig.get<int>("num_compute"); i++)
+		{
+			ProgramPipeline *compute;
+
+			/*  Check if compute shader is supported.  */
+			std::string path = sandboxConfig.get<std::string>(fvformatf("compute%d", i)).c_str();
+			if (!capability.sComputeShader)
+				throw RuntimeException(
+					fvformatf("Compute shader is not support for %s\n", (*this->renderer)->getName()));
+
+			IO *ref = FileSystem::getFileSystem()->openFile(path.c_str(), IO::Mode::READ);
+			/*  */
+			//ShaderUtil::loadComputeShader(ref, *this->renderer, &compute);
+			scene->getGLSLSandBoxScene()->addCompute(compute);
+			Log::log(Log::Verbose, "Loaded Compute Shader: %s\n", path.c_str());
+
+			//this->notify->registerAsset(path.c_str(), compute, eShader);
+
+			delete ref;
+		}
+
+		/*  Create textures.    */
+		//TODO add video texture support.
+		const int nTexturesInSandBox = sandboxConfig.get<int>("num_textures");
+		for (int i = 0; i < capability.sMaxTextureUnitActive; i++)
+		{
+			Texture *texture;
+			const char *path = NULL;
+			const std::string tex_key = fvformatf("texture%d", i);
+			if (sandboxConfig.isSet(tex_key.c_str()))
+			{
+				path = sandboxConfig.get<const char *>(tex_key);
+				if (path)
+				{
+					/*  Determine file type.    */
+					const char *ext = FileSystem::getFileExtension(path);
+
+					TextureUtil::loadTexture(path, *this->renderer, &texture);
+					scene->getGLSLSandBoxScene()->addTexture(texture);
+					Log::log(Log::Verbose, "Loaded texture: %s\n", path);
+				}
+
+				//this->notify->registerAsset(path, texture, eTexture);
+			}
+		}
+
+		if (!internalShaderNotLoaded)
+		{
+			/*  Close async.    */
+			internalAsset->asyncClose(displayFragV);
+			internalAsset->asyncClose(displayFragF);
+
+			/*  Load display shaders.   */
+			//		internalShader->asyncWait(displayFragV);
+			//		internalShader->asyncWait(displayFragF);
+
+			/*  Load shaders.   */
+		}
+
+		//TODO add support for caching shaders. -- as json files.
+		if (this->config->get<bool>("cache-shaders"))
+		{
+			IConfig internaCache;
+			internaCache.setName("shader-cache");
+			for (int i = 0; i < sandBoxSubScene->getNumShaders(); i++)
+			{
+				Shader *shader = sandBoxSubScene->getShader(i)->getShader(ProgramPipeline::VERTEX_SHADER);
+
+				IConfig &shaderCache = internaCache.getSubConfig(shader->getName());
+				long int bsize;
+				unsigned int format;
+				const void *pbinary = shader->getBinary(&bsize, &format);
+				shaderCache.setBlob("shader", pbinary, bsize);
+				shaderCache.set<int>("format", bsize);
+			}
+
+			Ref<IO> f = Ref<IO>(FileSystem::getFileSystem()->openFile(shader_cache_filepath.c_str(), IO::WRITE));
+			internaCache.save(f, IConfig::JSON);
+		}
+	}
+	else
+	{
+		/*  Create 3D view scene.   */
+		this->scene = SceneFactory::createScene(*this->renderer, SceneFactory::eWorldSpace);
+		this->renderpipeline = Ref<IRenderPipelineBase>(new RenderPipelineForward(this->renderer));
+
+		// Read from options for loading the scene.
+		ASyncHandle displayFragV = internalAsset->openASyncFile("shaders/glsl/skybox.vert", IO::READ);
+		ASyncHandle displayFragF = internalAsset->openASyncFile("shaders/glsl/skybox.frag", IO::READ);
+	}
+
+	internalAsset->deincreemnt();
+	delete internalAsset;
+
+	// Assert the variables
+	assert(this->scene && *this->renderpipeline);
+
+	loadCachedShaders();
+	loadShaders();
+	cacheShaders();
+}
+void FragView::cacheShaders(void){
+
+}
+void FragView::loadCachedShaders(void){
+
+}
+void FragView::loadShaders(void){
+
 }
 
 void FragView::createWindow(int x, int y, int width, int height) {

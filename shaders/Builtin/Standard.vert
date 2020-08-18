@@ -20,7 +20,7 @@ OUT vec3 vTangent;
 OUT vec3 vVertex;
 OUT vec3 vWVVertex;
 
-void main(void){
+void VertexMain(appdata data){
 
 	/*	*/
 	gl_Position = MVP * vec4(vertex, 1.0);

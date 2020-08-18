@@ -7,10 +7,12 @@
 using namespace fragcore;
 using namespace fragview;
 
+//TODO REMove
 Config *ConfigDefaultOptions::createDefaultConfig(void){
 
-	IConfig *_global = new IConfig();
-	IConfig &global = *_global;
+	Config *_global = new IConfig();
+	_global->setName("global");
+	Config &global = *_global;
 #if defined(_DEBUG)
 	global.set("debug", true); // Enable global debug for the application.
 #else
@@ -138,4 +140,6 @@ Config *ConfigDefaultOptions::createDefaultConfig(void){
 	renderSandboxSettingsConfig.set("coverage", 0);
 
 	IConfig &sceneAsset = global.getSubConfig("scene-asset");
+
+	return _global;
 }

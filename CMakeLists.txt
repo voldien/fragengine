@@ -446,7 +446,7 @@ ENDIF()
 
 # Generate sample executables.
 IF(BUILD_WITH_SAMPLES)
-	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/examples)
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/examples)
 ENDIF()
 
 # Generate documentations.

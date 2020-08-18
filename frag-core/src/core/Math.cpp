@@ -74,6 +74,10 @@ float Math::GameSpaceToLinear(float gamma, float exp)
 	return 0;
 }
 
+float Math::gammaCorrection(float linear, float exp){
+	return powf(linear, exp);
+}
+
 PVColor Math::CorrelatedColorTemperatureToRGB(float kelvin)
 {
 	float temp = kelvin / 100;

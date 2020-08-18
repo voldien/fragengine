@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -32,12 +32,6 @@ namespace fragcore {
 
 		virtual IO *openFile(const char *path, IO::Mode mode);   /*  Open based on the filename extension.*/
 		virtual void closeFile(IO *io);
-
-		//TODO rename.
-		//TODO consider relocate to IOUtil class and make it idepedent of filesystem.
-		static long int loadFile(IO *io, char **data);
-
-		static long int loadString(IO *io, char **data);
 
 		virtual void remove(const char *path);
 

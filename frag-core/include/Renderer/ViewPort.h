@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 
 namespace fragcore {
 	/**
-	 *
+	 * Abstraction layar of the viewport.
 	 */
 	class FVDECLSPEC ViewPort : public RenderObject {
 		friend class IRenderer;
@@ -46,6 +46,8 @@ namespace fragcore {
 		virtual void disable(IRenderer::State state);
 
 		virtual bool isStateEnabled(IRenderer::State state);
+
+		/*	TODO add index.	*/
 
 		intptr_t getNativePtr(void) const override;
 	};

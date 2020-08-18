@@ -1,6 +1,6 @@
 /**
-	Simple physic simulation with a server-client model support.
-	Copyright (C) 2016  Valdemar Lindberg
+	FragEngine, A Two layer Game Engine.
+    Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+//TODO determine if shall be relocated to the engine.
 #ifndef _PV_INPUT_H_
 #define _PV_INPUT_H_ 1
 #include "../Def.h"

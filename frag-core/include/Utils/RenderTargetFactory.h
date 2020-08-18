@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ namespace fragcore {
      *	Responsible for creating predefined
     *	framebuffer target.
     */
+   //TODO determine if shall be relocated to the engine
 	class FVDECLSPEC RenderTargetFactory {
 	public:
 

@@ -31,6 +31,10 @@ StackAllocator::~StackAllocator(void)
 
 void *StackAllocator::alloc(unsigned int sizeBytes)
 {
+	//TODO determine if allocaing smaller memory.
+	if(sizeBytes < getSize()){
+
+	}
 	mSize = sizeBytes;
 	mData = realloc(mData, sizeBytes);
 	if(!mData){

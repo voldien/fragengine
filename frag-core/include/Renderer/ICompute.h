@@ -6,6 +6,9 @@
 #include "../Core/Module.h"
 
 namespace fragcore {
+	/**
+	 * 
+	 */
 	class FVDECLSPEC ICompute : public Module {
 	public:
 
@@ -28,6 +31,11 @@ namespace fragcore {
 		// virtual void deleteSync(Sync *sync);
 
 		// virtual const char *getVersion(void) const;
+
+		// virtual Shader* createComputeProgram(void);
+		// virtual Shader* deleteComputeProgram(void);
+		// virtual void getComputeCapabilties(void);
+		//virtual void getDeviceInfo(std::vector<DeviceInfo> &devices);
 	};
 }
 #endif

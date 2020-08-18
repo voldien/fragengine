@@ -250,7 +250,6 @@ void *FileNotify::fswatch(const void *psession) {
 }
 
 void FileNotify::start(void) {
-    //TODO 
 	/*  Create monitoring thread.   */
 	if (!fsw_is_running(this->session)) {
 		this->pthread = schCreateThread(-1, (void*)FileNotify::fswatch, this->session);

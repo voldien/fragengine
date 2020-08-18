@@ -7,14 +7,24 @@
 #include <Core/Display.h>
 #include<gtest/gtest.h>
 #include <SDL2/SDL.h>
-#include<sched.h>
 #include<Core/RefPtr.h>
-#include<FragViewCore.h>
+#include<FragCore.h>
 #include <Core/Hash.h>
 
 using namespace fragcore;
 
 
 TEST(Hash, Hash){
+	Hash hash(Hash::ALGORITHM::MD5);
+	const char *data = "Hello World!";
+	EXPECT_NO_THROW (hash.update(data, sizeof(data)));
+	ASSERT_EQ(hash.getByteRead(), sizeof(data));
+	std::vector<unsigned char> md5;
+	EXPECT_NO_THROW(hash.final(md5));
+	//TODO add assertion that the value is correct.
+
+	ASSERT_ANY_THROW(Hash badhashType((Hash::ALGORITHM)100));
 
 }
+
+

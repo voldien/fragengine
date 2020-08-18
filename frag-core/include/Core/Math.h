@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -158,6 +158,7 @@ namespace fragcore {
 		 */
 		static float linearToGammaSpace(float linear);
 		static float GameSpaceToLinear(float gamma, float exp);
+		static float gammaCorrection(float linear, float exp);
 
 		/**
 		 * 

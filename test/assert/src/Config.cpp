@@ -1,6 +1,9 @@
 #include<gtest/gtest.h>
-#include"Renderer/RendererFactory.h"
-#include"Core/IO/BufferIO.h"
+#include<Core/IConfig.h>
+#include<Core/IO/BufferIO.h>
+#include<Core/IO/IO.h>
+#include<Core/IO/FileSystem.h>
+#include<Core/Ref.h>
 #include"IConfigTest.h"
 
 #define CONFIG_DEFAULT_NAME "Config"
@@ -107,32 +110,36 @@ TEST(Config, SubConfig) {
 
 */
 
-//
-//TEST(Config, XMLLoadConfiguration) {
-//	const char *arg[] = {
-//		"fragview",
-//	};
-//	const int nArg = sizeof(arg) / sizeof(arg[0]);
-//
-//	Config *config = Config::createConfig(nArg, arg, "config.xml");
-//}
-//
-//TEST(Config, XMLSaveConfiguration) {
-//
-//}
-//
-//TEST(Config, YAMLLoadConfiguration) {
-//	const char *arg[] = {
-//
-//	};
-//	const int nArg = sizeof(arg) / sizeof(arg[0]);
-//
-//	Config *config = Config::createConfig(nArg, arg, "config.yaml");
-//}
-//
-//TEST(Config, YAMLSaveConfiguration) {
-//
-//}
+
+TEST(Config, XMLLoadConfiguration) {
+	const char *arg[] = {
+		"fragview",
+	};
+	const int nArg = sizeof(arg) / sizeof(arg[0]);
+
+	Ref<IO> io = Ref<IO>(FileSystem::getFileSystem()->openFile("config.xml", IO::READ));
+	IConfig *config = new IConfig();
+	EXPECT_NO_THROW(config->parseConfigFile(io, IConfig::XML));
+
+	FileSystem::getFileSystem()->closeFile(*io);
+}
+
+TEST(Config, XMLSaveConfiguration) {
+
+}
+
+TEST(Config, YAMLLoadConfiguration) {
+	const char *arg[] = {
+
+	};
+	const int nArg = sizeof(arg) / sizeof(arg[0]);
+
+	//Config *config = Config::createConfig(nArg, arg, "config.yaml");
+}
+
+TEST(Config, YAMLSaveConfiguration) {
+
+}
 
 TEST_F(IConfigTest, Copy) {
 	IConfig config = *this->config;
@@ -153,7 +160,11 @@ TEST_F(IConfigTest, Set) {
 	ASSERT_STREQ(config->getName().c_str(), name);
 
 	ASSERT_NO_THROW(config->set("a", 0));
+	ASSERT_NO_THROW(config->get<int>("a"));
+	ASSERT_EQ(config->get<int>("a"), 0);
 	ASSERT_NO_THROW(config->set("a", 1));
+	ASSERT_NO_THROW(config->get<int>("a"));
+	ASSERT_EQ(config->get<int>("a"), 1);
 }
 
 TEST_F(IConfigTest, Get) {

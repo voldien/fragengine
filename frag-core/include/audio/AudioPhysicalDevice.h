@@ -1,5 +1,5 @@
 /**
-    Simple physic simulation with a server-client model support.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2016  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _AUDIO_PHYSICAL_DEVICE_H_
-#define _AUDIO_PHYSICAL_DEVICE_H_ 1
+#ifndef _FRAG_CORE_AUDIO_PHYSICAL_DEVICE_H_
+#define _FRAG_CORE_AUDIO_PHYSICAL_DEVICE_H_ 1
 #include"../Def.h"
 
 namespace fragcore {

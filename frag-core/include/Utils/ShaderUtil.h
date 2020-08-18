@@ -1,5 +1,5 @@
 /**
-    FrameView for rendering shaders in screen space.
+	FragEngine, A Two layer Game Engine.
     Copyright (C) 2018  Valdemar Lindberg
 
     This program is free software: you can redistribute it and/or modify
@@ -36,7 +36,7 @@ namespace fragcore {
 			int loc;			 /*  */
 		} UniformLocation;
 
-		private:
+		//private:
 		typedef struct shader_object_t {
 			const char *buf;
 			unsigned long size;
@@ -115,23 +115,6 @@ namespace fragcore {
 		//TODO resolve and act as a helper function.
 		static void copyUniform(Ref<Shader> &shader);
 		static void pastUniform(Ref<Shader> &shader);
-
-			/*	*/
-			typedef struct default_texture_location_t
-			{
-				const char *texname; /*  */
-				int loc;			 /*  */
-		} DefaultTextureLocation; //TODO relocate to to the engine.
-
-		//TODO relocate to the engine.
-		static void defaultUniformMap(ProgramPipeline *programPipeline);
-		//TODO relocate to be part of the zip!
-		static void loadDisplayShader(IRenderer *renderer, ProgramPipeline **pProgramPipeline);
-
-		// TODO relocate and .
-		static void
-		loadFragmentProgramPipeline(IO *fragIO, ShaderLanguage language, IRenderer *renderer,
-									ProgramPipeline **pshader);
 	};
 }
 

@@ -1,7 +1,7 @@
 
 #include<FreeImage.h>
 #include"Renderer/Texture.h"
-
+#include"Core/IO/IOUtil.h"
 #include"Utils/TextureUtil.h"
 #include"Utils/StringUtil.h"
 #include<stdio.h>
@@ -77,12 +77,12 @@ void *TextureUtil::loadTextureData(const char *cfilename, unsigned int *pwidth,
 
 	void *pixeldata = NULL;
 
-	IO* f = FileSystem::getFileSystem()->openFile(cfilename, IO::READ);
-	long inbytes = FileSystem::loadFile(f, (char**)&pixeldata);
+	Ref<IO> f = Ref<IO>(FileSystem::getFileSystem()->openFile(cfilename, IO::READ));
+	long inbytes = IOUtil::loadFileMem(f, (char**)&pixeldata);
 	void* pixelResult = loadTextureDataFromMem(pixeldata, inbytes, pwidth, pheight, pformat, pinternalformat, ptype, pixelSize);
 	free(pixeldata);
 	f->close();
-	delete f;
+//	delete f;
 
 	return pixelResult;
 }

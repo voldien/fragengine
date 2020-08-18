@@ -1,4 +1,5 @@
 #include"FontFactory.h"
+#include"Core/IO/IOUtil.h"
 #include<ft2build.h>
 #include<cassert>
 #include<cmath>
@@ -52,7 +53,7 @@ Font *FontFactory::createFont(Ref<IRenderer> &renderer, Ref<IO> &io, float size,
 	//TODO add support for IO object.
 	/*  Load font face by the path. */
 	char* buf;
-	long int nBytes = FileSystem::loadFile(*io, &buf);
+	long int nBytes = IOUtil::loadFileMem(io, &buf);
 	ftError = FT_New_Memory_Face(ft, (const FT_Byte*)buf, nBytes, 0, &face);
 	if (ftError != FT_Err_Ok) {
 		FT_Done_FreeType(ft);
@@ -288,7 +289,7 @@ Font *FontFactory::createSDFFont(Ref<IRenderer>& renderer, Ref<IO>& io, float si
 	//TODO add support for IO object.
 	/*  Load font face by the path. */
 	char *buf;
-	long int nBytes = FileSystem::loadFile(*io, &buf);
+	long int nBytes = IOUtil::loadFileMem(io, &buf);
 	ftError = FT_New_Memory_Face(ft, (const FT_Byte *)buf, nBytes, 0, &face);
 	if (ftError != FT_Err_Ok)
 	{
