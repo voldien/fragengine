@@ -7,7 +7,7 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  linux-fragcore:
+  Linux:
     runs-on: ubuntu-latest
     name: Linux Core
     steps:
@@ -16,7 +16,7 @@ jobs:
     
     - name: Configure dependencies
       run: |
-        sudo apt-get libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev \
+        sudo apt-get yasm libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev \
         libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
 
     - name: Create Build Environment
@@ -34,8 +34,13 @@ jobs:
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
-    - name: Build
+    - name: Build-Core
       working-directory: ${{runner.workspace}}/build
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: make fragcore #cmake --build . --config $BUILD_TYPE
+
+    - name: Build Engine
+      shell: bash
+      working-directory:  ${{runner.workspace}}/build
+      run: make fragengine

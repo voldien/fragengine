@@ -1,5 +1,5 @@
 # FragEngine
-[![Travis Build Status](https://travis-ci.org/voldien/fragview.svg?branch=master)](https://travis-ci.org/voldien/fragengine)
+![Actions Build Status](https://github.com/voldien/fragview/workflows/FragEngine/badge.svg?branch=master)](https://github.com/voldien/fragview/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![GitHub release](https://img.shields.io/github/release/voldien/fragview.svg)](https://github.com/voldien/fragview/releases)
 <!-- TODO, LGMT, version  -->
