@@ -36,12 +36,12 @@ OPTION(BUILD_EXTERNAL_PHYSIC "Building external physic libraries" ON)
 
 IF(MSVC)
   OPTION( BUILD_INSTALL_PDB
-    "Install MSVC debug files."
-    ON
+	"Install MSVC debug files."
+	ON
   )
   IF(NOT (MSVC_VERSION LESS 1900))
-    # Multibyte character set is deprecated since at least MSVC2015 (possibly earlier)
-    ADD_DEFINITIONS( -DUNICODE -D_UNICODE )
+	# Multibyte character set is deprecated since at least MSVC2015 (possibly earlier)
+	ADD_DEFINITIONS( -DUNICODE -D_UNICODE )
   ENDIF()
 ENDIF()
 
@@ -61,20 +61,20 @@ ADD_DEFINITIONS(-DFV_VERSION="${VERSION}")
 IF(NOT FRAG_IGNORE_GIT_HASH)
   # Get the current working branch
   EXECUTE_PROCESS(
-    COMMAND git rev-parse --abbrev-ref HEAD
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_BRANCH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+	COMMAND git rev-parse --abbrev-ref HEAD
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	OUTPUT_VARIABLE GIT_BRANCH
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+	ERROR_QUIET
   )
 
   # Get the latest abbreviated commit hash of the working branch
   EXECUTE_PROCESS(
-    COMMAND git rev-parse --short=8 HEAD
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    OUTPUT_VARIABLE GIT_COMMIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    ERROR_QUIET
+	COMMAND git rev-parse --short=8 HEAD
+	WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	OUTPUT_VARIABLE GIT_COMMIT_HASH
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+	ERROR_QUIET
   )
 ENDIF()
 
@@ -184,12 +184,12 @@ ENDIF()
 #
 IF ( IOS)
   IF (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -Og")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode -Og")
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -Og")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode -Og")
   ELSE()
-    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -O3")
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode -O3")
-    # Experimental for pdb generation
+	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fembed-bitcode -O3")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fembed-bitcode -O3")
+	# Experimental for pdb generation
   ENDIF()
 ENDIF()
 
@@ -222,9 +222,9 @@ SET( FRAGVIEW_BIN_INSTALL_DIR "bin" CACHE STRING
 
 # Find all required libaries for the program.
 FIND_PACKAGE(ZLIB)
-FIND_PACKAGE(Git)
+FIND_PACKAGE(Git QUIET)
 FIND_PACKAGE(Backtrace)
-FIND_PACKAGE(PkgConfig)
+FIND_PACKAGE(PkgConfig QUIET)
 FIND_PACKAGE(OpenSSL)
 FIND_PACKAGE(CUDA)
 IF( UNIX )
