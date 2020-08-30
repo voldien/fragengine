@@ -16,26 +16,36 @@
 
 */
 #extension GL_ARB_separate_shader_objects : enable
+#extension GL_ARB_explicit_attrib_location : enable
+#extension GL_ARB_enhanced_layouts : enable
+#extension GL_ARB_shader_clock : enable
+#extension GL_ARB_gpu_shader_int64 : enable
 
-#if __VERSION__ > 130
+#if defined(GL_ARB_explicit_attrib_location)
 layout(location = 0) in vec3 vertex;
 #else
 attribute vec3 vertex;
 #endif
 
-#if __VERSION__ > 120
+//#if __VERSION__ > 120
+//layout(location = 1) out vec2 uv;
+//#else
+//varying vec2 uv;
+//#endif
+
 layout(location = 1) out vec2 uv;
-#else
-varying vec2 uv;
-#endif
+layout(location = 2) out float time;
+uniform sampler2D tex0;
 
-uniform sampler2D texture0;
-
-/*  All possible uniforms.   */
-vec2 resolution;
-float time;
+out gl_PerVertex
+{
+	vec4 gl_Position;
+};
 
 void main(void) {
 	gl_Position = vec4(vertex,1.0);
 	uv = (vertex.xy + vec2(1.0)) / 2.0;
+	time = float(clock2x32ARB().x / 1000000000);
 }
+
+

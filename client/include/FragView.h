@@ -19,55 +19,60 @@
 #ifndef _FRAG_VIEW_H_
 #define _FRAG_VIEW_H_ 1
 #include "Renderer/IRenderer.h"
-#include "Asset/FileNotify.h"
-#include "RenderPipeline.h"
-#include "Core/Config.h"
-#include <taskSch.h>
+#include<FragEngine.h>
 
-/**
- * Main class for the fragment viewer
- * executable program.
- */
- //TODO remove from the core library and move to the client, the fragview.
-class FVDECLSPEC FragView {
-public:
-    FragView(int argc, const char** argv);
-    ~FragView(void);
+#include <FileNotify.h>
+#include "Config.h"
+#include <Core/RefPtr.h>
+#include <Renderer/RendererWindow.h>
+namespace fragview {
 
     /**
-     * Run the application.
+     * Main class for the fragment viewer
+     * executable program.
      */
-    void run(void);
+    class FVDECLSPEC FragView {
+    public:
+        FragView(int argc, const char** argv);
+        ~FragView(void);
 
-	/**
-	 * Get version of fragview program.
-	 * @return non-null terminated string.
-	 */
-    static const char* getVersion(void);
+        /**
+         * Run the application.
+         */
+        void run(void);
 
-protected:
+        /**
+         * Get version of fragview program.
+         * @return non-null terminated string.
+         */
+        static const char* getVersion(void);
 
-	void init(int argc, const char** argv);
+    protected:
 
-	/**
-	 * Create window for displaying.
-	 */
-    void* createWindow(int x, int y, int width, int height);
+        void init(int argc, const char** argv);
+        void loadDefaultSceneAsset(void);
+        void cacheShaders(void);
+        void loadCachedShaders(void);
+        void loadShaders(void);
 
-private:    /*  */
+        /**
+         * Create window for displaying.
+         */
+        void createWindow(int x, int y, int width, int height);
 
-    Ref<IRenderer> renderer;            /*  Low level rendering API interface.  */
-    RenderPipeline* display;            /*  Perform rendering.  */  //TODO remove, will be replaced by the pipeline object.
-    Ref<IRenderPipelineBase> renderpipeline;
-//    EventController* controller;
-//    CommandController* commandController;
-    Config* config;                     /*  Current config.    */
-	FileNotify* notify;                 /*  Notify Asset changes.  */
-	//TODO add ref for the scheduer object.
-	schTaskSch* sch;                    /*  Scheduler.  */
-	//TODO imporove the window object.
-    void* window;                       /*  Window pointer reference.   */
-	Scene *scene;                       /*  Current scene.  */
-};
+    private:    /*  */
+
+        fragcore::Ref<fragcore::IRenderer> renderer;            /*  Low level rendering API interface.  */
+        fragcore::Ref<fragengine::IRenderPipelineBase> renderpipeline;
+    //    EventController* controller;
+        fragcore::Ref<fragcore::IScheduler> sch;            /*  */
+        fragcore::Ref<fragcore::IScheduler> logicSch;       /*  */
+        Config* config;                                     /*  Current config.    */   //TODO add suport for reference.
+        fragcore::FileNotify* notify;                       /*  Notify Asset changes.  */
+        fragengine::Scene *scene;                             /*  Current scene.  */
+        fragcore::RendererWindow *rendererWindow;           /*  */
+        fragcore::Ref<fragcore::IFileSystem> fileSystem;    /*  */
+    };
+}
 
 #endif

@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=/usr/local/
+libdir=/usr/local/
+includedir=/usr/local/include/
+
+Name: fragview
+Description: FragCore
+Version: 0.11a0
+Libs: -L${libdir} -lzip -lassimp
+Libs.private: -std=c++11
+Cflags: -I${includedir}

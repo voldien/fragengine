@@ -1,0 +1,73 @@
+
+
+#TODO add the rov2
+
+# Define all file lists.
+FILE(GLOB SOURCE_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
+						${CMAKE_CURRENT_SOURCE_DIR}/src/scene/*.cpp
+						${CMAKE_CURRENT_SOURCE_DIR}/src/renderpipeline/*.cpp)
+FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Animation/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Navigation/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Asset/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/Scene/*.h
+						${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h)
+
+#
+IF(PKG_CONFIG_FOUND)
+	MESSAGE(STATUS "Found pkg-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
+	# Find library and compiling options.
+	#TODO add logic for handling if any of the pkg fails.
+	PKG_CHECK_MODULES(ASSIMP QUIET assimp)
+ELSE()
+	# TODO add logic for handling if pkg-config not available.
+ENDIF()
+
+#
+# FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
+# FILE(GLOB SAMPLE_HLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/hlsl/* )
+# FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
+# FILE(GLOB SAMPLE_CLC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/clc/* )
+# FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
+# FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
+
+SET(FRAG_ENGINE_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+SET(FRAG_CORE_INCLUDE_SUB_DIR 
+				${CMAKE_CURRENT_SOURCE_DIR}/include/
+				${CMAKE_CURRENT_SOURCE_DIR}/include/Animation
+				${CMAKE_CURRENT_SOURCE_DIR}/include/Asset
+				${CMAKE_CURRENT_SOURCE_DIR}/include/Navigation
+				${CMAKE_CURRENT_SOURCE_DIR}/include/network
+				${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline
+				${CMAKE_CURRENT_SOURCE_DIR}/include/Scene)
+
+
+# Core library for adding support for plugin.
+ADD_LIBRARY(fragengine ${SOURCE_FILES} ${HEADER_FILES})
+TARGET_LINK_LIBRARIES(fragengine fragcore ${ASSIMP_LIBRARIES})
+ADD_DEPENDENCIES(fragengine fragcore)
+TARGET_COMPILE_DEFINITIONS(fragengine PRIVATE FRAG_ENGINE_INTERNAL_IMP=1)
+
+#
+SET_TARGET_PROPERTIES(fragengine PROPERTIES
+		COMPILE_FLAGS "${JSONC_CFLAGS_OTHER} ${SDL2_CFLAGS_OTHER} ${AVFORMAT_CFLAGS_OTHER} ${AVCODEC_CFLAGS_OTHER}
+		${AVUTIL_CFLAGS_OTHER} ${SWSCALE_CFLAGS_OTHER} ${ASSIMP_CFLAGS_OTHER} ${ZIP_CFLAGS_OTHER}" )
+TARGET_INCLUDE_DIRECTORIES(fragengine PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/ ${FRAG_CORE_INCLUDE})
+	ADD_DEPENDENCIES(fragengine fragcore)
+
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/fragengine.pc.in" "${PROJECT_BINARY_DIR}/fragengine.pc" @ONLY)
+
+IF(BUILD_WITH_INSTALL)
+	INSTALL(TARGETS fragengine DESTINATION lib)
+
+	INSTALL(DIRECTORY ${FRAG_CORE_INCLUDE_SUB_DIR} # source directory
+			DESTINATION "include/fragengine" # target directory
+			COMPONENT ${LIBFRAGENGINE-DEV_COMPONENT}
+			)
+	INSTALL( FILES "${PROJECT_BINARY_DIR}/fragengine.pc" DESTINATION ${FRAGENGINE_LIB_INSTALL_DIR}/pkgconfig/ COMPONENT ${LIBFRAGENGINE-DEV_COMPONENT})
+ENDIF()
+
+# Only UNIX systems.
+IF( UNIX )
+	Find_PACKAGE(UnixCommands REQUIRED)	
+ENDIF()

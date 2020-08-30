@@ -1,0 +1,10 @@
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+package "Some Group" {
+	HTTP - [First Component]
+	[Another Component]
+}
+
+@enduml

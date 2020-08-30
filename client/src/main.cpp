@@ -4,8 +4,9 @@
 #include <csignal>
 #include <execinfo.h>
 #include <dlfcn.h>
-#include <sstream>
 #include <Exception/IException.h>
+using namespace fragcore;
+using namespace fragview;
 
 void handler(int sig) {
 	switch (sig) {
@@ -39,8 +40,10 @@ int main(int argc, const char **argv) {
 	signal(SIGSEGV, handler);
 
 	try {
+		//TODO add support for logging support.
+		//Log::addIOOutput(stdoutIO, Log::VERBOSITY);
 		FragView(argc, argv).run();
-	} catch (IException &ex) {
+	} catch (fragcore::IException &ex) {
 		std::cerr << "Internal exception - " << ex.getName() << std::endl;
 		std::cerr << ex.what() << std::endl;
 		std::cerr << ex.getBackTrace() << std::endl;
