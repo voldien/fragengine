@@ -35,7 +35,7 @@ def convert2CString(cpbuf):
     lines = cpbuf.split('\n')
 
     for line in lines:
-        utf8line = line.decode("utf-8", "strict")
+        utf8line = line#.decode("utf-8", "strict")
         stringbuf += "\"{}\\n\"\n".format(utf8line)
 
     return stringbuf[0:len(stringbuf) - 1]
