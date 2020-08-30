@@ -1,7 +1,7 @@
 # FragEngine
-[![Actions Build Status](https://github.com/voldien/fragview/workflows/FragEngine/badge.svg?branch=master)](https://github.com/voldien/fragview/actions)
+[![Actions Build Status](https://github.com/voldien/fragengine/workflows/FragEngine/badge.svg?branch=master)](https://github.com/voldien/fragengine/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![GitHub release](https://img.shields.io/github/release/voldien/fragview.svg)](https://github.com/voldien/fragview/releases)
+[![GitHub release](https://img.shields.io/github/release/voldien/fragengine.svg)](https://github.com/voldien/fragengine/releases)
 <!-- TODO, LGMT, version  -->
 
 [image]
@@ -31,7 +31,6 @@ make install
 ```c
 
 ```
-
 
 # Dependencies #
 In order to compile the program, the following Debian packages is required. 
