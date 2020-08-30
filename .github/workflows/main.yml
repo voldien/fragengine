@@ -15,7 +15,7 @@ jobs:
 
     - name: Configure dependencies
       run: |
-        sudo apt-get yasm libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev \
+        sudo apt-get install yasm libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev \
           libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
 
     - name: Create Build Environment
