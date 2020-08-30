@@ -15,7 +15,8 @@ jobs:
 
     - name: Configure dependencies
       run: |
-        sudo apt-get install libjson-c-dev libxml2-dev libyaml-dev libsdl2-dev \
+        sudo apt install pkg-config
+        sudo apt-get install libjson-c-dev libxml2-dev libyaml-dev libsdl2-dev\
         fswatch libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev libfreetype6-dev 
 
     - name: Create Build Environment
