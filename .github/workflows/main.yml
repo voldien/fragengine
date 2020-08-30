@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-         # install all packages (except scons)
+      # install all packages (except scons)
       - name: Configure dependencies
         run: |
           sudo apt-get libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev \
