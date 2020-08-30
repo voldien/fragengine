@@ -238,22 +238,7 @@ ELSE()
 
 ENDIF()
 
-#
-IF(PKG_CONFIG_FOUND)
-	MESSAGE(STATUS "Found pkg-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
-	# Find library and compiling options.
-	#TODO add logic for handling if any of the pkg fails.
-	PKG_CHECK_MODULES(JSONC QUIET json-c)
-	PKG_CHECK_MODULES(SDL2 QUIET sdl2)
-	PKG_CHECK_MODULES(AVFORMAT QUIET libavformat)
-	PKG_CHECK_MODULES(AVCODEC QUIET libavcodec)
-	PKG_CHECK_MODULES(AVUTIL QUIET libavutil)
-	PKG_CHECK_MODULES(SWSCALE QUIET libswscale)
-	PKG_CHECK_MODULES(ASSIMP QUIET assimp)
-	PKG_CHECK_MODULES(ZIP QUIET libzip)
-ELSE()
-	# TODO add logic for handling if pkg-config not available.
-ENDIF()
+
 
 
 IF(GIT_FOUND)

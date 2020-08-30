@@ -14,6 +14,16 @@ FILE(GLOB HEADER_FILES  ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h
 						${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline/*.h)
 
 #
+IF(PKG_CONFIG_FOUND)
+	MESSAGE(STATUS "Found pkg-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
+	# Find library and compiling options.
+	#TODO add logic for handling if any of the pkg fails.
+	PKG_CHECK_MODULES(ASSIMP QUIET assimp)
+ELSE()
+	# TODO add logic for handling if pkg-config not available.
+ENDIF()
+
+#
 # FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
 # FILE(GLOB SAMPLE_HLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/hlsl/* )
 # FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
