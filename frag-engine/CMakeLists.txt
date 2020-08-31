@@ -18,18 +18,11 @@ IF(PKG_CONFIG_FOUND)
 	MESSAGE(STATUS "Found pkg-config: ${PKG_CONFIG_EXECUTABLE} -- version ${PKG_CONFIG_VERSION_STRING}.")
 	# Find library and compiling options.
 	#TODO add logic for handling if any of the pkg fails.
+	#TODO determine if shall be relocated to the editor only.
 	PKG_CHECK_MODULES(ASSIMP QUIET assimp)
 ELSE()
 	# TODO add logic for handling if pkg-config not available.
 ENDIF()
-
-#
-# FILE(GLOB SAMPLE_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/glsl/* )
-# FILE(GLOB SAMPLE_HLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/hlsl/* )
-# FILE(GLOB SAMPLE_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/* )
-# FILE(GLOB SAMPLE_CLC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/samples/clc/* )
-# FILE(GLOB SAMPLE_SHADER_GLSL_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/* )
-# FILE(GLOB SAMPLE_SHADER_SPIRV_FILES ${CMAKE_CURRENT_SOURCE_DIR}/shaders/spriv/* )
 
 SET(FRAG_ENGINE_INCLUDE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 SET(FRAG_CORE_INCLUDE_SUB_DIR 

@@ -103,10 +103,92 @@ IF(BUILTIN_MISC)
 ENDIF()
 
 
+
+# SET(ExternalProjectCMakeArgs
+#     -DCMAKE_INSTALL_PREFIX=${CMAKE_SOURCE_DIR}/external
+#     -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
+#     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+#     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+#     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+#     )
+
+IF(BUILD_WITH_EXTERNAL_PROJECT)
+
+	# Git must be avaiable on the system for using the external projects.
+	IF(GIT_FOUND)
+		INCLUDE(ExternalProject)
+		SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
+
+		SET(TASKSCH_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/task-sch)
+		SET(TASKSCH_LIB_DIR ${TASKSCH_ROOT}/lib)
+		SET(TASKSCH_INCLUDE_DIR ${TASKSCH_ROOT}/include)
+
+		ExternalProject_Add(tasksch-external
+				URL ${CMAKE_CURRENT_SOURCE_DIR}/extern/task-scheduler
+				SOURCE_DIR ${TASKSCH_ROOT}/src/tasksch
+				BINARY_DIR ${TASKSCH_ROOT}/src/tasksch-build
+				INSTALL_DIR ${TASKSCH_ROOT}
+				CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+				STEP_TARGETS build
+				COMMENT "Building task-schedular."
+				LOG_DOWNLOAD ON)
+		# Include tasksch headers.
+		ADD_LIBRARY(taskSch SHARED IMPORTED)
+		ADD_DEPENDENCIES(taskSch tasksch-external)
+		SET_TARGET_PROPERTIES(taskSch PROPERTIES
+				IMPORTED_LOCATION ${TASKSCH_LIB_DIR}/libtaskSch.so
+				INTERFACE_LINK_LIBRARIES ${TASKSCH_LIB_DIR}/libtaskSch.so
+				INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/extern/task-scheduler/include)
+
+		# Download the hpm library.
+		SET(HPM_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/hpm)
+		SET(HPM_LIB_DIR ${HPM_ROOT}/lib)
+		SET(HPM_INCLUDE_DIR ${HPM_ROOT}/include)
+		ExternalProject_Add(hpm-external
+				URL ${CMAKE_CURRENT_SOURCE_DIR}/extern/hpm
+				SOURCE_DIR ${HPM_ROOT}/src/hpm
+				BINARY_DIR ${HPM_ROOT}/src/hpm-build
+				INSTALL_DIR ${HPM_ROOT}
+				CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+				STEP_TARGETS build
+				COMMENT "Building Hpm."
+				LOG_DOWNLOAD ON)
+		# Include HPM headers.
+		ADD_LIBRARY(hpm SHARED IMPORTED)
+		ADD_DEPENDENCIES(hpm hpm-external)
+		SET_TARGET_PROPERTIES(hpm PROPERTIES
+				IMPORTED_LOCATION ${HPM_LIB_DIR}/libhpm.so
+				INTERFACE_LINK_LIBRARIES ${HPM_LIB_DIR}/libhpm.so
+					INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/extern/hpm/include)
+
+		# Download the HPMCPP library.
+		SET(HPMCPP_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/hpmcpp)
+		SET(HPMCPP_LIB_DIR ${HPMCPP_ROOT}/lib)
+		SET(HPMCPP_INCLUDE_DIR ${HPMCPP_ROOT}/include)
+		ExternalProject_Add(hpmcpp-external
+				URL ${CMAKE_CURRENT_SOURCE_DIR}/extern/hpmcpp
+				SOURCE_DIR ${HPMCPP_ROOT}/src/hpmcpp
+				BINARY_DIR ${HPMCPP_ROOT}/src/hpmcpp-build
+				INSTALL_DIR ${HPMCPP_ROOT}
+				CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DBUILD_WITH_EXTERNAL_PROJECT=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_CXX_FLAGS="-I${HPM_INCLUDE_DIR}"
+				STEP_TARGETS hpm-external build
+				COMMENT "Building HPM-CPP"
+				LOG_DOWNLOAD ON)
+		# Include HPMCPP headers.
+		ADD_LIBRARY(hpmcpp SHARED IMPORTED)
+		ADD_DEPENDENCIES(hpmcpp hpm hpmcpp-external)
+		SET_TARGET_PROPERTIES(hpmcpp PROPERTIES
+				IMPORTED_LOCATION ${HPMCPP_LIB_DIR}/libhpmcpp.so
+				INTERFACE_LINK_LIBRARIES ${HPMCPP_LIB_DIR}/libhpmcpp.so
+				INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/extern/hpmcpp/include)
+	ELSE()
+		MESSAGE(FATAL_ERROR "Require Git for loading external projects.")
+	ENDIF()
+ENDIF()
+
 IF(BUILTIN_JEMALLOC)
 	#https://github.com/jemalloc/jemalloc.git
 ENDIF()
-
 
 # 	# https://github.com/googlefonts/noto-fonts
 # 	# https://github.com/source-foundry/Hack

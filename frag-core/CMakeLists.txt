@@ -2,6 +2,8 @@
 #TODO relocate to the core.
 OPTION(BUILD_WITH_SDL_WINDOW "Use SDL for window mangement." ON)
 
+#OPTION(BUILD_WITH_TASK_SCHEDULER_SCHTASK ON)
+
 # Find all required libaries for the program.
 FIND_PACKAGE(ZLIB)
 FIND_PACKAGE(Backtrace)

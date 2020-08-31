@@ -8,11 +8,11 @@ OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
 OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." OFF)
 OPTION(BUILD_WITH_PROFILER "Enable profiling." OFF)
 OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
-OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
 OPTION(BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
 OPTION(BUILD_WITH_UBSAN "" OFF)
 OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." OFF )
 OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
+OPTION(BUILD_WITH_DEBUG_BOUNDSCHECK "Array/Pointer BoundsChecking, buffer overflow protection. Used in debug only." OFF)
 IF(NOT BUILD_SHARED_LIBS)
 	SET(CMAKE_EXE_LINKER_FLAGS "-static")
 	SET(LINK_SEARCH_START_STATIC TRUE)
@@ -21,15 +21,15 @@ ELSE()
 ENDIF(NOT BUILD_SHARED_LIBS)
 
 #
-OPTION(BUILD_WITH_TEST "Enable Testing." ON)
+OPTION(BUILD_WITH_TEST "Enable Testing." OFF)
 OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
-#OPTION(BUILD_WITH_CLIENT "Build Client" ON)
 OPTION(BUILD_WITH_CORE "Build Core" ON)
 OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
 OPTION(BUILD_WITH_SAMPLES "Build sample codes" OFF)
 
 # Build external interface plugin.
+OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
 OPTION(BUILD_EXTERNAL_RENDERER "Building external renderer libraries" ON)
 OPTION(BUILD_EXTERNAL_AUDIO "Building external audio libraries" ON)
 OPTION(BUILD_EXTERNAL_PHYSIC "Building external physic libraries" ON)
@@ -56,7 +56,6 @@ SET(PROJECT_VERSION "${VERSION}")
 
 # Set predefined macro for version.
 ADD_DEFINITIONS(-DFV_VERSION="${VERSION}")
-
 
 IF(NOT FRAG_IGNORE_GIT_HASH)
   # Get the current working branch
@@ -248,7 +247,7 @@ IF(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 	# Update submodules as needed
 	OPTION(GIT_SUBMODULE "Check submodules during build" ON)
 	IF(GIT_SUBMODULE)
-		MESSAGE(STATUS "Submodule update")
+		MESSAGE(STATUS "Submodule update --recursive")
 		EXECUTE_PROCESS(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
 						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 						RESULT_VARIABLE GIT_SUBMOD_RESULT)
@@ -267,99 +266,6 @@ ENDIF()
 # Inlucde external resources.
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
 
-IF(BUILD_WITH_EXTERNAL_PROJECT)
-
-	# Git must be avaiable on the system for using the external projects.
-	IF(NOT GIT_FOUND)
-		MESSAGE(FATAL_ERROR "Require Git for loading external projects.")
-	ENDIF()
-	INCLUDE(ExternalProject)
-	SET_PROPERTY(DIRECTORY PROPERTY EP_STEP_TARGETS build)
-# Download the task-schedular library.
-	SET(TASKSCH_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/task-sch)
-	SET(TASKSCH_LIB_DIR ${TASKSCH_ROOT}/lib)
-	SET(TASKSCH_INCLUDE_DIR ${TASKSCH_ROOT}/include)
-
-	ExternalProject_Add(tasksch-external
-			PREFIX ${TASKSCH_ROOT}
-			GIT_REPOSITORY "https://github.com/voldien/task-scheduler.git"
-			GIT_TAG "master"
-			UPDATE_COMMAND ""
-			PATCH_COMMAND ""
-			SOURCE_DIR ${TASKSCH_ROOT}/src/tasksch
-			BINARY_DIR ${TASKSCH_ROOT}/src/tasksch-build
-			INSTALL_DIR ${TASKSCH_ROOT}
-			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-			STEP_TARGETS build
-			COMMENT "Building task-schedular."
-			LOG_DOWNLOAD ON)
-	# Include tasksch headers.
-	ADD_LIBRARY(taskSch SHARED IMPORTED)
-	ADD_DEPENDENCIES(taskSch tasksch-external)
-	SET_TARGET_PROPERTIES(taskSch PROPERTIES
-			IMPORTED_LOCATION ${TASKSCH_LIB_DIR}/libtaskSch.so
-			INTERFACE_LINK_LIBRARIES ${TASKSCH_LIB_DIR}/libtaskSch.so
-			INTERFACE_INCLUDE_DIRECTORIES ${TASKSCH_INCLUDE_DIR})
-#	INCLUDE_DIRECTORIES(${TASKSCH_INCLUDE_DIR})
-
-	# Download the hpm library.
-	SET(HPM_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/hpm)
-	SET(HPM_LIB_DIR ${HPM_ROOT}/lib)
-	SET(HPM_INCLUDE_DIR ${HPM_ROOT}/include)
-	ExternalProject_Add(hpm-external
-			PREFIX ${HPM_ROOT}
-			GIT_REPOSITORY "https://github.com/voldien/hpm.git"
-			GIT_TAG "master"
-			UPDATE_COMMAND ""
-			PATCH_COMMAND ""
-			SOURCE_DIR ${HPM_ROOT}/src/hpm
-			BINARY_DIR ${HPM_ROOT}/src/hpm-build
-			INSTALL_DIR ${HPM_ROOT}
-			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-			STEP_TARGETS build
-			COMMENT "Building Hpm."
-			LOG_DOWNLOAD ON)
-	# Include HPM headers.
-	ADD_LIBRARY(hpm SHARED IMPORTED)
-	ADD_DEPENDENCIES(hpm hpm-external)
-	SET_TARGET_PROPERTIES(hpm PROPERTIES
-			IMPORTED_LOCATION ${HPM_LIB_DIR}/libhpm.so
-			INTERFACE_LINK_LIBRARIES ${HPM_LIB_DIR}/libhpm.so
-			INTERFACE_INCLUDE_DIRECTORIES ${HPM_INCLUDE_DIR})
-	INCLUDE_DIRECTORIES(${HPM_INCLUDE_DIR})
-
-	# Download the HPMCPP library.
-	SET(HPMCPP_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/hpmcpp)
-	SET(HPMCPP_LIB_DIR ${HPMCPP_ROOT}/lib)
-	SET(HPMCPP_INCLUDE_DIR ${HPMCPP_ROOT}/include)
-	ExternalProject_Add(hpmcpp-external
-			PREFIX ${HPMCPP_ROOT}
-			GIT_REPOSITORY "https://github.com/voldien/hpmcpp.git"
-			GIT_TAG "master"
-			UPDATE_COMMAND ""
-			PATCH_COMMAND ""
-			SOURCE_DIR ${HPMCPP_ROOT}/src/hpmcpp
-			BINARY_DIR ${HPMCPP_ROOT}/src/hpmcpp-build
-			INSTALL_DIR ${HPMCPP_ROOT}
-			CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>  -DBUILD_WITH_EXTERNAL_PROJECT=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_CXX_FLAGS="-I${HPM_INCLUDE_DIR}"
-			STEP_TARGETS hpm-external build
-			COMMENT "Building HPM-CPP"
-			LOG_DOWNLOAD ON)
-	# Include HPMCPP headers.
-	ADD_LIBRARY(hpmcpp SHARED IMPORTED)
-	#TARGET_LINK_DIRECTORIES(hpmcpp BEFORE INTERFACE ${HPM_LIB_DIR}/)
-	ADD_DEPENDENCIES(hpmcpp hpm hpmcpp-external)
-	SET_TARGET_PROPERTIES(hpmcpp PROPERTIES
-			IMPORTED_LOCATION ${HPMCPP_LIB_DIR}/libhpmcpp.so
-			INTERFACE_LINK_LIBRARIES ${HPMCPP_LIB_DIR}/libhpmcpp.so
-			INTERFACE_INCLUDE_DIRECTORIES ${HPMCPP_INCLUDE_DIR})
-	SET_TARGET_PROPERTIES(hpmcpp-external PROPERTIES
-			INTERFACE_INCLUDE_DIRECTORIES ${HPM_INCLUDE_DIR}
-			INCLUDE_DIRECTORIES ${HPM_INCLUDE_DIR}
-			LINK_DIRECTORIES ${HPM_LIB_DIR})
-	INCLUDE_DIRECTORIES(${HPMCPP_INCLUDE_DIR})
-
-ENDIF()
 
 
 #TODO resolve and add options and etc.
@@ -634,7 +540,8 @@ IF(BUILD_WITH_INSTALL)
 
 ENDIF()
 
-FIND_PACKAGE(PythonInterp)
+
+FIND_PACKAGE(PythonInterp REQUIRED)
 IF(PYTHONINTERP_FOUND)
 	#TODO relocate to the fragengine and editor.
 	#TODO add as cmake tool
