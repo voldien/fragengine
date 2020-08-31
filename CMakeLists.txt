@@ -221,12 +221,13 @@ SET( FRAGVIEW_BIN_INSTALL_DIR "bin" CACHE STRING
 		"Path the tool executables are installed to." )
 
 # Find all required libaries for the program.
-FIND_PACKAGE(ZLIB)
+FIND_PACKAGE(ZLIB )
 FIND_PACKAGE(Git QUIET)
 FIND_PACKAGE(Backtrace)
 FIND_PACKAGE(PkgConfig QUIET)
 FIND_PACKAGE(OpenSSL)
-FIND_PACKAGE(CUDA)
+#TODO relocate to the compute plugin.
+FIND_PACKAGE(CUDA QUIET)
 IF( UNIX )
   # Use GNUInstallDirs for Unix predefined directories
   INCLUDE(GNUInstallDirs)
@@ -238,13 +239,30 @@ ELSE()
 
 ENDIF()
 
-
-
+#SET(FRAGENGINE_SUBMODULE_PATH ${PROJECT_SOURCE_DIR}/extern/repo/fragengine)
 
 IF(GIT_FOUND)
 	MESSAGE(STATUS "git found: ${GIT_EXECUTABLE} -- ${GIT_VERSION_STRING}")
-ELSE()
 ENDIF()
+IF(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
+	# Update submodules as needed
+	OPTION(GIT_SUBMODULE "Check submodules during build" ON)
+	IF(GIT_SUBMODULE)
+		MESSAGE(STATUS "Submodule update")
+		EXECUTE_PROCESS(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
+						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+						RESULT_VARIABLE GIT_SUBMOD_RESULT)
+		IF(NOT GIT_SUBMOD_RESULT EQUAL "0")
+			MESSAGE(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
+		ENDIF()
+	ENDIF()
+ELSE()
+
+ENDIF()
+
+# IF(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/repo/fragengine")
+# 	MESSAGE(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
+# ENDIF()
 
 # Inlucde external resources.
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
