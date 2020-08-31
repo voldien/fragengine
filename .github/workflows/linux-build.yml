@@ -16,8 +16,8 @@ jobs:
         sudo apt-get install pkg-config libjson-c-dev libxml2-dev libyaml-dev libsdl2-dev \
         fswatch libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev libfreetype6-dev
         sudo apt-get install libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers \
-        libgtest-dev libsdl2-dev libsubunit-dev \
-        libzip-dev libfswatch-dev libfreeimage-dev libfswatch-dev libxml2-dev
+        libgtest-dev libsdl2-dev libsubunit-dev qt5-default \
+        libzip-dev  
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
@@ -32,8 +32,9 @@ jobs:
       # Note the current convention is to use the -S and -B options here to specify source 
       # and build directories, but this is only available with CMake 3.13 and higher.  
       # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_TEST=ON -DBUILD_WITH_UBSAN=ON \
-      -DBUILD_WITH_ASAN=ON  -DBUILD_WITH_TEST=ON -DBUILD_WITH_INSTALL=OFF -DBUILD_WITH_COVERAGE=ON
+      run: |
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DBUILD_WITH_TEST=ON -DBUILD_WITH_UBSAN=ON \
+        -DBUILD_WITH_ASAN=ON -DBUILD_WITH_TEST=ON -DBUILD_WITH_INSTALL=OFF -DBUILD_WITH_COVERAGE=ON
 
     - name: Build-Core
       working-directory: ${{runner.workspace}}/build
