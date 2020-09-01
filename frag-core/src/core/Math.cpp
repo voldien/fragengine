@@ -1,5 +1,5 @@
 #include "Core/Math.h"
-#include <hpm/hpm.h>
+#include <hpm.h>
 #include <float.h>
 #include <math.h>
 #include<open-simplex-noise.h>

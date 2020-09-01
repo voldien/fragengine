@@ -1,7 +1,7 @@
 #include <SDL2/SDL_platform.h>
 #include <SDL2/SDL_cpuinfo.h>
 #include"Core/SystemInfo.h"
-#include<hpm/hpm.h>
+#include <hpm.h>
 #include <Exception/InvalidArgumentException.h>
 
 using namespace fragcore;

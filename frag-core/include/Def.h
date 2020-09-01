@@ -27,13 +27,13 @@
 #include<errno.h>
 
 /*	Vector data types for rendering geometries.	*/
-#include<hpmcpp/HpmCpp.h>
-#include<hpmcpp/HCPlane.h>
-#include<hpmcpp/HCVector2.h>
-#include<hpmcpp/HCVector4.h>
-#include<hpmcpp/HCVector3.h>
-#include<hpmcpp/HCQuaternion.h>
-#include<hpmcpp/HpmCpp.h>
+#include<HpmCpp.h>
+#include<HCPlane.h>
+#include<HCVector2.h>
+#include<HCVector4.h>
+#include<HCVector3.h>
+#include<HCQuaternion.h>
+#include<HpmCpp.h>
 
 #define FV_NAME ""
 #if defined(FRAG_CORE_INTERNAL_IMP)

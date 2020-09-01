@@ -1,7 +1,7 @@
 #include"Engine.h"
 #include<Renderer/IRenderer.h>
 
-#include<hpmcpp/HpmCpp.h>
+#include<HpmCpp.h>
 #include<SDL2/SDL.h>
 #include<getopt.h>
 #include<signal.h>
