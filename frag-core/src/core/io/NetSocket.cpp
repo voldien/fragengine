@@ -1,4 +1,4 @@
-#include"Core/IO/NetSocket.h"
+#include"Core/Network/NetSocket.h"
 
 fragcore::NetSocket::NetSocket(void) {
 

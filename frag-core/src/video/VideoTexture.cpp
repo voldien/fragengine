@@ -1,6 +1,6 @@
 #include"Video/VideoTexture.h"
 #include"Video/VideoManager.h"
-#include"audio/AudioDecoder.h"
+#include"audio/decoder/AudioDecoder.h"
 #include"Core/Ref.h"
 using namespace fragcore;
 
@@ -49,5 +49,5 @@ bool VideoTexture::isReadyToPlay(void) const {
 }
 
 Texture *VideoTexture::getTexture(void) const {
-	return *this->texture;
+	return (Texture*)this->texture.ptr();
 }

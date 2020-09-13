@@ -3,7 +3,8 @@
 #include"Core/dataStructure/Queue.h"
 #include"Core/Log.h"
 #include"Core/Ref.h"
-#include "Exception/RuntimeExecption.h"
+#include"Core/IO/IOUtil.h"
+#include "Exception/RuntimeException.h"
 #include<list>
 
 using namespace fragcore;
@@ -15,11 +16,21 @@ typedef struct log_io_buf_t{
 	Log::VERBOSITY verbosity;
 	Ref<IO> io;
 }LogIOMap;
-static Queue<Ref<IO>> iosQueue;
+//static Queue<Ref<IO>> iosQueue;
 //TOOD determine if queue, should be used.
 
 void Log::setVerbosity(VERBOSITY verbosity) {
-	g_verbosity = verbosity;
+	switch(verbosity){
+		case VERBOSITY::Quite:
+		case VERBOSITY::Error:
+		case VERBOSITY::Verbose:
+		case VERBOSITY::Warning:	
+		case VERBOSITY::Debug:
+			g_verbosity = verbosity;
+			break;
+		default:
+			throw InvalidArgumentException("");
+	}
 }
 
 Log::VERBOSITY Log::getVerbosity(void) {
@@ -68,7 +79,10 @@ int Log::logv(VERBOSITY verbosity, const char *format, va_list va) {
 
 		for (; it != ios.end(); it++) {
 			Ref<IO> &ioRef = (*it);
-			//vsprintf();
+
+			//TODO resolve for variable list variable.
+			//IOUtil::format(ioRef, format);
+
 		}
 		if (verbosity <= getVerbosity()) {
 			return vprintf(format, va);

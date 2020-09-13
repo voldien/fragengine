@@ -25,6 +25,7 @@
 #include"Core/TaskScheduler/IThreading.h"
 #include"Core/TaskScheduler/TaskScheduler.h"
 #include"Core/dataStructure/PoolAllocator.h"
+//TODO resolve include path and other solution.
 #include<libfswatch/c/libfswatch_types.h>
 #include<libfswatch/c/cevent.h>
 #include<map>
@@ -66,12 +67,11 @@ namespace fragcore {
 
 	public:
 
+		//TODO relocate to another class.
 		void registerAsset(const char *filepath, Object *object);
 		void registerAsset(Ref<IO> &io);
-
 		void unregisterAsset(Object *notify);
 		void unregisterAsset(Ref<IO> &io);
-
 		void unRegisterAllAsset(void);
 
 		void eventDone(FileNotificationEvent *event);
@@ -119,12 +119,7 @@ namespace fragcore {
 		                     const unsigned int event_num,
 		                     void *data);
 
-		/**
-		 *
-		 * @param package
-		 * @return
-		 */
-		static int fileFetchTask(Task *package);
+		static void fileFetchTask(Task *package);
 
 		/**
 		 * Start fswatch internal process.

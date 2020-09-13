@@ -151,7 +151,7 @@ void RenderPipeline::init(Ref<IRenderer>& renderer, const IConfig* config) {
 	this->quadDisplayIndirect = Ref<Buffer>((*this->renderer)->createBuffer(&indirectDrawBufDesc));
 
 	/*  Create display quad.    */
-	this->quadDisplay = Ref<GeometryObject>((*this->renderer)->createGeometry(&geopldesc));
+	this->quadDisplay = Ref<Geometry>((*this->renderer)->createGeometry(&geopldesc));
 
 	/*  Create display shader.  */
 	ProgramPipeline* programPipeline;

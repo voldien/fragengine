@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CORE_PHYSIC_PREREQUISITES_H_
-#define _CORE_PHYSIC_PREREQUISITES_H_ 1
+#ifndef _FRAG_CORE_PHYSIC_PREREQUISITES_H_
+#define _FRAG_CORE_PHYSIC_PREREQUISITES_H_ 1
 
 namespace fragcore {
 	class PhysicInterface;
@@ -25,10 +25,14 @@ namespace fragcore {
 	class PhysicDispatcher;
 	class PhysicInterpreter;
 	class PhysicObject;
-	class RigidBody;
-	class Collision;
+    class Collider;
+    class RigidBody;
+    class Collision;
 	class Constraints;
 	class RayCastHit;
+    class Collision;
+    class Contract;
+    class CharacterController;
 }
 
 #endif

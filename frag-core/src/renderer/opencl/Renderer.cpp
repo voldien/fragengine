@@ -4,7 +4,7 @@
 #include<SDL2/SDL_syswm.h>
 #include"Utils/StringUtil.h"
 #include"Renderer/RenderDesc.h"
-#include"Exception/RuntimeExecption.h"
+#include "Exception/RuntimeException.h"
 
 using namespace fragcore;
 
@@ -95,7 +95,7 @@ int supportgl(char *extenions) {
 	return strstr(extenions, "cl_khr_gl_sharing") != NULL;
 }
 
-cl_context createCLContext(int *ndevices, cl_device_id **devices, SDL_Window *window, SDL_GLContext glcontext) {
+cl_context createCLContext(unsigned int *ndevices, cl_device_id **devices, SDL_Window *window, SDL_GLContext glcontext) {
 
 	cl_int ciErrNum;
 	cl_context context;
@@ -384,17 +384,17 @@ IRenderer::IRenderer(IConfig *config) {
 
 	/*  Requires additional rendering interface to work.     */
 	clCore->anInterface = eOpenGL;
-	clCore->back_renderer = RenderingFactory::createRendering(RenderingFactory::eOpenGL, (IConfig*)config);
+	clCore->back_renderer = RenderingFactory::createRendering(RenderingFactory::OpenGL, (IConfig*)config);
 	/*  */
 	if (clCore->back_renderer == NULL) {
 		clCore->anInterface = eVulkan;
-		clCore->back_renderer = RenderingFactory::createRendering(RenderingFactory::eVulkan, (IConfig*)config);
+		clCore->back_renderer = RenderingFactory::createRendering(RenderingFactory::Vulkan, (IConfig*)config);
 	}
 
 	/*  */
 	if (clCore->back_renderer == NULL) {
 		clCore->anInterface = eDirectX;
-		clCore->back_renderer = RenderingFactory::createRendering(RenderingFactory::eDirectX, (IConfig*)config);
+		clCore->back_renderer = RenderingFactory::createRendering(RenderingFactory::DirectX, (IConfig*)config);
 	}
 
 	if (this->pdata == NULL)
@@ -465,12 +465,12 @@ void IRenderer::deleteBuffer(Buffer *object) {
 	OpenCLCore *core = (OpenCLCore *) this->pdata;
 }
 
-GeometryObject *IRenderer::createGeometry(GeometryDesc *desc) {
+Geometry *IRenderer::createGeometry(GeometryDesc *desc) {
 	OpenCLCore *core = (OpenCLCore *) this->pdata;
 	return core->back_renderer->createGeometry(desc);
 }
 
-void IRenderer::deleteGeometry(GeometryObject *obj) {
+void IRenderer::deleteGeometry(Geometry *obj) {
 	OpenCLCore *core = (OpenCLCore *) this->pdata;
 	return core->back_renderer->deleteGeometry(obj);
 }
@@ -485,11 +485,11 @@ void IRenderer::deleteFrameBuffer(FrameBuffer *obj) {
 
 }
 
-RendererWindow *IRenderer::createWindow(int x, int y, int width, int height, RendererWindow* rendererWindow) {
+RendererWindow *IRenderer::createWindow(int x, int y, int width, int height) {
 	OpenCLCore *clCore = (OpenCLCore *) this->pdata;
 
 	/*  Create window.  */
-	clCore->window = clCore->back_renderer->createWindow(x, y, width, height, rendererWindow);
+	clCore->window = clCore->back_renderer->createWindow(x, y, width, height);
 
 	/*  Create OpenCL context.  */
 	clCore->context = (cl_context)createCLContext(&clCore->ndevices, &clCore->devices, clCore->window, NULL);
@@ -498,7 +498,7 @@ RendererWindow *IRenderer::createWindow(int x, int y, int width, int height, Ren
 	/*  Create OpenCL command queue.    */
 	clCore->selectqueue = createCommandQueue(clCore->context, clCore->selectDevice);
 
-	return clCore->window;
+	return NULL;//clCore->window;
 }
 
 void IRenderer::createSwapChain() {
@@ -543,7 +543,7 @@ void IRenderer::swapBuffer(void) {
 	core->back_renderer->swapBuffer();
 }
 
-void IRenderer::drawInstance(GeometryObject *geometry, unsigned int num) {
+void IRenderer::drawInstance(Geometry *geometry, unsigned int num) {
 	OpenCLCore *core = (OpenCLCore *) this->pdata;
 	core->back_renderer->drawInstance(geometry, num);
 }
@@ -605,6 +605,6 @@ void IRenderer::getStatus(MemoryInfo* memoryInfo){
 }
 
 
-extern "C" IRenderer *createInternalRenderer(IConfig *config) {
-	return new IRenderer(config);
+extern "C" IRenderer *createInternalRenderer(IConfig *options) {
+    return new IRenderer(options);
 }

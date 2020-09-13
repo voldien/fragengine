@@ -59,6 +59,7 @@ const std::string &IException::getBackTrace(void) const {
 }
 
 void IException::generateStackTrace(void) {
+	/*	*/
 #if defined(_DEBUG)
 	this->stackTrace = Backtrace(4);    // Get the stack before the exception was invoked.
 #endif()

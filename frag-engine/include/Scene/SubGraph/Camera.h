@@ -80,8 +80,7 @@ namespace fragengine {
 		 *
 		 * @param use
 		 */
-		void
-		useHDR(bool use);
+		void useHDR(bool use);
 
 		float aspect();
 
@@ -89,8 +88,7 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		bool
-		useHDR(void) const;
+		bool useHDR(void) const;
 
 		//	/**
 		//	 *	Set post effect.

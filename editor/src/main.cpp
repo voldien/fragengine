@@ -1,7 +1,7 @@
 #include <execinfo.h>
 #include <signal.h>
 #include "Windows/SplashWindow.h"
-#include "FragViewEditor.h"
+#include"FragEditor.h"
 #if defined(FRAG_GTK_WINDOW_MANAGER)
 //#include <Core/gtkconfig.h>
 #elif defined(FRAG_QT_WINDOW_MANAGER)
@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
 		}
 #endif
 		SplashWindow splashWindow("/home/voldie/Pictures/neko.jpg");
-		FragViewEditor fragViewEditor(&splashWindow, argc, (const char **) argv);
+		FragEditor fragViewEditor(&splashWindow, argc, (const char **) argv);
 		fragViewEditor.run();
 		#if defined(FRAG_QT_WINDOW_MANAGER)
 		app->exec();

@@ -5,7 +5,6 @@
 #include<Renderer/RendererFactory.h>
 #include"Core/IO/FileSystem.h"
 #include"Core/Log.h"
-#include<hpmcpp/HpmCpp.h>
 #include<cstdlib>
 #include<csignal>
 #include <Exception/InvalidArgumentException.h>
@@ -141,7 +140,7 @@ void Config::setDefaultOption(void) {
 
 	/*	Default interfaces configuration.	*/
 	global.set("renderer-dynamicInterface",
-	           fragcore::RenderingFactory::getInterfaceLibraryPath(fragcore::RenderingFactory::eOpenGL));
+	           fragcore::RenderingFactory::getInterfaceLibraryPath(fragcore::RenderingFactory::OpenGL));
 	global.set<int>("SIMD", Hpm::eHPM_DEFAULT);
 
 	/*TODO determine if to relocate.    */
@@ -386,16 +385,16 @@ void Config::parseGetOpt(int argc, const char **argv) {
 			case '~':   /*  Special type of options.    */
 				if (strcmp(option, "renderer-opengl") == 0)
 					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eOpenGL));
+					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::OpenGL));
 				if (strcmp(option, "renderer-vulkan") == 0)
 					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eVulkan));
+					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::Vulkan));
 				if (strcmp(option, "renderer-opencl") == 0)
 					this->set<const char *>("renderer-dynamicInterface",
 					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eOpenCL));
 				if (strcmp(option, "renderer-directx") == 0)
 					this->set<const char *>("renderer-dynamicInterface",
-					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::eDirectX));
+					                        RenderingFactory::getInterfaceLibraryPath(RenderingFactory::DirectX));
 				if (strcmp(option, "no-decoration") == 0)
 					this->set("window-bordered", false);
 				if (strcmp(option, "v-sync") == 0)

@@ -1,10 +1,12 @@
 #include <stdexcept>
-#include <Core/IO/FileIO.h>
-#include <Utils/StringUtil.h>
-#include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
+#include "Core/IO/FileIO.h"
+#include "Utils/StringUtil.h"
+#include "Exception/InvalidArgumentException.h"
+#include"Exception/InvalidPointerException.h"
+#include "Exception/RuntimeException.h"
 #include"Core/IO/FileIO.h"
 using namespace fragcore;
+#include <filesystem>
 
 FileIO::FileIO(void) {
 	this->mode = (Mode) 0;
@@ -26,7 +28,7 @@ FileIO::FileIO(const FileIO &other) {
 void FileIO::open(const char *path, Mode mode) {
 
 	if (path == NULL)
-		throw InvalidArgumentException("path must not be null.");
+		throw InvalidPointerException("path must not be null.");
 
 	const char *m = NULL;
 	switch (mode & ACCESS) {
@@ -48,8 +50,15 @@ void FileIO::open(const char *path, Mode mode) {
 
 	file = fopen(path, m);
 	if (file == NULL) {
-		if (errno)
-			throw RuntimeException(fvformatf("Failed to open file %s, %s.\n", path, strerror(errno)));
+		//TODO check the error
+		switch(errno){
+			case ENOENT:
+				throw InvalidArgumentException(fvformatf("Failed to open file %s, %s.\n", path,strerror(errno)));
+			case EPERM://TODO add support for exception for permission.
+			case EACCES://TODO add support for exception for permission.
+			default:
+				throw RuntimeException(fvformatf("Failed to open file %s, %s.\n", path, strerror(errno)));
+		}
 	}
 
 	/*  keep the mode.  */
@@ -97,7 +106,7 @@ void FileIO::seek(long int nbytes, Seek seek) {
 	int whence;
 	switch (seek) {
 		case SET:
-			whence = SEEK_SET;
+                        whence = SEEK_SET;
 			break;
 		case CUR:
 			whence = SEEK_CUR;
@@ -132,9 +141,3 @@ bool FileIO::isReadable(void) const {
 bool FileIO::flush(void) {
 	return fflush(this->file) == 0;
 }
-
-FileIO *fragcore::stdoutIO = new FileIO(stdout);
-FileIO *fragcore::stdinIO = new FileIO(stdin);
-FileIO *fragcore::stderrIO = new FileIO(stderr);
-
-

@@ -14,14 +14,19 @@ const float Math::NegativeInfinity = 0;
 static struct osn_context *ctx = NULL;
 
 
-static void
-guassian1Df(float *guassian, int width, double theta)
-{
+void Math::guassian1Df(float *guassian, int width, double theta) {
 	
 }
 
-static void guassian2Df(float *guassian, int height, float theta)
-{
+void Math::guassian1Df(std::vector<float> &guassian, int height, float theta) {
+	
+}
+
+void Math::guassian2Df(std::vector<float> &guassian, int height, float theta) {
+	
+}
+
+void Math::guassian2Df(float *guassian, int height, float theta) {
 
 }
 
@@ -59,8 +64,7 @@ static void guassian2Df(float *guassian, int height, float theta)
 // 	return gamma;
 // }
 
-float Math::linearToGammaSpace(float linear)
-{
+float Math::linearToGammaSpace(float linear) {
 	const float exponent = 2.2f;
 	return (float)pow(linear, exponent);
 	// 	double corrected = (double)rgbRamp[i] / 65535.0;
@@ -69,8 +73,7 @@ float Math::linearToGammaSpace(float linear)
 	return 0;
 }
 
-float Math::GameSpaceToLinear(float gamma, float exp)
-{
+float Math::GameSpaceToLinear(float gamma, float exp) {
 	return 0;
 }
 

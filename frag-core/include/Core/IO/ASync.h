@@ -22,7 +22,11 @@
 #include"../Ref.h"
 #include"../TaskScheduler/IScheduler.h"
 #include"IO.h"
+#include<condition_variable>
+#include<thread>
+#if defined(FRAG_CORE_INTERNAL_IMP)	//TODO resolve to a single file or something later
 #include<taskSch.h>
+#endif
 #include<map>
 
 namespace fragcore {
@@ -33,9 +37,9 @@ namespace fragcore {
 	/**
 	 *
 	 */
+	//TODO rename so that it include the IO name.
 	class FVDECLSPEC ASync : public SmartReference {
 	public:
-		ASync(void);
 		ASync(Ref<IScheduler> &scheduler);
 		~ASync(void);
 
@@ -67,19 +71,23 @@ namespace fragcore {
 
 	private:
 		/*  Static callback functions.  */
-		static int async_open(Task* task);
-		static int async_read(Task *task);
-		static int async_read_io(Task *task);
-		static int async_write(Task *task);
-		static int async_write_io(Task *task);
+		static void async_open(Task *task);
+		static void async_read(Task *task);
+		static void async_read_io(Task *task);
+		static void async_write(Task *task);
+		static void async_write_io(Task *task);
 
 	protected:  /*  */
-
+		ASync(void); //TODO make protected since it is required to a have a scheduler attached but inheriet need to be able to call it.
 		ASync(const ASync& other);
 		virtual void setScheduleReference(Ref<IScheduler>& sch);
 
 		typedef struct async_object {
+			#if defined(FRAG_CORE_INTERNAL_IMP)	//TODO resolve to a single file or something later
 			schSemaphore* semaphore;    /*  */
+			#else
+			void* data;
+			#endif
 			Ref<IO> ref;                /*  */
 			AsyncComplete callback;     /*  */
 			Ref<IO> target;             /*  */
@@ -87,9 +95,10 @@ namespace fragcore {
 			unsigned int size;          /*  */
 			IOStatus status;            /*  */
 			void *userData;             /*  */
-			void *priv;				/*	*/
+			void *priv;					/*	*/
 		} AsyncObject;
 
+		/*	*/
 		AsyncObject* getObject(ASyncHandle handle);
 		const AsyncObject* getObject(ASyncHandle handle) const;
 		AsyncObject* createObject(ASyncHandle handle);

@@ -28,7 +28,7 @@ namespace fragcore {
 	/**
 	 *
 	 */
-	class FVDECLSPEC GZFileIO : public FileIO {
+	class FVDECLSPEC GZFileIO : public FileIO {	//TODO determine how to handle with the FileIO dep.
 	public:
 		long read(long int nbytes, void *pbuffer) override;
 
@@ -53,11 +53,15 @@ namespace fragcore {
 		void open(const char *path, Mode mode) override;
 
 	private:
+	//union {
 #if defined(FRAG_CORE_INTERNAL_IMP)
-		gzFile gzFile;
-	#endif
+		gzFile gzFi;
+#else
+		void* data;
+#endif
+	//};
 	public:
-		GZFileIO(const char *path, Mode mode);
+		GZFileIO(const char *path, Mode mode);	//TODO remove filepath
 		//GZFileIO(Ref<IO> &io);
 	};
 }

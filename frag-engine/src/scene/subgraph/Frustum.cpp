@@ -2,14 +2,15 @@
 #include"Core/Math.h"
 
 using namespace fragcore;
+using namespace fragengine;
 
 Frustum::Frustum(void) {
 //	this->setObjectType(Object::eFrustum);
 	/*  Default frustum value.  */
-	this->setFov(70.0f);
 	this->Zfar = 1000.0f;
 	this->Znear = 0.15f;
 	this->ratio = 1.33333f;
+	this->setFov(70.0f);
 }
 
 Frustum::Frustum(const Frustum &other) {
@@ -40,7 +41,6 @@ void Frustum::setRatio(float ratio) {
 	this->updatePerspective();
 }
 
-
 float Frustum::getFov(void) const {
 	return Math::radToDeg(this->fov);
 }
@@ -61,6 +61,7 @@ void Frustum::updatePerspective(void) {
 	this->percmatrix = PVMatrix4x4::perspective(this->getFov(), this->getRatio(), this->getNear(), this->getFar());
 	const Transform &transform = this->local;
 
+	/*	*/
 	calcFrustumPlanes(transform.getPosition(), transform.getRotation().getVector(),
 	                  transform.getRotation().getVector(PVVector3::up()),
 	                  transform.getRotation().getVector(PVVector3::right()));
@@ -106,7 +107,6 @@ Frustum::Intersection Frustum::checkPoint(const PVVector3 &pos) const {
 			return Out;
 		}
 	}
-
 	return In;
 }
 
@@ -149,6 +149,8 @@ Frustum::Intersection Frustum::intersectionAABB(const PVAABB &bounds) {
 	return intersectionAABB(bounds.min(), bounds.max());
 }
 
+Frustum::Intersection Frustum::intersectionOBB(const PVVector3 &u, const PVVector3 &v, const PVVector3 &w) {}
+Frustum::Intersection Frustum::intersectionOBB(const PVOBB &obb) {}
 
 Frustum::Intersection Frustum::intersectionSphere(const PVVector3 &pos, float radius) const {
 	return Out;

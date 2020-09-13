@@ -45,5 +45,9 @@ namespace fragcore
 		DecompressOnLoad
 	};
 
+	typedef struct audio_capabilities_t{
+		/*	*/
+	}AudioCapabilities;
+
 }
 #endif

@@ -1,12 +1,12 @@
-#ifndef FRAGVIEW_DEFAULTFRAMEBUFFERTEXTURE_H_
-#define FRAGVIEW_DEFAULTFRAMEBUFFERTEXTURE_H_ 1
+#ifndef _FRAG_CORE_DEFAULTFRAMEBUFFERTEXTURE_H_
+#define _FRAG_CORE_DEFAULTFRAMEBUFFERTEXTURE_H_ 1
 #include"../Texture.h"
 
 namespace fragcore {
 
 	class FrameBufferTexture : public Texture {
 	public:
-		int pbo;
+
 
 		FrameBufferTexture();
 
@@ -41,6 +41,8 @@ namespace fragcore {
 		virtual unsigned int width(void);
 
 		virtual unsigned int height(void);
+	private:
+		unsigned int pbo;	//TODO determine 
 	};
 }
 

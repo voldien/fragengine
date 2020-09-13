@@ -1,7 +1,5 @@
-CMAKE_MINIMUM_REQUIRED( VERSION 3.0 )
-PROJECT(fragview VERSION 0.11.1)
-ENABLE_LANGUAGE(CXX)
-ENABLE_LANGUAGE(C)
+CMAKE_MINIMUM_REQUIRED( VERSION 3.11.0 FATAL_ERROR )
+PROJECT(fragview VERSION 0.11.1 LANGUAGES CXX C)
 
 # Build shared/dynamic library option
 OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
@@ -13,6 +11,7 @@ OPTION(BUILD_WITH_UBSAN "" OFF)
 OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." OFF )
 OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
 OPTION(BUILD_WITH_DEBUG_BOUNDSCHECK "Array/Pointer BoundsChecking, buffer overflow protection. Used in debug only." OFF)
+option(BUILD_INSTALL_RESOURCES "Installs the Resources directory" ON)
 IF(NOT BUILD_SHARED_LIBS)
 	SET(CMAKE_EXE_LINKER_FLAGS "-static")
 	SET(LINK_SEARCH_START_STATIC TRUE)
@@ -117,14 +116,24 @@ SET_PATH( MENU_DIR ${CMAKE_INSTALL_PREFIX} )
 SET_PATH( EXAMPLE_CONF_DIR ${CMAKE_INSTALL_PREFIX} )
 #elseif (${LAYOUT} MATCHES "fhs")
 
+#-std=c++1z
+SET(CMAKE_REQUIRED_FLAGS "-std=c++17 -std=c11 -std=c++1z")
+SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+SET(CMAKE_C_STANDARD 11)
+SET(CMAKE_C_STANDARD_REQUIRED ON)
+SET(CMAKE_C_EXTENSIONS OFF)
+
 # GCC compiler flag options.
 IF((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
 	IF (BUILD_SHARED_LIBS AND CMAKE_SIZEOF_VOID_P EQUAL 8) # -fPIC is only required
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 	ENDIF()
 
-	ADD_DEFINITIONS(-Wall -w -fpermissive)
-	ADD_DEFINITIONS( -export-dynamic  -rdynamic )
+	# 
+	ADD_DEFINITIONS(-Wall -w -fpermissive) 
+	ADD_DEFINITIONS( -export-dynamic -rdynamic -lstdc++fs -std=c++17 )
 
 	IF (CMAKE_BUILD_TYPE STREQUAL "Release")
 		MESSAGE(STATUS "Compile for release.")
@@ -206,11 +215,6 @@ IF (BUILD_WITH_ASAN)
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
 ENDIF()
 
-# Set C++ language version required for the project.
-IF( CMAKE_COMPILER_IS_GNUCXX )
-	SET(LIBSTDC++_LIBRARIES -std=c++11)
-ENDIF( CMAKE_COMPILER_IS_GNUCXX )
-
 # Cache these to allow the user to override them manually.
 SET( FRAGVIEW_LIB_INSTALL_DIR "lib" CACHE STRING
 		"Path the built library files are installed to." )
@@ -265,8 +269,6 @@ ENDIF()
 
 # Inlucde external resources.
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
-
-
 
 #TODO resolve and add options and etc.
 # Add platform specific information.
@@ -582,7 +584,7 @@ ENDIF (WIN32)
 IF ( BUILD_WITH_INSTALL )
 	IF(CMAKE_CPACK_COMMAND AND UNIX AND BUILD_OPT_BUILD_PACKAGES)
 		# Packing information
-		SET(CPACK_PACKAGE_NAME                    "frag{FRAG_VERSION_MAJOR}.{VERSION_MINOR}")
+		SET(CPACK_PACKAGE_NAME                    "frag${FRAG_VERSION_MAJOR}.${VERSION_MINOR}")
 		SET(CPACK_PACKAGE_CONTACT "" CACHE STRING "Package maintainer and PGP signer.")
 		SET(CPACK_PACKAGE_VENDOR                  "https://github.com/voldien/fragengine")
 		SET(CPACK_PACKAGE_DISPLAY_NAME            "Frag ${VERSION}")

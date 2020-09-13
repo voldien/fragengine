@@ -23,7 +23,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<unistd.h>
-#include<assert.h>
+#include<cassert>
 #include<errno.h>
 
 /*	Vector data types for rendering geometries.	*/

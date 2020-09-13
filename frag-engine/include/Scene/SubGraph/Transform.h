@@ -6,13 +6,13 @@
 
 namespace fragengine {
 	using namespace fragcore;
+	
 	/**
 	 * 
 	 */
 	class FVDECLSPEC Transform {
 	public:
 		Transform(void);
-
 		//Transform (const PVQuaternion &q, const PVVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		//Transform (const btMatrix3x3 &b, const btVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		Transform(const Transform &other);

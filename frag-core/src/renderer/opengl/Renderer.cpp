@@ -12,10 +12,12 @@
 #include <Renderer/Sync.h>
 #include <Renderer/opengl/DefaultFrameBufferTexture.h>
 #include <Exception/NotImplementedException.h>
-#include <Exception/RuntimeExecption.h>
+#include <Exception/RuntimeException.h>
 #include <Renderer/RendererWindow.h>
 #include <Exception/InvalidArgumentException.h>
+#include <window/WindowManager.h>
 #include"Renderer/ViewPort.h"
+#include"Renderer/opengl/GLRenderWindow.h"
 using namespace fragcore;
 
 //GL_NV_gpu_program4: SM 4.0 or better.
@@ -37,13 +39,19 @@ static const char *minRequiredExtensions[] = {
 const unsigned int numMinReqExtensions = sizeof(minRequiredExtensions) / sizeof(minRequiredExtensions[0]);
 
 static const char* reqConfigKey[] = {
-		"core",
-		"gamma-correction",
-		"alpha",
-		"debug",
-		"opengl",
+	"core",
+	"gamma-correction",
+	"alpha",
+	"debug",
+	"opengl",
+	"anti-aliasing-samples",
+	"anti-aliasing",
 };
 const unsigned int numReqConfigKeys = sizeof(reqConfigKey) / sizeof(reqConfigKey[0]);
+
+
+void IRenderer::OnInitialization(void) {}
+void IRenderer::OnDestruction(void) {}
 
 IRenderer::IRenderer(IConfig *config) {
 
@@ -51,30 +59,40 @@ IRenderer::IRenderer(IConfig *config) {
 	SDL_Window *window = NULL;
 	GLenum status;
 
-	assert(config);
-
 	this->setName("OpenGL");
+
+	IConfig setupConfig;
+	if(config == NULL){
+		setupConfig.set("core", true);
+		setupConfig.set("debug", true);
+		setupConfig.set("alpha", true);
+		setupConfig.set("opengl", -1);
+		setupConfig.set("anti-aliasing-samples", 0);
+		setupConfig.set("anti-aliasing", false);
+		setupConfig.set("gamma-correction", true);
+        } else{
+		//setupConfig = *config
+	}
+
 	// Check all required config variables.
 	for (int i = 0; i < numReqConfigKeys; i++){
-		if(!config->isSet(reqConfigKey[i]))
+		if(!setupConfig.isSet(reqConfigKey[i]))
 			throw RuntimeException(fvformatf("None valid configuration node - missing attribute %s", reqConfigKey[i]));
 	}
 
-	/*  Allocate */
-	glcore = (OpenGLCore *) malloc(sizeof(OpenGLCore));
+	/*  Allocate Opengl internal.	*/
+	glcore = new OpenGLCore();
 	assert(glcore);
-	memset(glcore, 0, sizeof(OpenGLCore));
-
 	this->pdata = glcore;
 
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0)
 		throw RuntimeException(fvformatf("SDL_InitSubSystem failed, %s.\n", SDL_GetError()));
 
 	/*  */
-	bool useCoreProfile = config->get<bool>("core");
-	glcore->gamma = config->get<bool>("gamma-correction");
-	glcore->alpha  = config->get<bool>("alpha");
-	glcore->debug = config->get<bool>("debug");
+	bool useCoreProfile = setupConfig.get<bool>("core");
+	glcore->gamma = setupConfig.get<bool>("gamma-correction");
+	glcore->alpha  = setupConfig.get<bool>("alpha");
+	glcore->debug = setupConfig.get<bool>("debug");
 
 	/*	Default framebuffer.	*/
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, SDL_TRUE);
@@ -88,9 +106,9 @@ IRenderer::IRenderer(IConfig *config) {
 	SDL_GL_SetAttribute(SDL_GL_FRAMEBUFFER_SRGB_CAPABLE, glcore->gamma ? SDL_TRUE : SDL_FALSE);
 
 	/*	Set default framebuffer Multisampling.	*/
-	if (config->get<bool>("anti-aliasing")) {
+	if (setupConfig.get<bool>("anti-aliasing")) {
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, SDL_TRUE);
-		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, config->get<int>("anti-aliasing-samples"));
+		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, setupConfig.get<int>("anti-aliasing-samples"));
 	} else {
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, SDL_FALSE);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 0);
@@ -111,9 +129,9 @@ IRenderer::IRenderer(IConfig *config) {
 	                                          (glcore->debug ? (SDL_GL_CONTEXT_DEBUG_FLAG | SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG) : 0));
 
 	/*  Set OpenGL version. */
-	if (config->get<int>("opengl") > 0) {
-		const int gmajor = config->get<int>("opengl") / 100;
-		const int gminor = (config->get<int>("opengl") / 10) % 10;
+	if (setupConfig.get<int>("opengl") > 0) {
+		const int gmajor = setupConfig.get<int>("opengl") / 100;
+		const int gminor = (setupConfig.get<int>("opengl") / 10) % 10;
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, gmajor);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, gminor);
 
@@ -140,7 +158,7 @@ IRenderer::IRenderer(IConfig *config) {
 	}
 
 	/*	Create OpenGL context.	*///TODO add config attribute for auto or force the version.
-	config->get<const char*>("version");
+	//config->get<const char*>("version");
 	glcore->openglcontext = SDL_GL_CreateContext(window);
 	if (glcore->openglcontext == NULL) {
 		const unsigned int validGLVersion[][2] = {
@@ -286,7 +304,7 @@ IRenderer::IRenderer(IConfig *config) {
 	this->clearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	if (glcore->gamma)
 		enableState(IRenderer::eSRGB);
-	this->setVSync(config->get<bool>("v-sync"));
+	//this->setVSync(config->get<bool>("v-sync"));
 	this->setDebug(glcore->debug);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
@@ -795,7 +813,7 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 			}
 			if (desc->vertex.type == eBinary) {
 				if (desc->vertex.language == ShaderLanguage::SPIRV)
-					glShaderBinary(1, &ver, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, desc->vertex.binaryFormat,
+					glShaderBinary(1, &ver, GL_SHADER_BINARY_FORMAT_SPIR_V_ARB, desc->vertex.vertexBinary,
 					               desc->vertex.size);
 				else
 					glShaderBinary(1, &ver, desc->vertex.binaryFormat, desc->vertex.vertexBinary, desc->vertex.size);
@@ -1015,7 +1033,7 @@ void IRenderer::deleteBuffer(Buffer *object) {
 	delete object;
 }
 
-GeometryObject *IRenderer::createGeometry(GeometryDesc *desc) {
+Geometry *IRenderer::createGeometry(GeometryDesc *desc) {
 
 	/*  Validate the argument.  */
 	if(desc->primitive & ~(GeometryDesc::ePoint | GeometryDesc::eLines | GeometryDesc::eTriangles | GeometryDesc::eTriangleStrips))
@@ -1023,14 +1041,14 @@ GeometryObject *IRenderer::createGeometry(GeometryDesc *desc) {
 	//GL_TRIANGLES_ADJACENCY
 	//GL_PATCHES
 
-	GeometryObject *geometryObject;
+	Geometry *geometryObject;
 	OpenGLCore *glCore = (OpenGLCore *) this->pdata;
 	GLGeometryObject *glgeoobj = NULL;
 	unsigned int vao;
 	unsigned int x;
 
 	/*	*/
-	geometryObject = new GeometryObject();
+	geometryObject = new Geometry();
 	glgeoobj = new GLGeometryObject();
 
 	/*  */
@@ -1114,7 +1132,7 @@ GeometryObject *IRenderer::createGeometry(GeometryDesc *desc) {
 	return geometryObject;
 }
 
-void IRenderer::deleteGeometry(GeometryObject *obj) {
+void IRenderer::deleteGeometry(Geometry *obj) {
 
 
 }
@@ -1247,23 +1265,31 @@ void IRenderer::deleteQuery(QueryObject* query){
 	throw NotImplementedException();
 }
 
-
-RendererWindow* IRenderer::createWindow(int x, int y, int width, int height, RendererWindow* rendererWindow) {
+RendererWindow* IRenderer::createWindow(int x, int y, int width, int height) {
 	OpenGLCore *glcore = (OpenGLCore *) this->pdata;
 
-	rendererWindow->createWindow(x, y, width, height, "opengl");
-	rendererWindow->renderer = this;
-	rendererWindow->renderer->increment();
+	WindowManager::getInstance();
+	Ref<IRenderer> rendRef = Ref<IRenderer>(this);
+	GLRenderWindow* renderWindow = new GLRenderWindow(rendRef);
 
-	/*	Cleanup.	*/
+		/*	Cleanup.	*/
 	if (glcore->tpmwindow) {
 		SDL_DestroyWindow(glcore->tpmwindow);
 		glcore->tpmwindow = NULL;
 	}
 
+	return renderWindow;
+
+	// rendererWindow->createWindow(x, y, width, height, "opengl");
+	// rendererWindow->renderer = this;
+	// rendererWindow->renderer->increment();
+
+
+
 	/*  */
 	createSwapChain();
-	return rendererWindow;
+	return NULL;
+	//return rendererWindow;
 }
 
 void IRenderer::setCurrentWindow(RendererWindow* window) {
@@ -1356,7 +1382,7 @@ void IRenderer::swapBuffer(void) {
 	//SDL_GL_SwapWindow(glcore->drawwindow);
 }
 
-void IRenderer::drawInstance(GeometryObject *geometry, unsigned int num) {
+void IRenderer::drawInstance(Geometry *geometry, unsigned int num) {
 
 	GLGeometryObject *glgeo;
 	OpenGLCore *glCore = (OpenGLCore *) this->pdata;
@@ -1381,16 +1407,16 @@ void IRenderer::drawInstance(GeometryObject *geometry, unsigned int num) {
 	glBindVertexArray(0);
 }
 
-void IRenderer::drawMultiInstance(GeometryObject &geometries, const unsigned int *first, const unsigned int *count,
+void IRenderer::drawMultiInstance(Geometry &geometries, const unsigned int *first, const unsigned int *count,
                                   unsigned int num) {
 	throw NotImplementedException();
 }
 
-void IRenderer::drawMultiIndirect(GeometryObject &geometries, unsigned int offset, unsigned int indirectCount) {
+void IRenderer::drawMultiIndirect(Geometry &geometries, unsigned int offset, unsigned int indirectCount) {
 	throw NotImplementedException();
 }
 
-void IRenderer::drawIndirect(GeometryObject *geometry) {
+void IRenderer::drawIndirect(Geometry *geometry) {
 	GLGeometryObject *glgeo;
 	OpenGLCore *glCore = (OpenGLCore *) this->pdata;
 	assert(geometry);

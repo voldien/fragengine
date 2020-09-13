@@ -19,8 +19,6 @@
 #ifndef _FRAG_ENGINE_TIME_H_
 #define _FRAG_ENGINE_TIME_H_ 1
 #include<FragCore.h>
-// #include"Def.h"
-// #include"../Core/Object.h"
 
 namespace fragengine {
 	/**

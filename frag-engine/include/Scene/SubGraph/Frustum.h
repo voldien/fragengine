@@ -44,9 +44,9 @@ namespace fragengine {
 			TOPP    = 0,    /*	*/
 			BOTTOMP = 1,    /*	*/
 			LEFTP   = 2,    /*	*/
-			RIGHTP  = 3,    /*	*/
-			NEARP  = 4,    /*	*/
-			FARP   = 5,    /*	*/
+			RIGHTP  = 3,	/*	*/
+			NEARP  = 4,     /*	*/
+			FARP   = 5,     /*	*/
 		};
 
 		/**
@@ -107,7 +107,10 @@ namespace fragengine {
 
 		virtual Intersection intersectionAABB(const PVAABB &bounds);
 
-		/**
+		virtual Intersection intersectionOBB(const PVVector3 &u, const PVVector3 &v, const PVVector3 &w);
+		virtual Intersection intersectionOBB(const PVOBB &obb);
+
+                /**
 		 *	Check if sphere intersects frustum.
 		 *	@Return
 		 */
@@ -126,10 +129,9 @@ namespace fragengine {
 		 */
 		virtual Intersection intersectionFrustum(const Frustum &frustum) const;
 
-	protected:    /*	Makes the object inheritable object only.	*/
+	protected:    /*	Makes the object only inheritable .	*/
 
 		Frustum(void);
-
 		Frustum(const Frustum &other);
 
 	private:    /*	Attributes.	*/
@@ -139,6 +141,6 @@ namespace fragengine {
 		float fov, ratio, Znear, Zfar, tang;/*	*/
 		float nw, nh, fh, fw;               /*	*/
 	};
-} // namespace fragengine
+}
 
 #endif

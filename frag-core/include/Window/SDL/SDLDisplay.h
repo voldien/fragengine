@@ -1,7 +1,7 @@
 #ifndef _FRAG_CORE_SDLDISPLAY_H_
 #define _FRAG_CORE_SDLDISPLAY_H_ 1
 #include"../../Def.h"
-#include"../../Core/Display.h"
+#include"../Display.h"
 
 namespace fragcore {
 

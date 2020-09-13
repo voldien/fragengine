@@ -31,7 +31,7 @@
 namespace fragcore {
 	/**
 	 *	Pool allocate
-	*/
+	 */
 	template<class T>
 	class PoolAllocator {
 	public:

@@ -1,7 +1,7 @@
 // #include <Windows/SplashWindow.h>
 // #include <Core/Log.h>
 // #include <Core/SystemInfo.h>
-// #include"FragViewEditor.h"
+// #include"FragEditor.h"
 // #include"Core/gtkconfig.h"
 
 // G_DEFINE_TYPE(FragViewEditorApp, fragview_editor_app, GTK_TYPE_APPLICATION)
@@ -155,7 +155,7 @@
 // const char *application_id = "org.gtk.fragview-editor-app";
 // using namespace fragview;
 
-// FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char **argv) {
+// FragEditor::FragEditor(SplashWindow* splashWindow, int argc, const char **argv) {
 // 	this->root = new EditorWindow();
 
 // 	this->root->showWindow();
@@ -199,7 +199,7 @@
 // 	}
 // }
 
-// void FragViewEditor::run(void) {
+// void FragEditor::run(void) {
 // //	/*  Read first options.   */
 // //	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
 // //

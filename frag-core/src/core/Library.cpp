@@ -1,7 +1,7 @@
 #include"Core/Library.h"
 #include<SDL2/SDL.h>
 #include <stdexcept>
-#include <Exception/RuntimeExecption.h>
+#include "Exception/RuntimeException.h"
 #include"Utils/StringUtil.h"
 using namespace fragcore;
 
@@ -22,7 +22,7 @@ Library::Library(const Library &library) {
 }
 
 Library::~Library(void) {
-
+	/*	Nothing to release. Done by the kernel itself.	*/
 }
 
 bool Library::open(const char *clibrary) {

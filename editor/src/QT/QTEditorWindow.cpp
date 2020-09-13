@@ -16,16 +16,16 @@ EditorWindow::EditorWindow()
 	//QDialog
 }
 
-void EditorWindow::showWindow(void) {
+void EditorWindow::show(void) {
 
 	((QMainWindow *)this->window)->show();
 }
 
-void EditorWindow::hideWindow(void) {
+void EditorWindow::hide(void) {
 	((QMainWindow *)this->window)->hide();
 }
 
-void EditorWindow::closeWindow(void) {
+void EditorWindow::close(void) {
 	((QMainWindow *)this->window)->close();
 }
 

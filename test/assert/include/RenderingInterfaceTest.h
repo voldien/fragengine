@@ -1,21 +1,23 @@
-#ifndef FRAGVIEW_TEST_RENDERINGINTERFACETEST_H_
-#define FRAGVIEW_TEST_RENDERINGINTERFACETEST_H_ 1
+#ifndef _TEST_RENDERINGINTERFACETEST_H_
+#define _TEST_RENDERINGINTERFACETEST_H_ 1
 #include "common.h"
 using namespace fragcore;
 
+
+//TODO 
 #define SETRENDERAPISCOPE(obj, renderingApi)   \
     {                                               \
     switch (renderingApi) {                        \
-        case RenderingFactory::eOpenGL:{            \
+        case RenderingFactory::OpenGL:{            \
             SCOPED_TRACE(obj->apiNames[0]);         \
         }break;                                     \
-        case RenderingFactory::eVulkan:{\
+        case RenderingFactory::Vulkan:{\
             SCOPED_TRACE(obj->apiNames[1]);\
         }break;\
         case RenderingFactory::eOpenCL:{\
             SCOPED_TRACE(obj->apiNames[2]);\
         }break;\
-        case RenderingFactory::eDirectX:{\
+        case RenderingFactory::DirectX:{\
             SCOPED_TRACE(obj->apiNames[3]);\
         }break;\
         default:\
@@ -23,17 +25,5 @@ using namespace fragcore;
     }\
 }\
 \
-
-class RenderingInterfaceTest : public CommonBaseTest {
-protected:
-	void TearDown() override;
-
-	void SetUp() override;
-
-	std::vector<RenderingFactory::RenderingAPI> apis;
-	std::vector<const char *> apiNames;
-	Capability capability;
-	IConfig* config;
-};
 
 #endif

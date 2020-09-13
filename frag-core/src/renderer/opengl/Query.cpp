@@ -1,7 +1,7 @@
 #include"Renderer/Query.h"
 #include"Renderer/opengl/internal_object_type.h"
 #include"Exception/InvalidArgumentException.h"
-#include"Exception/RuntimeExecption.h"
+#include "Exception/RuntimeException.h"
 #include<GL/glew.h>
 
 

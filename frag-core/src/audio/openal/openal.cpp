@@ -1,15 +1,16 @@
-#include"audio/AudioInterface.h"
-#include"audio/openal/internal_object_type.h"
-#include "audio/AudioPhysicalDevice.h"
-#include"audio/AudioClip.h"
-#include"audio/AudioSource.h"
-#include "audio/AudioListener.h"
 #include "Core/Math.h"
-#include"Utils/StringUtil.h"
-#include"Exception/RuntimeExecption.h"
+#include "Core/SystemInfo.h"
+#include "Core/TaskScheduler/TaskScheduler.h"
 #include "Exception/InvalidArgumentException.h"
-#include"Core/TaskScheduler/TaskScheduler.h"
-#include"Core/SystemInfo.h"
+#include "Exception/RuntimeException.h"
+#include "Exception/InvalidPointerException.h"
+#include "Utils/StringUtil.h"
+#include "audio/AudioClip.h"
+#include "audio/AudioInterface.h"
+#include "audio/AudioListener.h"
+#include "audio/AudioPhysicalDevice.h"
+#include "audio/AudioSource.h"
+#include "audio/openal/internal_object_type.h"
 
 using namespace fragcore;
 //
@@ -18,14 +19,19 @@ using namespace fragcore;
 //
 //}
 
-AudioInterface::AudioInterface(IConfig *config) {
+AudioInterface::AudioInterface(IConfig *config) : Module() {
 	this->setName("OpenAL");
+	//IConfig& configSettings;
+	if(config == NULL){
+		/*	TODO construct default configuration.	*/
+	}
 
+	/*	*/
 	OpenALInterfaceObject *alDevice = (OpenALInterfaceObject *) malloc(sizeof(OpenALInterfaceObject));
-	this->pdata = alDevice;
-
-	memset(alDevice, 0, sizeof(OpenALInterfaceObject));
 	assert(alDevice);
+	this->pdata = alDevice;
+	memset(alDevice, 0, sizeof(OpenALInterfaceObject));
+
 	//AL_SOURCE_TYPE
 	//TODO add support
 	//const char* device = config->get<const char*>("device");
@@ -35,11 +41,16 @@ AudioInterface::AudioInterface(IConfig *config) {
 	audioPhysicalDevices.setName(defaultDevice);
 	setAudioDevice(audioPhysicalDevices);
 
-	Ref<IScheduler> scheduler = Ref<IScheduler>(new TaskScheduler(Math::clamp(SystemInfo::getCPUCoreCount(), 1, 2), 48));
+	/*	Internal.	*/
+	alDevice->scheduler = Ref<IScheduler>(new TaskScheduler(Math::clamp(SystemInfo::getCPUCoreCount(), 1, 2), 48));
 }
+
 
 AudioInterface::~AudioInterface(void) {
 	OpenALInterfaceObject *audio = (OpenALInterfaceObject *) this->pdata;
+
+	/*	Release all the object associated.	*/
+	delete *audio->scheduler;
 
 	/*  Unbind and release context. */
 	alcMakeContextCurrent(NULL);
@@ -50,6 +61,20 @@ AudioInterface::~AudioInterface(void) {
 	free(audio);
 }
 
+void AudioInterface::OnInitialization(void) {
+    OpenALInterfaceObject *audio = (OpenALInterfaceObject *)this->pdata;
+
+	/*	Allocate data.	*/
+    audio->source.resize(32);
+    audio->clips.resize(32);
+    audio->reverbs.resize(32);
+}
+
+void AudioInterface::OnDestruction(void) {
+
+}
+
+//TODO perhaps move to a helper header file and etc.
 #include<AL/alext.h>
 static inline ALenum to_al_format(short channels, short samples) {
 	bool stereo = (channels > 1);
@@ -92,8 +117,26 @@ static const char* openAlErrorToString(int err)
 	}
 }
 
+static void validateClipDesc(AudioClipDesc* desc) {
+	if (desc == NULL) 
+		throw InvalidPointerException("AudioClipDesc invalid pointer");
+	if (desc->decoder.ptr() == NULL) {
+		throw InvalidArgumentException("");
+	}
+
+	if (desc->format < eMono || desc->format > eStero)
+		throw InvalidArgumentException("");
+	if (desc->datamode < AudioDataMode::LoadedInMemory ||
+		desc->datamode > AudioDataMode::DecompressOnLoad)
+		throw InvalidArgumentException("");
+	if(desc->source != NULL && desc->size <= 0){
+		throw InvalidArgumentException("");
+	}
+}
+
 AudioClip *AudioInterface::createAudioClip(AudioClipDesc *desc){
 	OpenALInterfaceObject *audio = (OpenALInterfaceObject *)this->pdata;
+	validateClipDesc(desc);
 
 	ALuint buffer;
 
@@ -102,15 +145,15 @@ AudioClip *AudioInterface::createAudioClip(AudioClipDesc *desc){
 	/*	TODO based on the loading type.	*/
 	if(desc->datamode == AudioDataMode::LoadedInMemory){
 		long int size;
+		/*	Load all data from the stream.	*/
 		void *data = desc->decoder->getData(&size);
-
 		/*	*/
 		alBufferData(buffer, to_al_format(desc->format, desc->samples),
 					data, size, desc->sampleRate);
-
 		free(data);
-	}
-	else{
+		desc->decoder->deincreemnt();
+
+	} else {
 
 	}
 
@@ -121,9 +164,11 @@ AudioClip *AudioInterface::createAudioClip(AudioClipDesc *desc){
 	AudioClip *audioClip = new AudioClip();
 	ALClip *source = new ALClip();
 
+	/*	*/
 	Ref<AudioDecoder> decoder;
 	source->source = buffer;
 	source->decoder = desc->decoder;
+	source->mode = desc->datamode;
 	audioClip->pdata = source;
 
 	return audioClip;
@@ -131,61 +176,76 @@ AudioClip *AudioInterface::createAudioClip(AudioClipDesc *desc){
 
 void AudioInterface::deleteAudioClip(AudioClip *AudioClip) {
 	OpenALInterfaceObject *audio = (OpenALInterfaceObject *) this->pdata;
+	//ALClip *clip = (ALClip)AudioClip->getObject();
 
 	alDeleteBuffers(1, NULL);
+	delete audio;
+	delete AudioClip;
+}
+
+static void validateAudioSourceDesc(AudioSourceDesc* desc){
+    if (desc == NULL)
+        throw InvalidPointerException("AudioSourceDesc invalid pointer");
 }
 
 AudioSource *AudioInterface::createAudioSource(AudioSourceDesc *desc) {
+    validateAudioSourceDesc(desc);
 
-	ALuint source;
-	alGenSources(1, &source);
+    ALuint source;
+    alGenSources(1, &source);
 
-	
-	alSourcef(source, AL_PITCH, 1);
-// check for errors
-	alSourcef(source, AL_GAIN, 1);
-// check for errors
-	alSource3f(source, AL_POSITION, 0, 0, 0);
-// check for errors
-	alSource3f(source, AL_VELOCITY, 0, 0, 0);
-// check for errors
-	alSourcei(source, AL_LOOPING, AL_FALSE);
+    alSourcef(source, AL_PITCH, 1);
+    // check for errors
+    alSourcef(source, AL_GAIN, 1);
+    // check for errors
+    alSource3f(source, AL_POSITION, 0, 0, 0);
+    // check for errors
+    alSource3f(source, AL_VELOCITY, 0, 0, 0);
+    // check for errors
+    alSourcei(source, AL_LOOPING, AL_FALSE);
 
-	AudioSource* audioSource = new AudioSource();
-	ALSource* alSource = new ALSource();
-	audioSource->pdata = alSource;
-	alSource->source = source;
+    AudioSource *audioSource = new AudioSource();
+    ALSource *alSource = new ALSource();
+    audioSource->pdata = alSource;
+    alSource->source = source;
 
-	return audioSource;
+    return audioSource;
 }
 
 void AudioInterface::deleteAudioSource(AudioSource *audioSource) {
+    delete audioSource;
+}
+
+static void validateAudioReverbDesc(AudioReverbDesc* desc){
 
 }
 
 AudioReverb *AudioInterface::createAudioReverb(AudioReverbDesc *desc) {
 	OpenALInterfaceObject *audio = (OpenALInterfaceObject *) this->pdata;
+	validateAudioReverbDesc(desc);
+
+	/*	Validate the system.	*/
 	if(!audio->supportEffects)
 		throw RuntimeException("");
-
 
 	return nullptr;
 }
 
 void AudioInterface::deleteAudioReverb(AudioReverb *reverb) {
-
+	delete reverb;
 }
 
 AudioListener *AudioInterface::createAudioListener(AudioListenerDesc *desc) {
-	//alGetListener3f()
+
 	OpenALInterfaceObject *audio = (OpenALInterfaceObject *) this->pdata;
-
-
 	AudioListener* listener = new AudioListener();
-	//return obtainMappedObject<AudioListener>(NULL);
-	listener->setPosition(PVVector3::zero());
+
+	/*	*/
+	listener->setPosition(desc->position);
 	listener->setVelocity(PVVector3::zero());
-	listener->setOrientation(PVQuaternion());
+	listener->setOrientation(desc->rotation);
+
+	return listener;
 }
 
 void AudioInterface::deleteAudioListener(AudioListener *listener) {
@@ -193,10 +253,11 @@ void AudioInterface::deleteAudioListener(AudioListener *listener) {
 }
 
 void AudioInterface::setAudioListener(AudioListener *listener) {
-
+    OpenALInterfaceObject *audio = (OpenALInterfaceObject *)this->pdata;
+	//audio->
 }
 
-AudioCapture *AudioInterface::createAudioCapture(void){
+AudioCapture *AudioInterface::createAudioCapture(void) {
 	return NULL;
 }
 
@@ -289,7 +350,7 @@ void AudioInterface::setAudioDevice(const AudioPhysicalDevice &device)
 }
 
 const char *AudioInterface::getVersion(void) const {
-	return "";
+	return FV_STR_VERSION(1,0,0);
 }
 
 const AudioPhysicalDevice &AudioInterface::getAudioDevice(void) const
@@ -297,7 +358,6 @@ const AudioPhysicalDevice &AudioInterface::getAudioDevice(void) const
 	ALCdevice* dv = alcGetContextsDevice(alcGetCurrentContext());
 	AudioPhysicalDevice device = AudioPhysicalDevice();
 	device.setName(alcGetString(dv, ALC_DEVICE_SPECIFIER));
-
 	return device;
 }
 

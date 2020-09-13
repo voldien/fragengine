@@ -62,19 +62,26 @@ unsigned long AudioClip::getSize(void) const {
 
 float AudioClip::length(void) const {
 	ALClip *alClip = (ALClip *) this->getObject();
+	if(alClip->mode == LoadedInMemory){
 
-	ALint sizeInBytes;
-	ALint channels;
-	ALint bits;
-	ALint frequency;
 
-	alGetBufferi(alClip->source, AL_SIZE, &sizeInBytes);
-	alGetBufferi(alClip->source, AL_CHANNELS, &channels);
-	alGetBufferi(alClip->source, AL_BITS, &bits);
-	alGetBufferi(alClip->source, AL_FREQUENCY, &frequency);
+		ALint sizeInBytes;
+		ALint channels;
+		ALint bits;
+		ALint frequency;
 
-	float lengthInSamples = sizeInBytes * 8 / (channels * bits);
-	return  (float)lengthInSamples / (float)frequency;
+		alGetBufferi(alClip->source, AL_SIZE, &sizeInBytes);
+		alGetBufferi(alClip->source, AL_CHANNELS, &channels);
+		alGetBufferi(alClip->source, AL_BITS, &bits);
+		alGetBufferi(alClip->source, AL_FREQUENCY, &frequency);
+
+		/*	Compute the length of the buffer.	*/
+		float lengthInSamples = sizeInBytes * 8 / (channels * bits);
+		return  (float)lengthInSamples / (float)frequency;
+
+	}else {
+		return alClip->decoder->getTotalTime();
+	}
 }
 
 void AudioClip::getData(void *pData, unsigned int nsamples, unsigned int offset) {
@@ -84,7 +91,7 @@ void AudioClip::getData(void *pData, unsigned int nsamples, unsigned int offset)
 AudioDataMode AudioClip::clipType(void) const{
 	ALClip *alClip = (ALClip *)this->getObject();
 	//TODO add equation for compute length from sample, format and size and etc.
-	return 0;
+	return (AudioDataMode)0;
 }
 
 void AudioClip::setData(const void *pData, unsigned int nsamples, unsigned int offset)

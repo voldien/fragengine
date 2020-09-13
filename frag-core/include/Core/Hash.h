@@ -43,9 +43,10 @@ namespace fragcore {
 
 		/*  Add additional data to be used for computing.   .*/
 		void update(const void* pdata, size_t nbytes);
-		void update(const Ref<IO> &io);
+		void update(Ref<IO> &io);
 		/*  Get the final hash value.   */
 		void final(std::vector<unsigned char>& hash);
+		unsigned int getResultSize(void) const;
 		long int getByteRead(void) const ;
 
 		ALGORITHM getAlgorithm(void) const;
@@ -56,12 +57,6 @@ namespace fragcore {
 
 		Hash(const Hash& other);	//TODO determine
 		Hash(void);
-	public:
-		//TODO static of non static hash object.
-		//TODO determine is should be used.	if nedded.
-		static void computeMD5(const void* pdata, size_t nbytes, unsigned char md5[16]);
-		//void computeMD5(IO* io, unsigned char md5[16]);
-
 	};
 
 }

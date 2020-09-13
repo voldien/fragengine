@@ -190,7 +190,7 @@ namespace fragengine {
 //	ShaderObject* gamma;
 //
 //	/*  */
-//	GeometryObject* boundbox;
+//	Geometry* boundbox;
 
 	};
 } // namespace fragengine

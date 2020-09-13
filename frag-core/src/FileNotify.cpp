@@ -1,14 +1,13 @@
 #include"FileNotify.h"
-#include"Core/UserEvent.h"
 #include"Core/IO/FileSystem.h"
-//#include<SDL2/SDL_events.h>
+#include"Exception/RuntimeException.h"
+#include"Exception/InvalidArgumentException.h"
 #include<libfswatch/c/libfswatch.h>
 #include<libfswatch/c/libfswatch.h>
-#include <SDL2/SDL_timer.h>
-#include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
 #include"Utils/StringUtil.h"
 #include"Core/IO/FileSystem.h"
+
+//#include<event.h>
 
 using namespace fragcore;
 
@@ -125,7 +124,7 @@ FileNotify::FileNoticationEntry *FileNotify::getEntry(Object *object) {
 	return &this->notify[object->getUID()];
 }
 
-int FileNotify::fileFetchTask(Task *package) {
+void FileNotify::fileFetchTask(Task *package) {
 	//TODO reolcate to the application specific.	
 	
 	// std::string *path = (std::string *) package->puser;
@@ -252,7 +251,8 @@ void *FileNotify::fswatch(const void *psession) {
 void FileNotify::start(void) {
 	/*  Create monitoring thread.   */
 	if (!fsw_is_running(this->session)) {
-		this->pthread = schCreateThread(-1, (void*)FileNotify::fswatch, this->session);
+		//TODO make use of the thread wrapper method.
+		this->pthread = schCreateThread(-1, (schFunc*)FileNotify::fswatch, this->session);
 	}
 }
 

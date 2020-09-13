@@ -1,5 +1,6 @@
 #include <stdexcept>
-#include <Exception/InvalidArgumentException.h>
+#include "Exception/InvalidArgumentException.h"
+#include "Exception/RuntimeException.h"
 #include"Core/IO/BufferIO.h"
 using namespace fragcore;
 
@@ -28,10 +29,13 @@ long BufferIO::read(long int nbytes, void *pbuffer) {
 }
 
 long BufferIO::write(long int nbytes, const void *pbuffer) {
-	unsigned long nWriteBytes = 0;
-	memcpy(&this->buffer[this->marker], pbuffer, nWriteBytes);
+	if(isWriteable()){
+		unsigned long nWriteBytes = 0;
+		memcpy(&this->buffer[this->marker], pbuffer, nWriteBytes);
 
-	return nWriteBytes;
+		return nWriteBytes;
+	}
+	throw RuntimeException(); //TODO determine if a another execption type is more appropicate.
 }
 
 bool BufferIO::eof(void) const {
@@ -94,4 +98,9 @@ BufferIO::BufferIO(unsigned long size, bool expandable)
 	this->buffer = (char*)malloc(size);
 	this->readOnly = false;
 	this->expandable = expandable;
+}
+
+BufferIO::~BufferIO(void){
+	if(this->expandable)
+		free(this->buffer);
 }

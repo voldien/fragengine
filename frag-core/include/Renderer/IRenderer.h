@@ -19,7 +19,7 @@
 #ifndef _FRAG_CORE_IRENDERER_H_
 #define _FRAG_CORE_IRENDERER_H_ 1
 #include "../Prerequisites.h"
-#include"ICompute.h"
+#include "ICompute.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "FrameBuffer.h"
@@ -35,9 +35,9 @@ namespace fragcore {
 	 *
 	 */
 	enum CLEARBITMASK {	//TODO rename
-		eColor = 0x1,        /*	Clear color.    */
-		eDepth = 0x2,        /*	Clear depth.    */
-		eStencil = 0x4,        /*	Clear stencil.  */
+		eColor = 0x1,		/*	Clear color.    */
+		eDepth = 0x2,		/*	Clear depth.    */
+		eStencil = 0x4,		/*	Clear stencil.  */
 	};
 
 	/**
@@ -46,6 +46,7 @@ namespace fragcore {
 	class FVDECLSPEC IRenderer : public ICompute {
 	public:
 
+		/*	TODO rename and fix enum names.	*/
 		enum State {
 			eDepthTest = 0x1,           /*	Perform depth test on pixels.   */
 			eStencilTest,               /*	Perform stencil test.   */
@@ -64,7 +65,11 @@ namespace fragcore {
 
 		};
 
+		//TODO make it less state machine and allow it to become more modern.
 		virtual ~IRenderer();
+
+		virtual void OnInitialization(void);
+		virtual void OnDestruction(void);
 
 		/**
 		 *	Create texture.
@@ -116,9 +121,9 @@ namespace fragcore {
 		 *
 		 *	@Return
 		 */
-		virtual GeometryObject *createGeometry(GeometryDesc *desc);
+		virtual Geometry *createGeometry(GeometryDesc *desc);
 
-		virtual void deleteGeometry(GeometryObject *obj);
+		virtual void deleteGeometry(Geometry *obj);
 
 		/**
 		 *
@@ -141,8 +146,7 @@ namespace fragcore {
 		 * @param height
 		 * @return
 		 */
-		//TODO add RendererWindow
-		virtual RendererWindow *createWindow(int x, int y, int width, int height, RendererWindow *rendererWindow);
+		virtual RendererWindow *createWindow(int x, int y, int width, int height);
 
 		/**
 		 *
@@ -182,12 +186,12 @@ namespace fragcore {
 		/**
 		 *	Enable VSync.
 		 */
-		virtual void setVSync(int sync);
+		virtual void setVSync(int sync);	//TODO relocate to the render window.
 
 		/**
 		 *	Swap current window buffer.
 		 */
-		virtual void swapBuffer(void);
+		virtual void swapBuffer(void);	//TODO relocate to the render window.
 
 		/**
 		 *	Set depth mask.
@@ -216,24 +220,25 @@ namespace fragcore {
 		 * @param geometry
 		 * @param num
 		 */
-		virtual void drawInstance(GeometryObject *geometry, unsigned int num);
+		virtual void drawInstance(Geometry *geometry, unsigned int num);
+		//virtual void drawInstance(Shader* pipeline, GeometryObject* geometry, unsigned int num);
 
 		/**
 		 *
 		 * @param geometries
 		 * @param num
 		 */
-		virtual void drawMultiInstance(GeometryObject &geometries, const unsigned int *first, const unsigned int *count,
+		virtual void drawMultiInstance(Geometry &geometries, const unsigned int *first, const unsigned int *count,
 		                               unsigned int num);
 
-		virtual void drawMultiIndirect(GeometryObject &geometries, unsigned int offset, unsigned int indirectCount);
+		virtual void drawMultiIndirect(Geometry &geometries, unsigned int offset, unsigned int indirectCount);
 
 		/**
 		 *
 		 * @param geometries
 		 * @param num
 		 */
-		virtual void drawIndirect(GeometryObject *geometry);
+		virtual void drawIndirect(Geometry *geometry);
 
 		/**
 		 *

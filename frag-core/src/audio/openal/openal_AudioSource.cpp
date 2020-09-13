@@ -13,7 +13,8 @@ AudioSource::~AudioSource(void) {
 
 void AudioSource::setClip(AudioClip *clip) {
 	ALSource *source = (ALSource *) this->getObject();
-	const ALClip *alClip = clip->getObject();
+	const ALClip *alClip = (const ALClip *)clip->getObject();
+
 	// Verify the clio
 	if(!alIsBuffer(alClip->source))
 		throw InvalidArgumentException(fvformatf("%d", alGetError()));
@@ -22,6 +23,7 @@ void AudioSource::setClip(AudioClip *clip) {
 	int err = alGetError();
 	if (err != AL_NO_ERROR)
 		throw InvalidArgumentException(fvformatf("%d", alGetError()));
+	source->clip = alClip;
 }
 
 void AudioSource::play(void) {
@@ -30,6 +32,9 @@ void AudioSource::play(void) {
 	int err = alGetError();
 	if (err != AL_NO_ERROR)
 		throw InvalidArgumentException(fvformatf("%d", alGetError()));
+	if (source->clip->mode == Streaming) {
+		//alSourceQueueBuffers		
+	}
 }
 
 void AudioSource::stop(void) {

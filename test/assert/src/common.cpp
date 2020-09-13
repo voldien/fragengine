@@ -17,6 +17,9 @@ void CommonBaseTest::TearDown() {
 	Test::TearDown();
 }
 
+AudioInterface* createAudioInterface(fragcore::AudioFactory::AudioAPI api){
+	return AudioFactory::createAudioInterface(api, NULL);
+}
 
 IRenderer *createRendererInterface(RenderingFactory::RenderingAPI api, IConfig *config) {
 	IRenderer *renderer = NULL;

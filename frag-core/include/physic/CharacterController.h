@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _CHARACTERCONTROLLER_H_
-#define _CHARACTERCONTROLLER_H_ 1
+#ifndef _FRAG_CORE_CHARACTERCONTROLLER_H_
+#define _FRAG_CORE_CHARACTERCONTROLLER_H_ 1
 #include "../Def.h"
 
 namespace fragcore {
@@ -37,9 +37,9 @@ namespace fragcore {
 
 	protected:	/*	Protected virtual methods.	*/
 
-		virtual PVVector3 getCenter(void* pobj);
-		virtual void setCenter(void* pobj, const PVVector3& center);
-
+		virtual PVVector3 getCenter();
+		//virtual const PVVector3 &getConter() const;
+		virtual void setCenter(const PVVector3 &center);
 	};
 }
 

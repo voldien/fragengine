@@ -15,7 +15,7 @@ Texture *TextureFactory::createChecker(IRenderer *renderer, int width, int heigh
 	int pixelSize;
 	assert(renderer && width > 0 && height > 0);
 
-	createChecker(width, height, &pixels);
+	createChecker(width, height, (char**)&pixels);
 
 	Texture *texture = TextureUtil::createTexture(renderer, width, height, pixels, pixelSize, TextureFormat::R8, GraphicFormat::R8G8B8_SRGB);
 
@@ -51,7 +51,7 @@ void TextureFactory::createChecker(int width, int Height, char **pixelsResult) {
 
 	unsigned int x, y, Xpatter, Ypatter, bpp = 4;
 
-	*pixelsResult = malloc(width * Height * bpp);
+	*pixelsResult = (char*)malloc(width * Height * bpp);
 
 	int CheckerXDimension = 32;
 	int CheckerYDimension = 32;

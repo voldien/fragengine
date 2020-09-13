@@ -26,7 +26,7 @@
 namespace fragcore {
 	/**
 	 *	Texture object.
-	*/
+	 */
 	class FVDECLSPEC Texture : public Sampler {
 		friend class IRenderer;
 

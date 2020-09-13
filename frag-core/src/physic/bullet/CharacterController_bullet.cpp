@@ -5,9 +5,10 @@ CharacterController::~CharacterController(void){
 
 }
 
-PVVector3 CharacterController::getCenter(void* pobj){
+PVVector3 CharacterController::getCenter(){
 
 }
-void CharacterController::setCenter(void* pobj, const PVVector3& center){
+
+void CharacterController::setCenter(const PVVector3& center){
 
 }

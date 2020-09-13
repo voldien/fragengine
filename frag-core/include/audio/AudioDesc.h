@@ -33,18 +33,17 @@ namespace fragcore
 	class AudioDecoder;
 	typedef struct audio_clip_desc_t
 	{
+		/*  */
+		void *source;				/*  */
+		size_t size;				/*  */
+		int sampleRate; 			/*  */
+		AudioFormat format;			/*  */
+		unsigned int samples;		/*  */
 
 		/*  */
-		void *source;	/*  */
-		size_t size;	/*  */
-		int sampleRate; /*  */
-
-		/*  */
-		AudioFormat format;	  /*  */
-		unsigned int samples; /*  */
-		bool streaming;		  //TODO change to a enum.
-		Ref<AudioDecoder> decoder;
-		AudioDataMode datamode;
+		bool streaming;		  		//TODO change to a enum.
+		Ref<AudioDecoder> decoder;	/*	*/
+		AudioDataMode datamode;		/*	*/
 	} AudioClipDesc;
 
 	typedef struct audio_listener_desc_t

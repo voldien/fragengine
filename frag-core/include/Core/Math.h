@@ -61,6 +61,15 @@ namespace fragcore {
 		inline static float modd(double a){ double part; return ::modf(a, &part);}
 		inline static float modi(float a, float b){ return ( (a) < (b) ) ? (a) : (b);}
 
+		template<typename T>
+		inline static T sum( const std::vector<T>& list){
+			//std::vector<T>::const_iterator it = list.cbegin();
+			T sum = 0;
+			// for (; it != list.cend(); it++)
+			// 	sum += (*it);
+			return sum;
+		}
+
 		/**
 		 *	Convert degree to radian.
 		 */

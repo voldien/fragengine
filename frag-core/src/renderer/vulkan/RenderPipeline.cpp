@@ -6,6 +6,8 @@
 #include<SDL2/SDL_surface.h>
 #include<SDL2/SDL_syswm.h>
 #include<SDL2/SDL_vulkan.h>
+#include"Renderer/vulkan/VKRenderWindow.h"
+#include"Window/WindowManager.h"
 
 #include<climits>
 #include<vector>
@@ -14,7 +16,7 @@
 #include<iostream>
 #include"Renderer/RenderDesc.h"
 #include"Exception/InvalidArgumentException.h"
-#include"Exception/RuntimeExecption.h"
+#include "Exception/RuntimeException.h"
 
 using namespace fragcore;
 
@@ -27,24 +29,34 @@ static bool validate_object_memeber(IRenderer *renderer, RenderObject *object) {
 	return renderer == object->getRenderer();
 }
 
-IRenderer::IRenderer(IConfig *config) {
 
-	static const std::vector<const char *> instanceExtensionNames = {
+IRenderer::IRenderer(IConfig *config) {
+    static const std::vector<const char *> instanceExtensionNames = {
 #if defined(FV_LINUX)
-			VK_KHR_SURFACE_EXTENSION_NAME,
-			VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME,
-			VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
-			VK_KHR_DEVICE_GROUP_CREATION_EXTENSION_NAME,
-			VK_EXT_DEBUG_UTILS_EXTENSION_NAME,
+        VK_KHR_SURFACE_EXTENSION_NAME,
+        VK_KHR_WAYLAND_SURFACE_EXTENSION_NAME,
+        VK_KHR_XLIB_SURFACE_EXTENSION_NAME,
 #elif defined(FV_WIN)
-			VK_KHR_WIN32_SURFACE_EXTENSION_NAME
+        VK_KHR_WIN32_SURFACE_EXTENSION_NAME,
 #endif
-	};
+        VK_KHR_DEVICE_GROUP_CREATION_EXTENSION_NAME,
+        VK_EXT_DEBUG_UTILS_EXTENSION_NAME,
+		VK_EXT_DEBUG_REPORT_EXTENSION_NAME,
+		VK_KHR_DISPLAY_EXTENSION_NAME,
+    };
 	const std::vector<const char *> validationLayers = {
-			"VK_LAYER_LUNARG_standard_validation",
+		"VK_LAYER_LUNARG_standard_validation",
 	};
 
 	VulkanCore *vulkancore = NULL;
+	IConfig setupConfig;
+	if(config == NULL){
+		setupConfig.set("debug", true);
+		setupConfig.set("debug-tracer", true);
+		setupConfig.set("gamma-correction", true);
+	} else{
+		//setupConfig = *config
+	}
 
 	/*  Initialize video support.   */
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) != 0) {
@@ -52,18 +64,18 @@ IRenderer::IRenderer(IConfig *config) {
 	}
 
 	/*	Allocate private data structure for the renderer interface. */
-	vulkancore = (VulkanCore *) malloc(sizeof(*vulkancore));
-	assert(vulkancore);
-	memset(vulkancore, NULL, sizeof(*vulkancore));
+	vulkancore = new VulkanCore();
+	if(vulkancore == NULL)
+		throw RuntimeException();
 
 	/*  Store reference with the object. */
 	this->pdata = vulkancore;
 
 	/*  Determine layer validation. */
-	vulkancore->enableValidationLayers = config->get<bool>("debug");
+	vulkancore->enableValidationLayers = setupConfig.get<bool>("debug");
 	vulkancore->enableValidationLayers = 1;
-	vulkancore->enableDebugTracer = config->get<bool>("debug-tracer");
-	vulkancore->useGamma = config->get<bool>("gamma-correction");
+	vulkancore->enableDebugTracer = setupConfig.get<bool>("debug-tracer");
+	vulkancore->useGamma = setupConfig.get<bool>("gamma-correction");
 
 	/*  Vulkan variables.   */
 	VkResult result;
@@ -75,7 +87,7 @@ IRenderer::IRenderer(IConfig *config) {
 	}
 	vulkancore->extension_names = (VkExtensionProperties *) (malloc(sizeof(VkExtensionProperties) * extensionCount));
 	if (vkEnumerateInstanceExtensionProperties(NULL, &extensionCount,
-	                                           (VkExtensionProperties *) vulkancore->extension_names) != VK_SUCCESS) {
+											   (VkExtensionProperties *) vulkancore->extension_names) != VK_SUCCESS) {
 		throw RuntimeException("Failed enumerate Vulkan extension properties");
 	}
 
@@ -95,6 +107,7 @@ IRenderer::IRenderer(IConfig *config) {
 	}
 
 	/*  TODO add support for loading requried extensions.   */
+	//TODO improve later.
 	/*  Create Vulkan window.   */
 	SDL_Window *tmpWindow = SDL_CreateWindow("", 0, 0, 1, 1, SDL_WINDOW_VULKAN);
 	if (tmpWindow == NULL)
@@ -102,12 +115,10 @@ IRenderer::IRenderer(IConfig *config) {
 	unsigned int count;
 	if (!SDL_Vulkan_GetInstanceExtensions(tmpWindow, &count, NULL))
 		throw RuntimeException(fvformatf("%s", SDL_GetError()));
-
-	//size_t additional_extension_count = extensions.size();
-	//extensions.resize(additional_extension_count + count);
-
-	//if (!SDL_Vulkan_GetInstanceExtensions(window, &count, extensions.data() + additional_extension_count)) handle_error();
-
+	size_t additional_extension_count = instanceExtensionNames.size();
+	instanceExtensionNames.resize(additional_extension_count + count);
+	if (!SDL_Vulkan_GetInstanceExtensions(tmpWindow, &count, instanceExtensionNames.data() + additional_extension_count))
+		throw RuntimeException(fvformatf("failed SDL_Vulkan_GetInstanceExtensions - %s", SDL_GetError()));
 	SDL_DestroyWindow(tmpWindow);
 
 	/*  Get Vulkan version. */
@@ -120,31 +131,41 @@ IRenderer::IRenderer(IConfig *config) {
 	VkApplicationInfo ai = {};
 	ai.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 	ai.pNext = NULL;
-	ai.pApplicationName = "FragView";
+	ai.pApplicationName = "FragCore";
 	ai.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-	ai.pEngineName = "FragView-Engine";
+	ai.pEngineName = "FragCore-Engine";
 	ai.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 	ai.apiVersion = version;
 
-	VkDebugReportCallbackCreateInfoEXT callbackCreateInfoExt = {};
+	VkDebugReportCallbackCreateInfoEXT callbackCreateInfoExt = {
+		VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT,    // sType
+		NULL,                                                       // pNext
+		VK_DEBUG_REPORT_ERROR_BIT_EXT |                             // flags
+		VK_DEBUG_REPORT_WARNING_BIT_EXT,
+		NULL,//myOutputDebugString,                                        // pfnCallback
+		NULL                                                        // pUserData
+	};
 	VkDebugUtilsMessengerCreateInfoEXT debugUtilsMessengerCreateInfoExt = {
 			.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT,
 			.pNext = &callbackCreateInfoExt,
 	};
 	VkValidationCheckEXT validationCheckExt[] = {
-			VK_VALIDATION_CHECK_ALL_EXT
+		VK_VALIDATION_CHECK_ALL_EXT
 	};
 	VkValidationFlagsEXT validationFlagsExt = {
-			.sType = VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT,
-			.pNext = &debugUtilsMessengerCreateInfoExt,
-			.disabledValidationCheckCount = 1,
-			.pDisabledValidationChecks = validationCheckExt
+		.sType = VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT,
+		.pNext = NULL,//&debugUtilsMessengerCreateInfoExt,
+		.disabledValidationCheckCount = 1,
+		.pDisabledValidationChecks = validationCheckExt
 	};
 
 	/*	Prepare the instance object. */
 	VkInstanceCreateInfo ici = {};
 	ici.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-	ici.pNext = NULL;
+	if(vulkancore->enableValidationLayers)
+		ici.pNext = NULL;
+	else
+		ici.pNext = NULL;
 	ici.flags = 0;
 	ici.pApplicationInfo = &ai;
 	if (vulkancore->enableValidationLayers) {
@@ -163,9 +184,10 @@ IRenderer::IRenderer(IConfig *config) {
 		throw RuntimeException(fvformatf("vkCreateInstance - %d.", result));
 
 	/*  Set debug mode.  */
-	this->setDebug(config->get<bool>("debug"));
+	this->setDebug(setupConfig.get<bool>("debug"));
 
 	/*	Get number of physical devices. */
+	int num_physica_devices;
 	result = vkEnumeratePhysicalDevices(vulkancore->inst, &vulkancore->num_physical_devices, NULL);
 	if (result != VK_SUCCESS) {
 		throw RuntimeException(fvformatf("Failed to get number physical devices - %d", result));
@@ -174,38 +196,42 @@ IRenderer::IRenderer(IConfig *config) {
 	vulkancore->physical_devices = (VkPhysicalDevice *) malloc(
 			sizeof(VkPhysicalDevice) * vulkancore->num_physical_devices);
 	assert(vulkancore->physical_devices);
+	vulkancore->GPUs.resize(vulkancore->num_physical_devices);
 	result = vkEnumeratePhysicalDevices(vulkancore->inst, &vulkancore->num_physical_devices,
-	                                    vulkancore->physical_devices);
+										vulkancore->physical_devices);
 	if (result != VK_SUCCESS)
 		throw RuntimeException(fvformatf("Failed to enumerate physical devices - %d.", result));
 
+	/*	*/
 	uint32_t pPhysicalDeviceGroupCount;
 	result = vkEnumeratePhysicalDeviceGroups(vulkancore->inst,&pPhysicalDeviceGroupCount, NULL);
 	if (result != VK_SUCCESS)
 		throw RuntimeException(fvformatf("vkEnumeratePhysicalDeviceGroups failed query - %d.", result));
 	std::vector<VkPhysicalDeviceGroupProperties> phyiscalDevices;
 	phyiscalDevices.resize(pPhysicalDeviceGroupCount);
-	result = vkEnumeratePhysicalDeviceGroups(vulkancore->inst,&pPhysicalDeviceGroupCount, phyiscalDevices.data());
+	result = vkEnumeratePhysicalDeviceGroups(vulkancore->inst, &pPhysicalDeviceGroupCount, phyiscalDevices.data());
 	if (result != VK_SUCCESS)
 		throw RuntimeException(fvformatf("vkEnumeratePhysicalDeviceGroups failed fetching groups - %d.", result));
-
-
+		
 
 	/*  TODO add selection function. */
-	std::vector<VkPhysicalDevice*> gpucandiates;
+	std::vector<VkPhysicalDevice> gpucandiates;
 	for(int i = 0; i < vulkancore->num_physical_devices; i++) {
-		if(isDeviceSuitable(vulkancore->physical_devices[i])){
+		if(isDeviceSuitable(vulkancore->physical_devices[i])) {
 			vulkancore->gpu = vulkancore->physical_devices[i];
-			gpucandiates.push_back(&vulkancore->physical_devices[i]);
+			gpucandiates.push_back(vulkancore->physical_devices[i]);
 			break;
 		}
 	}
+
+	std::vector<VkPhysicalDevice> selectedDevices;
+	selectDefaultDevices(gpucandiates, selectedDevices);
+
 	/*  */
 	VkPhysicalDeviceFeatures supportedFeatures;
 	vkGetPhysicalDeviceFeatures(vulkancore->gpu, &supportedFeatures);
 	/*  Fetch memory properties.   */
 	vkGetPhysicalDeviceMemoryProperties(vulkancore->gpu, &vulkancore->memProperties);
-
 
 	/*  Select queue family.    */
 	/*  TODO improve queue selection.   */
@@ -242,22 +268,27 @@ IRenderer::IRenderer(IConfig *config) {
 	/*  Required extensions.    */
 	std::vector<const char *> deviceExtensions = {
 			VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-
-			//VK_EXT_conditional_rendering
+			VK_EXT_CONDITIONAL_RENDERING_EXTENSION_NAME,
 			//VK_NV_RAY_TRACING_EXTENSION_NAME
 			//VK_KHR_GET_MEMORY_REQUIREMENTS_2_EXTENSION_NAME
 			//VK_NV_GLSL_SHADER_EXTENSION_NAME
 	};
 	if (vulkancore->enableValidationLayers) {
+		//TODO determine
 		deviceExtensions.push_back(VK_EXT_DEBUG_MARKER_EXTENSION_NAME);
+		//deviceExtensions.push_back(VK_EXT_DEBUG_REPORT_EXTENSION_NAME);
 	}
 
 	VkDeviceGroupDeviceCreateInfo deviceGroupDeviceCreateInfo = {
-			.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO,
-			.pNext = NULL,
-			.physicalDeviceCount = 1,
-			.pPhysicalDevices = NULL,
+		.sType = VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO,
 	};
+	if(phyiscalDevices.size() > 0){
+		if (phyiscalDevices[0].physicalDeviceCount > 1) {
+			deviceGroupDeviceCreateInfo.physicalDeviceCount = phyiscalDevices[0].physicalDeviceCount;
+			deviceGroupDeviceCreateInfo.pPhysicalDevices = phyiscalDevices[0].physicalDevices;
+		}
+	}
+
 	VkPhysicalDeviceShaderDrawParameterFeatures deviceShaderDrawParametersFeatures = {
 			.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETER_FEATURES,
 			.pNext = NULL,
@@ -278,6 +309,7 @@ IRenderer::IRenderer(IConfig *config) {
 	};
 
 	VkDeviceCreateInfo device = {};
+	VkPhysicalDeviceFeatures deviceFeatures{};
 	device.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 	device.pNext = &conditionalRenderingFeaturesExt;
 	device.queueCreateInfoCount = 1;
@@ -285,13 +317,19 @@ IRenderer::IRenderer(IConfig *config) {
 	if (vulkancore->enableValidationLayers) {
 		device.enabledLayerCount = vulkancore->enabled_layer_count;
 		device.ppEnabledLayerNames = (const char *const *) ((vulkancore->validate)
-		                                                    ? vulkancore->device_validation_layers : NULL);
+															? vulkancore->device_validation_layers : NULL);
 	} else {
 		device.enabledLayerCount = 0;
 	}
+
+	/*	Enable group.	*/
+	if (deviceGroupDeviceCreateInfo.physicalDeviceCount > 1) {
+        deviceShaderDrawParametersFeatures.pNext = &deviceGroupDeviceCreateInfo;
+    }
 	device.enabledExtensionCount = deviceExtensions.size();
 	device.ppEnabledExtensionNames = deviceExtensions.data();
-	device.pEnabledFeatures = NULL;
+	device.pEnabledFeatures = &deviceFeatures;
+
 
 	/*  Create device.  */
 	result = vkCreateDevice(vulkancore->gpu, &device, NULL, &vulkancore->device);
@@ -300,13 +338,10 @@ IRenderer::IRenderer(IConfig *config) {
 
 	/*  Get all queues.    */
 	vkGetDeviceQueue(vulkancore->device, vulkancore->graphics_queue_node_index, 0, &vulkancore->queue);
+	vkGetDeviceQueue(vulkancore->device, vulkancore->graphics_queue_node_index, 0, &vulkancore->presentQueue);
 
-	/*  Create semaphore for swapchains.  */
-	VkSemaphoreCreateInfo semaphoreInfo = {};
-	semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
-	if (vkCreateSemaphore(vulkancore->device, &semaphoreInfo, NULL, &vulkancore->imageAvailableSemaphore) != VK_SUCCESS ||
-	    vkCreateSemaphore(vulkancore->device, &semaphoreInfo, NULL, &vulkancore->renderFinishedSemaphore) != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkCreateSemaphore failed - %d", result));
+
+
 
 	/*  Create command pool.    */
 	VkCommandPoolCreateInfo cmdPoolCreateInfo = {};
@@ -347,6 +382,14 @@ IRenderer::~IRenderer(void) {
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	free(this->pdata);
+}
+
+void IRenderer::OnInitialization(void){
+
+}
+
+void IRenderer::OnDestruction(void){
+
 }
 
 
@@ -498,65 +541,6 @@ void IRenderer::deletePipeline(ProgramPipeline *obj) {
 
 }
 
-const uint32_t displayVertex[] = {
-		0x07230203,0x00010000,0x00080007,0x00000025,0x00000000,0x00020011,0x00000001,0x0006000b,
-		0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
-		0x0008000f,0x00000000,0x00000004,0x6e69616d,0x00000000,0x0000000d,0x00000012,0x0000001d,
-		0x00030003,0x00000002,0x000001c2,0x00090004,0x415f4c47,0x735f4252,0x72617065,0x5f657461,
-		0x64616873,0x6f5f7265,0x63656a62,0x00007374,0x00040005,0x00000004,0x6e69616d,0x00000000,
-		0x00060005,0x0000000b,0x505f6c67,0x65567265,0x78657472,0x00000000,0x00060006,0x0000000b,
-		0x00000000,0x505f6c67,0x7469736f,0x006e6f69,0x00070006,0x0000000b,0x00000001,0x505f6c67,
-		0x746e696f,0x657a6953,0x00000000,0x00070006,0x0000000b,0x00000002,0x435f6c67,0x4470696c,
-		0x61747369,0x0065636e,0x00070006,0x0000000b,0x00000003,0x435f6c67,0x446c6c75,0x61747369,
-		0x0065636e,0x00030005,0x0000000d,0x00000000,0x00040005,0x00000012,0x74726576,0x00007865,
-		0x00030005,0x0000001d,0x00007675,0x00050048,0x0000000b,0x00000000,0x0000000b,0x00000000,
-		0x00050048,0x0000000b,0x00000001,0x0000000b,0x00000001,0x00050048,0x0000000b,0x00000002,
-		0x0000000b,0x00000003,0x00050048,0x0000000b,0x00000003,0x0000000b,0x00000004,0x00030047,
-		0x0000000b,0x00000002,0x00040047,0x00000012,0x0000001e,0x00000000,0x00040047,0x0000001d,
-		0x0000001e,0x00000000,0x00020013,0x00000002,0x00030021,0x00000003,0x00000002,0x00030016,
-		0x00000006,0x00000020,0x00040017,0x00000007,0x00000006,0x00000004,0x00040015,0x00000008,
-		0x00000020,0x00000000,0x0004002b,0x00000008,0x00000009,0x00000001,0x0004001c,0x0000000a,
-		0x00000006,0x00000009,0x0006001e,0x0000000b,0x00000007,0x00000006,0x0000000a,0x0000000a,
-		0x00040020,0x0000000c,0x00000003,0x0000000b,0x0004003b,0x0000000c,0x0000000d,0x00000003,
-		0x00040015,0x0000000e,0x00000020,0x00000001,0x0004002b,0x0000000e,0x0000000f,0x00000000,
-		0x00040017,0x00000010,0x00000006,0x00000003,0x00040020,0x00000011,0x00000001,0x00000010,
-		0x0004003b,0x00000011,0x00000012,0x00000001,0x0004002b,0x00000006,0x00000014,0x3f800000,
-		0x00040020,0x00000019,0x00000003,0x00000007,0x00040017,0x0000001b,0x00000006,0x00000002,
-		0x00040020,0x0000001c,0x00000003,0x0000001b,0x0004003b,0x0000001c,0x0000001d,0x00000003,
-		0x0005002c,0x0000001b,0x00000020,0x00000014,0x00000014,0x0004002b,0x00000006,0x00000022,
-		0x40000000,0x00050036,0x00000002,0x00000004,0x00000000,0x00000003,0x000200f8,0x00000005,
-		0x0004003d,0x00000010,0x00000013,0x00000012,0x00050051,0x00000006,0x00000015,0x00000013,
-		0x00000000,0x00050051,0x00000006,0x00000016,0x00000013,0x00000001,0x00050051,0x00000006,
-		0x00000017,0x00000013,0x00000002,0x00070050,0x00000007,0x00000018,0x00000015,0x00000016,
-		0x00000017,0x00000014,0x00050041,0x00000019,0x0000001a,0x0000000d,0x0000000f,0x0003003e,
-		0x0000001a,0x00000018,0x0004003d,0x00000010,0x0000001e,0x00000012,0x0007004f,0x0000001b,
-		0x0000001f,0x0000001e,0x0000001e,0x00000000,0x00000001,0x00050081,0x0000001b,0x00000021,
-		0x0000001f,0x00000020,0x00050050,0x0000001b,0x00000023,0x00000022,0x00000022,0x00050088,
-		0x0000001b,0x00000024,0x00000021,0x00000023,0x0003003e,0x0000001d,0x00000024,0x000100fd,
-		0x00010038
-};
-
-const uint32_t display[] = {
-		0x07230203,0x00010000,0x00080007,0x00000014,0x00000000,0x00020011,0x00000001,0x0006000b,
-		0x00000001,0x4c534c47,0x6474732e,0x3035342e,0x00000000,0x0003000e,0x00000000,0x00000001,
-		0x0007000f,0x00000004,0x00000004,0x6e69616d,0x00000000,0x00000009,0x00000011,0x00030010,
-		0x00000004,0x00000007,0x00030003,0x00000002,0x000001c2,0x00090004,0x415f4c47,0x735f4252,
-		0x72617065,0x5f657461,0x64616873,0x6f5f7265,0x63656a62,0x00007374,0x00040005,0x00000004,
-		0x6e69616d,0x00000000,0x00050005,0x00000009,0x67617266,0x6f6c6f43,0x00000072,0x00040005,
-		0x0000000d,0x30786574,0x00000000,0x00030005,0x00000011,0x00007675,0x00040047,0x00000009,
-		0x0000001e,0x00000000,0x00040047,0x0000000d,0x00000022,0x00000000,0x00040047,0x0000000d,
-		0x00000021,0x00000001,0x00040047,0x00000011,0x0000001e,0x00000000,0x00020013,0x00000002,
-		0x00030021,0x00000003,0x00000002,0x00030016,0x00000006,0x00000020,0x00040017,0x00000007,
-		0x00000006,0x00000004,0x00040020,0x00000008,0x00000003,0x00000007,0x0004003b,0x00000008,
-		0x00000009,0x00000003,0x00090019,0x0000000a,0x00000006,0x00000001,0x00000000,0x00000000,
-		0x00000000,0x00000001,0x00000000,0x0003001b,0x0000000b,0x0000000a,0x00040020,0x0000000c,
-		0x00000000,0x0000000b,0x0004003b,0x0000000c,0x0000000d,0x00000000,0x00040017,0x0000000f,
-		0x00000006,0x00000002,0x00040020,0x00000010,0x00000001,0x0000000f,0x0004003b,0x00000010,
-		0x00000011,0x00000001,0x00050036,0x00000002,0x00000004,0x00000000,0x00000003,0x000200f8,
-		0x00000005,0x0004003d,0x0000000b,0x0000000e,0x0000000d,0x0004003d,0x0000000f,0x00000012,
-		0x00000011,0x00050057,0x00000007,0x00000013,0x0000000e,0x00000012,0x0003003e,0x00000009,
-		0x00000013,0x000100fd,0x00010038
-};
 
 Shader *IRenderer::createShader(ShaderDesc *desc) {
 	VulkanCore *vulkanCore = (VulkanCore *) this->pdata;
@@ -604,7 +588,7 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 //	if(desc->vertex.vertexBinary && desc->vertex.language == SPIRV){
 	if(1){
 		//vertShaderModule = createShaderModule(vulkanCore->device, (const char*)desc->vertex.vertexBinary, desc->vertex.size);
-		vertShaderModule = createShaderModule(vulkanCore->device,  (const char*)displayVertex, sizeof(displayVertex));
+		vertShaderModule = createShaderModule(vulkanCore->device,  (const char*)NULL, 0);//FIXME
 
 		/*  */
 		vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -617,7 +601,7 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 //	if(desc->fragment.fragmentBinary && desc->fragment.language == SPIRV){
 	if(1){
 		//fragShaderModule = createShaderModule(vulkanCore->device,  (const char*)desc->fragment.fragmentBinary, desc->fragment.size);
-		fragShaderModule = createShaderModule(vulkanCore->device,  (const char*)display, sizeof(display));
+		fragShaderModule = createShaderModule(vulkanCore->device,  (const char*)NULL, 0); //FIXME
 
 		fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 		fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
@@ -712,7 +696,7 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 		throw RuntimeException(fvformatf("failed to create pipeline layout - %d!", result));
 
 	VkAttachmentDescription colorAttachment = {};
-	colorAttachment.format = vulkanCore->swapChain->format.format;
+	colorAttachment.format = vulkanCore->swapChain->swapChainImageFormat;
 	colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 
 	colorAttachment.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
@@ -864,7 +848,7 @@ Shader *IRenderer::createShader(ShaderDesc *desc) {
 
 	/*  Create graphic pipeline.    */
 	result = vkCreateGraphicsPipelines(vulkanCore->device, VK_NULL_HANDLE, 1, &pipelineInfo, NULL,
-	                                   &shaobj->graphicsPipeline);
+									   &shaobj->graphicsPipeline);
 	if (result != VK_SUCCESS)
 		throw RuntimeException(fvformatf("vkCreateGraphicsPipelines failed - %d", result));
 
@@ -966,13 +950,13 @@ void IRenderer::deleteBuffer(Buffer *object) {
 	delete object;
 }
 
-GeometryObject *IRenderer::createGeometry(GeometryDesc *desc) {
-	GeometryObject* geometryObject;
+Geometry *IRenderer::createGeometry(GeometryDesc *desc) {
+	Geometry* geometryObject;
 	VKGeometryObject* glgeoobj = NULL;
 	unsigned int x;
 
 	/*	*/
-	geometryObject = new GeometryObject();
+	geometryObject = new Geometry();
 	glgeoobj = new VKGeometryObject();
 
 	/*	Requires array buffer.  */
@@ -1029,7 +1013,7 @@ GeometryObject *IRenderer::createGeometry(GeometryDesc *desc) {
 	return geometryObject;
 }
 
-void IRenderer::deleteGeometry(GeometryObject *obj) {
+void IRenderer::deleteGeometry(Geometry *obj) {
 	VulkanCore *vulkanCore = (VulkanCore *) this->pdata;
 	VKGeometryObject* glgeoobj = (VKGeometryObject*)obj->pdata;
 
@@ -1091,141 +1075,16 @@ void IRenderer::deleteFrameBuffer(FrameBuffer *obj) {
 QueryObject* IRenderer::createQuery(QueryDesc* desc){}
 void IRenderer::deleteQuery(QueryObject* query){}
 
-RendererWindow *IRenderer::createWindow(int x, int y, int width, int height,RendererWindow *window) {
+RendererWindow *IRenderer::createWindow(int x, int y, int width, int height) {
+    VulkanCore *vulkancore = (VulkanCore *)this->pdata;
 
-	VulkanCore *vulkancore = (VulkanCore *) this->pdata;
-	VkResult result;
-	SDL_bool surfaceResult;
+	/*	*/
+    Ref<IRenderer> rendRef = Ref<IRenderer>(this);
+    RendererWindow *window = new VKRenderWindow(rendRef);
 
-	/*  Create Vulkan window.   */
-	void *windowp = SDL_CreateWindow("", x, y, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_VULKAN);
-	if (windowp == NULL)
-		throw RuntimeException(fvformatf("failed create window - %s", SDL_GetError()));
-
-	/*  Create surface. */
-	surfaceResult = SDL_Vulkan_CreateSurface((SDL_Window *) window, vulkancore->inst, &vulkancore->surface);
-	if (surfaceResult == SDL_FALSE)
-		throw RuntimeException(fvformatf("failed create vulkan surface - %s", SDL_GetError()));
-
-
-	// TODO relocate to the swapchain creation function.
-	/*  */
-	VkBool32 presentSupport = VK_FALSE;
-	result = vkGetPhysicalDeviceSurfaceSupportKHR(vulkancore->gpu, vulkancore->graphics_queue_node_index,
-	                                              vulkancore->surface, &presentSupport);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("Failed to get surface support - %d", result));
-
-	/*  Allocate swapchain. */
-	vulkancore->swapChain = (SwapchainBuffers *) malloc(sizeof(SwapchainBuffers));
-	assert(vulkancore->swapChain);
-	vulkancore->currentFrame = 0;
-
-	/*  Get surface capability.   */
-	VkSurfaceCapabilitiesKHR capabilities;
-	result = vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vulkancore->gpu, vulkancore->surface, &capabilities);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkGetPhysicalDeviceSurfaceCapabilitiesKHR failed - %d", result));
-
-
-	uint32_t formatCount;
-	result = vkGetPhysicalDeviceSurfaceFormatsKHR(vulkancore->gpu, vulkancore->surface, &formatCount, NULL);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkGetPhysicalDeviceSurfaceFormatsKHR failed query count- %d", result));
-
-	/*  */
-	std::vector<VkSurfaceFormatKHR> formats(formatCount);
-	result = vkGetPhysicalDeviceSurfaceFormatsKHR(vulkancore->gpu, vulkancore->surface, &formatCount, formats.data());
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkGetPhysicalDeviceSurfaceFormatsKHR failed query - %d", result));
-
-	// TODO add support for gamma correction sRGB.
-	vulkancore->swapChain->format = chooseSwapSurfaceFormat(formats);
-
-	uint32_t presentModeCount;
-	std::vector<VkPresentModeKHR> presentModes;
-	vkGetPhysicalDeviceSurfacePresentModesKHR(vulkancore->gpu, vulkancore->surface, &presentModeCount, nullptr);
-
-	if (presentModeCount != 0) {
-		presentModes.resize(presentModeCount);
-		vkGetPhysicalDeviceSurfacePresentModesKHR(vulkancore->gpu, vulkancore->surface, &presentModeCount, presentModes.data());
-	}
-
-	VkExtent2D extent = chooseSwapExtent(capabilities);
-
-
-	/*  */
-	VkSwapchainCreateInfoKHR createInfo = {};
-	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-	createInfo.surface = vulkancore->surface;
-	/*  */
-	createInfo.minImageCount = capabilities.minImageCount;
-	createInfo.imageFormat = vulkancore->swapChain->format.format;
-	createInfo.imageColorSpace = vulkancore->swapChain->format.colorSpace;
-	createInfo.imageExtent = capabilities.currentExtent;
-	createInfo.imageArrayLayers = 1;
-	createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-
-	/*  */
-	createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-	createInfo.queueFamilyIndexCount = 0; // Optional
-	createInfo.pQueueFamilyIndices = NULL; // Optional
-	/*  */
-	createInfo.preTransform = capabilities.currentTransform;
-	/*  */
-	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-	/*  */
-	createInfo.presentMode = chooseSwapPresentMode(presentModes);
-	createInfo.clipped = VK_TRUE;
-	/*  */
-	createInfo.oldSwapchain = vulkancore->swapChain->swapchain;
-
-	/*  */
-	vulkancore->swapChain->chainExtend = extent;
-
-	/*  Create swapchain.   */
-	result = vkCreateSwapchainKHR(vulkancore->device, &createInfo, NULL, &vulkancore->swapChain->swapchain);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkCreateSwapchainKHR failed - %d", result));
-
-	/*  Get the image associated with the swap chain.   */
-	result = vkGetSwapchainImagesKHR(vulkancore->device, vulkancore->swapChain->swapchain,
-	                                 &vulkancore->swapChain->swapchainImageCount, NULL);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkGetSwapchainImagesKHR failed query count - %d", result));
-	vulkancore->swapChain->swapImages = (VkImage *) malloc(
-			sizeof(VkImage) * vulkancore->swapChain->swapchainImageCount);
-	result = vkGetSwapchainImagesKHR(vulkancore->device, vulkancore->swapChain->swapchain,
-	                                 &vulkancore->swapChain->swapchainImageCount, vulkancore->swapChain->swapImages);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkGetSwapchainImagesKHR failed query object - %d", result));
-
-
-	/*  */
-	VkCommandBufferAllocateInfo cmdBufAllocInfo = {};
-	cmdBufAllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	cmdBufAllocInfo.commandPool = vulkancore->cmd_pool;
-	cmdBufAllocInfo.commandBufferCount = vulkancore->swapChain->swapchainImageCount;
-	cmdBufAllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-
-	/*  */
-	vulkancore->swapChain->commandBuffers = (VkCommandBuffer *) malloc(
-			vulkancore->swapChain->swapchainImageCount * sizeof(VkCommandBuffer));
-	result = vkAllocateCommandBuffers(vulkancore->device, &cmdBufAllocInfo, vulkancore->swapChain->commandBuffers);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkAllocateCommandBuffers failed - %d", result));
-
-
-	/*  */
-	VkCommandBufferBeginInfo beginInfo = {};
-	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-	/*  */
-	result = vkBeginCommandBuffer(vulkancore->swapChain->commandBuffers[vulkancore->currentFrame], &beginInfo);
-	if (result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("vkBeginCommandBuffer failed - %d", result));
-
-	return window;
+	/*	*/
+    vulkancore->windows.push_back(window);
+    return window;
 }
 
 void IRenderer::createSwapChain(void) {
@@ -1271,7 +1130,7 @@ FrameBuffer *IRenderer::getDefaultFramebuffer(void *window) {
 void IRenderer::clear(unsigned int bitflag) {
 	VulkanCore *vulkanCore = (VulkanCore *) this->pdata;
 	const uint32_t currentFrame = vulkanCore->currentFrame;
-
+	return ;
 	if(bitflag & eColor){
 		VkClearColorValue clearColor = {vulkanCore->color[0], vulkanCore->color[1], vulkanCore->color[2], vulkanCore->color[3]};
 		/*  */
@@ -1282,8 +1141,8 @@ void IRenderer::clear(unsigned int bitflag) {
 
 
 		vkCmdClearColorImage(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame],
-		                     vulkanCore->swapChain->swapImages[vulkanCore->currentFrame], VK_IMAGE_LAYOUT_GENERAL,
-		                     &clearColor, 1, &imageRange);
+							 vulkanCore->swapChain->swapChainImages[vulkanCore->currentFrame], VK_IMAGE_LAYOUT_GENERAL,
+							 &clearColor, 1, &imageRange);
 	}
 
 	if(bitflag & eDepth || bitflag & eStencil){
@@ -1297,8 +1156,8 @@ void IRenderer::clear(unsigned int bitflag) {
 
 
 		vkCmdClearDepthStencilImage(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame],
-		                            vulkanCore->swapChain->swapImages[vulkanCore->currentFrame], VK_IMAGE_LAYOUT_GENERAL,
-		                            &depthStencilClear, 1, &imageRange);
+									vulkanCore->swapChain->swapChainImages[vulkanCore->currentFrame], VK_IMAGE_LAYOUT_GENERAL,
+									&depthStencilClear, 1, &imageRange);
 	}
 
 }
@@ -1335,65 +1194,65 @@ bool IRenderer::isStateEnabled(IRenderer::State state){}
 
 void IRenderer::swapBuffer(void) {
 
-	VkResult result;
-	uint32_t imageIndex;
+	// VkResult result;
+	// uint32_t imageIndex;
 
-	VulkanCore *vulkanCore = (VulkanCore *) this->pdata;
-	result = vkEndCommandBuffer(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame]);
-	if(result  != VK_SUCCESS)
-		throw RuntimeException("failed");
+	// VulkanCore *vulkanCore = (VulkanCore *) this->pdata;
+	// result = vkEndCommandBuffer(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame]);
+	// if(result  != VK_SUCCESS)
+	// 	throw RuntimeException("failed");
 
-	/*  */
-	result = vkAcquireNextImageKHR(vulkanCore->device, vulkanCore->swapChain->swapchain, UINT64_MAX,
-	                               vulkanCore->renderFinishedSemaphore, VK_NULL_HANDLE, &imageIndex);
-	if(result == VK_ERROR_OUT_OF_DATE_KHR){
-		/*  Recreate.   */
-	}
-	if(result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("Failed to acquire next image - %d", result));
+	// /*  */
+	// result = vkAcquireNextImageKHR(vulkanCore->device, vulkanCore->swapChain->swapchain, UINT64_MAX,
+	// 							   vulkanCore->renderFinishedSemaphore, VK_NULL_HANDLE, &imageIndex);
+	// if(result == VK_ERROR_OUT_OF_DATE_KHR){
+	// 	/*  Recreate.   */
+	// }
+	// if(result != VK_SUCCESS)
+	// 	throw RuntimeException(fvformatf("Failed to acquire next image - %d", result));
 
-	VkSubmitInfo submitInfo = {};
-	submitInfo.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-	submitInfo.commandBufferCount   = 1;
-	submitInfo.pCommandBuffers      = &vulkanCore->swapChain->commandBuffers[imageIndex];
+	// VkSubmitInfo submitInfo = {};
+	// submitInfo.sType                = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+	// submitInfo.commandBufferCount   = 1;
+	// submitInfo.pCommandBuffers      = &vulkanCore->swapChain->commandBuffers[imageIndex];
 
-	result = vkQueueSubmit(vulkanCore->queue, 1, &submitInfo, NULL);
-	if(result != VK_SUCCESS)
-		throw RuntimeException("Failed to submit to queue.");
+	// result = vkQueueSubmit(vulkanCore->queue, 1, &submitInfo, NULL);
+	// if(result != VK_SUCCESS)
+	// 	throw RuntimeException("Failed to submit to queue.");
 
-	VkPresentInfoKHR presentInfo = {};
-	presentInfo.sType              = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-	presentInfo.swapchainCount     = 1;
-	presentInfo.pSwapchains        = &vulkanCore->swapChain->swapchain;
-	presentInfo.pImageIndices      = &imageIndex;
+	// VkPresentInfoKHR presentInfo = {};
+	// presentInfo.sType              = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+	// presentInfo.swapchainCount     = 1;
+	// presentInfo.pSwapchains        = &vulkanCore->swapChain->swapchain;
+	// presentInfo.pImageIndices      = &imageIndex;
 
-	result = vkQueuePresentKHR(vulkanCore->queue, &presentInfo);
-	if(result != VK_SUCCESS)
-		throw RuntimeException(fvformatf("Failed to present - %d", result));
+	// result = vkQueuePresentKHR(vulkanCore->queue, &presentInfo);
+	// if(result != VK_SUCCESS)
+	// 	throw RuntimeException(fvformatf("Failed to present - %d", result));
 
-	vkQueueWaitIdle(vulkanCore->queue);
+	// vkQueueWaitIdle(vulkanCore->queue);
 
-	/*  Compute current frame.  */
-	vulkanCore->currentFrame = (vulkanCore->currentFrame + 1) % vulkanCore->swapChain->swapchainImageCount;
+	// /*  Compute current frame.  */
+	// vulkanCore->currentFrame = (vulkanCore->currentFrame + 1) % vulkanCore->swapChain->swapChainImages.size();
 
-	/*  Reset command buffer.    */
-	result = vkResetCommandBuffer(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame], VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
-	if(result != VK_SUCCESS)
-		throw RuntimeException("failed");
+	// /*  Reset command buffer.    */
+	// result = vkResetCommandBuffer(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame], VK_COMMAND_BUFFER_RESET_RELEASE_RESOURCES_BIT);
+	// if(result != VK_SUCCESS)
+	// 	throw RuntimeException("failed");
 
-	/*  */
-	VkCommandBufferBeginInfo beginInfo = {};
-	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
+	// /*  */
+	// VkCommandBufferBeginInfo beginInfo = {};
+	// beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+	// beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
 
-	/*  */
-	result = vkBeginCommandBuffer(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame], &beginInfo);
-	if(result != VK_SUCCESS)
-		throw RuntimeException("Failed to start the ");
+	// /*  */
+	// result = vkBeginCommandBuffer(vulkanCore->swapChain->commandBuffers[vulkanCore->currentFrame], &beginInfo);
+	// if(result != VK_SUCCESS)
+	// 	throw RuntimeException("Failed to start the ");
 }
 
 
-void IRenderer::drawInstance(GeometryObject *geometry, unsigned int num) {
+void IRenderer::drawInstance(Geometry *geometry, unsigned int num) {
 
 	VulkanCore *vulkanCore = (VulkanCore *) this->pdata;
 
@@ -1415,7 +1274,7 @@ void IRenderer::drawInstance(GeometryObject *geometry, unsigned int num) {
 
 		VKBufferObject* indexBuffer = (VKBufferObject*)glgeo->indicesbuffer->pdata;
 		vkCmdBindVertexBuffers(vulkanCore->swapChain->commandBuffers[curFrame], 0, 1, vertexBuffers, offsets);
-		vkCmdBindIndexBuffer(vulkanCore->swapChain->commandBuffers[curFrame], indexBuffer->buffer, offsets, VK_INDEX_TYPE_UINT16);
+		vkCmdBindIndexBuffer(vulkanCore->swapChain->commandBuffers[curFrame], indexBuffer->buffer, offsets[0], VK_INDEX_TYPE_UINT16);
 
 		vkCmdDrawIndexed(vulkanCore->swapChain->commandBuffers[curFrame], static_cast<uint32_t>(geometry->getIndicesCount()), 1, 0, 0, 0);
 
@@ -1429,10 +1288,10 @@ void IRenderer::drawInstance(GeometryObject *geometry, unsigned int num) {
 	}
 }
 
-void IRenderer::drawMultiInstance(GeometryObject& geometries, const unsigned int* first, const unsigned int* count, unsigned int num){}
-void IRenderer::drawMultiIndirect(GeometryObject& geometries, unsigned int offset, unsigned int indirectCount){}
+void IRenderer::drawMultiInstance(Geometry& geometries, const unsigned int* first, const unsigned int* count, unsigned int num){}
+void IRenderer::drawMultiIndirect(Geometry& geometries, unsigned int offset, unsigned int indirectCount){}
 
-void IRenderer::drawIndirect(GeometryObject *geometry){
+void IRenderer::drawIndirect(Geometry *geometry){
 
 }
 
@@ -1452,8 +1311,8 @@ void IRenderer::bindTextures(unsigned int firstUnit, const std::vector<Texture*>
 }
 
 void IRenderer::bindImages(unsigned int firstUnit, const std::vector<Texture *> &textures,
-                           const std::vector<Texture::MapTarget> &mapping,
-                           const std::vector<Texture::Format> &formats){
+						   const std::vector<Texture::MapTarget> &mapping,
+						   const std::vector<Texture::Format> &formats){
 
 }
 
@@ -1506,11 +1365,28 @@ void IRenderer::setDebug(bool enable) {
 		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
 		createInfo.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT;
 		createInfo.pfnCallback = (PFN_vkDebugReportCallbackEXT)debugCallback;
+		createInfo.pUserData = NULL;
 
 
-		result = vkCreateDebugReportCallbackEXT(vulkanCore->inst, &createInfo, NULL, NULL);
-		if(result != VK_SUCCESS)
-			throw RuntimeException(fvformatf("Failed to create debug report callback - %d", result));
+		// result = vkCreateDebugReportCallbackEXT(vulkanCore->inst, &createInfo, NULL, &vulkanCore->debugReport);
+		// if(result != VK_SUCCESS)
+		// 	throw RuntimeException(fvformatf("Failed to create debug report callback - %d", result));
+	}
+
+    PFN_vkCreateDebugUtilsMessengerEXT CreateDebugUtilsMessengerEXT = (PFN_vkCreateDebugUtilsMessengerEXT) vkGetInstanceProcAddr(vulkanCore->inst, "vkCreateDebugUtilsMessengerEXT");
+    if (CreateDebugUtilsMessengerEXT) {
+		VkDebugUtilsMessengerCreateInfoEXT createInfo = {};
+		createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+		createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+		createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+		createInfo.pfnUserCallback = debugCallback;
+
+		if (CreateDebugUtilsMessengerEXT(vulkanCore->inst, &createInfo, nullptr,
+											&vulkanCore->debugMessenger) != VK_SUCCESS) {
+			throw std::runtime_error("failed to set up debug messenger!");
+		} else {
+			//return VK_ERROR_EXTENSION_NOT_PRESENT;
+		}
 	}
 }
 
@@ -1713,8 +1589,8 @@ const char *IRenderer::getAPIVersion(void) const {
 	vkGetPhysicalDeviceProperties(vulkanCore->gpu, &devicePropertie);
 	static char apiversion[64];
 	sprintf(apiversion, "%d.%d.%d", VK_VERSION_MAJOR(devicePropertie.apiVersion),
-	        VK_VERSION_MINOR(devicePropertie.apiVersion),
-	        VK_VERSION_PATCH(devicePropertie.apiVersion));
+			VK_VERSION_MINOR(devicePropertie.apiVersion),
+			VK_VERSION_PATCH(devicePropertie.apiVersion));
 	return (const char *) apiversion;
 }
 

@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _RAY_CAST_HIT_H_
-#define _RAY_CAST_HIT_H_ 1
+#ifndef _FRAG_CORE_RAY_CAST_HIT_H_
+#define _FRAG_CORE_RAY_CAST_HIT_H_ 1
 #include"PhysicInterface.h"
 
 namespace fragcore {
@@ -25,16 +25,30 @@ namespace fragcore {
 	 *	RayCastHit.
 	 */
 	class FVDECLSPEC RayCastHit {
-		friend class DynamicInterface;
-	private:
-		inline RayCastHit(void){}
-
-		virtual ~RayCastHit(void);
-
 	public:
+	//TODO add parmaters and methods.
+		inline RayCastHit(void){}
+		~RayCastHit(void){
 
+		}
 
+		//Collider*  collider(void) const;
+
+		//RigidBody*  rigidBody(void) const;
+
+	//	VDGameObject*  gameObject(void) const;
+
+		//VDTransform*  transform(void) const;
+
+		//PVVector3& point(void) const;
+
+		//PVVector3 &normal(void) const;
+
+		//float distance(void) const;
+
+		//PVVector2& barycentric(void) const;
 	protected:
+		void *hitdata;
 	};
 }
 

@@ -1,6 +1,7 @@
 #include"Scene/Layer.h"
 
 using namespace fragcore;
+using namespace fragengine;
 
 void Layer::setIndextName(unsigned int index, const char *cname) {
 

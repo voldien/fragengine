@@ -30,8 +30,7 @@ namespace fragcore {
 	/**
 	 * 
 	 */
-	class FVDECLSPEC TaskScheduler : public IScheduler
-	{
+	class FVDECLSPEC TaskScheduler : public IScheduler {
 	public:
 		TaskScheduler(void);
 		TaskScheduler(int cores, unsigned int maxPackagesPool);
@@ -47,12 +46,12 @@ namespace fragcore {
 		virtual void UnLock(void) override;
 
 	private:
-			#ifdef FRAGVIEW_CORE_INTERNAL_IMP
-			schTaskSch *sch;
-			#else
-			void *sch;
-			#endif
-			std::map<int, Task*> tasks;
+		#ifdef FRAGVIEW_CORE_INTERNAL_IMP
+		schTaskSch *sch;
+		#else
+		void *sch;
+		#endif
+		std::map<int, Task*> tasks;
 	};
 }
 #endif

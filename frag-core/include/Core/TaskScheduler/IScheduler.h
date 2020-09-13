@@ -40,7 +40,8 @@ namespace fragcore
 		Ref<IScheduler> scheduler;
 	};
 
-	class FVDECLSPEC IScheduler : public SmartReference
+	//TODO rename so that it includes the name task.
+	class FVDECLSPEC IScheduler : public SmartReference	
 	{
 	public:
 		virtual void AddTask(Task *task) = 0;

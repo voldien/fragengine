@@ -1,9 +1,12 @@
-#include <Utils/StringUtil.h>
-#include <Core/IO/IFileSystem.h>
-#include <Exception/RuntimeExecption.h>
-#include <Exception/InvalidArgumentException.h>
+#include "Utils/StringUtil.h"
+#include "Core/IO/IFileSystem.h"
+#include "Exception/RuntimeException.h"
+#include "Exception/InvalidArgumentException.h"
 #include"Core/IO/ASync.h"
-#include <taskSch.h>
+#include <taskSch.h>	//TOOD remove once semaphore class has been implemented.
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 
 using namespace fragcore;
 
@@ -159,7 +162,7 @@ void ASync::asyncClose(ASyncHandle handle) {
 	this->asyncs.erase(this->asyncs.find(handle));
 }
 
-int ASync::async_open(Task *task)
+void ASync::async_open(Task *task)
 {
 
 	//ASyncHandle handle = (ASyncHandle)task->userData;
@@ -172,10 +175,9 @@ int ASync::async_open(Task *task)
 	//Ref<IO> refIO = Ref<IO>(fileSystem->openFile(path, IO::READ));
 
 	/*  Create the task in succession.  */
-	return 0;
 }
 
-int ASync::async_read(Task *task)
+void ASync::async_read(Task *task)
 {
 	AsyncObject *ao = (AsyncObject *)task->userData;
 	const size_t block_size = 512;
@@ -194,10 +196,9 @@ int ASync::async_read(Task *task)
 		ao->callback(NULL, NULL);
 	/*  Finish and posted for the data is available.  */
 	schSemaphorePost((schSemaphore *) ao->semaphore);
-	return nread;
 }
 
-int ASync::async_read_io(Task *task)
+void ASync::async_read_io(Task *task)
 {
 	AsyncObject *ao = (AsyncObject *)task->userData;
 	const size_t block_size = 512;
@@ -216,10 +217,9 @@ int ASync::async_read_io(Task *task)
 		ao->callback(NULL, NULL);
 	/*  Finish and posted for the data is available.  */
 	schSemaphorePost((schSemaphore *) ao->semaphore);
-	return nread;
 }
 
-int ASync::async_write(Task *task)
+void ASync::async_write(Task *task)
 {
 	AsyncObject *ao = (AsyncObject *)task->userData;
 	const size_t block_size = 512;
@@ -238,12 +238,11 @@ int ASync::async_write(Task *task)
 		ao->callback(NULL, NULL);
 	/*  Finish and posted for the data is available.  */
 	schSemaphorePost((schSemaphore *) ao->semaphore);
-	return nwritten;
 }
 
-int ASync::async_write_io(Task *task)
+void ASync::async_write_io(Task *task)
 {
-	return 0;
+	return;
 }
 
 ASync::AsyncObject *ASync::getObject(ASyncHandle handle) {

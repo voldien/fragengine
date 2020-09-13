@@ -18,12 +18,10 @@ using namespace fragcore;
 PhysicInterface::PhysicInterface(IConfig* config){
 	this->setName("BulletPhysic");
 	/*	*/
-	PhysicCore* physicore = (PhysicCore*)malloc(sizeof(PhysicCore));
+	PhysicCore* physicore = new PhysicCore();
 	this->pdata = physicore;
 	assert(physicore);
 
-	/*  */
-	memset(physicore, 0, sizeof(PhysicCore));
 
 	/*	*/
 	physicore->broadphase = new btDbvtBroadphase();
@@ -67,6 +65,13 @@ PhysicInterface::~PhysicInterface(void) {
 
 	/**/
 	free(physicore);
+}
+
+void PhysicInterface::OnInitialization(void){
+	
+}
+void PhysicInterface::OnDestruction(void){
+
 }
 
 
@@ -139,7 +144,7 @@ void PhysicInterface::removeConstraints(Constraints* constraints){
 Collision *PhysicInterface::createCollision(const CollisionDesc *desc) {
 	btCollisionShape *shape;
 
-	switch (desc->ePrimitive) {
+	switch (desc->Primitive) {
 		case CollisionDesc::ePlane: {
 			btVector3 normal = btVector3(desc->planeshape.normal[0], desc->planeshape.normal[1],
 			                             desc->planeshape.normal[2]);
@@ -291,7 +296,7 @@ RigidBody *PhysicInterface::createRigibody(const RigidBodyDesc *desc) {
 
 void PhysicInterface::deleteRigibody(RigidBody* rigidbody){
 
-	btRigidBody* body;
+	btRigidBody* body = NULL;
 
 	/*  */
 	//body = (btRigidBody*)getPointerByIndex(rigidbody);
@@ -396,15 +401,15 @@ void* PhysicInterface::getState(unsigned int* len){
 }
 
 bool PhysicInterface::rayTest(const PVRay& ray, RayCastHit* hit){
+	/*	*/
 	PhysicCore* physicore = (PhysicCore*)this->pdata;
 	btSoftRigidDynamicsWorld* world = physicore->dynamicsWorld;
 
 	struct	AllRayResultCallback : public btCollisionWorld::RayResultCallback
 	{
-		AllRayResultCallback(const btVector3&	rayFromWorld,const btVector3&	rayToWorld)
+		AllRayResultCallback(const btVector3& rayFromWorld,const btVector3& rayToWorld)
 				:m_rayFromWorld(rayFromWorld),
-				 m_rayToWorld(rayToWorld)
-		{
+				 m_rayToWorld(rayToWorld) {
 		}
 
 		btVector3	m_rayFromWorld;//used to calculate hitPointWorld from hitFraction
@@ -413,30 +418,30 @@ bool PhysicInterface::rayTest(const PVRay& ray, RayCastHit* hit){
 		btVector3	m_hitNormalWorld;
 		btVector3	m_hitPointWorld;
 
-		virtual	btScalar	addSingleResult(btCollisionWorld::LocalRayResult& rayResult,bool normalInWorldSpace)
+		virtual	btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult,bool normalInWorldSpace)
 		{
 
-//caller already does the filter on the m_closestHitFraction
-					btAssert(rayResult.m_hitFraction <= m_closestHitFraction);
+			//caller already does the filter on the m_closestHitFraction
+			btAssert(rayResult.m_hitFraction <= m_closestHitFraction);
 
 			m_closestHitFraction = rayResult.m_hitFraction;
-
 			m_collisionObject = rayResult.m_collisionObject;
-			if (normalInWorldSpace)
-			{
+
+			if (normalInWorldSpace) {
 				m_hitNormalWorld = rayResult.m_hitNormalLocal;
-			} else
-			{
+			} else {
 				///need to transform normal into worldspace
 				m_hitNormalWorld = m_collisionObject->getWorldTransform().getBasis()*rayResult.m_hitNormalLocal;
 			}
 			m_hitPointWorld.setInterpolate3(m_rayFromWorld,m_rayToWorld,rayResult.m_hitFraction);
-			return 1.f;
+			
+			return 1.0f;
 		}
 	};
 
-	btVector3 from;
-	btVector3 dir;
+	/*	TODO add support.	*/
+	btVector3 from;//= ray.getOrigin();
+	btVector3 dir; //ray.getDirection();
 	AllRayResultCallback result(from, dir);
 	world->rayTest(from, dir, result);
 
@@ -445,20 +450,22 @@ bool PhysicInterface::rayTest(const PVRay& ray, RayCastHit* hit){
 bool PhysicInterface::raySphereTest(const PVRay& ray, RayCastHit* hit){
 	PhysicCore* physicore = (PhysicCore*)this->pdata;
 	btSoftRigidDynamicsWorld* world = physicore->dynamicsWorld;
+
+	//world->convexSweepTest
 }
 
-void PhysicInterface::setDebugRenderer(Ref <IRenderer> renderer) {
+void PhysicInterface::setDebugRenderer(Ref <IRenderer>& renderer) {
 	PhysicCore* physicore = (PhysicCore*)this->pdata;
 
 	physicore->drawDebugger = new DebugDrawer(*renderer);
 	physicore->dynamicsWorld->setDebugDrawer(physicore->drawDebugger);
 }
 
-const char* PhysicInterface::getVersion(void)const{
-	return ""; //PV_STR_VERSION(1,0,0);
+const char* PhysicInterface::getVersion(void) const {
+	return FV_STR_VERSION(1,0,0);
 }
 
-extern "C" PhysicInterface* createInternalPhysicInterface(IConfig* config){
-	return new PhysicInterface(config);
+extern "C" PhysicInterface* createInternalPhysicInterface(IConfig* options){
+    return new PhysicInterface(options);
 }
 

@@ -145,7 +145,7 @@ void FrameBuffer::clearColor(BufferAttachment colorAttachment, const float *colo
 			this->getObject();
 	int index = (int) colorAttachment - (int) BufferAttachment::eColor0;
 	if (glClearNamedFramebufferfv) {
-		glClearNamedFramebufferfv(fraobj->framebuffer, GL_COLOR, GL_COLOR_ATTACHMENT0 + index, (const GLfloat *) color);
+		glClearNamedFramebufferfv(fraobj->framebuffer, GL_COLOR, GL_COLOR_ATTACHMENT0 + index, (GLfloat*)color);
 	} else {
 		this->write();
 		glClearBufferfv(GL_COLOR, GL_COLOR_ATTACHMENT0 + index, (const GLfloat *) color);

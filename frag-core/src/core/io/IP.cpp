@@ -1,4 +1,4 @@
-#include"Core/IO/IP.h"
+#include"Core/Network/IP.h"
 
 fragcore::IP::IP(void) {
 

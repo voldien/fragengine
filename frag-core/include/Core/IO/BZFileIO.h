@@ -18,7 +18,6 @@
 */
 #ifndef _FRAG_CORE_BZ_FILEIO_H_
 #define _FRAG_CORE_BZ_FILEIO_H_ 1
-
 #include "IO.h"
 #include "FileIO.h"
 #include <bzlib.h>

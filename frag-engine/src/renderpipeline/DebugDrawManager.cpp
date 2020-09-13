@@ -20,7 +20,7 @@ void DebugDrawManager::setViewport(int width, int height, IRenderer *render) {
 }
 
 RenderQueue DebugDrawManager::getSupportedQueue(void) const {
-	return Geometry | Overlay;
+	return (RenderQueue)(Geometry | Overlay);
 }
 
 void

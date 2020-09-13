@@ -2,6 +2,7 @@
 #include"audio/AudioFactory.h"
 #include"Core/Library.h"
 #include"Core/Log.h"
+#include"Utils/StringUtil.h"
 using namespace fragcore;
 
 typedef AudioInterface *(*pcreateinternalaudio)(IConfig *config);
@@ -17,11 +18,11 @@ AudioInterface *AudioFactory::createAudioInterface(const char *cpathlib, IConfig
 	const char *funcsymbol = "createInternalAudioInterface";
 	pcreateinternalaudio pfunc;
 
-	/*	Validate paramaters.	*/
-	if (cpathlib == NULL || config == NULL)
-		throw InvalidArgumentException("");
+	if(cpathlib == NULL)
+		throw InvalidArgumentException(fvformatf("Invalid filepath do dynamic library: %s", cpathlib));
 
-	assert(cpathlib);
+	//TODO allow for the plugin to have a default state.
+
 
 	/*	Open library and validate.	*/
 	library.open(cpathlib);
@@ -34,7 +35,7 @@ AudioInterface *AudioFactory::createAudioInterface(const char *cpathlib, IConfig
 		/*	Assign resource object in order to work.	*/
 		//interface->setResource(resources);
 	} else {
-		Log::error("Failed loading %s library for creating rendering dynamicInterface.\n", cpathlib);
+		Log::error("Failed loading: %s, library for creating audio interface.\n", cpathlib);
 	}
 
 	return interface;
@@ -42,15 +43,14 @@ AudioInterface *AudioFactory::createAudioInterface(const char *cpathlib, IConfig
 
 const char *AudioFactory::getInterfaceLibraryPath(AudioAPI api) {
 #ifdef FV_UNIX
+	//TODO add info string for the exception of what api value.
 	switch (api) {
 		case AudioFactory::OpenAL:
 			return "libfragview-aal.so";
 		case AudioFactory::FMOD:
 			return "libfragview-afm.so";
 		default:
-			assert(0);
-
-			return "";
+			throw InvalidArgumentException("");
 	}
 #else
 	assert(0);

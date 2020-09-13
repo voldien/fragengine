@@ -22,7 +22,7 @@
 #include"SmartReference.h"
 
 namespace fragcore {
-/*  TODO fix!   */
+	/*  TODO fix!   */
 	template<class T>
 	class Ref { //TODO perhaps use the RefPtr as base?
 	private:
@@ -109,9 +109,11 @@ namespace fragcore {
 
 		void unref(void) {
 			if (this->reference && this->reference->deincreemnt()) {
+				//delete reference;
 				//memdelete(reference);
 			}
 
+			/*	*/
 			this->reference = NULL;
 		}
 	};

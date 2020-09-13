@@ -25,6 +25,7 @@ jobs:
           java -version
           echo "::set-env name=ANDROID_HOME::$(pwd)/fragengine-dev/build-tools/android-sdk"
           echo "::set-env name=ANDROID_NDK_ROOT::$(pwd)/fragengine-dev/build-tools/android-ndk"
+      
           #TODO add NDK
           
       - name: Create Build Environment
@@ -40,7 +41,7 @@ jobs:
         # and build directories, but this is only available with CMake 3.13 and higher.  
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCMAKE_TOOLCHAIN_FILE=android.toolchain.cmake \
-          -DANDROID_NDK=$ANDROID_NDK_ROOT -DANDROID_ABI="armeabi-v7a with NEON"  $GITHUB_WORKSPACE 
+          -DANDROID_NDK=$ANDROID_NDK_HOME -DANDROID_ABI="armeabi-v7a with NEON"  $GITHUB_WORKSPACE 
 
       - name: Build-Core
         working-directory: ${{runner.workspace}}/build

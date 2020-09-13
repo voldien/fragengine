@@ -13,6 +13,18 @@
 
 using namespace fragcore;
 
+class RenderingInterfaceTest : public CommonBaseTest
+{
+protected:
+	void TearDown() override;
+
+	void SetUp() override;
+
+	std::vector<RenderingFactory::RenderingAPI> apis;
+	std::vector<const char *> apiNames;
+	Capability capability;
+	IConfig *config;
+};
 
 void RenderingInterfaceTest::TearDown() {
 	Test::TearDown();
@@ -22,8 +34,8 @@ void RenderingInterfaceTest::TearDown() {
 void RenderingInterfaceTest::SetUp() {
 	Test::SetUp();
 
-	apis.push_back(RenderingFactory::eOpenGL);
-	apis.push_back(RenderingFactory::eVulkan);
+	apis.push_back(RenderingFactory::OpenGL);
+	apis.push_back(RenderingFactory::Vulkan);
 	//apis.push_back(RenderingFactory::eOpenCL);
 	//apis.push_back(RenderingFactory::eDirectX);
 
@@ -54,33 +66,125 @@ void RenderingInterfaceTest::SetUp() {
 
 }
 
+TEST_F(RenderingInterfaceTest, RenderInterface_Create_Enum_OpenGL_No_Throw){
+	ASSERT_NO_THROW(RenderingFactory::createRendering(RenderingFactory::OpenGL, NULL));
+}
 
-TEST_F(RenderingInterfaceTest, CreateInterface) {
+TEST_F(RenderingInterfaceTest, RenderInterface_Delete_Enum_OpenGL_No_Throw)
+{
+	IRenderer *renderer = RenderingFactory::createRendering(RenderingFactory::OpenGL, NULL);
+	ASSERT_NO_THROW(renderer);
+}
+
+TEST_F(RenderingInterfaceTest, RenderInterface_Create_Enum_Vulkan_No_Throw)
+{
+	ASSERT_NO_THROW(RenderingFactory::createRendering(RenderingFactory::Vulkan, NULL));
+}
+
+TEST_F(RenderingInterfaceTest, RenderInterface_Delete_Enum_Vulkan_No_Throw)
+{
+	IRenderer *renderer = RenderingFactory::createRendering(RenderingFactory::Vulkan, NULL);
+	ASSERT_NO_THROW(renderer);
+}
+
+//TODO add once directX is being adding.
+// TEST_F(RenderingInterfaceTest, RenderInterface_Create_Enum_DirectX_No_Throw){
+// 	ASSERT_NO_THROW(RenderingFactory::createRendering(RenderingFactory::OpenGL, NULL));
+// }
+
+TEST_F(RenderingInterfaceTest, RenderInterface_Enum_OpenGL_Get_Capabilites_No_Throw)
+{
+	IRenderer* renderer = RenderingFactory::createRendering(RenderingFactory::OpenGL, NULL);
+	Capability capability;
+	ASSERT_NO_THROW(renderer->getCapability(&capability));
+}
+
+TEST_F(RenderingInterfaceTest, RenderInterface_Enum_OpenGL_Create_White_Texture_No_Throw){
+	IRenderer *renderer = RenderingFactory::createRendering(RenderingFactory::OpenGL, NULL);
+	const int size = 0;
+	TextureDesc desc;
+	desc.originalTexture = NULL;
+	desc.nrSamples = 0;
+	desc.target = TextureDesc::eTexture2D;
+	desc.width = 1;
+	desc.height = 1;
+	desc.depth = 1;
+	desc.type = TextureDesc::eUnsignedByte;
+	desc.internalformat = TextureDesc::Format::eRGBA;
+	desc.format = TextureDesc::Format::eRGBA;
+//	desc.usemipmaps = mipmap;
+//	desc.pixel = pixels;
+	desc.pixelSize = size;
+	desc.numlevel = 5;
+	desc.compression = TextureDesc::Compression::eNoCompression;
+	desc.sampler.AddressU = SamplerDesc::eRepeat;
+	desc.sampler.AddressV = SamplerDesc::eRepeat;
+	desc.sampler.AddressW = SamplerDesc::eRepeat;
+	desc.sampler.magFilter = SamplerDesc::eLinear;
+	desc.sampler.minFilter = SamplerDesc::eLinear;
+	desc.sampler.mipmapFilter = SamplerDesc::eLinear;
+	desc.sampler.compareFunc = SamplerDesc::CompareFunc::eNoCompare;
+	desc.sampler.compareMode = 0;
+	desc.sampler.anisotropy = 0;
+	desc.Swizzlea = TextureDesc::eNoSwizzle;
+	desc.Swizzler = TextureDesc::eNoSwizzle;
+	desc.Swizzleg = TextureDesc::eNoSwizzle;
+	desc.Swizzleb = TextureDesc::eNoSwizzle;
+	ASSERT_NO_THROW(renderer->createTexture(&desc));
+}
+
+TEST_F(RenderingInterfaceTest, RenderInterface_Enum_OpenGL_Create_Buffer_No_Throw)
+{
+	// BufferDesc::BufferType target = targets[tar];
+	// BufferDesc::BufferHint hint = (BufferDesc::BufferHint)(hints1[t] | hints2[h]);
+
+	// /**/
+	// BufferDesc desc;
+	// desc.size = size;
+	// desc.type = target;
+	// desc.hint = hint;
+	// desc.data = NULL;
+	// desc.marker.markerName = "Buffer";
+
+	// /**/
+	// EXPECT_NO_THROW(buffer = renderer->createBuffer(&desc));
+	// ASSERT_EQ(buffer->getRenderer(), renderer);
+	// ASSERT_EQ(buffer->getSize(), size);
+	// ASSERT_NE(buffer->mapBuffer(Buffer::eRead), NULL);
+
+	// /**/
+	// EXPECT_NO_THROW(renderer->deleteBuffer(buffer));
+}
+
+TEST_F(RenderingInterfaceTest, CreateInterface)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 	const char *argv[] = {
-			"fragview"
-	};
+		"fragview"};
 
-	for (; it != apis.end(); it++) {
-//		RenderingFactory::RenderingAPI api = (*it);
-//		SETRENDERAPISCOPE(this, api)
-//
-//
-//		Config *config = Config::createConfig(1, argv, NULL);
-//		IRenderer *renderer;
-//
-//		ASSERT_ANY_THROW(renderer = RenderingFactory::createRendering(0, &config->getSubConfig("render-driver")));
-//		ASSERT_ANY_THROW(renderer = RenderingFactory::createRendering("", &config->getSubConfig("render-driver")));
-//		ASSERT_NO_THROW(renderer = RenderingFactory::createRendering(api, &config->getSubConfig("render-driver")));
-//
-//		deleteRenderer(renderer);
+	for (; it != apis.end(); it++)
+	{
+		//		RenderingFactory::RenderingAPI api = (*it);
+		//		SETRENDERAPISCOPE(this, api)
+		//
+		//
+		//		Config *config = Config::createConfig(1, argv, NULL);
+		//		IRenderer *renderer;
+		//
+		//		ASSERT_ANY_THROW(renderer = RenderingFactory::createRendering(0, &config->getSubConfig("render-driver")));
+		//		ASSERT_ANY_THROW(renderer = RenderingFactory::createRendering("", &config->getSubConfig("render-driver")));
+		//		ASSERT_NO_THROW(renderer = RenderingFactory::createRendering(api, &config->getSubConfig("render-driver")));
+		//
+		//		deleteRenderer(renderer);
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Buffer) {
+TEST_F(RenderingInterfaceTest, Buffer)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		const int size = 4096;
@@ -91,29 +195,31 @@ TEST_F(RenderingInterfaceTest, Buffer) {
 		ASSERT_NO_FATAL_FAILURE(renderer);
 
 		const std::vector<BufferDesc::BufferHint> hints1 = {
-				BufferDesc::eRead, BufferDesc::eWrite,
-				(BufferDesc::BufferHint)(BufferDesc::eRead | BufferDesc::eWrite),
+			BufferDesc::eRead,
+			BufferDesc::eWrite,
+			(BufferDesc::BufferHint)(BufferDesc::eRead | BufferDesc::eWrite),
 		};
 		const std::vector<BufferDesc::BufferHint> hints2 = {
-				BufferDesc::eStatic, BufferDesc::eDynamic, BufferDesc::eStream
-		};
+			BufferDesc::eStatic, BufferDesc::eDynamic, BufferDesc::eStream};
 		const std::vector<BufferDesc::BufferType> targets = {
-				BufferDesc::eArray,
-				BufferDesc::eElementArray,
-				BufferDesc::eUniform,
-				BufferDesc::eTexture,
-				BufferDesc::eShaderStorage,
-				BufferDesc::eTransformFeedback,
-				BufferDesc::ePixelUnpack,
-				BufferDesc::ePixelPack,
-				BufferDesc::eIndirectDraw,
-				BufferDesc::eIndirectDispatch
-		};
+			BufferDesc::eArray,
+			BufferDesc::eElementArray,
+			BufferDesc::eUniform,
+			BufferDesc::eTexture,
+			BufferDesc::eShaderStorage,
+			BufferDesc::eTransformFeedback,
+			BufferDesc::ePixelUnpack,
+			BufferDesc::ePixelPack,
+			BufferDesc::eIndirectDraw,
+			BufferDesc::eIndirectDispatch};
 
 		/*	Test all possible combinations of buffers.	*/
-		for (int t = 0; t < hints1.size(); t++) {
-			for (int h = 0; h < hints2.size(); h++) {
-				for (int tar = 0; tar < targets.size(); tar++) {
+		for (int t = 0; t < hints1.size(); t++)
+		{
+			for (int h = 0; h < hints2.size(); h++)
+			{
+				for (int tar = 0; tar < targets.size(); tar++)
+				{
 					BufferDesc::BufferType target = targets[tar];
 					BufferDesc::BufferHint hint = (BufferDesc::BufferHint)(hints1[t] | hints2[h]);
 
@@ -141,14 +247,17 @@ TEST_F(RenderingInterfaceTest, Buffer) {
 		Capability capability;
 		renderer->getCapability(&capability);
 		const std::vector<int> maxSizes = {
-				capability.sMaxUniformBlockSize,
-				capability.sMaxTextureBufferSize,
+			capability.sMaxUniformBlockSize,
+			capability.sMaxTextureBufferSize,
 		};
 
 		/*	Test all possible combinations of buffers.	*/
-		for (int t = 0; t < hints1.size(); t++) {
-			for (int h = 0; h < hints2.size(); h++) {
-				for (int tar = 0; tar < targets.size(); tar++) {
+		for (int t = 0; t < hints1.size(); t++)
+		{
+			for (int h = 0; h < hints2.size(); h++)
+			{
+				for (int tar = 0; tar < targets.size(); tar++)
+				{
 					BufferDesc::BufferType target = targets[tar];
 					BufferDesc::BufferHint hint = (BufferDesc::BufferHint)(hints1[t] | hints2[h]);
 
@@ -175,10 +284,12 @@ TEST_F(RenderingInterfaceTest, Buffer) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Texture) {
+TEST_F(RenderingInterfaceTest, Texture)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 
@@ -194,19 +305,21 @@ TEST_F(RenderingInterfaceTest, Texture) {
 		EXPECT_NO_THROW(pixels = TextureUtil::loadTextureData("../../fragview.png", &width, &height, &size));
 
 		const std::vector<TextureDesc::Compression> compressions = {
-				TextureDesc::eNoCompression,
-				TextureDesc::eCompression,
-				TextureDesc::eRGTC,
-				TextureDesc::eDXT1,
-				TextureDesc::eDXT4,
-				TextureDesc::eS3TC
+			TextureDesc::eNoCompression,
+			TextureDesc::eCompression,
+			TextureDesc::eRGTC,
+			TextureDesc::eDXT1,
+			TextureDesc::eDXT4,
+			TextureDesc::eS3TC
 
 		};
 		const std::vector<bool> mimaps = {false, true};
 		const float ansio = 4.0f;
-		for (int m = 0; m < mimaps.size(); m++) {
+		for (int m = 0; m < mimaps.size(); m++)
+		{
 			bool mipmap = mimaps[m];
-			for (int c = 0; c < compressions.size(); c++) {
+			for (int c = 0; c < compressions.size(); c++)
+			{
 				TextureDesc::Compression compression = compressions[c];
 
 				TextureDesc desc;
@@ -258,10 +371,12 @@ TEST_F(RenderingInterfaceTest, Texture) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Shader) {
+TEST_F(RenderingInterfaceTest, Shader)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
@@ -272,10 +387,12 @@ TEST_F(RenderingInterfaceTest, Shader) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Geometry) {
+TEST_F(RenderingInterfaceTest, Geometry)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
@@ -286,10 +403,12 @@ TEST_F(RenderingInterfaceTest, Geometry) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Sampler) {
+TEST_F(RenderingInterfaceTest, Sampler)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api);
 		IRenderer *renderer;
@@ -297,21 +416,22 @@ TEST_F(RenderingInterfaceTest, Sampler) {
 		ASSERT_TRUE(renderer = createRendererInterface(api, this->config));
 
 		const std::vector<SamplerDesc::AddressMode> addresses = {
-				SamplerDesc::eRepeat,
-				SamplerDesc::eRepeatMirror,
-				SamplerDesc::eClamp,
-				SamplerDesc::eClampBorder
+			SamplerDesc::eRepeat,
+			SamplerDesc::eRepeatMirror,
+			SamplerDesc::eClamp,
+			SamplerDesc::eClampBorder
 
 		};
 
 		const std::vector<SamplerDesc::FilterMode> filterModes = {
-				SamplerDesc::eLinear,
-				SamplerDesc::eNearset
-		};
+			SamplerDesc::eLinear,
+			SamplerDesc::eNearset};
 
-		for (int f = 0; f < filterModes.size(); f++) {
+		for (int f = 0; f < filterModes.size(); f++)
+		{
 			SamplerDesc::FilterMode filter;
-			for (int a = 0; a < addresses.size(); a++) {
+			for (int a = 0; a < addresses.size(); a++)
+			{
 				SamplerDesc::AddressMode addressMode = addresses[a];
 				Sampler *sampler;
 
@@ -352,20 +472,24 @@ TEST_F(RenderingInterfaceTest, Sampler) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, ProgramPipeline) {
+TEST_F(RenderingInterfaceTest, ProgramPipeline)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Query) {
+TEST_F(RenderingInterfaceTest, Query)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
@@ -376,32 +500,16 @@ TEST_F(RenderingInterfaceTest, Query) {
 		QueryDesc desc;
 		//renderer->createFrameBuffer()
 
-
 		deleteRenderer(renderer);
 	}
 }
 
-
-TEST_F(RenderingInterfaceTest, Sync) {
+TEST_F(RenderingInterfaceTest, Sync)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
-		RenderingFactory::RenderingAPI api = (*it);
-		SETRENDERAPISCOPE(this, api)
-		IRenderer *renderer;
-
-		ASSERT_TRUE(renderer = createRendererInterface(api, this->config));
-
-
-		deleteRenderer(renderer);
-	}
-}
-
-
-TEST_F(RenderingInterfaceTest, FrameBuffer) {
-	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
-
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
@@ -412,20 +520,40 @@ TEST_F(RenderingInterfaceTest, FrameBuffer) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Window) {
+TEST_F(RenderingInterfaceTest, FrameBuffer)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
+		RenderingFactory::RenderingAPI api = (*it);
+		SETRENDERAPISCOPE(this, api)
+		IRenderer *renderer;
+
+		ASSERT_TRUE(renderer = createRendererInterface(api, this->config));
+
+		deleteRenderer(renderer);
+	}
+}
+
+TEST_F(RenderingInterfaceTest, Window)
+{
+	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
+
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Viewport) {
+TEST_F(RenderingInterfaceTest, Viewport)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
@@ -436,41 +564,48 @@ TEST_F(RenderingInterfaceTest, Viewport) {
 
 		ViewPort *defaultView = renderer->getView(0);
 
-		for (int i = 0; i < capability.sMaxViewPorts; i++) {
+		for (int i = 0; i < capability.sMaxViewPorts; i++)
+		{
 			ViewPort *viewPort = renderer->getView(i);
 		}
 		deleteRenderer(renderer);
 	}
 }
 
-TEST_F(RenderingInterfaceTest, RenderingStates) {
+TEST_F(RenderingInterfaceTest, RenderingStates)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
 		ASSERT_TRUE(renderer = createRendererInterface(api, this->config));
 
 		unsigned int i;
-		for (i = IRenderer::eDepthTest; i < IRenderer::State::eDiscardRasterization; i++) {
-			renderer->enableState((IRenderer::State) i);
-			ASSERT_TRUE(renderer->isStateEnabled((IRenderer::State) i));
+		for (i = IRenderer::eDepthTest; i < IRenderer::State::eDiscardRasterization; i++)
+		{
+			renderer->enableState((IRenderer::State)i);
+			ASSERT_TRUE(renderer->isStateEnabled((IRenderer::State)i));
 		}
 
-		for (i = IRenderer::eDepthTest; i < IRenderer::State::eDiscardRasterization; i++) {
-			renderer->disableState((IRenderer::State) i);
-			ASSERT_FALSE(renderer->isStateEnabled((IRenderer::State) i));
+		for (i = IRenderer::eDepthTest; i < IRenderer::State::eDiscardRasterization; i++)
+		{
+			renderer->disableState((IRenderer::State)i);
+			ASSERT_FALSE(renderer->isStateEnabled((IRenderer::State)i));
 		}
 
 		deleteRenderer(renderer);
 	}
 }
 
-TEST_F(RenderingInterfaceTest, Render) {
+TEST_F(RenderingInterfaceTest, Render)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
@@ -481,17 +616,17 @@ TEST_F(RenderingInterfaceTest, Render) {
 	}
 }
 
-TEST_F(RenderingInterfaceTest, ComputeShader) {
+TEST_F(RenderingInterfaceTest, ComputeShader)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer;
 
 		ASSERT_TRUE(renderer = createRendererInterface(api, this->config));
-
-
 
 		/*  Load shader.    */
 
@@ -506,12 +641,14 @@ TEST_F(RenderingInterfaceTest, ComputeShader) {
 }
 
 //TODO perhaps relocate and relocate the RenderingInterafceTest class to global space.
-TEST_F(RenderingInterfaceTest, Font) {
+TEST_F(RenderingInterfaceTest, Font)
+{
 	std::vector<RenderingFactory::RenderingAPI>::const_iterator it = apis.cbegin();
 
-	FileIO *fileIo = (FileIO *) FileSystem::getFileSystem()->openFile("../../ipag.ttf", IO::READ);
+	FileIO *fileIo = (FileIO *)FileSystem::getFileSystem()->openFile("../../ipag.ttf", IO::READ);
 
-	for (; it != apis.end(); it++) {
+	for (; it != apis.end(); it++)
+	{
 		RenderingFactory::RenderingAPI api = (*it);
 		SETRENDERAPISCOPE(this, api)
 		IRenderer *renderer = NULL;
@@ -527,7 +664,6 @@ TEST_F(RenderingInterfaceTest, Font) {
 		ASSERT_GE(font->getIndexCount(), 0);
 		//font->getEncoding();
 		ASSERT_NO_THROW(font->getCharacter('a'));
-
 
 		/*  Font texture.   */
 		ASSERT_NE(font->getTexture(), NULL);

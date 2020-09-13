@@ -16,11 +16,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _COLLIDER_H_
-#define _COLLIDER_H_ 1
+#ifndef _FRAG_CORE_COLLIDER_H_
+#define _FRAG_CORE_COLLIDER_H_ 1
 #include"../Def.h"
 
-namespace fragcore{
+namespace fragcore {
 	/**
 	 *	Collision object.
 	 *

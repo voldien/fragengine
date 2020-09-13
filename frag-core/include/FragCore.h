@@ -30,7 +30,7 @@
 #include"Core/RefPtr.h"
 /*  */
 #include"Core/IO/FileSystem.h"
-#include"Core/IO/ZipFile.h"
+#include"Core/IO/ZipFileSystem.h"
 #include"Core/IO/GZFileIO.h"
 #include"Core/IO/BufferIO.h"
 /*  */
@@ -45,7 +45,7 @@
 #include"Video/VideoManager.h"
 #include"Window/WindowFactory.h"
 /*  */
-#include"Core/IO/NetSocket.h"
+#include"Core/Network/NetSocket.h"
 /*  */
 #include"Renderer/RendererFactory.h"
 /*  */
@@ -54,8 +54,10 @@
 #include"physic/PhysicFactory.h"
 /*  */
 #include"Exception/IException.h"
-#include"Exception/RuntimeExecption.h"
+#include"Exception/RuntimeException.h"
 #include"Exception/InvalidArgumentException.h"
 #include"Exception/NotImplementedException.h"
 #include"Exception/NotSupportedException.h"
+#include"Exception/PermissionDeniedException.h"
+#include"Exception/InvalidPointerException.h"
 #endif

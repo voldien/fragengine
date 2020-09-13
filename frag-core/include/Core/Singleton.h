@@ -22,15 +22,12 @@
 #include"SmartReference.h"
 
 namespace fragcore {
-	template <class T>
-	class FVDECLSPEC Singleton : SmartReference
-	{
+	template <typename T>
+	class FVDECLSPEC Singleton : public SmartReference {
 	public:
-		static T* _instance;
-		static Ref<T> &getInstance(void)
-		{
-			if (_instance == NULL)
-			{
+		static Ref<T> getInstance(void) {
+			static T *_instance = NULL;
+			if (_instance == NULL) {
 				T *instance = new T();
 				Ref<T> ref = Ref<T>(instance);
 				instance->onCreation(ref);
@@ -38,7 +35,7 @@ namespace fragcore {
 			return Ref<T>(_instance);
 		}
 
-		virtual void onCreation(Ref<T> &instance);
+		virtual void onCreation(Ref<T> &instance) = 0;
 	};
 }
 #endif

@@ -1,5 +1,5 @@
 #include <Exception/InvalidArgumentException.h>
-#include"Core/Window.h"
+#include"Window/Window.h"
 
 using namespace fragcore;
 

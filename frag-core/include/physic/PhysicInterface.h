@@ -1,31 +1,29 @@
 
-#ifndef _FV_PHYSIC_INTERFACE_H_
-#define _FV_PHYSIC_INTERFACE_H_ 1
+#ifndef _FRAG_CORE_PHYSIC_INTERFACE_H_
+#define _FRAG_CORE_PHYSIC_INTERFACE_H_ 1
 #include"../Core/SmartReference.h"
 #include"../Core/IConfig.h"
 #include"../Core/Ref.h"
 #include"../Def.h"
+#include"../Core/Module.h"
 #include"PhysicDesc.h"
+#include"Prerequisites.h"
 
 namespace fragcore {
-	class RigidBody;
-	class Collision;
-	class RayCastHit;
-	class CharacterController;
-	class Constraints;
-
 
 	/**
 	 *	Physic interface.
 	 *
 	 */
-	class FVDECLSPEC PhysicInterface : public SmartReference {
+	class FVDECLSPEC PhysicInterface : public Module {	//TODO add a base object for all plugin based.
 		friend class PhysicFactory;
 	public:
 
 		PhysicInterface(IConfig* config);
-
 		virtual ~PhysicInterface(void);
+
+		virtual void OnInitialization(void);
+		virtual void OnDestruction(void);
 
 		/**
 		 * Start simulate.
@@ -183,7 +181,7 @@ namespace fragcore {
 		 *
 		 * @param renderer
 		 */
-		virtual void setDebugRenderer(Ref<IRenderer> renderer);
+		virtual void setDebugRenderer(Ref<IRenderer>& renderer);
 
 		/**
 		 *	Get version of the interface.
@@ -191,6 +189,7 @@ namespace fragcore {
 		 */
 		virtual const char *getVersion(void) const;
 
+		//virtual intptr_t getNativePtr() const;
 
 	protected:	/*	*/
 

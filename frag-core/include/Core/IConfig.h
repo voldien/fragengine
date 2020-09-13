@@ -123,14 +123,16 @@ namespace fragcore {
 		* object.
 		* @param file
 		*/
-		virtual void printTable(FILE *IO) const;
+		//virtual void printTable(FILE *IO) const;	//TODO change to the reference to make it thread safe.
 		//TODO add support for the IO object.
-	//	virtual void printTable(Ref<IO>& io) const;
+		virtual void printTable(Ref<IO>& io) const;
 
 		//TODO deal with the name.
 		virtual void save(Ref<IO>& io, ConfigFormat format);
 
 		virtual void parseConfigFile(Ref<IO>& io, ConfigFormat format = ConfigFormat::Unknown);
+
+		//virtual std::vector<const char*> getKeys();	//TODO add support.
 
 	private:    /*	Internal methods.	*/
 
@@ -158,31 +160,25 @@ namespace fragcore {
 		virtual void getInternal(const std::string &key, void *value,
 		                         const std::type_info &type) const;
 
-		//TODO
 		template<class T>
 		class IConfigIterator : public Iterator<T>{
-
+			/*	*/
 		};
 		//TODO add iterator for config arguments.
 		//virtual Iterator getIterator(void);
 
 	protected:
-		//TODO change to IO to make IO not get deleted during in the middle of the execution.
 		virtual void parse_xml(Ref<IO>& io);
-
 		virtual void parse_yaml(Ref<IO>& io);
-
 		virtual void parse_json(Ref<IO>& io);
-
 		virtual void save_xml(Ref<IO>& io);
-
 		virtual void save_yaml(Ref<IO>& io);
-
 		virtual void save_json(Ref<IO>& io);
 	private:
 		//TODO deal with the type.
 		static void save_json_recursive_config(const IConfig *config, struct json_object *root);
 		static void parse_json_recursive_config(IConfig *config, struct json_object *root);
+
 	public:
 		virtual IConfig *getSuperInstance(void);
 

@@ -8,7 +8,7 @@
 #include <Utils/StringUtil.h>
 #include <Core/IConfig.h>
 #include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
+#include "Exception/RuntimeException.h"
 
 using namespace fragcore;
 typedef IRenderer *(*pcreateinternalrendering)(IConfig *config);
@@ -42,19 +42,19 @@ IRenderer *RenderingFactory::createRendering(const char *cpathlib, IConfig *conf
 	return interface;
 }
 
-const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory::RenderingAPI api) {
+constexpr const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory::RenderingAPI api) {
+	//TODO append api value to the exception string.
 #ifdef FV_UNIX
 	switch (api) {
-		case RenderingFactory::eOpenGL:
+		case RenderingFactory::OpenGL:
 			return "libfragview-rgl.so";
-		case RenderingFactory::eVulkan:
+		case RenderingFactory::Vulkan:
 			return "libfragview-rvk.so";
-		case RenderingAPI::eDirectX:
+		case RenderingAPI::DirectX:
 			throw InvalidArgumentException("Not supported on Unix Systems.");
 		case RenderingAPI::eOpenCL:
 			return "libfragview-rcl.so";
 		default:
-			assert(0);
 			throw InvalidArgumentException("Not a valid rendering API enumerator.");
 	}
 #elif defined(FV_WINDOWS)
@@ -68,7 +68,6 @@ const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory::Renderin
 		case RenderingAPI::eOpenCL:
 			return "libfragview-rcl.dll";
 		default:
-			assert(0);
 			throw InvalidArgumentException("Not a valid rendering API enumerator.");
 	}
 #endif

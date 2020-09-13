@@ -69,7 +69,8 @@ Sampler::CompareFunc Sampler::getCompare(void) const {
 void Sampler::setCompareFunc(CompareFunc compareFunc) {
 	GLSamplerObject *sampler = (GLSamplerObject *) this->getObject();
 	GLenum glCompareFunc = getTextureCompareMode(compareFunc);
-	glGetSamplerParameterfv(sampler->sampler, GL_TEXTURE_COMPARE_FUNC, glCompareFunc);
+	//TODO resolve.
+	//glGetSamplerParameterfv(sampler->sampler, GL_TEXTURE_COMPARE_FUNC, glCompareFunc);
 }
 
 void Sampler::setMipMapBaseLevel(unsigned int level) {}

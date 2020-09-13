@@ -2,22 +2,23 @@
 #include <Exception/InvalidArgumentException.h>
 #include"physic/PhysicFactory.h"
 #include"Core/Library.h"
+#include"Utils/StringUtil.h"
 using namespace fragcore;
 
 /**
  *	Internal function data type for creating physic
  *	interface.
  */
-typedef PhysicInterface* (*pcreateInternalPhysicInterface)(IConfig* config);
+typedef PhysicInterface* (*pcreateInternalPhysicInterface)(IConfig* overrideOption);
 
-/*	*/
+/*	TODO update with the new naming.	*/
 const char *bulletlibpath = "libfragview-pbu.so";             /*	Default bullet library.	*/
 const char *bullet3libpath = "libfragview-pbu.so";           /*	Bullet library with OpenCL support.	*/
 const char *physxlibpath = "libfragview-pbu.so";               /*	Nvidia's physic library. ( Not supported ) */
 
 
-PhysicInterface* PhysicFactory::createPhysic(PhysicAPI api,  IConfig* config) {
-	return PhysicFactory::createPhysic(PhysicFactory::getInterfaceLibraryPath(api), config);
+PhysicInterface* PhysicFactory::createPhysic(PhysicAPI api,  IConfig* overrideOption) {
+	return PhysicFactory::createPhysic(PhysicFactory::getInterfaceLibraryPath(api), overrideOption);
 }
 
 PhysicInterface* PhysicFactory::createPhysic(const char* libpath, IConfig* config) {
@@ -28,8 +29,8 @@ PhysicInterface* PhysicFactory::createPhysic(const char* libpath, IConfig* confi
 	Library library;
 
 	/*	Validate parameters.	*/
-	if(libpath == NULL || config == NULL)
-		throw InvalidArgumentException("argument is null");
+	if(libpath == NULL)
+		throw InvalidArgumentException(fvformatf("Invalid filepath do dynamic library: %s", libpath));
 
 	/*	Open dynamicInterface library and create dynamicInterface object.	*/
 	library.open(libpath);
@@ -75,15 +76,14 @@ PhysicInterface* PhysicFactory::createPhysic(const char* libpath, IConfig* confi
 const char* PhysicFactory::getInterfaceLibraryPath(PhysicAPI api){
 #ifdef FV_UNIX
 	switch(api){
-	case PhysicFactory::eBullet:
+	case PhysicFactory::Bullet:
 		return bulletlibpath;
-	case PhysicFactory::eBullet3:
+	case PhysicFactory::Bullet3:
 		return bullet3libpath;
-	case PhysicFactory::ePhysx:
+	case PhysicFactory::PhysX:
 		return physxlibpath;
 	default:
-		assert(0);
-		return "";
+		throw InvalidArgumentException("");
 	}
 #else
 #endif

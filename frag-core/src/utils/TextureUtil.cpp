@@ -9,7 +9,7 @@
 #include<stdexcept>
 #include<Core/IO/FileSystem.h>
 #include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
+#include "Exception/RuntimeException.h"
 
 using namespace fragcore;
 

@@ -2,7 +2,7 @@
 #include"Renderer/Texture.h"
 #include"Renderer/vulkan/internal_object_type.h"
 #include"Utils/StringUtil.h"
-#include"Exception/RuntimeExecption.h"
+#include "Exception/RuntimeException.h"
 
 using namespace fragcore;
 
@@ -50,46 +50,53 @@ void Texture::setAnisotropic(float anisotropic) {
 float Texture::getAnisotropic(void) const {
 
 }
-//
-//void Texture::setMipMapBaseLevel(unsigned int level) {
-//	Sampler::setMipMapBaseLevel(level);
-//}
-//
-//unsigned int Texture::getMipMapBaseLevel(void) const {
-//	return Sampler::getMipMapBaseLevel();
-//}
-//
-//void Texture::setMipMapBias(float bias) {
-//	Sampler::setMipMapBias(bias);
-//}
-//
-//float Texture::getMipMapBias(float bias) const {
-//	return Sampler::getMipMapBias(bias);
-//}
-//
-//void Texture::setBorderColor(float color) {
-//	Sampler::setBorderColor(color);
-//}
-//
-//float Texture::getBorderColor(void) const {
-//	return Sampler::getBorderColor();
-//}
-//
-//unsigned int Texture::setMaxLod(unsigned int level) {
-//	return Sampler::setMaxLod(level);
-//}
-//
-//unsigned int Texture::getMaxLod(void) const {
-//	return Sampler::getMaxLod();
-//}
-//
-//unsigned int Texture::setMinLod(unsigned int level) {
-//	return Sampler::setMinLod(level);
-//}
-//
-//unsigned int Texture::getMinLod(void) const {
-//	return Sampler::getMinLod();
-//}
+
+Texture::CompareFunc Texture::getCompare(void) const {}
+
+void Texture::setCompareFunc(CompareFunc compareFunc) {
+
+}
+
+
+void Texture::setMipMapBaseLevel(unsigned int level) {
+	Sampler::setMipMapBaseLevel(level);
+}
+
+unsigned int Texture::getMipMapBaseLevel(void) const {
+	return Sampler::getMipMapBaseLevel();
+}
+
+void Texture::setMipMapBias(float bias) {
+	Sampler::setMipMapBias(bias);
+}
+
+float Texture::getMipMapBias(float bias) const {
+	return Sampler::getMipMapBias(bias);
+}
+
+void Texture::setBorderColor(float color) {
+	Sampler::setBorderColor(color);
+}
+
+float Texture::getBorderColor(void) const {
+	return Sampler::getBorderColor();
+}
+
+unsigned int Texture::setMaxLod(unsigned int level) {
+	return Sampler::setMaxLod(level);
+}
+
+unsigned int Texture::getMaxLod(void) const {
+	return Sampler::getMaxLod();
+}
+
+unsigned int Texture::setMinLod(unsigned int level) {
+	return Sampler::setMinLod(level);
+}
+
+unsigned int Texture::getMinLod(void) const {
+	return Sampler::getMinLod();
+}
 
 
 Texture::Format Texture::getFormat(void) const {

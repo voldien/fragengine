@@ -5,9 +5,14 @@
 
 using namespace fragcore;
 
+
+TEST(Base, Base_Create){
+	
+}
+
 TEST(Base, AllBase)
 {
-	Base16 base16;
-	Base32 base32;
-	Base64 base64;
+	// Base16 base16;
+	// Base32 base32;
+	// Base64 base64;
 }

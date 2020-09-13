@@ -16,6 +16,7 @@ TARGET_LINK_LIBRARIES(fragview-pbu ${BULLET_LIB} fragcore )
 ADD_DEPENDENCIES(fragview-pbu fragcore)
 INSTALL(TARGETS fragview-pbu DESTINATION lib)
 
+# TODO determine if and how to eanble for plaforms, BT_USE_SSE_IN_API 
 IF ((CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") )
     TARGET_INCLUDE_DIRECTORIES( fragview-pbu PUBLIC "${BULLET_INCLUDE_DIRS}" )
 ENDIF()

@@ -20,12 +20,11 @@
 #define _FRAG_CORE_AUDIOINTERFACE_H_ 1
 #include"../Def.h"
 #include"../Core/IConfig.h"
+#include"../Core/Module.h"
 #include"AudioDesc.h"
 #include "AudioPhysicalDevice.h"
 #include "AudioClip.h"
 #include "AudioReverb.h"
-
-
 #include<vector>
 
 namespace fragcore {
@@ -33,13 +32,16 @@ namespace fragcore {
 	/**
 	 *
 	 */
-	class FVDECLSPEC AudioInterface : public SmartReference {
+	class FVDECLSPEC AudioInterface : public Module {
 	protected:
 		//virtual void initAllocate(InitAllocateTableInfo *table);
 
 	public:
 		AudioInterface(IConfig* config);
 		virtual ~AudioInterface(void);
+
+		virtual void OnInitialization(void);
+		virtual void OnDestruction(void);
 
 		/**
 		 *
@@ -81,19 +83,16 @@ namespace fragcore {
 
 		/**/
 		virtual AudioCapture* createAudioCapture(void);
+		virtual void deleteAudioCapture(AudioCapture* capture);
 
-		/**
-		 *
-		 * @return
-		 */
+
 		virtual std::vector<AudioPhysicalDevice> getDevices(void) const;
-		//TODO add mic.
 
+		/*	*/
 		virtual void setAudioDevice(const AudioPhysicalDevice& device);
 		virtual const AudioPhysicalDevice &getAudioDevice(void) const;
 
-		//virtual AudioSettings* getAudioSettings(void);
-
+		/*	*/
 		virtual const char *getVersion(void) const;
 
 	private:

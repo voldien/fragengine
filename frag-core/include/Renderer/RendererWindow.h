@@ -16,15 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAG_CORE_WINDOWRENDERER_H_
-#define _FRAG_CORE_WINDOWRENDERER_H_ 1
+#ifndef _FRAG_CORE_RENDERWINDOW_H_
+#define _FRAG_CORE_RENDERWINDOW_H_ 1
 #include "../Def.h"
-#include "../Core/Display.h""
+#include "../Window/Display.h""
 #include "../Core/Ref.h"
 #include "../Prerequisites.h"
 #include "../Core/SmartReference.h"
-#include "../Core/Window.h"
+#include "../Window/Window.h"
 #include "IRenderer.h"
+#include"RenderObject.h"
 
 namespace fragcore {
 	/**
@@ -35,10 +36,12 @@ namespace fragcore {
 	public:
 		virtual void swapBuffer(void) = 0;
 		virtual void vsync(bool state) = 0;
+		virtual ViewPort* getViewPort(void) = 0;
+		virtual FrameBuffer* getDefaultFrameBuffer() = 0;
 
 		//virtual const char* getRendererAPI(void);
-
 	protected:  /*  Renderer methods.   */
+		//TODO determine how to resolve and
 		virtual bool assertConfigAttributes(const IConfig *iConfig) = 0;
 		virtual void createWindow(int x, int y, int width, int height, const char *api) = 0;
 		virtual void useWindow(void *data) = 0;

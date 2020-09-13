@@ -65,10 +65,10 @@ namespace frageditor{
 		 */
 		ShaderObject* loadShader(const char* vshader, const char* fshader,
 				const char* gshader = NULL, const char* tcshader = NULL,
-				const char* teshader = NULL, ZipFile* zip = NULL);
+				const char* teshader = NULL, ZipFileSystem* zip = NULL);
 		ShaderObject* loadShaderBySource(const char* vshader, const char* fshader,
 				const char* gshader = NULL, const char* tcshader = NULL,
-				const char* teshader = NULL, ZipFile* zip = NULL);
+				const char* teshader = NULL, ZipFileSystem* zip = NULL);
 
 		/**
 		 *	Loader geometry.
@@ -78,7 +78,7 @@ namespace frageditor{
 		Node* loadSceneNode(const std::string& cfilename);
 		Node* initNoodeRoot(const void* PV_RESTRICT pScene,
 				const void* PV_RESTRICT ianodes, Node* PV_RESTRICT parent,
-				const std::vector<GeometryObject*>& PV_RESTRICT geo,
+				const std::vector<Geometry*>& PV_RESTRICT geo,
 				const std::vector<Material*>& PV_RESTRICT mat);
 
 

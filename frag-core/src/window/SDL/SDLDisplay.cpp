@@ -2,8 +2,9 @@
 #include <SDL2/SDL_video.h>
 #include <Utils/StringUtil.h>
 #include <Renderer/RenderDesc.h>
-#include <Exception/RuntimeExecption.h>
-#include"SDLDisplay.h"
+#include <Exception/RuntimeException.h>
+#include"Window/SDL/SDLDisplay.h"
+
 using namespace fragcore;
 
 unsigned int SDLDisplay::x(void) const {

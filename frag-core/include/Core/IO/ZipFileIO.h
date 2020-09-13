@@ -19,7 +19,7 @@
 #ifndef _FRAG_CORE_ZIP_FILE_IO_H_
 #define _FRAG_CORE_ZIP_FILE_IO_H_ 1
 #include"../../Def.h"
-#include "ZipFile.h"
+#include "ZipFileSystem.h"
 #include"IO.h"
 #include"../Ref.h"
 #include<zip.h>
@@ -29,7 +29,7 @@ namespace fragcore {
 	 *
 	 */
 	class FVDECLSPEC ZipFileIO : public IO {
-		friend class ZipFile;
+		friend class ZipFileSystem;
 	public:
 		void open(const char *path, Mode mode) override;
 
@@ -57,9 +57,9 @@ namespace fragcore {
 		zip_file_t *file;           // Read only
 		zip_source_t* zipSource;    // Write only
 		zip_int64_t index;          // Index location.
-		Ref<ZipFile> zipfile;       // Filesystem reference.
+		Ref<ZipFileSystem> zipfile;       // Filesystem reference.
 	protected:
-		ZipFileIO(zip_file_t *file, zip_int64_t index, Ref<ZipFile> ref);
+		ZipFileIO(zip_file_t *file, zip_int64_t index, Ref<ZipFileSystem> ref);
 
 	public:
 		ZipFileIO(void);

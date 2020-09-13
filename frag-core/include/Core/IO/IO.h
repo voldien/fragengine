@@ -50,8 +50,6 @@ namespace fragcore {
 
 		virtual long int write(long int nbytes, const void *pbuffer) = 0;
 
-		//virtual long int format(const char* fvformatf, ...) = 0;	//TODO move to IOUtil
-
 		virtual bool eof(void) const = 0;
 
 		virtual long int length(void) = 0;
@@ -72,19 +70,22 @@ namespace fragcore {
 //		virtual void set_endian_swap(bool p_swap) { endian_swap = p_swap; }
 //		inline bool get_endian_swap() const { return endian_swap; }
 
-		//virtual IFileSystem* getFileSystem(void);
+		//TODO determine first how its behaviour before determine if it shall be included.
+		//virtual IFileSystem* getFileSystem(void) = 0;
+
+		//TODO determine if needing to add support.
 		enum IOOperation
 		{
 			OP_ALL,
-			OP_READ,
-			OP_WRITE,
-			OP_EOF,
-			OP_LENGTH,
-			OP_SEEK,
-			OP_GETPOS,
-			OP_FLUSH,
+			OP_READ = 1 << 0,
+			OP_WRITE = 1 << 0,
+			OP_EOF = 1 << 0,
+			OP_LENGTH = 1 << 0,
+			OP_SEEK = 1 << 0,
+			OP_GETPOS = 1 << 0,
+			OP_FLUSH  = 1 << 0,
 		};
-		//virtual isOperationSupported(void);
+		//virtual isOperationSupported(IOOperation operations);
 
 	protected:  /*  Internal methods.   */
 		virtual void open(const char* path, Mode mode) = 0;

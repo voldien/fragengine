@@ -1,11 +1,11 @@
-#include<fragview/FragViewCore.h>
-#include <fragview/audio/AudioClip.h>
-#include <fragview/audio/AudioSource.h>
-#include <fragview/audio/AudioListener.h>
-#include <fragview/audio/AudioDecoder.h>
-#include<opus/opus.h>
-#include<ogg/ogg.h>
-#include<hpmcpp/HpmCpp.h>
+#include <FragCore.h>
+#include <audio/AudioClip.h>
+#include <audio/decoder/AudioDecoder.h>
+#include <audio/AudioListener.h>
+#include <audio/AudioSource.h>
+#include<audio/decoder/VorbisDecoder.h>
+#include <ogg/ogg.h>
+#include <opus/opus.h>
 
 using namespace fragcore;
 
@@ -34,7 +34,7 @@ int main(int argc, const char **argv)
 		.position = PVVector3(0, 0, 0),
 		.rotation = PVQuaternion::identity()};
 	Ref<AudioListener> listener = Ref<AudioListener>(iaudio->createAudioListener(&list_desc));
-	//listener->setVolume(1.0f);
+	listener->setVolume(1.0f);
 	AudioSourceDesc source_desc = {};
 	source_desc.position = PVVector3::zero();
 	Ref<AudioSource> audioSource = Ref<AudioSource>(iaudio->createAudioSource(&source_desc));
@@ -42,13 +42,13 @@ int main(int argc, const char **argv)
 	AudioClipDesc clip_desc = {};
 	Ref<IO> f = Ref<IO>(fileSystem->openFile(argv[1], IO::READ));
 	f->seek(0, IO::SET);
-	Ref<AudioDecoder> decoder = Ref<AudioDecoder>(new AudioDecoder(f));
+	Ref<AudioDecoder> decoder = Ref<AudioDecoder>(new VorbisAudioDecoder(f));
 	clip_desc.decoder = decoder;
 	clip_desc.samples = 16;
 	clip_desc.sampleRate = 2* 44100;
 	clip_desc.format = AudioFormat::eStero;
+	//clip_desc.datamode = AudioDataMode::Streaming;
 	
-
 	Ref<AudioClip> clip = Ref<AudioClip>(iaudio->createAudioClip(&clip_desc));
 	printf("Created the audio clip.\n");
 	//clip->setData
@@ -61,8 +61,9 @@ int main(int argc, const char **argv)
 	{
 		printf("pos sec: %f\n", audioSource->getPos());
 		usleep(500);
+		audioSource->setVolume(powf(sin(audioSource->getPos()), 2));
 	}
 
 	sleep(10);
-	//delete iaudio;
+	delete *iaudio;
 }

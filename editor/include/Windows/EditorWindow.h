@@ -1,8 +1,8 @@
 #ifndef _FRAG_EDITOR_EDITORWINDOW_H_
 #define _FRAG_EDITOR_EDITORWINDOW_H_ 1
 #include <Core/SmartReference.h>
-#include <Core/Window.h>
-#include"Windows/Widget.h"
+#include <Window/Window.h>
+#include "Windows/Widget.h"
 #if defined(FRAG_GTK_WINDOW_MANAGER)
 #include"Core/gtkconfig.h"
 #elif defined(FRAG_EDITOR_QT_WINDOW_MANAGER)
@@ -20,12 +20,11 @@ namespace frageditor {
 	public:
 		EditorWindow();
 
-		void
-		showWindow(void) override;
+		void show(void) override;
 
-		void hideWindow(void) override;
+		void hide(void) override;
 
-		void closeWindow(void) override;
+		void close(void) override;
 
 		void focus(void) override;
 

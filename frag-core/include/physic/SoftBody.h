@@ -16,18 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _SOFTBODY_H_
-#define _SOFTBODY_H_ 1
+#ifndef _FRAG_CORE_SOFTBODY_H_
+#define _FRAG_CORE_SOFTBODY_H_ 1
 #include"../Def.h"
-
+#include"Prerequisites.h"
 
 namespace fragcore {
 	/**
 	 *
 	 */
 	class FVDECLSPEC SoftBody {
-		friend class DynamicInterface;
-
 	private:
 		inline SoftBody(void) {}
 

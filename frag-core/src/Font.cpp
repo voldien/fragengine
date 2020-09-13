@@ -18,7 +18,8 @@ Font::Character Font::getCharacter(unsigned int index) {
 }
 
 const Font::Character &Font::getCharacter(unsigned int index) const {
-	return this->characters[index];
+	return this->characters.at(index);
+	//return this->characters[index];
 }
 
 Texture *Font::getTexture(void) const {

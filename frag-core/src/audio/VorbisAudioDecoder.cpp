@@ -1,5 +1,5 @@
-#include"audio/AudioDecoder.h"
-#include"Exception/RuntimeExecption.h"
+#include"audio/decoder/VorbisDecoder.h"
+#include"Exception/RuntimeException.h"
 #include"Core/IO/IO.h"
 #include <ogg/ogg.h>
 #include <opus/opus.h>
@@ -56,7 +56,7 @@ long AR_tellOgg(void *fh)
 	return of->io->getPos();
 }
 
-AudioDecoder::AudioDecoder(Ref<IO> &io)
+VorbisAudioDecoder::VorbisAudioDecoder(Ref<IO> &io) : AudioDecoder(io)
 {
 	ov_callbacks callbacks;
 	ogg_file* t = new ogg_file();
@@ -75,12 +75,12 @@ AudioDecoder::AudioDecoder(Ref<IO> &io)
 	io->seek(0, IO::SET);
 	int ret = ov_open_callbacks((void *)t, ov, NULL,0, callbacks);
 
-	if (ov_seekable(ov))
-	{
-	printf("Input bitstream contained %ld logical bitstream section(s).\n",
-			ov_streams(ov));
-	printf("Total bitstream playing time: %ld seconds\n\n",
-			(long)ov_time_total(ov, -1));
+	if (ov_seekable(ov)) {
+		printf("Input bitstream contained %ld logical bitstream section(s).\n",
+				ov_streams(ov));
+		printf("Total bitstream playing time: %ld seconds\n\n",
+				(long)ov_time_total(ov, -1));
+		this->length = ov_time_total(ov, -1);
 	}
 
 	vorbis_info *vi = ov_info(ov, -1);
@@ -100,19 +100,21 @@ AudioDecoder::AudioDecoder(Ref<IO> &io)
 		fprintf(stderr, "\nDecoded length: %ld samples\n",
 				(long)ov_pcm_total(ov, -1));
 		printf("\t\tcompressed length: %ld bytes ", (long)(ov_raw_total(ov, i)));
-		printf(" play time: %lds\n", (long)ov_time_total(ov, i));
+		printf("play time: %lds\n", (long)ov_time_total(ov, i));
 	}
 }
 
-AudioDecoder::~AudioDecoder(void){
+VorbisAudioDecoder::~VorbisAudioDecoder(void)
+{
 	ov_clear(ov);
 }
 
-void AudioDecoder::seek(long int microseconds){
+void VorbisAudioDecoder::seek(long int microseconds)
+{
 	ov_time_seek(ov, microseconds * 1000.0);
 }
 
-void *AudioDecoder::getData(long int *size)
+void *VorbisAudioDecoder::getData(long int *size)
 {
 	vorbis_info *vi = ov_info(ov, -1);
 	size_t data_len = ov_pcm_total(ov, -1) * vi->channels * 2;
@@ -141,7 +143,7 @@ void *AudioDecoder::getData(long int *size)
 }
 char pcmout[4096 * 16];
 
-void *AudioDecoder::getPage(int i)
+void *VorbisAudioDecoder::getPage(int i)
 {
 	
 	int current_section;
@@ -172,4 +174,19 @@ void *AudioDecoder::getPage(int i)
 	}
 	return pcmout;
 	//ov_read
+}
+
+AudioFormat VorbisAudioDecoder::getFormat(void) const {
+	switch(this->channels){
+	case 1:
+		return AudioFormat::eMono;
+		default:
+			break;
+	}
+    return AudioFormat::eMono;
+}
+unsigned int VorbisAudioDecoder::getSampleRate(void) const { return 0; }
+
+double VorbisAudioDecoder::getTotalTime(void) const{
+	return this->length;
 }

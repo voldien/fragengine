@@ -1,9 +1,13 @@
 #include <SDL2/SDL_platform.h>
 #include <SDL2/SDL_cpuinfo.h>
 #include"Core/SystemInfo.h"
+#include"Core/IO/FileIO.h"
+#include"Exception/InvalidArgumentException.h"
+#include"Exception/RuntimeException.h"
 #include <hpm.h>
-#include <Exception/InvalidArgumentException.h>
+#include <filesystem>
 
+namespace fs = std::filesystem;
 using namespace fragcore;
 
 SystemInfo::OperatingSystem SystemInfo::getOperatingSystem(void) {
@@ -51,22 +55,17 @@ const char *SystemInfo::getOperatingSystemName(SystemInfo::OperatingSystem os) {
 }
 
 SystemInfo::SIMD SystemInfo::getSupportedSIMD(void) {
-	SystemInfo::SIMD supportedSIMD = HPM_NONE;
+	unsigned int supportedSIMD = HPM_NONE;
 
 	for (int i = 1; i < 11; i++) {
 		if (hpm_support_cpu_feat(1 << i))
-			supportedSIMD |= (SystemInfo::SIMD) (1 << i);
+			supportedSIMD |= (1 << i);
 	}
-	return supportedSIMD;
+	return (SystemInfo::SIMD)supportedSIMD;
 }
 
 const char *SystemInfo::getAppliationName(void) {
-#   if defined(FV_GNUC) || defined(FV_UNIX)
-//	extern char* __progname;
-//	return __progname;
-#else
-	return NULL;
-#endif
+    return fs::current_path().c_str();
 }
 
 const char *SystemInfo::getUserName(void) {
@@ -91,4 +90,29 @@ bool SystemInfo::supportsVibration(void) {
 
 unsigned long int SystemInfo::systemMemorySize(void) {
 	return SDL_GetSystemRAM();
+}
+
+const char *SystemInfo::getCurrentDirectory(void){
+	return fs::current_path().c_str();
+}
+
+//TODO relocate to system or something, since it they are always exist more of the time.
+static FileIO *stdoutIO = new FileIO(stdout);
+static FileIO *stdinIO = new FileIO(stdin);
+static FileIO *stderrIO = new FileIO(stderr);
+static Ref<IO> stdoutRef = Ref<IO>(stdoutIO);
+static Ref<IO> stdinRef = Ref<IO>(stdinIO);
+static Ref<IO> stderrRef = Ref<IO>(stderrIO);
+
+Ref<IO> &SystemInfo::getStdOut(void) {
+    return stdoutRef;
+    //Ref<IO>(stdoutIO);
+}
+Ref<IO> &SystemInfo::getStdIn(void) {
+    return stdoutRef;
+    //Ref<IO>(stdinIO);
+}
+Ref<IO> &SystemInfo::getStdErr(void) {
+    return stdoutRef;
+    //Ref<IO>(stderrIO);
 }

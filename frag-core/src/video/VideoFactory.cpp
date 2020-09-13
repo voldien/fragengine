@@ -2,11 +2,11 @@
 #include <Utils/TextureUtil.h>
 #include <Utils/StringUtil.h>
 #include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
+#include "Exception/RuntimeException.h"
 #include "Video/VideoFactory.h"
 #include "Core/IO/IO.h"
 #include "audio/AudioInterface.h"
-#include "audio/AudioDecoder.h"
+#include "audio/decoder/AudioDecoder.h"
 
 //TODO add support if libav does not support it.
 // #include <theora/theora.h>
@@ -405,7 +405,7 @@ VideoFactory::loadVideoTexture(Ref<IO> &ref, AudioClip **audio, IRenderer *rende
 }
 
 //TODO determine where it shall be relocated and what class.
-static void libAVComputeVideoTask(Task *task)
+void libAVComputeVideoTask(Task *task)
 {
 	VideoTexture *texture = (VideoTexture *)task->userData;
 	FVAVLibVideoHeader header = {};	//TODO change to reference.

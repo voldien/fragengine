@@ -1,7 +1,7 @@
 #include <SDL2/SDL_video.h>
 #include <stdexcept>
 #include <Utils/StringUtil.h>
-#include"Core/Display.h"
+#include"Window/Display.h"
 
 
 ////SDL_ShowSimpleMessageBox

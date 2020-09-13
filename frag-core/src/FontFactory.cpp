@@ -60,7 +60,7 @@ Font *FontFactory::createFont(Ref<IRenderer> &renderer, Ref<IO> &io, float size,
 		throw InvalidArgumentException(fvformatf("Failed to load font - %d.\n", ftError));
 	}
 
-	int ft_encoding = 0;
+	FT_Encoding ft_encoding = FT_ENCODING_NONE; //TODO determine the default enum value.
 	if (encoding == Encoding::UTF8 || encoding == Encoding::UTF16)
 		ft_encoding = FT_ENCODING_UNICODE;
 	else

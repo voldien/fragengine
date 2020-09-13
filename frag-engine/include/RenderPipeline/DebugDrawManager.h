@@ -53,7 +53,6 @@ namespace fragengine {
 		addString(const PVVector3 &a, const std::string &text, float duration = 0.0f, bool depthEnabled = true);
 
 	private:
-
 		enum DrawType {
 			LINE,
 			CROSS,
@@ -116,15 +115,13 @@ namespace fragengine {
 
 		/*  TODO perhaps multiple queus based on the command such as depth for creating sorted command list.    */
 		std::map<int, Queue<DebugDrawCommand>> commands;  /*  */
-
 		Ref<Mesh> debugGeometry;            /*  Geometry of the debug objects. - multiple sub geometries.   */
-
 		std::vector<int> geomtryIndex; /*	*/
 		Ref<Shader> debug;
 		Ref<Shader> line;
 		Ref<Font> font; /*  */
 		Ref<Mesh> debugFont;
 	};
-} // namespace fragengine
+}
 
 #endif

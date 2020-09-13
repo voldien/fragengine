@@ -1,16 +1,16 @@
 #include"Core/IO/ZipFileIO.h"
-#include"Core/IO/ZipFile.h"
+#include"Core/IO/ZipFileSystem.h"
 #include<zlib.h>
 #include<zip.h>
 #include <stdexcept>
 #include <Utils/StringUtil.h>
-#include <Exception/RuntimeExecption.h>
+#include "Exception/RuntimeException.h"
 #include <Exception/NotImplementedException.h>
 #include <Exception/InvalidArgumentException.h>
 
 using namespace fragcore;
 
-ZipFileIO::ZipFileIO(zip_file_t *file, zip_int64_t index, Ref<ZipFile> ref) {
+ZipFileIO::ZipFileIO(zip_file_t *file, zip_int64_t index, Ref<ZipFileSystem> ref) {
 	this->file = file;
 	this->zipfile = ref;
 	this->index = index;

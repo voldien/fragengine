@@ -26,7 +26,7 @@ namespace fragcore {
 	/**
 	 * 
 	 */
-	template<class T>
+	template<class T>	//TODO evoluate.
 	class ITree {
 	public:
 		ITree(void) {
@@ -36,9 +36,9 @@ namespace fragcore {
 			this->parent = NULL;
 		}
 
-		virtual T *root(void) const {
+		virtual ITree<T> *root(void) const {
 			if (this->getParent())
-				return this;
+				return (ITree<T>*)this;
 			else
 				return this->getParent()->root();
 		}
@@ -47,11 +47,11 @@ namespace fragcore {
 			return this->getNumChildren() == 0;
 		}
 
-		virtual T *getParent(void) const {
+		virtual ITree<T> *getParent(void) const {
 			return this->parent;
 		}
 
-		virtual void setParent(T *parent) {
+		virtual void setParent(ITree<T> *parent) {
 			this->parent = parent;
 		}
 
@@ -59,8 +59,9 @@ namespace fragcore {
 			this->numChildren;
 		}
 
-		virtual void addChild(T *pchild) {
-			T *find;
+		virtual void addChild(ITree<T> *pchild)
+		{
+			ITree<T> *find;
 			assert(pchild);
 
 			this->numChildren++;
@@ -81,24 +82,25 @@ namespace fragcore {
 		}
 
 		virtual void removeChild(int index) {
-			ITree *sn = getChild(index - 1);
-			ITree *n = sn->sibling;
+			ITree<T> *sn = getChild(index - 1);
+			ITree<T> *n = sn->sibling;
 			sn->setSibling(n->sibling);
 			n->parent = NULL;
 		}
 
-		virtual T *getChild(int index) const {
+		virtual ITree<T> *getChild(int index) const
+		{
 			if(index < 0 || index >= this->getNumChildren())
 				throw InvalidArgumentException("");
-			T *chi = this->child;
+			ITree<T> *chi = this->child;
 			for (int x = 0; x <= index; x++) {
 				chi = chi->sibling;
 			}
 			return chi;
 		}
 
-		virtual int getNodeChildIndex(T *node) {
-			T *n = this->child;
+		virtual int getNodeChildIndex(ITree<T> *node) {
+			ITree<T> *n = this->child;
 			int i = 0;
 			while (n) {
 				if (n == node) {
@@ -174,18 +176,18 @@ namespace fragcore {
 //		virtual TIterator end(void);
 
 	protected:  /*  */
-		void setSibling(T *sibling) {
+		void setSibling(ITree<T> *sibling) {
 			this->sibling = sibling;
 		}
 
-		void setChild(T *child) {
+		void setChild(ITree<T> *child) {
 			this->child = child;
 		}
 
 	private:    /*  */
-		T *parent;                  /*	parent node.	*/
-		T *sibling;                 /*	sibling node.	*/
-		T *child;                   /*	child node.	*/
+		ITree<T> *parent;				/*	parent node.	*/
+		ITree<T> *sibling;				/*	sibling node.	*/
+		ITree<T> *child;					/*	child node.	*/
 		unsigned int numChildren;   /*	number of children node attached.	*/
 	};
 }

@@ -4,7 +4,7 @@
 
 using namespace fragcore;
 
-long int IOUtil::loadFileMem(const Ref<IO> &io, char **data)
+long int IOUtil::loadFileMem( Ref<IO> &io, char **data)
 {
 	char *d = NULL;
 	long dataSize = 0;
@@ -27,7 +27,7 @@ long int IOUtil::loadFileMem(const Ref<IO> &io, char **data)
 	return dataSize;
 }
 
-long int IOUtil::loadFile(const Ref<IO> &in, Ref<IO> &out)
+long int IOUtil::loadFile(Ref<IO> &in, Ref<IO> &out)
 {
 	if (!in->isReadable())
 		throw InvalidArgumentException(fvformatf("Failed to read from IO: %s", in->getName()));
@@ -49,7 +49,7 @@ long int IOUtil::loadFile(const Ref<IO> &in, Ref<IO> &out)
 	return dataSize;
 }
 
-long int IOUtil::loadStringMem(const Ref<IO> &io, char **string)
+long int IOUtil::loadStringMem( Ref<IO> &io, char **string)
 {
 	long int nbytes;
 
@@ -60,7 +60,7 @@ long int IOUtil::loadStringMem(const Ref<IO> &io, char **string)
 	return nbytes;
 }
 
-long int IOUtil::loadString(const Ref<IO> &in, Ref<IO> &out) {
+long int IOUtil::loadString( Ref<IO> &in, Ref<IO> &out) {
 
 	if (!in->isReadable())
 		throw InvalidArgumentException(fvformatf("Failed to read from IO: %s", in->getName()));
@@ -74,4 +74,15 @@ long int IOUtil::loadString(const Ref<IO> &in, Ref<IO> &out) {
 	out->write(sizeof(term), &term);
 
 	return nbytes;
+}
+
+long int IOUtil::format( Ref<IO> &io, const char *vformat, ...){
+	va_list argptr;
+	va_start(argptr, format);
+	char buf[1024]; // Page;
+	
+	//TODO add support for determine if fully or partial written.
+	long int i = vsnprintf(buf, sizeof(buf), vformat, argptr);
+	io->write(i, (const void*)buf);
+	va_end(argptr);
 }

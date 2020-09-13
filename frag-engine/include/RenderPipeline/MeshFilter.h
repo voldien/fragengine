@@ -17,6 +17,6 @@ namespace fragengine {
 	private:
 	//	Mesh* mesh;
 	};
-} // namespace fragengine
+}
 
 #endif

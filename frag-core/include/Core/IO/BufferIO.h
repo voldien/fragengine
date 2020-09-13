@@ -25,7 +25,7 @@ namespace fragcore {
 	/**
 	 *
 	 */
-	class FVDECLSPEC BufferIO : public IO {
+	class FVDECLSPEC BufferIO : public IO {	//TODO rename so that it understood it is a system memory IO object.
 	public:
 		void open(const char *path, Mode mode) override;
 
@@ -59,10 +59,9 @@ namespace fragcore {
 
 	public:
 		BufferIO(const void *pBuffer, unsigned long size);
-
 		BufferIO(void *pBuffer, unsigned long size);
-
 		BufferIO(unsigned long size, bool expandable = false);
+		~BufferIO(void);
 	};
 }
 #endif

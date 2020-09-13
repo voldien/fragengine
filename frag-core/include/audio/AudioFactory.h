@@ -16,16 +16,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FRAG_CORE_AUDIOFACTORY_H
-#define _FRAG_CORE_AUDIOFACTORY_H
+#ifndef _FRAG_CORE_AUDIOFACTORY_H_
+#define _FRAG_CORE_AUDIOFACTORY_H_ 1
 #include"AudioInterface.h"
 
 namespace fragcore {
 	class FVDECLSPEC AudioFactory {
 	public:
 		enum AudioAPI { /*  Official audio api.  */
-			OpenAL,        /*	*/
-			FMOD,          /*  */
+			OpenAL,			/*	*/
+			FMOD,			/*  */
 		};
 
 		/**

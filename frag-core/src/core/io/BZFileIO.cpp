@@ -1,5 +1,5 @@
 #include"Core/IO/BZFileIO.h"
-#include"Exception/RuntimeExecption.h"
+#include "Exception/RuntimeException.h"
 #include"Utils/StringUtil.h"
 #include <bzlib.h>
 
@@ -18,7 +18,7 @@ long BZFileIO::read(long int nbytes, void *pbuffer) {
 long BZFileIO::write(long int nbytes, const void *pbuffer) {
 	int bzerror;
 	int len = nbytes;
-	BZ2_bzWrite(&bzerror, this->bzFile, pbuffer, (int)nbytes);
+	BZ2_bzWrite(&bzerror, this->bzFile, (void*)pbuffer, (int)nbytes);
 	if(bzerror != BZ_OK){
 		throw RuntimeException(fvformatf("Failed to write %s", BZ2_bzerror(this->bzFile, &bzerror)));
 	}
@@ -59,7 +59,7 @@ void BZFileIO::close(void) {
 	int bzerror;
 	BZ2_bzReadClose(&bzerror, this->bzFile);
 
-	int nbyte_in, nbytes_out;
+	unsigned int nbyte_in, nbytes_out;
 	BZ2_bzWriteClose(&bzerror, this->bzFile, 0, &nbyte_in, &nbytes_out);
 
 	FileIO::close();

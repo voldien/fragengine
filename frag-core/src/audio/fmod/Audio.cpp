@@ -5,7 +5,6 @@
 using namespace fmod;
 FMOD* fmodSystem = NULL;
 
-
 int VDAudio::init(void){
 
 	if(fmodSystem != NULL){

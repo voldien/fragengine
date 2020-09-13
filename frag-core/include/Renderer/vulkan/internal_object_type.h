@@ -1,14 +1,20 @@
 #ifndef _FRAGVIEW_INTERNAL_OBJECT_TYPE_H_
 #define _FRAGVIEW_INTERNAL_OBJECT_TYPE_H_ 1
 
+/*	Expose the correct platform specific surface creation functions.	*/
 #if defined(FV_UNIX)
 	#define VK_USE_PLATFORM_XLIB_KHR
 	#define VK_USE_PLATFORM_WAYLAND_KHR
 #elif defined(FV_WINDOW)
-
+	#define VK_USE_PLATFORM_WIN32_KHR
+#elif defined(FV_ANDROID)
+	#define VK_USE_PLATFORM_ANDROID_KHR
+#elif defined(FV_MACOSX)
+	#define VK_USE_PLATFORM_MACOS_MVK
 #endif
 
 #include"Renderer/RenderDesc.h"
+#include"../../Core/Ref.h"
 #include"Renderer/Buffer.h"
 #include"Renderer/Sampler.h"
 #include<vulkan/vulkan.h>
@@ -27,30 +33,35 @@ namespace fragcore {
 
 		SwapChainSupportDetails details;    /*  */
 
-		uint32_t swapchainImageCount;       /*  */
-		VkSurfaceFormatKHR format;          /*  */
-		VkImage *swapImages;                /*  */
-		VkCommandBuffer *commandBuffers;    /*  */
+		std::vector<VkImage> swapChainImages;
+		std::vector<VkImageView> swapChainImageViews;
+		std::vector<VkFramebuffer> swapChainFramebuffers;
+		std::vector<VkCommandBuffer> commandBuffers;
+		VkFormat swapChainImageFormat;
+		VkRenderPass renderPass;
 		VkCommandBuffer *currentBuffer;
-		VkImageView *view;                  /*  */
 		VkSwapchainKHR swapchain;           /*  */
 		VkExtent2D chainExtend;             /*  */
 	} SwapchainBuffers;
 
 	typedef struct vulkan_core_t {
-		SDL_Window *window;
+		/*	*/
+		std::vector<RendererWindow*> windows;
+		SDL_Window *window;	//TODO remove
 		Capability capabilityCached;
-
 		/*	*/
 		VkInstance inst;
-
+		VkDebugUtilsMessengerEXT debugMessenger;
+		VkDebugReportCallbackEXT debugReport;
 		/*  Physical device.    */
 		VkPhysicalDevice gpu;
 		std::vector<VkPhysicalDevice> GPUs;
 
+
 		/*  */
 		VkDevice device;
-		VkQueue queue;
+		VkQueue queue;	//TODO rename graphicsQueue
+		VkQueue presentQueue;
 
 		/*  */
 		VkPhysicalDeviceProperties gpu_props;
@@ -79,8 +90,12 @@ namespace fragcore {
 		VkPipeline current_pipeline;
 
 		/*  */
-		VkSemaphore imageAvailableSemaphore;
-		VkSemaphore renderFinishedSemaphore;
+		//VkSemaphore imageAvailableSemaphore;
+		//VkSemaphore renderFinishedSemaphore;
+		std::vector<VkSemaphore> imageAvailableSemaphores;
+		std::vector<VkSemaphore> renderFinishedSemaphores;
+		std::vector<VkFence> inFlightFences;
+		std::vector<VkFence> imagesInFlight;
 		//VkQueueFamilyIndices indices
 
 		/*  */
@@ -107,9 +122,9 @@ namespace fragcore {
 		unsigned int viewport;
 	} VKViewPort;
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct vulkan_texture_object_t {
 		VulkanCore *vulkanCore;
 		TextureDesc desc;
@@ -120,9 +135,9 @@ namespace fragcore {
 		VkImageView view;
 	} VKTextureObject;
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct vulkan_shader_object_t {
 		VulkanCore *vulkanCore;
 		VkPipeline graphicsPipeline;
@@ -135,9 +150,9 @@ namespace fragcore {
 	} VKShaderObject;
 
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct vulkan_buffer_object_t {
 		VulkanCore *vulkanCore;
 		BufferDesc desc;
@@ -148,9 +163,9 @@ namespace fragcore {
 	} VKBufferObject;
 
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct vulkan_geometry_object_t {
 		VulkanCore *vulkanCore;
 		GeometryDesc desc;
@@ -162,9 +177,9 @@ namespace fragcore {
 
 	} VKGeometryObject;
 
-/**
- *
- */
+	/**
+	 *
+	 */
 	typedef struct vulkan_framebuffer_object_t {
 		VulkanCore *vulkanCore;
 		FrameBufferDesc desc;
@@ -173,14 +188,16 @@ namespace fragcore {
 	} VKFrameBufferObject;
 }
 
-
+// extern void createInstance(fragcore::VulkanCore *vulkanCore, IConfig *config);
+// extern void createDebugMessenger(fragcore::VulkanCore *vulkanCore, IConfig  *config);
+// extern void createSurface(fragcore::VulkanCore *vulkanCore, IConfig *config);
 
 /*  Helper functions.   */
 extern uint32_t findMemoryType(fragcore::VulkanCore *vulkanCore, uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 extern void
 createBuffer(fragcore::VulkanCore *vulkanCore, VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties,
-             VkBuffer &buffer, VkDeviceMemory &bufferMemory);
+			 VkBuffer &buffer, VkDeviceMemory &bufferMemory);
 
 extern VkImageView createImageView(fragcore::VulkanCore *vulkanCore, VkImage image, VkFormat format);
 
@@ -189,7 +206,7 @@ extern VkShaderModule createShaderModule(VkDevice device, const char *pdata, siz
 //
 extern bool isDeviceSuitable(VkPhysicalDevice device);
 
-extern void selectDevices(std::vector<VkPhysicalDevice *> &devices, std::vector<VkPhysicalDevice *> &selectDevices);
+extern void selectDefaultDevices(std::vector<VkPhysicalDevice> &devices, std::vector<VkPhysicalDevice> &selectDevices);
 
 //TODO improve to accomudate the configurations.
 extern VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
@@ -198,7 +215,26 @@ extern VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR
 
 extern VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities);
 
-//TODO move to the helper file.
+struct QueueFamilyIndices {
+	uint32_t graphicsFamily = -1;
+	uint32_t presentFamily = -1;
+
+	bool isComplete() {
+		return graphicsFamily != -1 && presentFamily != -1;
+	}
+};
+
+extern QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device,
+											VkSurfaceKHR surface);
+
+struct SwapChainSupportDetails {
+	VkSurfaceCapabilitiesKHR capabilities;
+	std::vector<VkSurfaceFormatKHR> formats;
+	std::vector<VkPresentModeKHR> presentModes;
+};
+
+extern SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device, VkSurfaceKHR surface);
+// TODO move to the helper file.
 extern unsigned int getTextureFormat(fragcore::TextureDesc::Format format);
 
 extern unsigned int getTextureTarget(fragcore::TextureDesc::Target target);
@@ -211,7 +247,8 @@ extern unsigned int getBufferHint(fragcore::BufferDesc::BufferHint hint);
 
 extern unsigned int getPrimitive(fragcore::GeometryDesc::Primitive primitive);
 
-extern unsigned int getAttributeDataType(fragcore::GeometryDesc::AttributeType type);
+extern unsigned int getAttributeDataType(
+	fragcore::GeometryDesc::AttributeType type);
 
 extern unsigned int getState(unsigned int state);
 

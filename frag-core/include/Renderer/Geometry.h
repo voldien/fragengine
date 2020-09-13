@@ -24,9 +24,8 @@ namespace fragcore {
 	/**
 	 *
 	 */
-	class FVDECLSPEC GeometryObject : public RenderObject {
+	class FVDECLSPEC Geometry : public RenderObject {
 		friend class IRenderer;
-
 	public:
 
 		//virtual unsigned int getVertexStride(void* pobj);

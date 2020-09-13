@@ -1,13 +1,29 @@
 
-#include <Core/Display.h>
+#include <Window/Display.h>
 #include<gtest/gtest.h>
-#include<sched.h>
 #include<Core/RefPtr.h>
-#include <SDL2/SDL.h>
+#include<Window/WindowManager.h>
+//#include <SDL2/SDL.h>
 
 using namespace fragcore;
 
 //TODO relocate to fragview client seperate code section.
+
+TEST(WindowTest, Create_WindowManager_No_Throw){
+    ASSERT_NO_THROW(WindowManager::getInstance());
+}
+
+TEST(DisplayTest, Create_Window_No_Exception){
+
+}
+
+TEST(DisplayTest, Window_Set_Title_Correct){
+	
+}
+
+TEST(DisplayTest, Display_Check_Monitor){
+	//Display dislay;
+}
 
 TEST(DisplayTest, Display) {
 // 	SDL_Init(SDL_INIT_VIDEO);
@@ -41,10 +57,14 @@ TEST(DisplayTest, Display) {
 // 	SDL_Quit();
 }
 
-TEST(DisplayTest, Window) {
+TEST(DisplayTest, Window_) {
 	// SDL_Init(SDL_INIT_VIDEO);
 
 	// SDLRendererWindow *rendererWindow;
 
 	// SDL_Quit();
+}
+
+TEST(DisplayTest, Window){
+	
 }

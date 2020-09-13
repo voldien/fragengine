@@ -4,6 +4,7 @@
 #ifndef _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_
 #define _FRAG_ENGINE_IRENDER_PIPELINE_BASE_H_ 1
 #include<Renderer/Prerequisites.h>
+#include<Renderer/Geometry.h>
 #include<Core/SmartReference.h>
 #include<Core/Ref.h>
 #include"Prerequisites.h"
@@ -55,7 +56,7 @@ namespace fragengine {
 
 		Ref<RenderPipelineSettings> renderQuality;
 
-		Ref<GeometryObject> quadDisplay;    /*  Quad display.   */
+		Ref<fragcore::Geometry> quadDisplay;    /*  Quad display.   */
 		Ref<Buffer> quadDisplayIndirect;    /*  Quad indirect buffer.    */
 		Ref<ProgramPipeline> displayShader; /*  Quad display shader.    */
 	};

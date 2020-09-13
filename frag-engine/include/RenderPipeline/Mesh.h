@@ -10,6 +10,8 @@ namespace fragengine {
 		Mesh(const Mesh& mesh);
 		~Mesh(void);
 
+		Mesh getSubMesh(int index);
+		unsigned int getNumSubMesh(void) const;
 
 	//
 	//	Vector3 getVertex(unsigned int index)const;					/* Vertex [Index] */

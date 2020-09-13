@@ -17,7 +17,7 @@ namespace fragcore {
 
 	typedef struct opencl_core_t {
 		IRenderer *back_renderer;
-		void *window;
+		void *window;	//TODO evoluate.
 		cl_context context;
 		cl_command_queue *queues;
 		uint32_t num_queues;
@@ -25,7 +25,7 @@ namespace fragcore {
 		cl_device_id *devices;
 		cl_device_id selectDevice;
 		CLRendererInterface anInterface;
-		int ndevices;
+		unsigned int ndevices;
 
 		/*  */
 		Shader *current;

@@ -26,10 +26,10 @@ namespace fragcore {
 	 */
 	class FVDECLSPEC PhysicFactory {
 	public:
-		enum PhysicAPI {  	/*  Official physic api.  */
-			eBullet,        /*	Bullet physic API.	*/
-			eBullet3,       /*	Bullet3 physic API. support GPU acceleration.	*/
-			ePhysx,         /*	Nvidia PhysicX.	*/
+		enum PhysicAPI {	/*  Official physic api.  */
+			Bullet,			/*	Bullet physic API.	*/
+			Bullet3,		/*	Bullet3 physic API. support GPU acceleration.	*/
+			PhysX,			/*	Nvidia PhysicX.	*/
 		};
 
 		/**
@@ -43,9 +43,8 @@ namespace fragcore {
 		 *
 		 *	\resource
 		 *
-		 *	@Return none NULL pointer if succesful.
 		 */
-		static PhysicInterface* createPhysic(PhysicAPI api, IConfig* config);
+		static PhysicInterface* createPhysic(PhysicAPI api, IConfig* overrideOption);
 
 		/**
 		 *	Load physicinterface by its library filename.
@@ -54,9 +53,8 @@ namespace fragcore {
 		 *
 		 *	\connection
 		 *
-		 *	@Return none NULL if successful.
 		 */
-		static PhysicInterface* createPhysic(const char* libpath, IConfig* config);
+		static PhysicInterface* createPhysic(const char* libpath, IConfig* overrideOption);
 
 		/**
 		 * @Return

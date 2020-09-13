@@ -39,6 +39,8 @@ namespace fragcore {
 
 		int getIndexCount(void) const;
 
+		//TODO determine if shall add a force delete support.
+
 	private:	/*	Attributes.	*/
 
 		AtomicRefCount counter;		/*	Number of references to the pointer.	*/

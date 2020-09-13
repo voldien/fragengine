@@ -1,19 +1,19 @@
 /**
 	FragEngine, A Two layer Game Engine.
-    Copyright (C) 2018  Valdemar Lindberg
+	Copyright (C) 2018  Valdemar Lindberg
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 #ifndef _FRAG_CORE_RENDER_DESC_H_
@@ -710,43 +710,44 @@ namespace fragcore {
 	 *
 	 */
 	typedef struct compatibility_t {
-		bool sDepthStencil;             /*  */
+		bool windowRenderer;
+		bool sDepthStencil; /*  */
 		bool sFramebuffer;
-		bool sFrameBufferMSAA;          /*  */
+		bool sFrameBufferMSAA; /*  */
 		bool sShaderPrecision;
 		bool sNonAttachableFrameBuffer;
-		bool sMSAA;                     /*  */
+		bool sMSAA; /*  */
 		bool sCSAA;
 		bool sCubeMap;
-		bool sCubeMapArray;             /*  */
-		bool sTextureArray;             /*  */
-		bool sMultiBind;                /*	Support multi bind texture.	*/
-		bool sQueryOcclusion;           /*  */
+		bool sCubeMapArray;   /*  */
+		bool sTextureArray;   /*  */
+		bool sMultiBind;      /*	Support multi bind texture.	*/
+		bool sQueryOcclusion; /*  */
 		bool sQueryTime;
-		bool sRenderTarget;             /*  */
-		bool sShaderImageLoadStorage;   /*  */
-		bool sShaderStorageBuffer;      /*  */
+		bool sRenderTarget;           /*  */
+		bool sShaderImageLoadStorage; /*  */
+		bool sShaderStorageBuffer;    /*  */
 		bool sUniformBuffer;
 		bool sMapBuffer;
-		bool sInstancing;               /*  Instance rendering supported.   */
-		bool sIndirectDraw;             /*  */
+		bool sInstancing;   /*  Instance rendering supported.   */
+		bool sIndirectDraw; /*  */
 		bool sIndirectMultiDraw;
-		bool sSpritePoint;              /*  Point sprite supported. */
-		bool sRenderTargetCubeMap;      /*  */
-		bool sShadow;                   /*  */
+		bool sSpritePoint;         /*  Point sprite supported. */
+		bool sRenderTargetCubeMap; /*  */
+		bool sShadow;              /*  */
 		bool sVertexShader;
-		bool sFragmentShader;           /*  */
-		bool sGeometryShader;           /*  */
-		bool sTessellation;             /*  */
-		bool sComputeShader;            /*  */
-		bool sTransformFeedback;        /*  */
-		bool sTextureCompression;       /*  */
+		bool sFragmentShader;     /*  */
+		bool sGeometryShader;     /*  */
+		bool sTessellation;       /*  */
+		bool sComputeShader;      /*  */
+		bool sTransformFeedback;  /*  */
+		bool sTextureCompression; /*  */
 		bool sSRGB;
 		bool rayTracing;
 		bool sVirtualViewPort;
 		bool sConditionalRendering;
 		bool sShaderBinary;
-		bool sVirtualTexture;           /*  */
+		bool sVirtualTexture; /*  */
 
 		/*	*/
 		long int sMaxElementVertices;
@@ -755,13 +756,16 @@ namespace fragcore {
 
 		/*	*/
 
-		int sMaxTextureUnitActive;            /**/
-		int numMaxSubRoutines;                /**/
+		int sMaxTextureUnitActive; /**/
+		int numMaxSubRoutines;     /**/
 
 		/*	*/
-		int sMaxUniformBufferBinding;    /*		GL_MAX_UNIFORM_BUFFER_BINDINGS	*/
-		int sMaxUniformBlockSize;        /*		GL_MAX_UNIFORM_BLOCK_SIZE	*/
-		int sMaxUniformLocations;        /*		GL_MAX_UNIFORM_LOCATIONS	*/
+		int sMaxUniformBufferBinding; /*		GL_MAX_UNIFORM_BUFFER_BINDINGS
+										*/
+		int sMaxUniformBlockSize;     /*		GL_MAX_UNIFORM_BLOCK_SIZE
+										*/
+		int sMaxUniformLocations;     /*		GL_MAX_UNIFORM_LOCATIONS
+										*/
 
 		/*  Textures.   */
 		int sNumCompressedTexture;
@@ -784,9 +788,10 @@ namespace fragcore {
 		int sMaxFrameBufferHeight;
 		int sMaxFrameBufferLayers;
 		int sMaxFrameBufferSamples;
-		int sMaxDrawBuffers;            /*	GL_MAX_DRAW_BUFFERS	*/
-		int sMaxColorAttachments;        /*	GL_MAX_COLOR_ATTACHMENTS	*/
-		int sMaxFrameBufferAttachment;        /**/
+		int sMaxDrawBuffers;           /*	GL_MAX_DRAW_BUFFERS	*/
+		int sMaxColorAttachments;      /*	GL_MAX_COLOR_ATTACHMENTS
+										*/
+		int sMaxFrameBufferAttachment; /**/
 
 		/*  Compute shaders. */
 		int sMaxComputeTextureImageUnits;

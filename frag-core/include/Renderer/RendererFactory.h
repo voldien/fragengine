@@ -29,10 +29,10 @@ namespace fragcore {
 	public:
 
 		enum RenderingAPI {
-			eOpenGL,			/*	OpenGL rendering API.	*/
-			eVulkan,            /*	Vulkan rendering API.	*/
-			eDirectX,           /*	DirectX rendering API.	*/
-			eOpenCL,            /*	OpenCL rendering API.	*/
+			OpenGL,			/*	OpenGL rendering API.	*/
+			Vulkan,            /*	Vulkan rendering API.	*/
+			DirectX,           /*	DirectX rendering API.	*/
+			eOpenCL,            /*	OpenCL rendering API.	*/		//TODO remove since it will be relocated to the computeinterface class.
 		};
 
 		/**
@@ -54,7 +54,7 @@ namespace fragcore {
 		 * @param api valid Rendering API.
 		 * @return non-null terminated string.
 		 */
-		static const char *getInterfaceLibraryPath(RenderingAPI api);
+		static constexpr const char *getInterfaceLibraryPath(RenderingAPI api);
 
 	private:    /*	Prevent one from creating an instance of this class.	*/
 

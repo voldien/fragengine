@@ -65,11 +65,12 @@ namespace fragcore {
 	}
 	ConstraintsDesc;
 
-/**
- * Physic description for creating collision
- * object.
- */
+	/**
+	 * Physic description for creating collision
+	 * object.
+	 */
 	typedef struct collision_desc_t {
+		//TODO determine if relocated to add scope global of fragcore.
 		enum ShapePrimitive {
 			eBox,                    /*	*/
 			ePlane,                    /*	*/
@@ -78,7 +79,7 @@ namespace fragcore {
 			eMesh,                    /*	*/
 			eTerrain                /*  */
 		};
-		ShapePrimitive ePrimitive;    /*	Collision type.	*/
+		ShapePrimitive Primitive;    /*	Collision type.	*/
 		float center[3];            /*	Center of the collision object.	*/
 		float alignscale;            /*	factor scalar.	*/
 
@@ -102,7 +103,7 @@ namespace fragcore {
 				float height;
 			} capsuleshape;
 
-			struct /**/{
+			struct /*TODO resolve parameters.*/{
 				Buffer *vertices;
 				Buffer *indices;
 
@@ -139,8 +140,9 @@ namespace fragcore {
 		/*int RigidbodyConstraints*/
 
 		/*	transformation	*/
-		HCVector3 position;                /*	Position in world space.	*/
-		HCQuaternion quat;                /*	Oritention in world space.	*/
+		//TODO resolve if a pointer to allow for direct affect on the transform for instance.
+		HCVector3 position;                	/*	Position in world space.	*/
+		HCQuaternion quat;                	/*	Oritention in world space.	*/
 
 		//Node *node;                        /*	Attached node.	*/
 
@@ -149,7 +151,7 @@ namespace fragcore {
 
 
 	typedef struct character_controller_t {
-		CollisionDesc collisionDesc;
+		CollisionDesc collisionDesc;	//TODO remove.
 		Collision *collision;
 	}
 	CharacterControllerDesc;
@@ -166,7 +168,7 @@ namespace fragcore {
 
 	typedef struct softbody_desc_t {
 
-		GeometryObject *geometryObject;
+		Geometry *geometryObject;
 
 		float *vertices;
 		unsigned int nVertices;
@@ -180,7 +182,7 @@ namespace fragcore {
 
 	typedef struct cloth_desc_t {
 
-		GeometryObject *geometryObject;
+		Geometry *geometryObject;
 
 	}
 	ClothDesc;

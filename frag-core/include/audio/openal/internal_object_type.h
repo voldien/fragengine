@@ -7,7 +7,7 @@
 #include<AL/efx-presets.h>
 #include"../AudioTypes.h"
 #include"../AudioObject.h"
-#include "../AudioDecoder.h"
+#include "../decoder/AudioDecoder.h"
 #include"../../Core/dataStructure/PoolAllocator.h"
 
 
@@ -15,12 +15,14 @@ namespace fragcore {
 
 	typedef struct openal_audio_clip_t {
 		unsigned int source;
+		AudioDataMode mode;
 		Ref<AudioDecoder> decoder;
 	} ALClip;
 
 	typedef struct openal_audio_source_t {
 		unsigned int source;
 		unsigned long currnet_seek_page;
+		ALClip* clip;
 		AudioDataMode loadMode;
 	} ALSource;
 
@@ -41,11 +43,16 @@ namespace fragcore {
 		LPALGENEFFECTS alGenEffects;
 		LPALDELETEEFFECTS alDeleteEffects;
 		LPALISEFFECT alIsEffect;
+
+		/*	TODO add support.	*/
 		PoolAllocator<ALClip> clips;
 		PoolAllocator<ALSource> source;
 		PoolAllocator<ALReverb> reverbs;
+		PoolAllocator<ALReverb> capture;
 		AudioPhysicalDevice *current_device;
+		Ref<IScheduler> scheduler;
 	} OpenALInterfaceObject;
+
 
 	extern ALenum translate2ALFormat(AudioFormat format);
 }

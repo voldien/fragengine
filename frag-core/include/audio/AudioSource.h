@@ -34,6 +34,7 @@ namespace fragcore {
 		virtual ~ AudioSource(void);
 
 		virtual void setClip(AudioClip* clip);
+		//virtual AudioClip* getClip(void) const;
 
 		virtual void play(void);
 
@@ -64,7 +65,7 @@ namespace fragcore {
 		virtual float getPos(void) const;
 		virtual void setPos(float position);
 
-		intptr_t getNativePtr(void) const override;
+		virtual intptr_t getNativePtr(void) const override;
 
 	private:
 		AudioSource(void);

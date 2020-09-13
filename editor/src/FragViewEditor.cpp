@@ -2,47 +2,49 @@
 #include"Windows/Label.h"
 #include <Core/Log.h>
 #include <Core/SystemInfo.h>
-#include"FragViewEditor.h"
+#include"FragEditor.h"
+#include<Engine.h>
 
 using namespace frageditor;
 using namespace fragcore;
+using namespace fragengine;
 
-FragViewEditor::FragViewEditor(SplashWindow* splashWindow, int argc, const char **argv) {
-	splashWindow->showWindow();
+FragEditor::FragEditor(SplashWindow* splashWindow, int argc, const char **argv) {
+    Engine::init(argc, argv, Engine::ALL);
 
+    splashWindow->show();
 
-	this->root = new EditorWindow();
+    this->root = new EditorWindow();
 
-	// QPixmap pixmap(":/splash.png");
-	// QSplashScreen splash(pixmap);
-	this->root->showWindow();
-	this->root->focus();
-	this->root->setTitle("FragEditor");
+    // QPixmap pixmap(":/splash.png");
+    // QSplashScreen splash(pixmap);
+    this->root->show();
+    this->root->focus();
+    this->root->setTitle("FragEditor");
 
-	Label();
-	//FragViewEditorApp *app;
+    Label();
+    // FragViewEditorApp *app;
 
-	//renderWindow = Ref<EditorRendererWindow>(new EditorRendererWindow());
+    // renderWindow = Ref<EditorRendererWindow>(new EditorRendererWindow());
 
-	//	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
+    //	this->config = Config::createConfig(argc, argv,
+    //Config::getConfigFilePath(argc, argv));
+    
+    // gtk_major_version()
+    //	/*  Verbose information.    */
+    Log::log(
+        Log::Verbose, "Platform: %s\n",
+        SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
+    Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
+    Log::log(Log::Verbose, "Cache line: %d bytes\n",
+             SystemInfo::getCPUCacheLine());
 
-	//	/*  Initialize HPM.  */
-	//	if (!Hpm::init((Hpm::HPMSIMD) this->config->get<int>("SIMD")))
-	//		throw RuntimeException("Failed to initialize the hpm library.");
-	//	Log::log(Log::eVerbose, "HPM SIMD using: %s\n", hpm_get_simd_symbol(hpm_get_simd()));
-
-	//gtk_major_version()
-	//	/*  Verbose information.    */
-	Log::log(Log::Verbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
-	Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
-	Log::log(Log::Verbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
-
-	/*	Close and destroy splash window on finished.*/
-	splashWindow->closeWindow();
-	//delete splashWindow;
+    /*	Close and destroy splash window on finished.*/
+    splashWindow->close();
+    // delete splashWindow;
 }
 
-void FragViewEditor::run(void) {
+void FragEditor::run(void) {
 //	/*  Read first options.   */
 //	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
 //

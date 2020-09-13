@@ -6,11 +6,10 @@
 #include <Renderer/RenderDesc.h>
 #include <Utils/StringUtil.h>
 #include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
-#include"Shaders/Shaders.h"
-#include"Shaders/spirv-display.h"
+#include "Exception/RuntimeException.h"
 #include"Renderer/ProgramPipeline.h"
 #include"Core/IO/IOUtil.h"
+#include<assert.h>
 
 using namespace fragcore;
 
@@ -27,8 +26,6 @@ void ShaderUtil::loadProgramFromMem(const ShaderObject *vshader, const ShaderObj
 	ShaderDesc desc = {0};
 	Shader *shader = NULL;
 	int nsources;
-
-
 
 	/*	Source code constants for language supporting preprocessors.*/
 	static const char *vconst = "#define FV_VERTEX\n";

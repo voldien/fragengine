@@ -4,7 +4,7 @@
 using namespace fragcore;
 using namespace fragengine;
 
-Camera::Camera(void)
+Camera::Camera(void) : Frustum()
 {
 	//this->setObjectType(Object::eCamera);
 	this->clear = SkyBox;

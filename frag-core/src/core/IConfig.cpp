@@ -1,4 +1,5 @@
-#include <Utils/StringUtil.h>
+#include"Utils/StringUtil.h"
+#include"Core/SystemInfo.h"
 #include"Core/IConfig.h"
 #include"Core/IO/IOUtil.h"
 #include <stdio.h>
@@ -8,18 +9,21 @@
 #include<libxml/xmlwriter.h>
 #include<yaml.h>
 #include<json-c/json.h>
-#include <Core/IConfig.h>
-#include <Core/IO/FileSystem.h>
-#include <Exception/InvalidArgumentException.h>
-#include <Exception/RuntimeExecption.h>
-#include <Core/Log.h>
+
+#include"Core/IConfig.h"
+#include"Core/IO/FileSystem.h"
+#include"Exception/InvalidArgumentException.h"
+#include"Exception/RuntimeException.h"
+#include"Core/Log.h"
 
 using namespace fragcore;
+
 IConfig::IConfig(void) {
 	this->parent = NULL;
 }
 
 IConfig::IConfig(const IConfig &other) {
+	//TODO add copy
 
 }
 
@@ -142,10 +146,10 @@ IConfig& IConfig::getSubConfig(const std::string& key){
 }
 
 void IConfig::printTable(void) const {
-	this->printTable(stdout);
+    this->printTable(SystemInfo::getStdOut());
 }
 
-void IConfig::printTable(FILE* IO) const {
+void IConfig::printTable(Ref<IO>& io) const {
 
 	/*	*/
 	std::map<std::string, int>::const_iterator iti;
@@ -159,7 +163,7 @@ void IConfig::printTable(FILE* IO) const {
 
 	/*  */
 	if(this->parent == NULL)
-		fprintf(IO, "Configuration table:\n");
+		IOUtil::format(io, "Configuration table:\n");
 
 	/*  Check the depth.    */
 	const IConfig* config = this;
@@ -178,28 +182,28 @@ void IConfig::printTable(FILE* IO) const {
 	conIT = this->config.begin();
 	for (; conIT != this->config.cend(); conIT++) {
 		const std::string& name = (*conIT).first;
-		fprintf(IO, "----- %s ----\n", name.c_str());
+		IOUtil::format(io, "----- %s ----\n", name.c_str());
 		const IConfig*  _config = (*conIT).second;
-		_config->printTable(IO);
+		_config->printTable(io);
 	}
 
 	// Display all variables.
 	for (; iti != this->iconfig.end(); iti++) {
 		const std::string &key = (*iti).first;
 		const int hvalue = (*iti).second;
-		fprintf(IO, "%s%s : %i\n", tabNestedSpace, key.c_str(), hvalue);
+		IOUtil::format(io, "%s%s : %i\n", tabNestedSpace, key.c_str(), hvalue);
 	}
 
 	for (; fti != this->fconfig.end(); fti++) {
 		const std::string &key = (*fti).first;
 		const float hvalue = (*fti).second;
-		fprintf(IO, "%s%s : %f\n", tabNestedSpace, key.c_str(), hvalue);
+		IOUtil::format(io, "%s%s : %f\n", tabNestedSpace, key.c_str(), hvalue);
 	}
 
 	for (; sti != this->sconfig.end(); sti++) {
 		const std::string &key = (*sti).first;
 		const std::string hvalue = (*sti).second;
-		fprintf(IO, "%s%s : %s\n", tabNestedSpace, key.c_str(), hvalue.c_str());
+		IOUtil::format(io,"%s%s : %s\n", tabNestedSpace, key.c_str(), hvalue.c_str());
 	}
 }
 
@@ -589,7 +593,7 @@ void IConfig::parse_yaml(Ref<IO>& io) {
 				state = 1;
 				break;
 			case YAML_SCALAR_TOKEN:
-				tk = token.data.scalar.value;
+				tk = (char*)token.data.scalar.value;
 				break;
 			default:
 				break;

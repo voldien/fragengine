@@ -18,8 +18,8 @@
 */
 #ifndef _FRAGVIEW_CONFIG_H_
 #define _FRAGVIEW_CONFIG_H_ 1
-#include"Def.h"
-#include"Core/IConfig.h"
+#include<Def.h>
+#include<Core/IConfig.h>
 #include<string>
 #include<map>
 #include<typeinfo>

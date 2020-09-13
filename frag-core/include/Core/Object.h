@@ -35,7 +35,8 @@ namespace fragcore {
 		}
 
 		virtual void setName(const std::string &name) {
-			this->name = name;
+//			this->name = name;
+			this->name.assign(name);
 		}
 
 		virtual std::string getName(void) {

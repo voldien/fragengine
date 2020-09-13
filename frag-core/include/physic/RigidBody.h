@@ -16,10 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-#ifndef _FV_RIGIDBODY_H_
-#define _FV_RIGIDBODY_H_ 1
+#ifndef _FRAG_CORE_RIGIDBODY_H_
+#define _FRAG_CORE_RIGIDBODY_H_ 1
 #include"../Def.h"
-
+#include"Prerequisites.h"
 
 namespace fragcore {
 	/**

@@ -1,10 +1,11 @@
 
 #ifndef _FRAG_ENGINE_LAYER_H_
 #define _FRAG_ENGINE_LAYER_H_ 1
-#include<FragCore.h>
+#include<Core/Object.h>
 #include<string>
 
-namespace fragcore {
+namespace fragengine {
+	using namespace fragcore;
 	/**
 	 *
 	 */

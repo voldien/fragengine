@@ -42,7 +42,7 @@ void Hash::update(const void *pdata, size_t nbytes) {
 	}
 }
 
-void Hash::update(const Ref<IO> &io){
+void Hash::update(Ref<IO> &io){
 	char buffer[4096];
 	long int prev_pos = io->getPos();
 	long int len;
@@ -68,6 +68,18 @@ void Hash::final(std::vector<unsigned char> &hash) {
 	}
 }
 
+unsigned int Hash::getResultSize(void) const{
+	switch (this->getAlgorithm()) {
+		case MD5:
+		case SHA128:
+		case SHA256:
+		case SHA512:
+			return 0;
+		default:
+			assert(0);
+	}
+}
+
 long int Hash::getByteRead(void) const{
 	return this->nbytes;
 }
@@ -82,13 +94,4 @@ Hash::Hash(const Hash &other) {
 
 Hash::Hash(void) {
 
-}
-
-void Hash::computeMD5(const void *pdata, size_t nbytes, unsigned char md5[16]) {
-
-	std::vector<unsigned char> h;
-	Hash hash(MD5);
-	hash.update(pdata, nbytes);
-	hash.final(h);
-	memcpy(md5, h.data(), sizeof(md5));
 }

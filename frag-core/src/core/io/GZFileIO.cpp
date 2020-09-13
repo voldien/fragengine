@@ -1,13 +1,16 @@
-#include"Core/IO/GZFileIO.h"
-#include<zlib.h>
-#include <stdexcept>
+#define FRAG_CORE_INTERNAL_IMP
+
 #include "Utils/StringUtil.h"
 #include "Exception/InvalidArgumentException.h"
-#include "Exception/RuntimeExecption.h"
+#include "Exception/RuntimeException.h"
+#include <zlib.h>
+#include <stdexcept>
 
+#include"Core/IO/GZFileIO.h"
 using namespace fragcore;
 
 void GZFileIO::open(const char *path, Mode mode) {
+	//TODO change.
 	FileIO::open(path, mode);
 
 	//TODO add other access modes.
@@ -24,15 +27,15 @@ void GZFileIO::open(const char *path, Mode mode) {
 	}
 
 	/*  */
-	this->gzFile = gzdopen(fileno(this->file), m);
-	if (this->gzFile == NULL) {
+	this->gzFi = gzdopen(fileno(this->file), m);
+	if (this->gzFi == NULL) {
 		int error;
-		const char *errMsg = gzerror(this->gzFile, &error);
+		const char *errMsg = gzerror(this->gzFi, &error);
 		throw RuntimeException(fvformatf("Failed to open %s - error: %d | %s", path, error, errMsg));
 	}
 
 	/*  Set buffer size.    */
-	gzbuffer(this->gzFile, 8192);
+	gzbuffer(this->gzFi, 8192);
 	if (mode & WRITE) {
 		//gzsetparams
 	}
@@ -40,7 +43,7 @@ void GZFileIO::open(const char *path, Mode mode) {
 
 void GZFileIO::close(void) {
 	int error;
-	error = gzclose(this->gzFile);
+	error = gzclose(this->gzFi);
 	if (error != Z_OK) {
 		FileIO::close();
 		throw RuntimeException(fvformatf("Failed to close gzfile %s", zError(error)));
@@ -49,14 +52,14 @@ void GZFileIO::close(void) {
 }
 
 long GZFileIO::read(long int nbytes, void *pbuffer) {
-	long int nreadBytes = gzfread(pbuffer, 1, nbytes, this->gzFile);
+	long int nreadBytes = gzfread(pbuffer, 1, nbytes, this->gzFi);
 	return nreadBytes;
 }
 
 long GZFileIO::write(long int nbytes, const void *pbuffer) {
-	long int nWrittenBytes = gzfwrite(pbuffer, 1, nbytes, this->gzFile);
+	long int nWrittenBytes = gzfwrite(pbuffer, 1, nbytes, this->gzFi);
 	if (nWrittenBytes == 0)
-		throw RuntimeException(fvformatf("Failed to write to  gz file %s", gzerror(this->gzFile, NULL)));
+		throw RuntimeException(fvformatf("Failed to write to  gz file %s", gzerror(this->gzFi, NULL)));
 	return nWrittenBytes;
 }
 
@@ -98,7 +101,7 @@ bool GZFileIO::flush(void) {
 
 	if (this->mode & WRITE) {
 		int error;
-		error = gzflush(this->gzFile, Z_FINISH);
+		error = gzflush(this->gzFi, Z_FINISH);
 		if (error != Z_OK)
 			throw RuntimeException(zError(error));
 		return true;
@@ -109,3 +112,7 @@ bool GZFileIO::flush(void) {
 GZFileIO::GZFileIO(const char *path, Mode mode) {
 	this->open(path, mode);
 }
+
+// GZFileIO::GZFileIO(Ref<IO> &io){
+
+// }

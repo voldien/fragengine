@@ -4,7 +4,7 @@
 // #include"Debug.h"
 // #include"Scene.h"
 // #include"Renderer.h"
-// #include"ZipFile.h"
+// #include"ZipFileSystem.h"
 
 // #include<FreeImage.h>
 // #include<zlib.h>
@@ -230,7 +230,7 @@
 
 // ShaderObject* AssetImporter::loadShader(const char* vshader, const char* fshader,
 // 		const char* gshader, const char* tcshader,
-// 		const char* teshader, ZipFile* zip){
+// 		const char* teshader, ZipFileSystem* zip){
 
 // 	/*	*/
 // 	typedef struct default_texture_location_t{
@@ -278,7 +278,7 @@
 // 	else{
 
 // 		/*	*/
-// 		zip = ZipFile::createZipFileObject("/usr/share/pvengine/defaultshader.zip");	/*	TODO fix zip file path.	*/
+// 		zip = ZipFileSystem::createZipFileObject("/usr/share/pvengine/defaultshader.zip");	/*	TODO fix zip file path.	*/
 
 // 		/*	*/
 // 		if(vshader){
@@ -352,7 +352,7 @@
 
 // ShaderObject* AssetImporter::loadShaderBySource(const char* vsource, const char* fsource,
 // 		const char* gsource, const char* tcsource,
-// 		const char* tesource, ZipFile* zip){
+// 		const char* tesource, ZipFileSystem* zip){
 
 // 	ShaderObject* shader = NULL;
 // 	ShaderDesc desc = {0};
@@ -431,7 +431,7 @@
 // }
 
 // Node* AssetImporter::initNoodeRoot(const void* pScene, const void* ainodes, Node* parent,
-// 		const std::vector<GeometryObject*>& geo,
+// 		const std::vector<Geometry*>& geo,
 // 		const std::vector<Material*>& mat) {
 
 // 	/*  */
@@ -511,10 +511,10 @@
 
 // 	Importer importer;
 // 	Node* rootnode = NULL;
-// 	std::vector<GeometryObject*> gobj;
+// 	std::vector<Geometry*> gobj;
 // 	std::vector<Material*> mobj;
 // 	std::vector<TextureObject*> tobj;
-// 	std::map<int, GeometryObject*> sobj;
+// 	std::map<int, Geometry*> sobj;
 // 	unsigned int x, y, z;
 
 // 	std::string directory;
@@ -568,7 +568,7 @@
 // 		for(x = 0; x < pScene->mNumMeshes; x++){
 
 // 			/*	*/
-// 			GeometryObject* geobj;
+// 			Geometry* geobj;
 // 			GeometryDesc desc = {0};
 // 			unsigned int numVertices;
 // 			unsigned int numIndices;

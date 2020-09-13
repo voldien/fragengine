@@ -20,7 +20,8 @@
 #ifndef _FRAG_CORE_SYSTEMINFO_H_
 #define _FRAG_CORE_SYSTEMINFO_H_ 1
 #include"../Def.h"
-
+#include"Ref.h"
+#include"IO/IO.h"
 namespace fragcore {
 	/**
 	 *
@@ -71,8 +72,14 @@ namespace fragcore {
 		static bool supportsVibration(void);
 
 		static unsigned long int systemMemorySize(void);
+		static const char* getCurrentDirectory(void);
 
 		//TODO add memory allocation info.
+
+		//TODO relocate
+		static Ref<IO>& getStdOut(void);
+		static Ref<IO>& getStdIn(void);
+		static Ref<IO> &getStdErr(void);
 	};
 }
 

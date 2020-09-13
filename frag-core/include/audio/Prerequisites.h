@@ -29,6 +29,11 @@ namespace fragcore {
 	class AudioObject;
 	class AudioReverb;
     class AudioCapture;
+
+    //TODO determine if need to be relocated to the frag preq
+    class AudioDecoder;
+    class AudioEncoder;
+    class VorbisAudioDecoder;  
 }
 
 #endif

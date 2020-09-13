@@ -5,19 +5,19 @@
 #include<GL/glew.h>
 using namespace fragcore;
 
-unsigned int GeometryObject::getVertexCount() {
+unsigned int Geometry::getVertexCount() {
 	GLGeometryObject *geobj = (GLGeometryObject *) this->pdata;
 
 	return geobj->desc.numVerticecs;
 }
 
-unsigned int GeometryObject::getIndicesCount(void) {
+unsigned int Geometry::getIndicesCount(void) {
 	GLGeometryObject *geobj = (GLGeometryObject *) this->pdata;
 
 	return geobj->desc.numIndices;
 }
 
 
-intptr_t GeometryObject::getNativePtr(void) const {
+intptr_t Geometry::getNativePtr(void) const {
 	return 0;
 }

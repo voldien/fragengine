@@ -10,9 +10,9 @@ namespace frageditor {
 	class FVDECLSPEC EditorRendererWindow : public fragcore::RendererWindow, public EditorWindow
 	{
 	public:
-		void showWindow(void) override;
+		void show(void) override;
 
-		void hideWindow(void) override;
+		void hide(void) override;
 
 		void swapBuffer(void) override;
 
@@ -32,7 +32,7 @@ namespace frageditor {
 
 		void setGamma(float gamma) override;
 
-		void closeWindow(void) override;
+		void close(void) override;
 
 		void setTitle(const char *title) override;
 
