@@ -62,7 +62,7 @@ namespace fragcore {
 
 		virtual PVVector3 getVelocity(void);
 
-		intptr_t getNativePtr(void) const override;
+		intptr_t getNativePtr(void) const;
 
 	};
 

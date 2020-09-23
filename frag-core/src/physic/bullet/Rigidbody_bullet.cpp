@@ -5,18 +5,19 @@
 using namespace fragcore;
 
 RigidBody::~RigidBody(void){}
-float RigidBody::getMass(void* pobj){
+
+float RigidBody::getMass(void){
 	btRigidBody* body = (btRigidBody*)pobj;
 	return 1.0f / body->getInvMass();
 }
-void RigidBody::setMass(void* pobj, float mass){
+void RigidBody::setMass(float mass){
 	btRigidBody* body = (btRigidBody*)pobj;
 
 	btVector3 inertia;
 	body->getCollisionShape()->calculateLocalInertia(mass, inertia);
 }
 
-PVVector3 RigidBody::getPosition(void* pobj){
+PVVector3 RigidBody::getPosition(void){
 
 	btRigidBody* body;
 	btTransform trans;
@@ -30,7 +31,7 @@ PVVector3 RigidBody::getPosition(void* pobj){
 
 	return *(PVVector3*)&trans.getOrigin();
 }
-void RigidBody::setPosition(void* pobj, const PVVector3& position){
+void RigidBody::setPosition(const PVVector3& position){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
@@ -38,7 +39,7 @@ void RigidBody::setPosition(void* pobj, const PVVector3& position){
 
 }
 
-PVQuaternion RigidBody::getOrientation(void* pobj){
+PVQuaternion RigidBody::getOrientation(void){
 
 	btRigidBody* body;
 	btQuaternion oritention;
@@ -51,13 +52,13 @@ PVQuaternion RigidBody::getOrientation(void* pobj){
 			oritention.getY(),
 			oritention.getZ());
 }
-void RigidBody::setOrientation(void* pobj, const PVQuaternion& quat){
+void RigidBody::setOrientation(void, const PVQuaternion& quat){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 }
 
 
-PVVector3 RigidBody::getScale(void* pobj){
+PVVector3 RigidBody::getScale(void){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
@@ -65,7 +66,7 @@ PVVector3 RigidBody::getScale(void* pobj){
 
 	return PVVector3(scale.x(),scale.y(),scale.z());
 }
-void RigidBody::setScale(void* pobj, const PVVector3& scale){
+void RigidBody::setScale(const PVVector3& scale){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
@@ -73,31 +74,31 @@ void RigidBody::setScale(void* pobj, const PVVector3& scale){
 	body->getCollisionShape()->setLocalScaling(sc);
 }
 
-void RigidBody::setForce(void* pobj, const PVVector3& force){
+void RigidBody::setForce(const PVVector3& force){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 }
 
-float RigidBody::getDrag(void* pobj){
+float RigidBody::getDrag(void*){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
 	return body->getLinearDamping();
 }
-void RigidBody::setDrag(void*pobj, float drag){
+void RigidBody::setDrag(float drag){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
 	body->setDamping(drag, body->getAngularDamping());
 }
 
-float RigidBody::getAngularDrag(void* pobj){
+float RigidBody::getAngularDrag(void){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
 	return body->getAngularDamping();
 }
-void RigidBody::setAngularDrag(void* pobj, float angularDrag){
+void RigidBody::setAngularDrag(float angularDrag){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
@@ -105,7 +106,7 @@ void RigidBody::setAngularDrag(void* pobj, float angularDrag){
 }
 
 
-PVVector3 RigidBody::getVelocity(void* pobj){
+PVVector3 RigidBody::getVelocity(void){
 	btRigidBody* body;
 	body = (btRigidBody*)pobj;
 
