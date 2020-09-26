@@ -2,14 +2,15 @@
 
 #undef None
 #undef Success;
-
+#include"Def.h"
+#include"physic/physx/internal_object_type.h"
+#include"Exception/RuntimeException.h"
 #include <physx/PxPhysicsAPI.h>
 #include <physx/cooking/PxCooking.h>
 #include <physx/extensions/PxExtensionsAPI.h>
 #include <physx/foundation/PxFoundation.h>
 #include <physx/pxtask/PxCudaContextManager.h>
 #include <physx/vehicle/PxVehicleSDK.h>
-
 
 #ifdef VD_DEBUG
 #pragma comment(lib, "PhysX3CHECKED_x86.lib")
@@ -44,7 +45,6 @@
 #ifdef EX_WINDOWS
 #define PX_WINDOWS
 #endif
-
 #define NVIDIA_PHYSX
 #define physx physx
 #undef None
@@ -57,6 +57,193 @@ using namespace physx::profile;
 using namespace physx::debugger::comm;
 using namespace physx::debugger;
 using namespace std;
+using namespace fragcore;
+
+PhysicInterface::PhysicInterface(IConfig *config) {
+	this->setName("BulletPhysic");
+	/*	*/
+	PhysicPhysxCore *physicore = new PhysicPhysxCore();
+	this->pdata = physicore;
+	assert(physicore);
+
+	static PxDefaultErrorCallback gDefaultErrorCallback;
+	static PxDefaultAllocator gDefaultAllocatorCallback;
+
+	physicore->gFoundation = PxCreateFoundation(
+		PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
+	if (!physicore->gFoundation)
+	{
+		throw Run
+		VDDebug::errorLog("Failed to Create VDPhysic Foundation | \n");
+	}
+
+	engine.physic.gProfileManager =
+		&PxProfileZoneManager::createProfileZoneManager(
+			engine.physic.gFoundation);
+
+	if (!engine.physic.gProfileManager)
+	{
+	}
+
+	if (!(engine.physic.gPhysic = PxCreatePhysics(
+			  PX_PHYSICS_VERSION, *engine.physic.gFoundation,
+			  PxTolerancesScale(), false, engine.physic.gProfileManager)))
+	{
+		VDDebug::errorLog("Failed to Create VDPhysic | \n");
+	}
+
+	if (!PxInitExtensions(*engine.physic.gPhysic))
+	{
+		VDDebug::errorLog("Failed to initialize Nvidia PhysX extensions.\n");
+	}
+
+	engine.physic.gCooking =
+		PxCreateCooking(PX_PHYSICS_VERSION, *engine.physic.gFoundation,
+						PxCookingParams(PxTolerancesScale()));
+	if (!engine.physic.gCooking)
+	{
+		VDDebug::errorLog("Failed to create PhysX Cooking |\n");
+	}
+
+	/**/
+	PxCudaContextManagerDesc cudaDesc;
+	cudaDesc.interopMode = PxCudaInteropMode::OGL_INTEROP;
+
+	cudaDesc.graphicsDevice = ExGetCurrentOpenGLContext();
+	cudaDesc.appGUID = "OpenGLEngineCuda";
+	int getCudeSugge = PxGetSuggestedCudaDeviceOrdinal(gDefaultErrorCallback);
+	engine.physic.gCudaContextManager = PxCreateCudaContextManager(
+		*engine.physic.gFoundation, cudaDesc, engine.physic.gProfileManager);
+	if (!engine.physic.gCudaContextManager)
+	{
+		VDDebug::errorLog(
+			"Failed to create Nvidia Cuda Context from OpenGL Context.\n");
+	}
+
+	if (initialzeScene())
+	{
+		VDPhysic::createMaterial(VDPhysicMaterial::eDefault);
+		engine.physic.gControlManager =
+			PxCreateControllerManager(*engine.physic.gPhysxScene);
+		if (engine.physic.gControlManager)
+		{
+			engine.physic.gPhysiccontrollerreport =
+				new PhysicUserControllerHitReport();
+		}
+		else
+		{
+			VDDebug::errorLog("Failed to Create PHYSX Controller Manager\n");
+		}
+	}
+
+	VDPhysic::initVehicleSDK();
+	initDebug();
+}
+
+PhysicInterface::PhysicInterface(const PhysicInterface &other)
+{
+	//	*this = other;
+}
+PhysicInterface::~PhysicInterface(void)
+{
+	engine.physic.gPhysxScene->fetchResults(true);
+	engine.physic.gPhysxScene->flushQueryUpdates();
+
+	if (VDPhysic::getPhysicHandle())
+	{
+		delete VDPhysic::getPhysicHandle();
+		engine.physic.gPhysic = NULL;
+	}
+
+	if (engine.physic.gControlManager)
+	{
+		engine.physic.gControlManager->release();
+		engine.physic.gControlManager = NULL;
+	}
+	if (engine.physic.gPhysxScene)
+	{
+		engine.physic.gPhysxScene->release();
+		engine.physic.gPhysxScene = NULL;
+	}
+	if (engine.physic.gCooking)
+	{
+		engine.physic.gCooking->release();
+		engine.physic.gCooking = NULL;
+	}
+	if (engine.physic.gFoundation)
+	{
+		engine.physic.gFoundation->release();
+		engine.physic.gFoundation = NULL;
+	}
+	if (engine.physic.gCudaContextManager)
+	{
+		engine.physic.gCudaContextManager->releaseContext();
+	}
+
+	PxCloseVehicleSDK();
+	PxCloseExtensions();
+}
+
+void PhysicInterface::OnInitialization(void)
+{
+}
+void PhysicInterface::OnDestruction(void)
+{
+}
+
+void PhysicInterface::simulate(float timeStep, int maxSubSteps, float fixedTimeStep)
+{
+	PhysicCore *physicore = (PhysicCore *)this->pdata;
+
+	engine.physic.gPhysxScene->simulate(
+		(VDTime::deltaTime() + 0.0000000001f));  //(_time * 0.000001f));
+
+	if (engine.physic.gPhysxScene->fetchResults()) {
+		/*
+while(!gPhysxScene->fetchResults()){
+		continue;
+}
+		 */
+
+		/* send feedback;	*/
+		m_simulationEventcallBack->EventonContact();
+		m_simulationEventcallBack->EventonTrigger();
+		m_simulationEventcallBack->EventonConstraintBreak();
+
+		update();
+	}
+}
+
+void PhysicInterface::sync(void)
+{
+	PhysicCore *physicore = (PhysicCore *)this->pdata;
+	assert(physicore);
+
+	physicore->dynamicsWorld->synchronizeMotionStates();
+}
+
+void PhysicInterface::setGravity(const PVVector3 &gravity)
+{
+	PhysicCore *physicore = (PhysicCore *)this->pdata;
+	assert(physicore);
+
+	btVector3 grav = btVector3(gravity.x(), gravity.y(), gravity.z());
+	physicore->dynamicsWorld->setGravity(*(btVector3 *)&gravity);
+}
+
+PVVector3 PhysicInterface::getGravity(void) const
+{
+	PhysicCore *physicore = (PhysicCore *)this->pdata;
+
+	btVector3 gr = physicore->dynamicsWorld->getGravity();
+	return PVVector3(gr.x(), gr.y(), gr.z());
+}
+
+
+
+
+
+
 
 physx::PxFilterFlags PxCustomFilterShader(
 	physx::PxFilterObjectAttributes attributes0,
