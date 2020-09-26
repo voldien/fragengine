@@ -37,7 +37,7 @@ namespace fragcore {
 		virtual void useGravity(bool use);
 		virtual bool useGravity(void);
 		virtual float getMass(void);
-		virtual void setMass(void);
+		virtual void setMass(float mass);
 
 		//virtual void setInertia(void* pobj);
 
