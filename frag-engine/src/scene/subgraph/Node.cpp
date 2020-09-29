@@ -1,44 +1,46 @@
 #include"Scene/SubGraph/Node.h"
 using namespace fragcore;
+using namespace fragengine;
 
-Node::Node(void) : ITree() {
+Node::Node(void) : ITree()
+{
 }
 
 Node::~Node(void) {
 
 }
 
-Node *Node::root(void) const {
-	return ITree::root();
-}
+// Node *Node::root(void) const {
+// 	return ITree::root();
+// }
 
-Node *Node::getParent(void) const {
-	return ITree::getParent();
-}
+// Node *Node::getParent(void) const {
+// 	return ITree::getParent();
+// }
 
-void Node::setParent(Node *parent) {
-	ITree::setParent(parent);
-}
+// void Node::setParent(Node *parent) {
+// 	ITree::setParent(parent);
+// }
 
-unsigned int Node::getNumChildren(void) const {
-	return ITree::getNumChildren();
-}
+// unsigned int Node::getNumChildren(void) const {
+// 	return ITree::getNumChildren();
+// }
 
-void Node::addChild(Node *pchild) {
-	ITree::addChild(pchild);
-}
+// void Node::addChild(Node *pchild) {
+// 	ITree::addChild(pchild);
+// }
 
-void Node::removeChild(int index) {
-	ITree::removeChild(index);
-}
+// void Node::removeChild(int index) {
+// 	ITree::removeChild(index);
+// }
 
-Node *Node::getChild(int index) const {
-	return ITree::getChild(index);
-}
+// Node *Node::getChild(int index) const {
+// 	return ITree::getChild(index);
+// }
 
-int Node::getNodeChildIndex(Node *node) {
-	return ITree::getNodeChildIndex(node);
-}
+// int Node::getNodeChildIndex(Node *node) {
+// 	return ITree::getNodeChildIndex(node);
+// }
 
 
 //

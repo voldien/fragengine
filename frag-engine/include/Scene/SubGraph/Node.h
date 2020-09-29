@@ -31,21 +31,21 @@ namespace fragengine {
 
 		~Node(void);
 
-		Node *root(void) const override;
+		// Node *root(void) const override;
 
-		Node *getParent(void) const override;
+		// Node *getParent(void) const override;
 
-		void setParent(Node *parent) override;
+		// void setParent(Node *parent) override;
 
-		unsigned int getNumChildren(void) const override;
+		// unsigned int getNumChildren(void) const override;
 
-		void addChild(Node *pchild) override;
+		// void addChild(Node *pchild) override;
 
-		void removeChild(int index) override;
+		// void removeChild(int index) override;
 
-		Node *getChild(int index) const override;
+		// Node *getChild(int index) const override;
 
-		int getNodeChildIndex(Node *node) override;
+		// int getNodeChildIndex(Node *node) override;
 
 	public:
 		GlobalState *getGlobalState(int state);

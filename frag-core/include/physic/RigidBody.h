@@ -19,13 +19,14 @@
 #ifndef _FRAG_CORE_RIGIDBODY_H_
 #define _FRAG_CORE_RIGIDBODY_H_ 1
 #include"../Def.h"
+#include"PhysicObject.h"
 #include"Prerequisites.h"
 
 namespace fragcore {
 	/**
 	 *	Rigidbody.
 	 */
-	class FVDECLSPEC RigidBody {
+	class FVDECLSPEC RigidBody : public PhysicObject {
 		friend class DynamicInterface;
 	private:
 		inline RigidBody(void){}

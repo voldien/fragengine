@@ -1,8 +1,10 @@
 #include <Core/Math.h>
 #include"Scene/SubGraph/Transform.h"
 using namespace fragcore;
+using namespace fragengine;
 
-Transform::Transform(void) {
+Transform::Transform(void)
+{
 	this->pos = PVVector3(0.0f);
 	this->scale = PVVector3(1.0f);
 	this->quat = PVQuaternion::identity();

@@ -7,7 +7,7 @@ ENDIF ()
 # Source files.
 FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
-ADD_LIBRARY(fragview-prpc ${SOURCE_FILES})
-TARGET_LINK_LIBRARIES(fragview-prpc PVEngine)
-ADD_DEPENDENCIES(fragview-prpc fragview-core)
-INSTALL(TARGETS fragview-prpc DESTINATION lib)
+ADD_LIBRARY(fragcore-prpc ${SOURCE_FILES})
+TARGET_LINK_LIBRARIES(fragcore-prpc PVEngine)
+ADD_DEPENDENCIES(fragcore-prpc fragview-core)
+INSTALL(TARGETS fragcore-prpc DESTINATION lib)

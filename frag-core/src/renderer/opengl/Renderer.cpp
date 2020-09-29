@@ -15,7 +15,7 @@
 #include <Exception/RuntimeException.h>
 #include <Renderer/RendererWindow.h>
 #include <Exception/InvalidArgumentException.h>
-#include <window/WindowManager.h>
+#include <Window/WindowManager.h>
 #include"Renderer/ViewPort.h"
 #include"Renderer/opengl/GLRenderWindow.h"
 using namespace fragcore;
