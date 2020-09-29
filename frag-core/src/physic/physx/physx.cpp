@@ -12,44 +12,44 @@
 #include <physx/pxtask/PxCudaContextManager.h>
 #include <physx/vehicle/PxVehicleSDK.h>
 
-#ifdef VD_DEBUG
-#pragma comment(lib, "PhysX3CHECKED_x86.lib")
-#pragma comment(lib, "PhysX3CommonCHECKED_x86.lib")
-#pragma comment(lib, "PhysX3ExtensionsCHECKED.lib")
-#pragma comment(lib, "PhysX3DEBUG_x86.lib")
-#pragma comment(lib, "PhysX3CookingCHECKED_x86.lib")
-#pragma comment(lib, "PhysXProfileSDKCHECKED.lib")
-#pragma comment(lib, "PhysXVisualDebuggerSDKCHECKED.lib")
-#pragma comment(lib, "PxTaskCHECKED.lib")
-#pragma comment(lib, "PhysX3CharacterKinematicCHECKED_x86.lib")
-#pragma comment(lib, "PhysX3VehicleCHECKED.lib")
-#pragma comment(lib, "PhysX3VehiclePROFILE.lib")
-#pragma comment(lib, "PxTaskPROFILE.lib")
+#ifdef FV_DEBUG
+	#pragma comment(lib, "PhysX3CHECKED_x86.lib")
+	#pragma comment(lib, "PhysX3CommonCHECKED_x86.lib")
+	#pragma comment(lib, "PhysX3ExtensionsCHECKED.lib")
+	#pragma comment(lib, "PhysX3DEBUG_x86.lib")
+	#pragma comment(lib, "PhysX3CookingCHECKED_x86.lib")
+	#pragma comment(lib, "PhysXProfileSDKCHECKED.lib")
+	#pragma comment(lib, "PhysXVisualDebuggerSDKCHECKED.lib")
+	#pragma comment(lib, "PxTaskCHECKED.lib")
+	#pragma comment(lib, "PhysX3CharacterKinematicCHECKED_x86.lib")
+	#pragma comment(lib, "PhysX3VehicleCHECKED.lib")
+	#pragma comment(lib, "PhysX3VehiclePROFILE.lib")
+	#pragma comment(lib, "PxTaskPROFILE.lib")
+#elif FV_RELEASE
+	#pragma comment(lib, "PhysX3_x86.lib")
+	#pragma comment(lib, "PhysX3Common_x86.lib")
+	#pragma comment(lib, "PhysX3Extensions.lib")
+	#pragma comment(lib, "PhysX3DEBUG_x86.lib")
+	#pragma comment(lib, "PhysX3Cooking_x86.lib")
+	#pragma comment(lib, "PhysXProfileSDK.lib")
+	//#pragma comment(lib,"PhysXVisualDebuggerSDK.lib")
+	#pragma comment(lib, "PxTask.lib")
+	#pragma comment(lib, "PhysX3CharacterKinematic_x86.lib")
+	#pragma comment(lib, "PhysX3Vehicle.lib")
+	//#pragma comment(lib, "PhysX3VehiclePROFILE.lib")
+	#pragma comment(lib, "PxTaskPROFILE.lib")
 #else
-#pragma comment(lib, "PhysX3_x86.lib")
-#pragma comment(lib, "PhysX3Common_x86.lib")
-#pragma comment(lib, "PhysX3Extensions.lib")
-#pragma comment(lib, "PhysX3DEBUG_x86.lib")
-#pragma comment(lib, "PhysX3Cooking_x86.lib")
-#pragma comment(lib, "PhysXProfileSDK.lib")
-//#pragma comment(lib,"PhysXVisualDebuggerSDK.lib")
-#pragma comment(lib, "PxTask.lib")
-#pragma comment(lib, "PhysX3CharacterKinematic_x86.lib")
-#pragma comment(lib, "PhysX3Vehicle.lib")
-//#pragma comment(lib, "PhysX3VehiclePROFILE.lib")
-#pragma comment(lib, "PxTaskPROFILE.lib")
 #endif
 
-#if defined(VD_INTERNAL) && defined(USE_PHYSX)
-
-#ifdef EX_WINDOWS
-#define PX_WINDOWS
-#endif
-#define NVIDIA_PHYSX
-#define physx physx
-#undef None
-#undef Success;
-#include <physx/PxPhysicsAPI.h>
+#if defined(USE_PHYSX)
+	#ifdef FV_WINDOWS
+	#define PX_WINDOWS
+	#endif
+	#define NVIDIA_PHYSX
+	#define physx physx
+	#undef None
+	#undef Success;
+	#include <physx/PxPhysicsAPI.h>
 #endif
 
 using namespace physx;
@@ -60,7 +60,7 @@ using namespace std;
 using namespace fragcore;
 
 PhysicInterface::PhysicInterface(IConfig *config) {
-	this->setName("BulletPhysic");
+	this->setName("PhysX");
 	/*	*/
 	PhysicPhysxCore *physicore = new PhysicPhysxCore();
 	this->pdata = physicore;
@@ -73,8 +73,7 @@ PhysicInterface::PhysicInterface(IConfig *config) {
 		PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
 	if (!physicore->gFoundation)
 	{
-		throw Run
-		VDDebug::errorLog("Failed to Create VDPhysic Foundation | \n");
+		throw RuntimeException("Failed to Create Foundation");
 	}
 
 	engine.physic.gProfileManager =
@@ -83,18 +82,19 @@ PhysicInterface::PhysicInterface(IConfig *config) {
 
 	if (!engine.physic.gProfileManager)
 	{
+		throw RuntimeException("Failed to Create Profile Manager");
 	}
 
 	if (!(engine.physic.gPhysic = PxCreatePhysics(
 			  PX_PHYSICS_VERSION, *engine.physic.gFoundation,
 			  PxTolerancesScale(), false, engine.physic.gProfileManager)))
 	{
-		VDDebug::errorLog("Failed to Create VDPhysic | \n");
+		throw RuntimeException("Failed to Create VDPhysic | \n");
 	}
 
 	if (!PxInitExtensions(*engine.physic.gPhysic))
 	{
-		VDDebug::errorLog("Failed to initialize Nvidia PhysX extensions.\n");
+		throw RuntimeException("Failed to initialize Nvidia PhysX extensions.\n");
 	}
 
 	engine.physic.gCooking =
@@ -102,7 +102,7 @@ PhysicInterface::PhysicInterface(IConfig *config) {
 						PxCookingParams(PxTolerancesScale()));
 	if (!engine.physic.gCooking)
 	{
-		VDDebug::errorLog("Failed to create PhysX Cooking |\n");
+		throw RuntimeException("Failed to create PhysX Cooking |\n");
 	}
 
 	/**/
@@ -116,7 +116,7 @@ PhysicInterface::PhysicInterface(IConfig *config) {
 		*engine.physic.gFoundation, cudaDesc, engine.physic.gProfileManager);
 	if (!engine.physic.gCudaContextManager)
 	{
-		VDDebug::errorLog(
+		throw RuntimeException(
 			"Failed to create Nvidia Cuda Context from OpenGL Context.\n");
 	}
 
@@ -132,7 +132,7 @@ PhysicInterface::PhysicInterface(IConfig *config) {
 		}
 		else
 		{
-			VDDebug::errorLog("Failed to Create PHYSX Controller Manager\n");
+			throw RuntimeException("Failed to Create PHYSX Controller Manager\n");
 		}
 	}
 
@@ -239,12 +239,6 @@ PVVector3 PhysicInterface::getGravity(void) const
 	return PVVector3(gr.x(), gr.y(), gr.z());
 }
 
-
-
-
-
-
-
 physx::PxFilterFlags PxCustomFilterShader(
 	physx::PxFilterObjectAttributes attributes0,
 	physx::PxFilterData filterData0,
@@ -308,7 +302,7 @@ void VDPhysic::initialize(void) {
 	engine.physic.gFoundation = PxCreateFoundation(
 		PX_PHYSICS_VERSION, gDefaultAllocatorCallback, gDefaultErrorCallback);
 	if (!engine.physic.gFoundation) {
-		VDDebug::errorLog("Failed to Create VDPhysic Foundation | \n");
+		throw RuntimeException("Failed to Create VDPhysic Foundation");
 	}
 
 	engine.physic.gProfileManager =
@@ -321,18 +315,18 @@ void VDPhysic::initialize(void) {
 	if (!(engine.physic.gPhysic = PxCreatePhysics(
 			  PX_PHYSICS_VERSION, *engine.physic.gFoundation,
 			  PxTolerancesScale(), false, engine.physic.gProfileManager))) {
-		VDDebug::errorLog("Failed to Create VDPhysic | \n");
+		throw RuntimeException("Failed to Create VDPhysic | \n");
 	}
 
 	if (!PxInitExtensions(*engine.physic.gPhysic)) {
-		VDDebug::errorLog("Failed to initialize Nvidia PhysX extensions.\n");
+		throw RuntimeException("Failed to initialize Nvidia PhysX extensions.\n");
 	}
 
 	engine.physic.gCooking =
 		PxCreateCooking(PX_PHYSICS_VERSION, *engine.physic.gFoundation,
 						PxCookingParams(PxTolerancesScale()));
 	if (!engine.physic.gCooking) {
-		VDDebug::errorLog("Failed to create PhysX Cooking |\n");
+		throw RuntimeException("Failed to create PhysX Cooking |\n");
 	}
 
 	/**/
@@ -345,7 +339,7 @@ void VDPhysic::initialize(void) {
 	engine.physic.gCudaContextManager = PxCreateCudaContextManager(
 		*engine.physic.gFoundation, cudaDesc, engine.physic.gProfileManager);
 	if (!engine.physic.gCudaContextManager) {
-		VDDebug::errorLog(
+		throw RuntimeException(
 			"Failed to create Nvidia Cuda Context from OpenGL Context.\n");
 	}
 
@@ -357,7 +351,7 @@ void VDPhysic::initialize(void) {
 			engine.physic.gPhysiccontrollerreport =
 				new PhysicUserControllerHitReport();
 		} else {
-			VDDebug::errorLog("Failed to Create PHYSX Controller Manager\n");
+			throw RuntimeException("Failed to Create PHYSX Controller Manager\n");
 		}
 	}
 
@@ -436,7 +430,7 @@ int VDPhysic::initVehicleSDK(void) {
 		PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
 		return SDL_TRUE;
 	}
-	VDDebug::errorLog("Failed to Create PhysX Vehicle SDK");
+	throw RuntimeException("Failed to Create PhysX Vehicle SDK");
 	return SDL_FALSE;
 }
 
@@ -454,7 +448,7 @@ int VDPhysic::initialzeScene(void) {
 
 		/*	*/
 		if (!mCpuDispatcher) {
-			VDDebug::errorLog("Failed to Create CPU Dispatcher\n");
+			throw RuntimeException("Failed to Create CPU Dispatcher\n");
 		}
 
 		/*	add support for gpu dispatching if supported	*/
@@ -473,11 +467,11 @@ int VDPhysic::initialzeScene(void) {
 		VDPhysic::getPhysicHandle()->createScene(sceneDesc);
 
 	if (!engine.physic.gPhysxScene) {
-		VDDebug::errorLog("Failed to create NVidia PhysX Scene!\n");
+		throw RuntimeException("Failed to create NVidia PhysX Scene!\n");
 	}
 	if (!(engine.physic.gPhysxScene->getSimulationEventCallback() ==
 		  m_simulationEventcallBack)) {
-		VDDebug::errorLog("PhysX simulation callback error.\n");
+		throw RuntimeException("PhysX simulation callback error.\n");
 	}
 
 	// m_physxScene->createClient();
@@ -1075,14 +1069,14 @@ PxTriangleMesh* VDPhysic::genMeshCollision(const HandleMeshEx& meshHandler) {
 
 	PxDefaultMemoryOutputStream writebuffer;
 	if (!meshDesc.isValid()) {
-		VDDebug::errorLog("Mesh collider Description was not valid!\n");
+		throw RuntimeException("Mesh collider Description was not valid!\n");
 	}
 
 	bool cookSucess =
 		engine.physic.gCooking->cookTriangleMesh(meshDesc, writebuffer);
 	if (!cookSucess) {
 		free(indicesData);
-		VDDebug::errorLog("Failed to Cook Mesh Collision\n");
+		throw RuntimeException("Failed to Cook Mesh Collision\n");
 		return NULL;
 	}
 
@@ -1123,14 +1117,14 @@ PxConvexMesh* VDPhysic::genConvexCollision(const HandleMeshEx& meshHandler) {
 		convexDesc.indices.stride = 6;
 	}
 	if (!convexDesc.isValid()) {
-		VDDebug::errorLog("InValid ConvexMesh Description");
+		throw RuntimeException("InValid ConvexMesh Description");
 		convexDesc.flags |= PxConvexFlag::eINFLATE_CONVEX;
 	}
 	PxDefaultMemoryOutputStream writebuffer;
 	if (!engine.physic.gCooking->cookConvexMesh(convexDesc, writebuffer)) {
 		convexDesc.flags |= PxConvexFlag::eINFLATE_CONVEX;
 		if (!engine.physic.gCooking->cookConvexMesh(convexDesc, writebuffer)) {
-			VDDebug::errorLog("Failed to CookMesh Description\n");
+			throw RuntimeException("Failed to CookMesh Description\n");
 			free(indicesData);
 			return NULL;
 		}
