@@ -84,6 +84,9 @@ void EditorWindow::resizable(bool resizable) {
 void EditorWindow::setFullScreen(bool fullscreen) {
 
 }
+void EditorWindow::setFullScreen(fragcore::Display &display){
+	
+}
 
 bool EditorWindow::isFullScreen(void) const{
 	
@@ -96,8 +99,14 @@ void EditorWindow::setBordered(bool borded) {
 void EditorWindow::setMinimumSize(int width, int height) {
 
 }
+void EditorWindow::getMinimumSize(int *width, int *height)
+{
+}
 
 void EditorWindow::setMaximumSize(int width, int height) {
+
+}
+void EditorWindow::getMaximumSize(int *width, int *height) {
 
 }
 

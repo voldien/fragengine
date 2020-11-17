@@ -19,7 +19,6 @@
 #ifndef _FRAG_CORE_UID_GENERATOR_H_
 #define _FRAG_CORE_UID_GENERATOR_H_ 1
 #include"../Def.h"
-#include"UIDObject.h"
 
 namespace fragcore {
 	/**

@@ -5,18 +5,16 @@ IF ((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER
 ENDIF ()
 
 FIND_PACkAGE(Bullet)
-INCLUDE(FindBullet)
 SET(BULLET_LIB "-lBulletDynamics -lBulletCollision -lLinearMath -lBulletSoftBody")
+IF(BULLET_FOUND)
+
+ENDIF()
 
 # Source files.
 FILE(GLOB SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
-ADD_LIBRARY(fragview-pbu ${SOURCE_FILES})
-TARGET_LINK_LIBRARIES(fragview-pbu ${BULLET_LIB} fragcore )
-ADD_DEPENDENCIES(fragview-pbu fragcore)
-INSTALL(TARGETS fragview-pbu DESTINATION lib)
-
-# TODO determine if and how to eanble for plaforms, BT_USE_SSE_IN_API 
-IF ((CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang") )
-    TARGET_INCLUDE_DIRECTORIES( fragview-pbu PUBLIC "${BULLET_INCLUDE_DIRS}" )
-ENDIF()
+ADD_LIBRARY(fragcore-pbu ${SOURCE_FILES})
+TARGET_LINK_LIBRARIES(fragcore-pbu ${BULLET_LIB} fragcore ${BULLET_LIBRARIES} )
+ADD_DEPENDENCIES(fragcore-pbu fragcore)
+TARGET_INCLUDE_DIRECTORIES( fragcore-pbu PUBLIC "${BULLET_INCLUDE_DIRS}" )
+INSTALL(TARGETS fragcore-pbu DESTINATION lib)

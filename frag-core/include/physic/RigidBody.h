@@ -19,13 +19,14 @@
 #ifndef _FRAG_CORE_RIGIDBODY_H_
 #define _FRAG_CORE_RIGIDBODY_H_ 1
 #include"../Def.h"
+#include"PhysicObject.h"
 #include"Prerequisites.h"
 
 namespace fragcore {
 	/**
 	 *	Rigidbody.
 	 */
-	class FVDECLSPEC RigidBody {
+	class FVDECLSPEC RigidBody : public PhysicObject {
 		friend class DynamicInterface;
 	private:
 		inline RigidBody(void){}
@@ -34,153 +35,35 @@ namespace fragcore {
 
 	public:	/*	Public methods.	*/
 
-//
-//		inline void useGravity(bool use) {
-//
-//		}
-//
-//		inline bool useGravity(void) {
-//
-//		}
-//
-//		/**
-//		 *	Get mass of the object.
-//		 */
-//		inline float getMass(void) {
-//			return this->getMass(this->getMappedObject());
-//		}
-//
-//		/**
-//		 *	Set mass of body.
-//		 */
-//		inline void setMass(float mass) {
-//			this->setMass(this->getMappedObject(), mass);
-//		}
-//
-//		/**
-//		 *	Get position in world space.
-//		 *	@Return
-//		 */
-//		inline PVVector3 getPosition(void) {
-//			return this->getPosition(this->getMappedObject());
-//		}
-//
-//		/**
-//		 *	Set body position in world space.
-//		 */
-//		inline void setPosition(const PVVector3 &position) {
-//			this->setPosition(this->getMappedObject(), position);
-//		}
-//
-//		/**
-//		 *	Get body oritention in world space.
-//		 */
-//		inline PVQuaternion getOrientation(void) {
-//			return this->getOrientation(this->getMappedObject());
-//		}
-//
-//		/**
-//		 *
-//		 */
-//		inline void setOrientation(const PVQuaternion &quat) {
-//			this->setOrientation(this->getMappedObject(), quat);
-//		}
-//
-//		/**
-//		 *
-//		 */
-//		inline PVVector3 getScale(void) {
-//			return this->getScale(this->getMappedObject());
-//		}
-//
-//		/**
-//		 *
-//		 */
-//		inline void setScale(const PVVector3 &scale) {
-//			this->setScale(this->getMappedObject(), scale);
-//		}
-//
-//		/**
-//		 *	Apply fource.
-//		 */
-//		inline void setForce(const PVVector3 &force) {
-//			this->setForce(this->getMappedObject(), force);
-//		}
-//
-//		/**
-//		 *	Get linear drag.
-//		 *	@Return
-//		 */
-//		inline float getDrag(void) {
-//			return this->getDrag(this->getMappedObject());
-//		}
-//
-//		inline void setDrag(float drag) {
-//			this->setDrag(this->getMappedObject(), drag);
-//		}
-//
-//		/**
-//		 *	@Return
-//		 */
-//		inline float getAngularDrag(void) {
-//			return this->getAngularDrag(this->getMappedObject());
-//		}
-//
-//		inline void setAngularDrag(float angularDrag) {
-//			this->setAngularDrag(this->getMappedObject(), angularDrag);
-//		}
-//
-//
-//		inline PVVector3 getVelocity(void) {
-//			return this->getVelocity(this->getMappedObject());
-//		}
-//
-//		/**
-//		 *	TODO evoluate
-//		 */
-//		inline void attachNode(Node *node) {
-//			this->node = node;
-//		}
-//
-//		/**
-//		 *	Get node assoicated with
-//		 */
-//		inline Node *getNode(void) const {
-//			return this->node;
-//		}
-
-	protected:	/*	Protected virtual methods.	*/
-
-		virtual float getMass(void* pobj);
-		virtual void setMass(void* pobj, float mass);
+		virtual void useGravity(bool use);
+		virtual bool useGravity(void);
+		virtual float getMass(void);
+		virtual void setMass(float mass);
 
 		//virtual void setInertia(void* pobj);
 
-		virtual PVVector3 getPosition(void* pobj);
-		virtual void setPosition(void* pobj, const PVVector3& position);
+		virtual PVVector3 getPosition(void);
+		virtual void setPosition(const PVVector3& position);
 
 
-		virtual PVQuaternion getOrientation(void* pobj);
-		virtual void setOrientation(void* pobj, const PVQuaternion& quat);
+		virtual PVQuaternion getOrientation(void);
+		virtual void setOrientation(const PVQuaternion& quat);
 
-		virtual PVVector3 getScale(void* pobj);
-		virtual void setScale(void* pobj, const PVVector3& scale);
+		virtual PVVector3 getScale(void);
+		virtual void setScale(const PVVector3& scale);
 
-		virtual void setForce(void* pobj, const PVVector3& force);
+		virtual void addForce(const PVVector3& force);
 
 		/**/
-		virtual float getDrag(void* pobj);
-		virtual void setDrag(void* pobj, float drag);
+		virtual float getDrag(void);
+		virtual void setDrag(float drag);
 
-		virtual float getAngularDrag(void* pobj);
-		virtual void setAngularDrag(void* pobj, float angularDrag);
+		virtual float getAngularDrag(void);
+		virtual void setAngularDrag(float angularDrag);
 
-		virtual PVVector3 getVelocity(void* pobj);
+		virtual PVVector3 getVelocity(void);
 
-		//intptr_t getNativePtr(void) const override;
-
-	protected:
-		//Node* node;
+		intptr_t getNativePtr(void) const;
 
 	};
 

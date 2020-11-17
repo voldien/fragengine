@@ -12,10 +12,9 @@ using namespace fragcore;
 typedef PhysicInterface* (*pcreateInternalPhysicInterface)(IConfig* overrideOption);
 
 /*	TODO update with the new naming.	*/
-const char *bulletlibpath = "libfragview-pbu.so";             /*	Default bullet library.	*/
-const char *bullet3libpath = "libfragview-pbu.so";           /*	Bullet library with OpenCL support.	*/
-const char *physxlibpath = "libfragview-pbu.so";               /*	Nvidia's physic library. ( Not supported ) */
-
+const char *bulletlibpath = "libfragcore-pbu.so";             /*	Default bullet library.	*/
+const char *bullet3libpath = "libfragcore-pbu.so";			  /*	Bullet library with OpenCL support.	*/
+const char *physxlibpath = "libfragcore-pbu.so";			  /*	Nvidia's physic library. ( Not supported ) */
 
 PhysicInterface* PhysicFactory::createPhysic(PhysicAPI api,  IConfig* overrideOption) {
 	return PhysicFactory::createPhysic(PhysicFactory::getInterfaceLibraryPath(api), overrideOption);

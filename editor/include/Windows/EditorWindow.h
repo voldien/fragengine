@@ -58,14 +58,17 @@ namespace frageditor {
 		void AddWidget(Widget *widget);
 
 		void setFullScreen(bool fullscreen) override;
+		virtual void setFullScreen(fragcore::Display &display);
 
 		bool isFullScreen(void) const;
 
 		void setBordered(bool borded) override;
 
 		void setMinimumSize(int width, int height) override;
+		virtual void getMinimumSize(int *width, int *height);
 
 		void setMaximumSize(int width, int height) override;
+		virtual void getMaximumSize(int *width, int *height);
 
 		float getGamma(void) const override;
 

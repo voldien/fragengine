@@ -46,9 +46,9 @@ const char *AudioFactory::getInterfaceLibraryPath(AudioAPI api) {
 	//TODO add info string for the exception of what api value.
 	switch (api) {
 		case AudioFactory::OpenAL:
-			return "libfragview-aal.so";
+			return "libfragcore-aal.so";
 		case AudioFactory::FMOD:
-			return "libfragview-afm.so";
+			return "libfragcore-afm.so";
 		default:
 			throw InvalidArgumentException("");
 	}

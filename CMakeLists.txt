@@ -332,10 +332,7 @@ ENDIF()
 
 IF(BUILD_EXTERNAL_PHYSIC)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/bullet/)
-#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/bullet3/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/physx/)
-	#TODO moved to the PVEngine
-#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/src/physic/rpc/)
+	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/physx/)
 ENDIF()
 
 # Plugins.

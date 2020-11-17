@@ -47,26 +47,26 @@ constexpr const char *RenderingFactory::getInterfaceLibraryPath(RenderingFactory
 #ifdef FV_UNIX
 	switch (api) {
 		case RenderingFactory::OpenGL:
-			return "libfragview-rgl.so";
+			return "libfragcore-rgl.so";
 		case RenderingFactory::Vulkan:
-			return "libfragview-rvk.so";
+			return "libfragcore-rvk.so";
 		case RenderingAPI::DirectX:
 			throw InvalidArgumentException("Not supported on Unix Systems.");
 		case RenderingAPI::eOpenCL:
-			return "libfragview-rcl.so";
+			return "libfragcore-rcl.so";
 		default:
 			throw InvalidArgumentException("Not a valid rendering API enumerator.");
 	}
 #elif defined(FV_WINDOWS)
 	switch (api) {
 		case RenderingFactory::eOpenGL:
-			return "libfragview-rgl.dll";
+			return "libfragcore-rgl.dll";
 		case RenderingFactory::eVulkan:
-			return "libfragview-rvk.dll";
+			return "libfragcore-rvk.dll";
 		case RenderingAPI::eDirectX:
-			return "libfragview-rdx.dll";
+			return "libfragcore-rdx.dll";
 		case RenderingAPI::eOpenCL:
-			return "libfragview-rcl.dll";
+			return "libfragcore-rcl.dll";
 		default:
 			throw InvalidArgumentException("Not a valid rendering API enumerator.");
 	}
