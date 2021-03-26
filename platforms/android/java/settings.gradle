@@ -1,4 +1,0 @@
-rootProject.name = "fragengine"
-
-include ':app'
-include ':lib'
