@@ -260,10 +260,9 @@ IF(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 		ENDIF()
 
 	ENDIF()
+
 	#
-	# ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/hpmcpp EXCLUDE_FROM_ALL)
-	# ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/jhpm EXCLUDE_FROM_ALL)
-	# ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/task-scheduler EXCLUDE_FROM_ALL)
+	#ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/fragcore EXCLUDE_FROM_ALL)
 ELSE()
 
 ENDIF()
@@ -277,40 +276,6 @@ ENDIF()
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
 
 
-#TODO resolve and add options and etc.
-# Add platform specific information.
-IF(Android)
-	MESSAGE(STATUS "Hello from Android build!")
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/android/)
-ENDIF()
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Tmp")
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/windows/)
-ENDIF()
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Tmp")
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/uwp/)
-ENDIF()
-IF(UNIX)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/)
-ENDIF()
-IF(APPLE)
-#TODO add support for mac and apple platforms.
-#	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/platforms/unix/)
-ENDIF()
-
-#TODO Add platform source code
-IF(UNIX)
-
-ELSEIF(APPLE)
-
-ELSEIF(CYGWIN)
-
-ENDIF()
-
-# Build frag-core.
-IF(BUILD_WITH_CORE)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core)
-ENDIF()
-
 # Build frag-engine.
 IF(BUILD_WITH_ENGINE)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-engine)
@@ -321,27 +286,6 @@ IF(NOT ANDROID)
 	IF(BUILD_WITH_EDITOR)
 		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
 	ENDIF()
-ENDIF()
-
-# Rendering interfaces.
-IF(BUILD_EXTERNAL_RENDERER)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/opengl/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/directx/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/vulkan/)
-	#TODO changed to a compute base class and module extension.
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/opencl/)
-ENDIF()
-
-# Build FragCore Audio modules
-IF(BUILD_EXTERNAL_AUDIO)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/audio/openal/)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/audio/fmod/)
-ENDIF()
-
-# Build FragCore Physic modules
-IF(BUILD_EXTERNAL_PHYSIC)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/bullet/)
-	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/physx/)
 ENDIF()
 
 # Plugins.
@@ -546,16 +490,9 @@ IF(BUILD_WITH_INSTALL)
 
 ENDIF()
 
-
 FIND_PACKAGE(PythonInterp REQUIRED)
 IF(PYTHONINTERP_FOUND)
-	#TODO relocate to the fragengine and editor.
-	#TODO add as cmake tool
-	ADD_CUSTOM_TARGET( compile-shader
-			COMMENT "Creating header and source file for display shaders."
-			COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/utils/glsl2CString.py ${CMAKE_CURRENT_SOURCE_DIR}/shaders/glsl/
-			DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/utils/glsl2CString.py)
-	#ADD_DEPENDENCIES(fragview compile-shader)
+
 ENDIF()
 
 
