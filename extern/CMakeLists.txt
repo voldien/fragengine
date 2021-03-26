@@ -141,27 +141,6 @@ IF(BUILD_WITH_EXTERNAL_PROJECT)
 				INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/extern/task-scheduler/include)
 		SET(TASKSCH_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/extern/hpmcpp/include")
 
-		# Download the hpm library.
-		# SET(HPM_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/hpm)
-		# SET(HPM_LIB_DIR ${HPM_ROOT}/lib)
-		# SET(HPM_INCLUDE_DIR ${HPM_ROOT}/include)
-		# ExternalProject_Add(hpm-external
-		# 		URL ${CMAKE_CURRENT_SOURCE_DIR}/extern/hpm
-		# 		SOURCE_DIR ${HPM_ROOT}/src/hpm
-		# 		BINARY_DIR ${HPM_ROOT}/src/hpm-build
-		# 		INSTALL_DIR ${HPM_ROOT}
-		# 		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR> -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DBUILD_TEST=OFF
-		# 		STEP_TARGETS build
-		# 		COMMENT "Building Hpm."
-		# 		LOG_DOWNLOAD ON)
-		# # Include HPM headers.
-		# ADD_LIBRARY(hpm SHARED IMPORTED)
-		# ADD_DEPENDENCIES(hpm hpm-external)
-		# SET_TARGET_PROPERTIES(hpm PROPERTIES
-		# 		IMPORTED_LOCATION ${HPM_LIB_DIR}/libhpm.so
-		# 		INTERFACE_LINK_LIBRARIES ${HPM_LIB_DIR}/libhpm.so
-		# 			INTERFACE_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_SOURCE_DIR}/extern/hpm/include)
-
 		# Download the HPMCPP library.
 		SET(HPMCPP_ROOT ${CMAKE_CURRENT_BINARY_DIR}/deps/hpmcpp)
 		SET(HPMCPP_LIB_DIR ${HPMCPP_ROOT}/lib)

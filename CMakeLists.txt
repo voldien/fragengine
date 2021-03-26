@@ -20,12 +20,12 @@ ELSE()
 ENDIF(NOT BUILD_SHARED_LIBS)
 
 #
-OPTION(BUILD_WITH_TEST "Enable Testing." OFF)
+OPTION(BUILD_WITH_TEST "Enable Testing." ON)
 OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
 OPTION(BUILD_WITH_CORE "Build Core" ON)
 OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
-OPTION(BUILD_WITH_SAMPLES "Build sample codes" OFF)
+OPTION(BUILD_WITH_SAMPLES "Build sample codes" ON)
 
 # Build external interface plugin.
 OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
@@ -258,17 +258,24 @@ IF(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 		IF(NOT GIT_SUBMOD_RESULT EQUAL "0")
 			MESSAGE(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
 		ENDIF()
+
 	ENDIF()
+	#
+	# ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/hpmcpp EXCLUDE_FROM_ALL)
+	# ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/jhpm EXCLUDE_FROM_ALL)
+	# ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/task-scheduler EXCLUDE_FROM_ALL)
 ELSE()
 
 ENDIF()
 
+#TODO add validation test if the repository are fetched properly.
 # IF(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/repo/fragengine")
 # 	MESSAGE(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 # ENDIF()
 
 # Inlucde external resources.
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
+
 
 #TODO resolve and add options and etc.
 # Add platform specific information.
@@ -299,17 +306,17 @@ ELSEIF(CYGWIN)
 
 ENDIF()
 
-# Build frag core.
+# Build frag-core.
 IF(BUILD_WITH_CORE)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core)
 ENDIF()
 
-# Build frag engine.
+# Build frag-engine.
 IF(BUILD_WITH_ENGINE)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-engine)
 ENDIF()
 
-# Build frag editor.
+# Build frag-editor.
 IF(NOT ANDROID)
 	IF(BUILD_WITH_EDITOR)
 		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
@@ -325,11 +332,13 @@ IF(BUILD_EXTERNAL_RENDERER)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/renderer/opencl/)
 ENDIF()
 
+# Build FragCore Audio modules
 IF(BUILD_EXTERNAL_AUDIO)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/audio/openal/)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/audio/fmod/)
 ENDIF()
 
+# Build FragCore Physic modules
 IF(BUILD_EXTERNAL_PHYSIC)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/bullet/)
 	#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-core/src/physic/physx/)
@@ -339,7 +348,6 @@ ENDIF()
 IF(BUILD_WITH_EXTERNAL_PLUGINS)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/plugins/)
 ENDIF()
-
 
 # Testing and assertion and other.
 #TODO attempt to remove so it works on all platforms.
@@ -414,7 +422,6 @@ IF( UNIX )
 		ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
 		IF(BUILD_WITH_INSTALL)
 		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
-
 	ENDIF()
 
 	# Create distribution tarball.
