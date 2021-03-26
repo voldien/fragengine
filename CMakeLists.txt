@@ -1,5 +1,5 @@
-CMAKE_MINIMUM_REQUIRED( VERSION 3.11.0 FATAL_ERROR )
-PROJECT(fragview VERSION 0.11.1 LANGUAGES CXX C)
+CMAKE_MINIMUM_REQUIRED( VERSION 3.15 )
+PROJECT(fragengine)
 
 # Build shared/dynamic library option
 OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
@@ -8,7 +8,7 @@ OPTION(BUILD_WITH_PROFILER "Enable profiling." OFF)
 OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
 OPTION(BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
 OPTION(BUILD_WITH_UBSAN "" OFF)
-OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." OFF )
+OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." ON )
 OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
 OPTION(BUILD_WITH_DEBUG_BOUNDSCHECK "Array/Pointer BoundsChecking, buffer overflow protection. Used in debug only." OFF)
 option(BUILD_INSTALL_RESOURCES "Installs the Resources directory" ON)
@@ -23,15 +23,11 @@ ENDIF(NOT BUILD_SHARED_LIBS)
 OPTION(BUILD_WITH_TEST "Enable Testing." ON)
 OPTION(BUILD_WITH_EDITOR "Build editor." ON)
 OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
-OPTION(BUILD_WITH_CORE "Build Core" ON)
 OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
 OPTION(BUILD_WITH_SAMPLES "Build sample codes" ON)
 
 # Build external interface plugin.
 OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
-OPTION(BUILD_EXTERNAL_RENDERER "Building external renderer libraries" ON)
-OPTION(BUILD_EXTERNAL_AUDIO "Building external audio libraries" ON)
-OPTION(BUILD_EXTERNAL_PHYSIC "Building external physic libraries" ON)
 
 IF(MSVC)
   OPTION( BUILD_INSTALL_PDB
@@ -54,7 +50,7 @@ SET(VERSION ${VERSION_MAJOR}.${VERSION_MINOR}${VERSION_STATE}${VERSION_REVISION}
 SET(PROJECT_VERSION "${VERSION}")
 
 # Set predefined macro for version.
-ADD_DEFINITIONS(-DFV_VERSION="${VERSION}")
+ADD_DEFINITIONS(-DFE_VERSION="${VERSION}")
 
 IF(NOT FRAG_IGNORE_GIT_HASH)
   # Get the current working branch
@@ -81,19 +77,12 @@ ENDIF()
 #   ${CMAKE_CURRENT_BINARY_DIR}/revision.h
 # )
 
-
 LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake-modules" )
-SET(LIBFRAGCORE_COMPONENT "libfragcore{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
-SET(LIBFRAGCORE-DEV_COMPONENT "libfragcore{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-dev")
 SET(LIBFRAGENGINE_COMPONENT "libfragengine{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
 SET(LIBFRAGENGINE-DEV_COMPONENT "libfragengine{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}-dev")
 
-SET(FRAGVIEW_COMPONENT "fragview{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
 SET(FRAEDITOR_COMPONENT "frageditor{VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
 
-SET(CPACK_COMPONENTS_ALL fragview-bin ${LIBFRAGCORE_COMPONENT} ${LIBFRAGCORE-DEV_COMPONENT}
-	${LIBFRAGENGINE_COMPONENT} ${LIBFRAGENGINE-DEV_COMPONENT} $FRAGVIEW_COMPONENT} ${FRAGEDITOR_COMPONENT})
-SET(FRAGVIEW_LIBRARY_SUFFIX "" CACHE STRING "Suffix to append to library names")
 
 # macro that sets a default (path) if one wasn't specified
 MACRO(SET_PATH variable default)
@@ -236,13 +225,6 @@ IF( UNIX )
   INCLUDE(GNUInstallDirs)
 ENDIF()
 
-IF(CUDA_FOUND)
-
-ELSE()
-
-ENDIF()
-
-#SET(FRAGENGINE_SUBMODULE_PATH ${PROJECT_SOURCE_DIR}/extern/repo/fragengine)
 
 IF(GIT_FOUND)
 	MESSAGE(STATUS "git found: ${GIT_EXECUTABLE} -- ${GIT_VERSION_STRING}")
@@ -260,21 +242,12 @@ IF(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 		ENDIF()
 
 	ENDIF()
-
-	#
-	#ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/extern/fragcore EXCLUDE_FROM_ALL)
 ELSE()
 
 ENDIF()
 
-#TODO add validation test if the repository are fetched properly.
-# IF(NOT EXISTS "${PROJECT_SOURCE_DIR}/extern/repo/fragengine")
-# 	MESSAGE(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
-# ENDIF()
-
 # Inlucde external resources.
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
-
 
 # Build frag-engine.
 IF(BUILD_WITH_ENGINE)
@@ -362,11 +335,7 @@ IF( UNIX )
 		MESSAGE(STATUS "zip found: ${ZIP}")
 
 	ENDIF()
-		# Install main icon image.
-		ADD_DEFINITIONS(-DICON_LOCATION="/usr/share/fragview/")
-		IF(BUILD_WITH_INSTALL)
-		INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png DESTINATION /usr/share/fragview/ )
-	ENDIF()
+
 
 	# Create distribution tarball.
 	SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
@@ -386,7 +355,6 @@ IF( UNIX )
 			${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
 			${CMAKE_CURRENT_SOURCE_DIR}/.travis.yaml
 			${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
-			${CMAKE_CURRENT_SOURCE_DIR}/fragview.png
 			${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
 			${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
 			${TARGETDIR}
@@ -398,53 +366,6 @@ IF( UNIX )
 	FIND_PROGRAM(INSTALL_DESKTOP_FILE_VALIDATE desktop-file-validate)
 	FIND_PROGRAM(DESKTOP_FILE_INSTALL desktop-file-install)
 	FIND_PROGRAM(UPDATE_DESKTOP_DATABASE update-desktop-database)
-
-	# Check that the program exists.
-	IF(INSTALL_DESKTOP AND INSTALL_DESKTOP_FILE_VALIDATE AND DESKTOP_FILE_INSTALL AND UPDATE_DESKTOP_DATABASE)
-		MESSAGE(STATUS "install-desktop: ${INSTALL_DESKTOP}")
-		MESSAGE(STATUS "desktop-file-validate: ${INSTALL_DESKTOP_FILE_VALIDATE}")
-		MESSAGE(STATUS "desktop-file-install: ${DESKTOP_FILE_INSTALL}")
-		MESSAGE(STATUS "update-desktop-database: ${UPDATE_DESKTOP_DATABASE}")
-
-		# Install icons. TODO relocate 
-		ADD_CUSTOM_TARGET(install-desktop
-				COMMENT "Validating and installing desktop entry."
-				COMMAND desktop-file-validate ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop
-				COMMAND desktop-file-install --rebuild-mime-info-cache ${CMAKE_CURRENT_SOURCE_DIR}/fragview.desktop
-				COMMAND update-desktop-database
-				DEPENDS INSTALL_DESKTOP INSTALL_DESKTOP_FILE_VALIDATE DESKTOP_FILE_INSTALL UPDATE_DESKTOP_DATABASE)
-	ELSE()
-		MESSAGE(WARNING "Could not find the program tools for installing the icon and its images.")
-	ENDIF()
-
-	FIND_PROGRAM(CONVERT convert)
-	IF(CONVERT)
-		# Create icons for all sizes
-		ADD_CUSTOM_TARGET(create-icons
-				COMMENT "Creating icon for all sizes."
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/16x16
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/24x24
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/32x32
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/48x48
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/64x64
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/96x96
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/128x128
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/256x256
-				COMMAND mkdir -p ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/1024x1024
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 16x16 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/16x16/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 24x24 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/24x24/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 32x32 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/32x32/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 48x48 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/48x48/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 64x64 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/64x64/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 96x96 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/96x96/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 128x128 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/128x128/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 256x256 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/256x256/fragview.png
-				COMMAND convert ${CMAKE_CURRENT_SOURCE_DIR}/fragview.png -resize 1024x1024 ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/1024x1024/fragview.png)
-	ELSE()
-		MESSAGE(WARNING "Could not find the convert program for resizing the images.")
-	ENDIF()
 
 ELSEIF(WIN32)
 
@@ -472,22 +393,6 @@ IF(ICOTOOL_FOUND)
 			COMMAND ${ICOTOOL_EXECUTABLE} -c -o favicon.ico mysite_32x32.png mysite_64x64.png)
 ELSE()
 	MESSAGE(WARNING "Could not find the program tools for creating window icons.")
-ENDIF()
-
-
-IF(BUILD_WITH_INSTALL)
-
-	# TODO add some logic for determine if exists.
-	# TODO relocate to their respective locations.
-	IF(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/images/icons AND UNIX)
-		FOREACH(size 16 24 32 48 64 128 256)
-			INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/apps/
-					RENAME fragview.png)
-			INSTALL( FILES ${CMAKE_CURRENT_SOURCE_DIR}/images/icons/${size}x${size}/fragview.png DESTINATION /usr/share/icons/hicolor/${size}x${size}/mimetypes/
-					RENAME application-fragview-doc.png)
-		ENDFOREACH()
-	ENDIF()
-
 ENDIF()
 
 FIND_PACKAGE(PythonInterp REQUIRED)
@@ -537,21 +442,12 @@ IF ( BUILD_WITH_INSTALL )
 		SET(CPACK_PACKAGE_INSTALL_DIRECTORY       "frag${VERSION_MAJOR}.${VERSION_MINOR}")
 		SET(CPACK_RESOURCE_FILE_LICENSE           "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 
-		STRING(TOUPPER ${LIBFRAGCORE_COMPONENT}     "LIBFRAGCORE_COMPONENT_UPPER")
-		STRING(TOUPPER ${LIBFRAGCORE-DEV_COMPONENT} "LIBFRAGCORE-DEV_COMPONENT_UPPER")
 
 		#
-		SET(CPACK_COMPONENT_FRAGCORE-BIN_DISPLAY_NAME                       "tools")
-		SET(CPACK_COMPONENT_FRAGCORE-BIN_DEPENDS                            "${LIBFRAGCORE_COMPONENT}" )
 		SET(CPACK_COMPOENTT_${LIBFRAGENGINE_COMPONENT_UPPER}_DISPLAY_NAME "")
 		SET(CPACK_COMPOENTT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "")
-		SET(CPACK_COMPONENT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DEPENDS $    "{LIBFRAGCORE_COMPONENT}" )
+		SET(CPACK_COMPONENT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DEPENDS $    "" )
 		SET(CPACK_COMPOENTT_${LIBFRAGENGINE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "")
-		SET(CPACK_COMPONENT_${LIBFRAGCORE_COMPONENT_UPPER}_DISPLAY_NAME     "libraries")
-		SET(CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT_UPPER}_DISPLAY_NAME "common headers and installs")
-		SET(CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT_UPPER}_DEPENDS $    "{LIBFRAGCORE_COMPONENT}" )
-		SET(CPACK_COMPONENT_LIBFRAGCORE-DEV_DISPLAY_NAME                       "${CPACK_COMPONENT_${LIBFRAGCORE-DEV_COMPONENT}_DISPLAY_NAME}" )
-		SET(CPACK_COMPONENT_LIBFRAGCORE-DEV_DEPENDS                            "${LIBFRAGCORE-DEV_COMPONENT}" )
 		SET(CPACK_DEBIAN_BUILD_DEPENDS debhelper cmake zlib1g-dev pkg-config)
 
 		# debian
