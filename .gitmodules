@@ -7,3 +7,6 @@
 [submodule "extern/jhpm"]
 	path = extern/jhpm
 	url = https://github.com/voldien/jhpm
+[submodule "extern/fragcore"]
+	path = extern/fragcore
+	url = https://github.com/voldien/fragcore
