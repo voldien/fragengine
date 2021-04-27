@@ -1,3 +1,6 @@
 [submodule "extern/fragcore"]
 	path = extern/fragcore
 	url = https://github.com/voldien/fragcore
+[submodule "extern/ogre-next"]
+	path = extern/ogre-next
+	url = https://github.com/OGRECave/ogre-next.git
