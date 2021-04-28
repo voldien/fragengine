@@ -1,6 +1,12 @@
 CMAKE_MINIMUM_REQUIRED( VERSION 3.15 )
 PROJECT(fragengine)
 
+SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin CACHE INTERNAL "" FORCE)
+SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib CACHE INTERNAL "" FORCE)
+
+#-----------------------------------------------------------------------------
+# Options
+
 # Build shared/dynamic library option
 OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
 OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." OFF)
@@ -12,12 +18,18 @@ OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." ON )
 OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
 OPTION(BUILD_WITH_DEBUG_BOUNDSCHECK "Array/Pointer BoundsChecking, buffer overflow protection. Used in debug only." OFF)
 option(BUILD_INSTALL_RESOURCES "Installs the Resources directory" ON)
+OPTION(GIT_SUBMODULE "Check submodules during build" OFF)
 IF(NOT BUILD_SHARED_LIBS)
 	SET(CMAKE_EXE_LINKER_FLAGS "-static")
 	SET(LINK_SEARCH_START_STATIC TRUE)
 ELSE()
 	MESSAGE(STATUS "Shared libraries enabled")
 ENDIF(NOT BUILD_SHARED_LIBS)
+# Debug
+option(WITH_CXX_GUARDEDALLOC "Enable GuardedAlloc for C++ memory allocation tracking (only enable for development)" OFF)
+mark_as_advanced(WITH_CXX_GUARDEDALLOC)
+
+OPTION(WITH_BUILDINFO     "Include extra build details (only disable for development & faster builds)" ON)
 
 #
 OPTION(BUILD_WITH_TEST "Enable Testing." ON)
@@ -231,16 +243,15 @@ IF(GIT_FOUND)
 ENDIF()
 IF(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 	# Update submodules as needed
-	OPTION(GIT_SUBMODULE "Check submodules during build" ON)
+
 	IF(GIT_SUBMODULE)
 		MESSAGE(STATUS "Submodule update --recursive")
 		EXECUTE_PROCESS(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive
-						WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+						WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
 						RESULT_VARIABLE GIT_SUBMOD_RESULT)
 		IF(NOT GIT_SUBMOD_RESULT EQUAL "0")
 			MESSAGE(FATAL_ERROR "git submodule update --init failed with ${GIT_SUBMOD_RESULT}, please checkout submodules")
 		ENDIF()
-
 	ENDIF()
 ELSE()
 
