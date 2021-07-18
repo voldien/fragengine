@@ -8,23 +8,23 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib CACHE INTERNAL "" FORCE)
 # Options
 
 # Build shared/dynamic library option
-OPTION(BUILD_SHARED_LIBS "Build package with shared libraries." ON)
-OPTION(BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." OFF)
-OPTION(BUILD_WITH_PROFILER "Enable profiling." OFF)
-OPTION(BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
-OPTION(BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
-OPTION(BUILD_WITH_UBSAN "" OFF)
-OPTION(BUILD_WITH_ASAN "Enable AddressSanitizer." ON )
-OPTION(BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
-OPTION(BUILD_WITH_DEBUG_BOUNDSCHECK "Array/Pointer BoundsChecking, buffer overflow protection. Used in debug only." OFF)
-option(BUILD_INSTALL_RESOURCES "Installs the Resources directory" ON)
+OPTION(FRAGENGINE_BUILD_SHARED_LIBS "Build package with shared libraries." ON)
+OPTION(FRAGENGINE_BUILD_WITH_COVERAGE "Enable profiling and coverage report analysis." OFF)
+OPTION(FRAGENGINE_BUILD_WITH_PROFILER "Enable profiling." OFF)
+OPTION(FRAGENGINE_BUILD_WITH_EXTERNAL_PROJECT "Enable external project build." ON)
+OPTION(FRAGENGINE_BUILD_WITH_INSTALL "Disable this if you want to use fragengine as a submodule." ON )
+OPTION(FRAGENGINE_BUILD_WITH_UBSAN "" OFF)
+OPTION(FRAGENGINE_BUILD_WITH_ASAN "Enable AddressSanitizer." ON )
+OPTION(FRAGENGINE_BUILD_OPT_BUILD_PACKAGES "Set to ON to generate CPack configuration files and packaging targets" OFF)
+OPTION(FRAGENGINE_BUILD_WITH_DEBUG_BOUNDSCHECK "Array/Pointer BoundsChecking, buffer overflow protection. Used in debug only." OFF)
+option(FRAGENGINE_BUILD_INSTALL_RESOURCES "Installs the Resources directory" ON)
 OPTION(GIT_SUBMODULE "Check submodules during build" OFF)
-IF(NOT BUILD_SHARED_LIBS)
+IF(NOT FRAGENGINE_BUILD_SHARED_LIBS)
 	SET(CMAKE_EXE_LINKER_FLAGS "-static")
 	SET(LINK_SEARCH_START_STATIC TRUE)
 ELSE()
 	MESSAGE(STATUS "Shared libraries enabled")
-ENDIF(NOT BUILD_SHARED_LIBS)
+ENDIF(NOT FRAGENGINE_BUILD_SHARED_LIBS)
 # Debug
 option(WITH_CXX_GUARDEDALLOC "Enable GuardedAlloc for C++ memory allocation tracking (only enable for development)" OFF)
 mark_as_advanced(WITH_CXX_GUARDEDALLOC)
@@ -32,17 +32,16 @@ mark_as_advanced(WITH_CXX_GUARDEDALLOC)
 OPTION(WITH_BUILDINFO     "Include extra build details (only disable for development & faster builds)" ON)
 
 #
-OPTION(BUILD_WITH_TEST "Enable Testing." ON)
-OPTION(BUILD_WITH_EDITOR "Build editor." ON)
-OPTION(BUILD_WITH_DOCS "Build documentation." OFF)
-OPTION(BUILD_WITH_ENGINE "Build Frag Engine" ON)
-OPTION(BUILD_WITH_SAMPLES "Build sample codes" ON)
+OPTION(FRAGENGINE_BUILD_WITH_TEST "Enable Testing." ON)
+OPTION(FRAGENGINE_BUILD_WITH_EDITOR "Build editor." ON)
+OPTION(FRAGENGINE_BUILD_WITH_DOCS "Build documentation." OFF)
+OPTION(FRAGENGINE_BUILD_WITH_ENGINE "Build Frag Engine" ON)
 
 # Build external interface plugin.
-OPTION(BUILD_WITH_EXTERNAL_PLUGINS "" ON)
+OPTION(FRAGENGINE_BUILD_WITH_EXTERNAL_PLUGINS "" ON)
 
 IF(MSVC)
-  OPTION( BUILD_INSTALL_PDB
+  OPTION( FRAGENGINE_BUILD_INSTALL_PDB
 	"Install MSVC debug files."
 	ON
   )
@@ -128,7 +127,7 @@ SET(CMAKE_C_EXTENSIONS OFF)
 
 # GCC compiler flag options.
 IF((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_IS_MINGW)
-	IF (BUILD_SHARED_LIBS AND CMAKE_SIZEOF_VOID_P EQUAL 8) # -fPIC is only required
+	IF (FRAGENGINE_BUILD_SHARED_LIBS AND CMAKE_SIZEOF_VOID_P EQUAL 8) # -fPIC is only required
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 	ENDIF()
 
@@ -151,7 +150,7 @@ IF((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_
 	ENDIF()
 
 	#
-	IF(BUILD_WITH_COVERAGE)
+	IF(FRAGENGINE_BUILD_WITH_COVERAGE)
 		MESSAGE(STATUS "Building with coverage")
 		SET(GCC_COVERAGE_COMPILE_FLAGS "--coverage -fprofile-arcs -ftest-coverage")
 		SET(GCC_COVERAGE_LINK_FLAGS    "-lgcov")
@@ -161,7 +160,7 @@ IF((CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX) AND NOT CMAKE_COMPILER_
 	ENDIF()
 
 	#
-	IF(BUILD_WITH_PROFILER)
+	IF(FRAGENGINE_BUILD_WITH_PROFILER)
 		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pg")
 		SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pg")
 		SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -pg")
@@ -203,14 +202,14 @@ IF ( IOS)
 ENDIF()
 
 #
-IF (BUILD_WITH_UBSAN)
+IF (FRAGENGINE_BUILD_WITH_UBSAN)
 	MESSAGE(STATUS "Undefined Behavior sanitizer enabled")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=undefined,shift,shift-exponent,integer-divide-by-zero,unreachable,vla-bound,null,return,signed-integer-overflow,bounds,float-divide-by-zero,float-cast-overflow,nonnull-attribute,returns-nonnull-attribute,bool,enum,vptr,pointer-overflow,builtin -fno-sanitize-recover=all")
 ENDIF()
 
 #
-IF (BUILD_WITH_ASAN)
+IF (FRAGENGINE_BUILD_WITH_ASAN)
 	MESSAGE(STATUS "AddressSanitizer enabled")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
@@ -261,40 +260,35 @@ ENDIF()
 INCLUDE(${CMAKE_CURRENT_SOURCE_DIR}/extern/CMakeLists.txt)
 
 # Build frag-engine.
-IF(BUILD_WITH_ENGINE)
+IF(FRAGENGINE_BUILD_WITH_ENGINE)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/frag-engine)
 ENDIF()
 
 # Build frag-editor.
 IF(NOT ANDROID)
-	IF(BUILD_WITH_EDITOR)
+	IF(FRAGENGINE_BUILD_WITH_EDITOR)
 		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/editor/)
 	ENDIF()
 ENDIF()
 
 # Plugins.
-IF(BUILD_WITH_EXTERNAL_PLUGINS)
+IF(FRAGENGINE_BUILD_WITH_EXTERNAL_PLUGINS)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/plugins/)
 ENDIF()
 
 # Testing and assertion and other.
 #TODO attempt to remove so it works on all platforms.
 IF(NOT ANDROID)
-	IF(BUILD_WITH_TEST)
+	IF(FRAGENGINE_BUILD_WITH_TEST)
 		ENABLE_TESTING()
 		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/)
-	ENDIF(BUILD_WITH_TEST)
-ENDIF()
-
-# Generate sample executables.
-IF(BUILD_WITH_SAMPLES)
-	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/examples)
+	ENDIF(FRAGENGINE_BUILD_WITH_TEST)
 ENDIF()
 
 # Generate documentations.
-IF(BUILD_WITH_DOCS)
+IF(FRAGENGINE_BUILD_WITH_DOCS)
 	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/docs/)
-ENDIF(BUILD_WITH_DOCS)
+ENDIF(FRAGENGINE_BUILD_WITH_DOCS)
 
 # Only UNIX systems.
 IF( UNIX )
@@ -308,6 +302,7 @@ IF( UNIX )
 	# 
 	Find_PACKAGE(UnixCommands REQUIRED)
 
+	# Extract tools for spirv
 	FIND_PROGRAM(GLSLLANGVALIDATOR glslangValidator)
 	FIND_PROGRAM(SPIRVDIS spirv-dis)
 	FIND_PROGRAM(SPIRVAS spirv-as)
@@ -316,25 +311,25 @@ IF( UNIX )
 	IF(GLSLLANGVALIDATOR)
 		MESSAGE(STATUS "glslangValidator found: ${GLSLLANGVALIDATOR}")
 		#TODO add for all shaders.
-		ADD_CUSTOM_TARGET(samples-spirv
-				COMMENT "Creating spirv shader from the display shader.")
-		#ADD_DEPENDENCIES(fragview samples-spirv)
-		FOREACH(glslFile ${SAMPLE_GLSL_FILES})
-			MESSAGE(STATUS ${glslFile} )
-			ADD_CUSTOM_COMMAND(TARGET samples-spirv PRE_BUILD
-					COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0
-					-u:time:10 -G450 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/)
-		ENDFOREACH()
+		# ADD_CUSTOM_TARGET(samples-spirv
+		# 		COMMENT "Creating spirv shader from the display shader.")
+		# #ADD_DEPENDENCIES(fragview samples-spirv)
+		# FOREACH(glslFile ${SAMPLE_GLSL_FILES})
+		# 	MESSAGE(STATUS ${glslFile} )
+		# 	ADD_CUSTOM_COMMAND(TARGET samples-spirv PRE_BUILD
+		# 			COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0
+		# 			-u:time:10 -G450 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/)
+		# ENDFOREACH()
 
-		# Create default shader
-		ADD_CUSTOM_TARGET(display-spirv
-				COMMENT "Creating spirv shader from the display shader.")
-		#ADD_DEPENDENCIES(fragview display-spirv)
-		FOREACH(glslFile ${SAMPLE_SHADER_GLSL_FILES})
-			ADD_CUSTOM_COMMAND(TARGET display-spirv PRE_BUILD
-					COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0 -G -d
-					-u:time:10 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/)
-		ENDFOREACH()
+		# # Create default shader
+		# ADD_CUSTOM_TARGET(display-spirv
+		# 		COMMENT "Creating spirv shader from the display shader.")
+		# #ADD_DEPENDENCIES(fragview display-spirv)
+		# FOREACH(glslFile ${SAMPLE_SHADER_GLSL_FILES})
+		# 	ADD_CUSTOM_COMMAND(TARGET display-spirv PRE_BUILD
+		# 			COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0 -G -d
+		# 			-u:time:10 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/)
+		# ENDFOREACH()
 
 	ELSE()
 		MESSAGE(WARNING "Could not find the glslangValidator program for creating spirv shaders.")
@@ -348,29 +343,29 @@ IF( UNIX )
 	ENDIF()
 
 
-	# Create distribution tarball.
-	SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
-	ADD_CUSTOM_TARGET(	distribution
-			COMMENT "Creating distrubtion file."
-			COMMAND mkdir -p ${TARGETDIR}
-			COMMAND ${CP} -r   ${CMAKE_CURRENT_SOURCE_DIR}/src
-			${CMAKE_CURRENT_SOURCE_DIR}/frag-core
-			${CMAKE_CURRENT_SOURCE_DIR}/frag-engine
-			${CMAKE_CURRENT_SOURCE_DIR}/samples
+	# # Create distribution tarball.
+	# SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
+	# ADD_CUSTOM_TARGET(	distribution
+	# 		COMMENT "Creating distrubtion file."
+	# 		COMMAND mkdir -p ${TARGETDIR}
+	# 		COMMAND ${CP} -r   ${CMAKE_CURRENT_SOURCE_DIR}/src
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/frag-core
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/frag-engine
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/samples
 
-			${CMAKE_CURRENT_SOURCE_DIR}/utils
-			${CMAKE_CURRENT_SOURCE_DIR}/test
-			${CMAKE_CURRENT_SOURCE_DIR}/images
-			${CMAKE_CURRENT_SOURCE_DIR}/client
-			${CMAKE_CURRENT_SOURCE_DIR}/editor
-			${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
-			${CMAKE_CURRENT_SOURCE_DIR}/.travis.yaml
-			${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
-			${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
-			${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
-			${TARGETDIR}
-			COMMAND ${TAR} cf - ${TARGETDIR} | ${GZIP} -c > ${TARGETDIR}.tar.gz
-			COMMAND ${RM} -r ${TARGETDIR} )
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/utils
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/test
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/images
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/client
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/editor
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/.travis.yaml
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
+	# 		${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
+	# 		${TARGETDIR}
+	# 		COMMAND ${TAR} cf - ${TARGETDIR} | ${GZIP} -c > ${TARGETDIR}.tar.gz
+	# 		COMMAND ${RM} -r ${TARGETDIR} )
 
 	# Check if desktop icon tools exists.
 	FIND_PROGRAM(INSTALL_DESKTOP install-desktop)
@@ -394,17 +389,6 @@ ELSE()
 	SET(CMAKE_INSTALL_FULL_BINDIR ${CMAKE_INSTALL_PREFIX}/${FRAG_BIN_INSTALL_DIR})
 ENDIF()
 
-FIND_PACKAGE(Icotool)
-IF(ICOTOOL_FOUND)
-	MESSAGE(STATUS "icotool: ${ICOTOOL_EXECUTABLE} -- ${ICOTOOL_VERSION_STRING}")
-	# Generate icon for window platforms.
-	# -c -o favicon.ico mysite_32x32.png mysite_64x64.png
-	ADD_CUSTOM_TARGET( create-icon-type
-			COMMENT "Creating header and source file for display shaders."
-			COMMAND ${ICOTOOL_EXECUTABLE} -c -o favicon.ico mysite_32x32.png mysite_64x64.png)
-ELSE()
-	MESSAGE(WARNING "Could not find the program tools for creating window icons.")
-ENDIF()
 
 FIND_PACKAGE(PythonInterp REQUIRED)
 IF(PYTHONINTERP_FOUND)
@@ -438,8 +422,8 @@ ENDIF (WIN32)
 
 
 # Create install package.
-IF ( BUILD_WITH_INSTALL )
-	IF(CMAKE_CPACK_COMMAND AND UNIX AND BUILD_OPT_BUILD_PACKAGES)
+IF ( FRAGENGINE_BUILD_WITH_INSTALL )
+	IF(CMAKE_CPACK_COMMAND AND UNIX AND FRAGENGINE_BUILD_OPT_BUILD_PACKAGES)
 		# Packing information
 		SET(CPACK_PACKAGE_NAME                    "frag${FRAG_VERSION_MAJOR}.${VERSION_MINOR}")
 		SET(CPACK_PACKAGE_CONTACT "" CACHE STRING "Package maintainer and PGP signer.")
