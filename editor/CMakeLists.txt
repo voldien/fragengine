@@ -37,4 +37,17 @@ ENDIF()
 #
 IF(UNIX)
 
+
+ENDIF()
+
+FIND_PACKAGE(Icotool)
+IF(ICOTOOL_FOUND)
+	MESSAGE(STATUS "icotool: ${ICOTOOL_EXECUTABLE} -- ${ICOTOOL_VERSION_STRING}")
+	# Generate icon for window platforms.
+	# -c -o favicon.ico mysite_32x32.png mysite_64x64.png
+	ADD_CUSTOM_TARGET( create-icon-type
+			COMMENT "Creating header and source file for display shaders."
+			COMMAND ${ICOTOOL_EXECUTABLE} -c -o favicon.ico mysite_32x32.png mysite_64x64.png)
+ELSE()
+	MESSAGE(WARNING "Could not find the program tools for creating window icons.")
 ENDIF()
