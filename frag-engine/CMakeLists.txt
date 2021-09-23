@@ -35,7 +35,6 @@ SET(FRAG_CORE_INCLUDE_SUB_DIR
 				${CMAKE_CURRENT_SOURCE_DIR}/include/RenderPipeline
 				${CMAKE_CURRENT_SOURCE_DIR}/include/Scene)
 
-GET_TARGET_PROPERTY(LIBFRAGCORE_INCLUDES fragcore INCLUDE_DIRECTORIES)
 
 # Core library for adding support for plugin.
 ADD_LIBRARY(fragengine ${SOURCE_FILES} ${HEADER_FILES})

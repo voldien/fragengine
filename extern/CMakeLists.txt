@@ -98,7 +98,6 @@ IF(BUILTIN_MISC)
 										${CMAKE_CURRENT_SOURCE_DIR}/extern/misc/*.c
 										${CMAKE_CURRENT_SOURCE_DIR}/extern/misc/*.cpp)
 
-
 	SET(THIRDPARTY_SOURCE "${THIRDPARTY_SOURCE};${MISC_SOURCE}")
 ENDIF()
 

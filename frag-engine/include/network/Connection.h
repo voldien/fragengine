@@ -20,13 +20,18 @@
 #define _FRAG_ENGINE_CONNECTION_H_ 1
 #include<FragCore.h>
 
-namespace fragengine{ 
+namespace fragengine {
 	/**
 	 *	Connection class.
 	*
 	*	Responsible for transfer low level data and
 	*	associated data with the connection.
 	*/
+
+	/**
+	 * @brief
+	 *
+	 */
 	class FVDECLSPEC Connection : public fragcore::UIDObject {
 		friend class NetWork;
 	public:
