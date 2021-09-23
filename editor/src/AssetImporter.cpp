@@ -495,9 +495,9 @@
 // 		pobject->setParent( NULL );
 
 // 	/*	Set object transformation.	*/
-// 	pobject->setPosition(PVVector3(position.x, position.y, position.z));
-// 	pobject->setScale(PVVector3(scale.x, scale.y, scale.z));
-// 	pobject->setRotation( PVQuaternion(rotation.w, rotation.x, rotation.y, rotation.z));
+// 	pobject->setPosition(Vector3(position.x, position.y, position.z));
+// 	pobject->setScale(Vector3(scale.x, scale.y, scale.z));
+// 	pobject->setRotation( Quaternion(rotation.w, rotation.x, rotation.y, rotation.z));
 
 // 	/*	Iterate through all childrens.	*/
 // 	for(unsigned int x = 0; x < nodes->mNumChildren; x++){

@@ -52,9 +52,9 @@ namespace fragengine {
 //	/**
 //	 *	Set light color.
 //	 */
-//	void setColor(const PVColor &color);
+//	void setColor(const Color &color);
 //
-//	PVColor getColor(void) const;
+//	Color getColor(void) const;
 //
 
 		void setIntensity(float intensity);
@@ -78,11 +78,11 @@ namespace fragengine {
 //	 *
 //	 * @return
 //	 */
-//	PVMatrix4x4 getShadowMatrix(void);
+//	Matrix4x4 getShadowMatrix(void);
 
 	private:    /*	Attributes.	*/
 
-		//PVColor color;          /*	*/
+		//Color color;          /*	*/
 		float intensity;        /*	*/
 		float shadowstrength;   /*	*/
 		LightType lightType;

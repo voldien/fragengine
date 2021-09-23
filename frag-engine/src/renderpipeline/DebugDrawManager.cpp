@@ -5,7 +5,7 @@
 #include<Renderer/ViewPort.h>
 #include<Renderer/FrameBuffer.h>
 #include<Renderer/Query.h>
-#include <Renderer/ProgramPipeline.h>
+//#include <Renderer/ProgramPipeline.h>
 #include <Renderer/Sync.h>
 
 using namespace fragcore;
@@ -24,7 +24,7 @@ RenderQueue DebugDrawManager::getSupportedQueue(void) const {
 }
 
 void
-DebugDrawManager::addLine(const PVVector3 &start, const PVVector3 &end, const PVColor &color, float lineWidth,
+DebugDrawManager::addLine(const Vector3 &start, const Vector3 &end, const Color &color, float lineWidth,
                           float duration, bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 
@@ -35,7 +35,7 @@ DebugDrawManager::addLine(const PVVector3 &start, const PVVector3 &end, const PV
 	this->commands[LINE].enqueue(debugDrawCommand);
 }
 
-void DebugDrawManager::addCross(const PVVector3 &position, const PVColor &color, float size, float duration,
+void DebugDrawManager::addCross(const Vector3 &position, const Color &color, float size, float duration,
                                 bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 
@@ -43,47 +43,47 @@ void DebugDrawManager::addCross(const PVVector3 &position, const PVColor &color,
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
-void DebugDrawManager::addSphere(const PVColor &position, float radius, const PVColor &color, float duration,
+void DebugDrawManager::addSphere(const Color &position, float radius, const Color &color, float duration,
                                  bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = SPHERE;
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
-void DebugDrawManager::addCircle(const PVVector3 &centerPosition, const PVVector3 &planeNormal, float radius,
-                                 const PVColor &color, float duration, bool depthEnabled) {
+void DebugDrawManager::addCircle(const Vector3 &centerPosition, const Vector3 &planeNormal, float radius,
+                                 const Color &color, float duration, bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = CIRCLE;
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
 void
-DebugDrawManager::addAxes(const Transform &xfm, const PVColor &color, float size, float duration, bool depthEnabled) {
+DebugDrawManager::addAxes(const Transform &xfm, const Color &color, float size, float duration, bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = AXES;
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
-void DebugDrawManager::addTriangle(const PVVector3 &a, const PVVector3 &b, const PVVector3 &c, float duration,
+void DebugDrawManager::addTriangle(const Vector3 &a, const Vector3 &b, const Vector3 &c, float duration,
                                    bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = TRIANGLE;
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
-void DebugDrawManager::addAABB(const PVAABB &aabb, const PVColor &color, float duration, bool depthEnabled) {
+void DebugDrawManager::addAABB(const PVAABB &aabb, const Color &color, float duration, bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = AABB;
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
-void DebugDrawManager::addOBB(const PVOBB &obb, const PVColor &color, float duration, bool depthEnabled) {
+void DebugDrawManager::addOBB(const PVOBB &obb, const Color &color, float duration, bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = OBB;
 	debugDrawCommand.depthEnabled = depthEnabled;
 }
 
-void DebugDrawManager::addString(const PVVector3 &a, const std::string &text, float duration, bool depthEnabled) {
+void DebugDrawManager::addString(const Vector3 &a, const std::string &text, float duration, bool depthEnabled) {
 	DebugDrawCommand debugDrawCommand;
 	debugDrawCommand.type = STRING;
 	debugDrawCommand.depthEnabled = depthEnabled;

@@ -49,8 +49,8 @@ class FVDECLSPEC Material {
     void setTexture(int index, TextureObject* tex);
     TextureObject* getTexture(int index);
 
-    void setMainColor(const PVColor& color);
-    PVColor getMainColor(void) const;
+    void setMainColor(const Color& color);
+    Color getMainColor(void) const;
 
     /**
      *

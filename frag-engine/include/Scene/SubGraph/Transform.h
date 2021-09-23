@@ -6,62 +6,62 @@
 
 namespace fragengine {
 	using namespace fragcore;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	class FVDECLSPEC Transform {
 	public:
 		Transform(void);
-		//Transform (const PVQuaternion &q, const PVVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
+		//Transform (const Quaternion &q, const Vector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		//Transform (const btMatrix3x3 &b, const btVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		Transform(const Transform &other);
 
-		void rotate(const PVVector3 &eular);
+		void rotate(const Vector3 &eular);
 
-		void setPosition(const PVVector3 &pos);
+		void setPosition(const Vector3 &pos);
 
-		void setLocalPosition(const PVVector3 &pos);
+		void setLocalPosition(const Vector3 &pos);
 
-		inline PVVector3 getPosition(void) {
+		inline Vector3 getPosition(void) {
 			return this->pos;
 		}
 
-		inline const PVVector3 &getPosition(void) const {
+		inline const Vector3 &getPosition(void) const {
 			return this->pos;
 		}
 
-		inline PVVector3 getLocalPosition(void) const {
-			return PVVector3();
+		inline Vector3 getLocalPosition(void) const {
+			return Vector3();
 		}
 
-		void setScale(const PVVector3 &scale);
+		void setScale(const Vector3 &scale);
 
-		void setLocalScale(const PVVector3 &scale);
+		void setLocalScale(const Vector3 &scale);
 
-		inline PVVector3 getScale(void) const {
+		inline Vector3 getScale(void) const {
 			return this->scale;
 		}
 
-		PVVector3 getLocalScale(void) const {
-			return PVVector3();
+		Vector3 getLocalScale(void) const {
+			return Vector3();
 		}
 
-		void setRotation(const PVQuaternion &quat);
+		void setRotation(const Quaternion &quat);
 
-		void setLocalRotation(const PVQuaternion &quat);
+		void setLocalRotation(const Quaternion &quat);
 
-		const PVQuaternion &getRotation(void) const;
+		const Quaternion &getRotation(void) const;
 
-		PVQuaternion getLocalRotation(void) const;
+		Quaternion getLocalRotation(void) const;
 
-		PVMatrix4x4 getMatrix(void) const;
+		Matrix4x4 getMatrix(void) const;
 
-		PVMatrix4x4 getLocalMatrix(void) const;
+		Matrix4x4 getLocalMatrix(void) const;
 
-		PVMatrix4x4 getViewMatrix(void) const;
+		Matrix4x4 getViewMatrix(void) const;
 
-		PVMatrix4x4 getViewLocalMatrix(void) const;
+		Matrix4x4 getViewLocalMatrix(void) const;
 
 		float getMinimumScale(void) const;
 
@@ -79,11 +79,11 @@ namespace fragengine {
 
 		Transform operator*(const Transform &t) const;
 
-		PVVector3 operator()(const PVVector3 &x) const;
+		Vector3 operator()(const Vector3 &x) const;
 
-		PVVector3 operator*(const PVVector3 &x) const;
+		Vector3 operator*(const Vector3 &x) const;
 
-		PVQuaternion operator*(const PVQuaternion &q) const;
+		Quaternion operator*(const Quaternion &q) const;
 
 		//Transform &operator=(const Transform &other);
 
@@ -93,10 +93,10 @@ namespace fragengine {
 
 	private:    /*	Attributes.	*/
 
-		PVVector3 pos;              /*	Position in world space.	*/
-		PVVector3 scale;            /*	Scale.	*/
-		PVQuaternion quat;          /*	Rotation in world space.	*/
-		PVMatrix4x4 model;          /*  Precomputed model matrix.   */
+		Vector3 pos;              /*	Position in world space.	*/
+		Vector3 scale;            /*	Scale.	*/
+		Quaternion quat;          /*	Rotation in world space.	*/
+		Matrix4x4 model;          /*  Precomputed model matrix.   */
 		float maxScale;
 		float minScale;
 	};

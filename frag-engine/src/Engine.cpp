@@ -1,11 +1,12 @@
-#include"Engine.h"
-#include<Renderer/IRenderer.h>
-#include<HpmCpp.h>
-#include<getopt.h>
-#include<signal.h>
-#include<Utils/StringUtil.h>
-#include<Utils/TextureUtil.h>
-#include<Renderer/RendererWindow.h>
+#include "Engine.h"
+#include "FragCore.h"
+#include <Renderer/IRenderer.h>
+//#include<HpmCpp.h>
+#include <Renderer/RendererWindow.h>
+#include<hpmcpp/Hpm.hpp>
+#include <Utils/TextureUtil.h>
+#include <getopt.h>
+#include <signal.h>
 
 using namespace fragengine;
 using namespace fragcore;
@@ -42,12 +43,9 @@ void Engine::init(int argc, const char **argv, SubSystem subsytem) {
 	// int result;
 	// SDL_version sdlver;
 
-	Log::log(
-		Log::Verbose, "Platform: %s\n",
-		SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
+	Log::log(Log::Verbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
 	Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
-	Log::log(Log::Verbose, "Cache line: %d bytes\n",
-			 SystemInfo::getCPUCacheLine());
+	Log::log(Log::Verbose, "Cache line: %d bytes\n", SystemInfo::getCPUCacheLine());
 
 	// /*	Set software interrupts.	*/
 	// signal(SIGINT, catchsignal);
@@ -75,30 +73,21 @@ void Engine::init(int argc, const char **argv, SubSystem subsytem) {
 	// Engine::sceneManager = new SceneManager();
 }
 
-void Engine::initSubSystem(SubSystem subsytem){
-	Hpm::init(Hpm::eHPM_DEFAULT);
+void Engine::initSubSystem(SubSystem subsytem) {
+	LIBHPM::Hpm::init(LIBHPM::Hpm::eHPM_DEFAULT);
 	WindowManager::getInstance();
 }
 
-void Engine::quit(void){
-	
-}
+void Engine::quit(void) {}
 
-void Engine::registerModule(Module &module){
-	
-}
-void Engine::unregisterModule(Module &module){
+void Engine::registerModule(Module &module) {}
+void Engine::unregisterModule(Module &module) {}
 
-}
+const char *Engine::getVersion(void) { return FV_VERSION; }
 
-const char *Engine::getVersion(void) {
-	return FV_VERSION;
-}
-
-RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title,
-									 int x, int y, int width, int height) {
-	Display* display = WindowManager::getInstance()->getDisplay(0);
-	RendererWindow* window = renderer->createWindow(x,y, width, height);
+RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int x, int y, int width, int height) {
+	Display *display = WindowManager::getInstance()->getDisplay(0);
+	RendererWindow *window = renderer->createWindow(x, y, width, height);
 	window->setTitle(title);
 
 	/*	Load the default icon.	*/
@@ -122,7 +111,7 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title,
 		iconpath = iconFileName;
 		foundIcon = true;
 	} else {
-		//TODO determine based on platform for which directory to search.
+		// TODO determine based on platform for which directory to search.
 		/*  Share directory.    */
 		// iconpath = fvformatf("%s/%s", resourceConfig.get<const char *>("shaddir"), iconFileName);
 		// if (fileSystem->exists(iconpath.c_str())) {
@@ -135,14 +124,14 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title,
 	if (foundIcon) {
 		unsigned int iconw, iconh, len;
 		try {
-			//TODO extract IO status.
+			// TODO extract IO status.
 			fileSystem->asyncWait(iconHandle);
 			ASync::IOStatus status = fileSystem->getIOStatus(iconHandle);
 			fileSystem->asyncClose(iconHandle);
 
 			void *icon = TextureUtil::loadTextureData(iconBuffer, status.nbytes, &iconw, &iconh);
 			if (icon && iconw > 0 && iconh > 0) {
-				//TODO change type once it has been decided.
+				// TODO change type once it has been decided.
 				window->setIcon(icon);
 			}
 			free(icon);
@@ -166,9 +155,9 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title,
 
 // 	/*	Create command controller for handling input for current scene.	*/
 // 	commandController->setCommandMask(Command::eKeyBoardInput);
-// 	commandController->setKeyMap(KeyMap::loadKeyMap(format("%s/%s", config->get<const char*>("shaddir"), config->get<const char*>("keymap")).c_str()));
+// 	commandController->setKeyMap(KeyMap::loadKeyMap(format("%s/%s", config->get<const char*>("shaddir"),
+// config->get<const char*>("keymap")).c_str()));
 // }
-
 
 // Config *Engine::getConfig(void) {
 //     return Engine::config;

@@ -53,7 +53,7 @@ namespace fragengine {
 		 *	Get perspective matrix.
 		 *	@Return current matrix of the frustum.
 		 */
-		const PVMatrix4x4 &getPerspectiveMatrix(void) const;
+		const Matrix4x4 &getPerspectiveMatrix(void) const;
 
 		void setFov(float fov);
 
@@ -88,14 +88,14 @@ namespace fragengine {
 		 *	Comput the frustum planes.
 		 */
 		virtual void
-		calcFrustumPlanes(const PVVector3 &position, const PVVector3 &look, const PVVector3 &up,
-						  const PVVector3 &right);
+		calcFrustumPlanes(const Vector3 &position, const Vector3 &look, const Vector3 &up,
+						  const Vector3 &right);
 
 		/**
 		 *	Check if point is inside the frustum.
 		 *	@Return eIn if inside frustum, eOut otherwise.
 		 */
-		virtual Intersection checkPoint(const PVVector3 &pos) const;
+		virtual Intersection checkPoint(const Vector3 &pos) const;
 
 		/**
 		 * Check if AABB intersects frustum.
@@ -103,18 +103,18 @@ namespace fragengine {
 		 * @param max
 		 * @return eIntersect if intersect the frustum, eOut otherwise.
 		 */
-		virtual Intersection intersectionAABB(const PVVector3 &min, const PVVector3 &max);
+		virtual Intersection intersectionAABB(const Vector3 &min, const Vector3 &max);
 
-		virtual Intersection intersectionAABB(const PVAABB &bounds);
+		virtual Intersection intersectionAABB(const AABB &bounds);
 
-		virtual Intersection intersectionOBB(const PVVector3 &u, const PVVector3 &v, const PVVector3 &w);
-		virtual Intersection intersectionOBB(const PVOBB &obb);
+		virtual Intersection intersectionOBB(const Vector3 &u, const Vector3 &v, const Vector3 &w);
+		virtual Intersection intersectionOBB(const OBB &obb);
 
                 /**
 		 *	Check if sphere intersects frustum.
 		 *	@Return
 		 */
-		virtual Intersection intersectionSphere(const PVVector3 &pos, float radius) const;
+		virtual Intersection intersectionSphere(const Vector3 &pos, float radius) const;
 		virtual Intersection intersectionSphere(const PVBoundingSphere &sphere) const;
 
 		/**
@@ -136,7 +136,7 @@ namespace fragengine {
 
 	private:    /*	Attributes.	*/
 
-		PVMatrix4x4 percmatrix;             /*	*/
+		Matrix4x4 percmatrix;             /*	*/
 		PVPlane planes[6];                  /*	*/
 		float fov, ratio, Znear, Zfar, tang;/*	*/
 		float nw, nh, fh, fw;               /*	*/

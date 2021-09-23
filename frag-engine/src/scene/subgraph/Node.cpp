@@ -45,18 +45,18 @@ Node::~Node(void) {
 
 //
 //
-//void Node::rotate(const PVVector3& eular){
-//	PVQuaternion rotation = PVQuaternion::createQuaternionOfAxis(
+//void Node::rotate(const Vector3& eular){
+//	Quaternion rotation = Quaternion::createQuaternionOfAxis(
 //			(float)HPM_DEG2RAD(eular.x()),
 //			(float)HPM_DEG2RAD(eular.y()),
 //			(float)HPM_DEG2RAD(eular.z()));
-//	PVQuaternion rotat = this->getRotation() * rotation;
+//	Quaternion rotat = this->getRotation() * rotation;
 //	rotat.makeUnitQuaternion();
 //	this->setRotation(rotat);
 //}
 //
 //
-//void Node::setPosition(const PVVector3& pos){
+//void Node::setPosition(const Vector3& pos){
 //	int i;
 //
 //	/*	Update rest of the nodes.	*/
@@ -68,38 +68,38 @@ Node::~Node(void) {
 //	this->pos = pos;
 //}
 //
-//void Node::setLocalPosition(const PVVector3& pos){
+//void Node::setLocalPosition(const Vector3& pos){
 //
 //}
 //
-//void Node::setScale(const PVVector3& scale){
+//void Node::setScale(const Vector3& scale){
 //	this->scale = scale;
 //}
-//void Node::setLocalScale(const PVVector3& scale){
+//void Node::setLocalScale(const Vector3& scale){
 //
 //}
 //
 //
-//void Node::setRotation(const PVQuaternion& quat){
+//void Node::setRotation(const Quaternion& quat){
 //	this->quat = quat;
 //}
 //
-//void Node::setLocalRotation(const PVQuaternion& quat){
+//void Node::setLocalRotation(const Quaternion& quat){
 //
 //	if(this->getParent()){
-//		PVVector3 old = this->getRotation().forward();
+//		Vector3 old = this->getRotation().forward();
 //		this->quat = quat * this->getRotation().conjugate() * this->getRotation(); // setRotation * getLocalRotation();
 //		this->quat.makeUnitQuaternion();
-//		PVVector3 newrotat = this->getRotation().forward();
+//		Vector3 newrotat = this->getRotation().forward();
 //		for(unsigned int x = 0; x < this->getNumChildren(); x++){			//send transform position information to children.
 //			//this->child(x)->SetLocalRotationTransformation(this->rotation,newrotat - old);
 //		}
 //	}
 //	else{
-//		PVVector3 old = this->getRotation().forward();
+//		Vector3 old = this->getRotation().forward();
 //		this->quat = quat * this->getRotation().conjugate() * this->getRotation(); // setRotation * getLocalRotation();
 //		this->quat.makeUnitQuaternion();
-//		PVVector3 newrotat = this->getRotation().forward();
+//		Vector3 newrotat = this->getRotation().forward();
 //		for(unsigned int x = 0; x < this->getNumChildren(); x++){			//send transform position information to children.
 //		//	this->children[x]->SetLocalRotationTransformation(this->_rotation,old - newrotat);
 //
@@ -107,14 +107,14 @@ Node::~Node(void) {
 //	}
 //}
 //
-//const PVQuaternion &Node::getRotation(void) const {
+//const Quaternion &Node::getRotation(void) const {
 //	if (getDynamicRef()->isAttached())
 //		this->quat = getDynamicRef()->attachment->getOrientation();
 //
 //	return this->quat;
 //}
 //
-//PVQuaternion Node::getLocalRotation(void) const {
+//Quaternion Node::getLocalRotation(void) const {
 //	if (!getDynamicRef()->isAttached())
 //		return this->quat;
 //	else
@@ -122,29 +122,29 @@ Node::~Node(void) {
 //}
 //
 //
-//PVMatrix4x4 Node::getMatrix(void) const {
-//	return PVMatrix4x4::translate(this->getPosition()) *
-//	       PVMatrix4x4::rotate(this->getRotation()) *
-//	       PVMatrix4x4::scale(this->getScale());
+//Matrix4x4 Node::getMatrix(void) const {
+//	return Matrix4x4::translate(this->getPosition()) *
+//	       Matrix4x4::rotate(this->getRotation()) *
+//	       Matrix4x4::scale(this->getScale());
 //}
 //
-//PVMatrix4x4 Node::getLocalMatrix(void) const {
-//	return PVMatrix4x4::translate(this->getLocalPosition()) *
-//	       PVMatrix4x4::rotate(this->getLocalRotation()) *
-//	       PVMatrix4x4::scale(this->getLocalScale());
+//Matrix4x4 Node::getLocalMatrix(void) const {
+//	return Matrix4x4::translate(this->getLocalPosition()) *
+//	       Matrix4x4::rotate(this->getLocalRotation()) *
+//	       Matrix4x4::scale(this->getLocalScale());
 //}
 //
-//PVMatrix4x4 Node::getViewMatrix(void) const {
+//Matrix4x4 Node::getViewMatrix(void) const {
 //	/*  TODO resolve camera and non camerae view matrix.    */
-//	return PVMatrix4x4::rotate(this->getRotation().conjugate()) *
-//	       PVMatrix4x4::translate(-this->getPosition()) *
-//	       PVMatrix4x4::scale(this->getScale());
+//	return Matrix4x4::rotate(this->getRotation().conjugate()) *
+//	       Matrix4x4::translate(-this->getPosition()) *
+//	       Matrix4x4::scale(this->getScale());
 //}
 //
-//PVMatrix4x4 Node::getViewLocalMatrix(void) const {
-//	return PVMatrix4x4::translate(-this->getLocalPosition()) *
-//	       PVMatrix4x4::rotate(this->getLocalRotation().conjugate()) *
-//	       PVMatrix4x4::scale(-this->getLocalScale());
+//Matrix4x4 Node::getViewLocalMatrix(void) const {
+//	return Matrix4x4::translate(-this->getLocalPosition()) *
+//	       Matrix4x4::rotate(this->getLocalRotation().conjugate()) *
+//	       Matrix4x4::scale(-this->getLocalScale());
 //}
 //
 //DynamicObjects* Node::getDynamicRef(void) {

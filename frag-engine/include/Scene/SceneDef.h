@@ -25,15 +25,15 @@
 // */
 //typedef struct global_scene_state_t{
 //
-//	PVMatrix4x4 projection;			/**/
-//	PVMatrix4x4 viewMatrix;			/**/
-//	PVMatrix4x4 viewProjection;		/**/
-//	PVMatrix4x4 viewRotMatrix;		/**/
-//	PVColor ambientColor;			/**/
+//	Matrix4x4 projection;			/**/
+//	Matrix4x4 viewMatrix;			/**/
+//	Matrix4x4 viewProjection;		/**/
+//	Matrix4x4 viewRotMatrix;		/**/
+//	Color ambientColor;			/**/
 //	PVVector2 resolution;			/**/
 //
-//	PVVector3 cameraPosition;		/*	*/
-//	PVVector3 cameraDir;			/*	*/
+//	Vector3 cameraPosition;		/*	*/
+//	Vector3 cameraDir;			/*	*/
 //
 //	float time;						/*	*/
 //	float deltatime;				/*	*/
@@ -56,7 +56,7 @@
 //	int fogType;					/*	*/
 //	int fogDepthType;
 //	float fogDensity;				/*	*/
-//	PVColor fogColor;				/*	*/
+//	Color fogColor;				/*	*/
 //	PVVector4 fogplane;				/*	*/
 //
 //	/*  TODO fix aliasing packaging.*/
@@ -74,9 +74,9 @@
 //	int numShadowPoint;				/*	*/
 //
 //	/**/
-//	PVVector3 direction;
-//	PVColor color;
-//	PVVector3 position;
+//	Vector3 direction;
+//	Color color;
+//	Vector3 position;
 //	float angle;
 //	/*	*/
 //	float intensity;

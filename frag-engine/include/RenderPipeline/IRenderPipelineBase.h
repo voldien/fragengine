@@ -58,7 +58,7 @@ namespace fragengine {
 
 		Ref<fragcore::Geometry> quadDisplay;    /*  Quad display.   */
 		Ref<Buffer> quadDisplayIndirect;    /*  Quad indirect buffer.    */
-		Ref<ProgramPipeline> displayShader; /*  Quad display shader.    */
+		//Ref<ProgramPipeline> displayShader; /*  Quad display shader.    */
 	};
 }
 
