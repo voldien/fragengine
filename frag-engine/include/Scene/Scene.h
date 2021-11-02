@@ -36,7 +36,7 @@ namespace fragengine {
 		/**
 		 * Create fragment sandbox.
 		 */
-		void createGLSLSandBoxScene(void);
+		void createGLSLSandBoxScene();
 
 	public:
 		/**
@@ -44,13 +44,13 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		//SandBoxSubScene *getGLSLSandBoxScene(void);
+		//SandBoxSubScene *getGLSLSandBoxScene();
 
 		/**
 		 *
 		 * @return
 		 */
-		Time *getTime(void) const;
+		Time *getTime() const;
 
 	private:
 
@@ -64,12 +64,12 @@ namespace fragengine {
 		/*  Geometry Objects.   */
 	public:
 
-		Node *getRoot(void);
+		Node *getRoot();
 
-		Camera *getMainCamera(void);
+		Camera *getMainCamera();
 
 	public:
-		~Scene(void);
+		~Scene();
 	};
 }
 

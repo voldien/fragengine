@@ -265,7 +265,7 @@
 // }
 
 
-// Connection* NetWork::createBroadcastConnection(void){
+// Connection* NetWork::createBroadcastConnection(){
 
 // 	Connection* connection = NULL;
 // 	int bcast_sock;
@@ -330,7 +330,7 @@
 // }
 
 
-// void NetWork::disconnectAll(void){
+// void NetWork::disconnectAll(){
 
 // 	std::map<unsigned int, Connection*>::iterator it;
 
@@ -344,11 +344,11 @@
 
 
 
-// unsigned int NetWork::getNumClientConnections(void){
+// unsigned int NetWork::getNumClientConnections(){
 // 	return connections.size();
 // }
 
-// Connection* NetWork::allocateConnection(void){
+// Connection* NetWork::allocateConnection(){
 // 	Connection* con = poolconnections.obtain();
 // 	if(con == NULL){
 // 		poolconnections.resize(2 * poolconnections.reserved());

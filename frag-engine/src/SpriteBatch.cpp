@@ -195,7 +195,7 @@
 // 	return spritebatch;
 // }
 
-// static void enablePointSprite(void)
+// static void enablePointSprite()
 // {
 // 	GLfloat mpointsize;
 // 	glEnable(GL_POINT_SPRITE_ARB);

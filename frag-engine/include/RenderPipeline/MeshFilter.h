@@ -8,11 +8,11 @@ namespace fragengine {
 
 	class FVDECLSPEC MeshFilter : public SmartReference {
 	public:
-		MeshFilter(void);
-		~MeshFilter(void);
+		MeshFilter();
+		~MeshFilter();
 
 	//	void setMesh(Mesh* mesh);
-	//	Mesh* getMesh(void)const{return this->mesh;}
+	//	Mesh* getMesh()const{return this->mesh;}
 
 	private:
 	//	Mesh* mesh;

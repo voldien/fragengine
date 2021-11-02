@@ -38,22 +38,22 @@ namespace fragengine {
 
 	class FVDECLSPEC AnimationClip : public Object {
 	public:
-		AnimationClip(void);
+		AnimationClip();
 		AnimationClip(const AnimationClip& clip);
-		~AnimationClip(void);
+		~AnimationClip();
 
 		void setPosition(const Vector3& position);
-		Vector3 getPosition(void)const;
+		Vector3 getPosition()const;
 
 		void setRotation(const Quaternion& rotation);
-		Quaternion getRotation(void)const;
+		Quaternion getRotation()const;
 
 		void setScale(const Vector3& scale);
-		Vector3 getScale(void)const;
+		Vector3 getScale()const;
 
-		void  reIndex(void);
+		void  reIndex();
 
-		void release(void);
+		void release();
 
 	private:
 		std::vector<Curve> curves;
@@ -62,7 +62,7 @@ namespace fragengine {
 		AnimationState animationState;
 		void findNodeDataPointer(Transform* transform);
 
-		void releaseCurveData(void);
+		void releaseCurveData();
 
 	};
 }

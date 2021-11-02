@@ -10,7 +10,7 @@ namespace fragengine
 	 */
 	class FVDECLSPEC ZBufferState : public GlobalState {
 	public:
-		int getGlobalStateType(void) const override {
+		int getGlobalStateType() const override {
 			return ZBUFFER;
 		}
 

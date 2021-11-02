@@ -5,28 +5,28 @@
 using namespace fragcore;
 using namespace fragengine;
 
-// SandBoxSubScene *Scene::getGLSLSandBoxScene(void) {
+// SandBoxSubScene *Scene::getGLSLSandBoxScene() {
 // 	return this->glslSandBoxSubScene;
 // }
 
-// void Scene::createGLSLSandBoxScene(void) {
+// void Scene::createGLSLSandBoxScene() {
 // 	this->glslSandBoxSubScene = new SandBoxSubScene();
 // }
 
-Time *Scene::getTime(void) const {
+Time *Scene::getTime() const {
 	return this->time;
 }
 
-Scene::~Scene(void) {
+Scene::~Scene() {
 	delete this->time;
 }
 
-Node *Scene::getRoot(void) {
+Node *Scene::getRoot() {
 	Node* node;
 	node->getParent();
 	return nullptr;
 }
 
-Camera *Scene::getMainCamera(void) {            
+Camera *Scene::getMainCamera() {            
 	return nullptr;
 }

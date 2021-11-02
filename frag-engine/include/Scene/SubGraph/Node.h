@@ -27,17 +27,17 @@ namespace fragengine {
 	using namespace fragcore;
 	class FVDECLSPEC Node : public Object, public ITree<Node> {
 	public:
-		Node(void);
+		Node();
 
-		~Node(void);
+		~Node();
 
-		// Node *root(void) const override;
+		// Node *root() const override;
 
-		// Node *getParent(void) const override;
+		// Node *getParent() const override;
 
 		// void setParent(Node *parent) override;
 
-		// unsigned int getNumChildren(void) const override;
+		// unsigned int getNumChildren() const override;
 
 		// void addChild(Node *pchild) override;
 

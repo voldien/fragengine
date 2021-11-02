@@ -30,16 +30,16 @@ namespace fragengine {
 	*/
 	class DebugCamera : public Camera {
 	public:
-		DebugCamera(void);
+		DebugCamera();
 
 		DebugCamera(const DebugCamera &other);
 
-		~DebugCamera(void);
+		~DebugCamera();
 
 		/**
 		 *	Update camera.
 		 */
-		void update(void);
+		void update();
 
 	private:
 		float Xsensity;

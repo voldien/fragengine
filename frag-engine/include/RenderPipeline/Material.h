@@ -28,7 +28,7 @@
  */
 class FVDECLSPEC Material {
    public:
-    Material(void);
+    Material();
 
 	// virtual void PushUniforms(UniformHandler &uniformObject, const Transform *) = 0;
 	// virtual void PushDescriptors(DescriptorsHandler &descriptorSet) = 0;
@@ -39,7 +39,7 @@ class FVDECLSPEC Material {
      * @param shader
      */
     void setShader(ShaderObject* shader);
-    ShaderObject* getShader(void);
+    ShaderObject* getShader();
 
     /**
      *
@@ -50,7 +50,7 @@ class FVDECLSPEC Material {
     TextureObject* getTexture(int index);
 
     void setMainColor(const Color& color);
-    Color getMainColor(void) const;
+    Color getMainColor() const;
 
     /**
      *
@@ -84,13 +84,13 @@ class FVDECLSPEC Material {
      *	Bind material to current material on
      *	the current thread.
      */
-    void bind(void);
+    void bind();
 
     /**
      *
      * @return
      */
-    RenderQueue getRenderQueue(void) const;
+    RenderQueue getRenderQueue() const;
 
    public: /*  Get and set methods.  */
     int getInt(const char* name);

@@ -26,19 +26,19 @@ namespace fragengine {
 	 */
 	class FVDECLSPEC Time : public fragcore::Object {
 	public:
-		Time(void);
+		Time();
 
 		/**
 		 * Start time.
 		 */
-		void start(void);
+		void start();
 
 		/**
 		 * Get delta time since last frame.
 		 *
 		 * @return seconds.
 		 */
-		float deltaTime(void);
+		float deltaTime();
 
 		/**
 		 * Get smooth delta time. It uses
@@ -46,37 +46,37 @@ namespace fragengine {
 		 * frames delta time.
 		 * @return
 		 */
-		float smoothDeltaTime(void);
+		float smoothDeltaTime();
 
 		/**
 		 * Get time sense engine was initialized.
 		 * @return number of seconds.
 		 */
-		unsigned int time(void);
+		unsigned int time();
 
 		/**
 		 * Get time since the engine was initialized.
 		 * @return number of seconds and fractions of seconds.
 		 */
-		float timef(void);
+		float timef();
 
 		/**
 		 *
 		 * @return
 		 */
-		double timed(void);
+		double timed();
 
 		/**
 		 *	Get unix epoch time stamp.
 		 *	@Return
 		 */
-		long int getUnixTime(void);
+		long int getUnixTime();
 
 		/**
 		 * Get time scale.
 		 * @return
 		 */
-		float getTimeScale(void);
+		float getTimeScale();
 
 		/**
 		 * Set time scale.
@@ -88,25 +88,25 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		long int getTimeResolution(void);
+		long int getTimeResolution();
 
 		/**
 		 *	Get fixed update time in milliseconds.
 		 *
 		 *	@Return
 		 */
-		float fixedTime(void);
+		float fixedTime();
 
 		/**
 		 *
 		 */
-		void internalUpdate(void);
+		void internalUpdate();
 
 		/**
 		 *
 		 * @return
 		 */
-		static Time *getCurrentTime(void);
+		static Time *getCurrentTime();
 
 		/**
 		 *
@@ -118,11 +118,11 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		static const char *getDate(void);
+		static const char *getDate();
 
 	private:    /*	*/
 
-		float internal_delta_timef(void);
+		float internal_delta_timef();
 
 		/*  */
 		long int ticks;

@@ -31,7 +31,7 @@ namespace fragengine{
 	class PVDECLSPEC Renderer : public Node
 	{
 	public:
-		Renderer(void);
+		Renderer();
 
 		/**
 		 *
@@ -65,13 +65,13 @@ namespace fragengine{
 		 *
 		 * @return
 		 */
-		int getNumGeometry(void) const;
+		int getNumGeometry() const;
 
 		/**
 		 *
 		 * @return
 		 */
-		int getNumMaterial(void) const;
+		int getNumMaterial() const;
 
 
 		/*  TODO add properties */

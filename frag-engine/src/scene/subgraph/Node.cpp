@@ -2,19 +2,19 @@
 using namespace fragcore;
 using namespace fragengine;
 
-Node::Node(void) : ITree()
+Node::Node() : ITree()
 {
 }
 
-Node::~Node(void) {
+Node::~Node() {
 
 }
 
-// Node *Node::root(void) const {
+// Node *Node::root() const {
 // 	return ITree::root();
 // }
 
-// Node *Node::getParent(void) const {
+// Node *Node::getParent() const {
 // 	return ITree::getParent();
 // }
 
@@ -22,7 +22,7 @@ Node::~Node(void) {
 // 	ITree::setParent(parent);
 // }
 
-// unsigned int Node::getNumChildren(void) const {
+// unsigned int Node::getNumChildren() const {
 // 	return ITree::getNumChildren();
 // }
 
@@ -107,14 +107,14 @@ Node::~Node(void) {
 //	}
 //}
 //
-//const Quaternion &Node::getRotation(void) const {
+//const Quaternion &Node::getRotation() const {
 //	if (getDynamicRef()->isAttached())
 //		this->quat = getDynamicRef()->attachment->getOrientation();
 //
 //	return this->quat;
 //}
 //
-//Quaternion Node::getLocalRotation(void) const {
+//Quaternion Node::getLocalRotation() const {
 //	if (!getDynamicRef()->isAttached())
 //		return this->quat;
 //	else
@@ -122,31 +122,31 @@ Node::~Node(void) {
 //}
 //
 //
-//Matrix4x4 Node::getMatrix(void) const {
+//Matrix4x4 Node::getMatrix() const {
 //	return Matrix4x4::translate(this->getPosition()) *
 //	       Matrix4x4::rotate(this->getRotation()) *
 //	       Matrix4x4::scale(this->getScale());
 //}
 //
-//Matrix4x4 Node::getLocalMatrix(void) const {
+//Matrix4x4 Node::getLocalMatrix() const {
 //	return Matrix4x4::translate(this->getLocalPosition()) *
 //	       Matrix4x4::rotate(this->getLocalRotation()) *
 //	       Matrix4x4::scale(this->getLocalScale());
 //}
 //
-//Matrix4x4 Node::getViewMatrix(void) const {
+//Matrix4x4 Node::getViewMatrix() const {
 //	/*  TODO resolve camera and non camerae view matrix.    */
 //	return Matrix4x4::rotate(this->getRotation().conjugate()) *
 //	       Matrix4x4::translate(-this->getPosition()) *
 //	       Matrix4x4::scale(this->getScale());
 //}
 //
-//Matrix4x4 Node::getViewLocalMatrix(void) const {
+//Matrix4x4 Node::getViewLocalMatrix() const {
 //	return Matrix4x4::translate(-this->getLocalPosition()) *
 //	       Matrix4x4::rotate(this->getLocalRotation().conjugate()) *
 //	       Matrix4x4::scale(-this->getLocalScale());
 //}
 //
-//DynamicObjects* Node::getDynamicRef(void) {
+//DynamicObjects* Node::getDynamicRef() {
 //	return &this->ref;
 //}

@@ -16,9 +16,9 @@ namespace fragengine {
 
 	private:	/*	Prevent one from creating an instance of this class.	*/
 
-		RenderPipelineFactory(void);
+		RenderPipelineFactory();
 		RenderPipelineFactory(const RenderPipelineFactory& other);
-		~RenderPipelineFactory(void);
+		~RenderPipelineFactory();
 
 	};
 

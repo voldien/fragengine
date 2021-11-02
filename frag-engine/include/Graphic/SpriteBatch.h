@@ -11,7 +11,7 @@ namespace fragengine{
 	using namespace fragcore;
 	class FVDECLSPEC SpriteBatch /*: public Renderer*/ {
 	public:
-		SpriteBatch(void);
+		SpriteBatch();
 		SpriteBatch(const Ref<IRenderer> &renderer);
 
 // 		/**

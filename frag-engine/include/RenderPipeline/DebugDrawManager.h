@@ -24,7 +24,7 @@ namespace fragengine {
 
 		void setViewport(int width, int height, IRenderer *render) override;
 
-		RenderQueue getSupportedQueue(void) const override; /*  Render as overlay only. */
+		RenderQueue getSupportedQueue() const override; /*  Render as overlay only. */
 
 		virtual void addLine(const Vector3 &start, const Vector3 &end, const Color &color, float lineWidth = 1.0f,
 							 float duration = 0.0f, bool depthEnabled = true);

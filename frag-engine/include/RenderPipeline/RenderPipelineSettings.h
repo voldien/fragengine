@@ -33,10 +33,10 @@ namespace fragcore {
 		/*  TODO add memory mapping and etc.    */
 
 	private:
-		virtual IConfig *getSuperInstance(void) override;
+		virtual IConfig *getSuperInstance() override;
 
 	protected:
-		RenderPipelineSettings(void);
+		RenderPipelineSettings();
 
 	protected:
 		Ref<Buffer> buffer;

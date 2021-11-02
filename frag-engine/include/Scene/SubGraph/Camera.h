@@ -41,17 +41,17 @@ namespace fragengine {
 		};
 
 	public:
-		Camera(void);
+		Camera();
 
 		Camera(const Camera &other);
 
-		~Camera(void);
+		~Camera();
 
 		/**
 		 * Get clearing masking flag.
 		 * @return
 		 */
-		ClearMode clearMask(void) const;
+		ClearMode clearMask() const;
 
 		/**
 		 * Set clearing masking flag.
@@ -63,7 +63,7 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		ProjectionMode getProjection(void) const;
+		ProjectionMode getProjection() const;
 
 		//pixelHeight
 		//pixelRect
@@ -88,7 +88,7 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		bool useHDR(void) const;
+		bool useHDR() const;
 
 		//	/**
 		//	 *	Set post effect.
@@ -108,7 +108,7 @@ namespace fragengine {
 			 *
 			 * @return
 			 */
-		Ref<IRenderPipelineBase> getRenderingPath(void) const;
+		Ref<IRenderPipelineBase> getRenderingPath() const;
 		//
 		//
 		//	/**
@@ -121,7 +121,7 @@ namespace fragengine {
 		//	 *
 		//	 * @return
 		//	 */
-		//	FrameBufferObject *getRenderTarget(void) const;
+		//	FrameBufferObject *getRenderTarget() const;
 
 	protected:    /*	Attributes.	*/
 

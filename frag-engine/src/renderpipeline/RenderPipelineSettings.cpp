@@ -13,10 +13,10 @@ RenderPipelineSettings::RenderPipelineSettings(const IConfig &other) : IConfig(o
 
 }
 
-RenderPipelineSettings::RenderPipelineSettings(void) {
+RenderPipelineSettings::RenderPipelineSettings() {
 
 }
 
-IConfig *RenderPipelineSettings::getSuperInstance(void) {
+IConfig *RenderPipelineSettings::getSuperInstance() {
 	return NULL;
 }

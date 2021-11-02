@@ -10,8 +10,8 @@ namespace fragengine
 	 */
 	class FVDECLSPEC WireFrameState : public GlobalState {
 	public:
-		WireFrameState(void) = default;
-		virtual ~WireFrameState(void) = default;
+		WireFrameState() = default;
+		virtual ~WireFrameState() = default;
 
 		virtual int GetGlobalStateType() const { return WIREFRAME; }
 

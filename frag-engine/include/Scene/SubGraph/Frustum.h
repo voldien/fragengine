@@ -53,7 +53,7 @@ namespace fragengine {
 		 *	Get perspective matrix.
 		 *	@Return current matrix of the frustum.
 		 */
-		const Matrix4x4 &getPerspectiveMatrix(void) const;
+		const Matrix4x4 &getPerspectiveMatrix() const;
 
 		void setFov(float fov);
 
@@ -63,13 +63,13 @@ namespace fragengine {
 
 		void setRatio(float ratio);
 
-		float getFov(void) const;
+		float getFov() const;
 
-		float getNear(void) const;
+		float getNear() const;
 
-		float getFar(void) const;
+		float getFar() const;
 
-		float getRatio(void) const;
+		float getRatio() const;
 
 //    /**
 //     *	Get the n:th plane.
@@ -82,7 +82,7 @@ namespace fragengine {
 		/**
 		 *	Update camera matrix perspective.
 		 */
-		virtual void updatePerspective(void);
+		virtual void updatePerspective();
 
 		/**
 		 *	Comput the frustum planes.
@@ -131,7 +131,7 @@ namespace fragengine {
 
 	protected:    /*	Makes the object only inheritable .	*/
 
-		Frustum(void);
+		Frustum();
 		Frustum(const Frustum &other);
 
 	private:    /*	Attributes.	*/

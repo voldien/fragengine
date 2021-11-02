@@ -14,7 +14,7 @@ RenderPipelineForward::RenderPipelineForward(Ref<IRenderer> render) {
 
 }
 
-RenderPipelineForward::~RenderPipelineForward(void) {
+RenderPipelineForward::~RenderPipelineForward() {
 
 }
 
@@ -26,11 +26,11 @@ void RenderPipelineForward::setRenderer(Ref<IRenderer> &renderer) {
 
 }
 
-const Ref<IRenderer> &RenderPipelineForward::getRenderer(void) const {
+const Ref<IRenderer> &RenderPipelineForward::getRenderer() const {
 	return this->renderer;
 }
 
-Ref<IRenderer> RenderPipelineForward::getRenderer(void) {
+Ref<IRenderer> RenderPipelineForward::getRenderer() {
 	return Ref<IRenderer>();
 }
 
@@ -43,6 +43,6 @@ void RenderPipelineForward::drawCamera(Scene *scene, Camera *camera, IRenderer *
 
 }
 
-RenderQueue RenderPipelineForward::getSupportedQueue(void) const {
+RenderQueue RenderPipelineForward::getSupportedQueue() const {
 	return AlphaTest;
 }

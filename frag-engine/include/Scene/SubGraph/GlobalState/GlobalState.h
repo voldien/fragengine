@@ -21,11 +21,11 @@ namespace fragengine {
 			MAX_STATE   /*  */
 		};
 
-		virtual int getGlobalStateType(void) const = 0;
+		virtual int getGlobalStateType() const = 0;
 
 		static GlobalState *Default[MAX_STATE];
 	protected:
-		GlobalState(void) = default;
+		GlobalState() = default;
 	};
 } // namespace fragengine
 

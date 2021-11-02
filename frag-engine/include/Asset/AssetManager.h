@@ -36,14 +36,14 @@ namespace fragengine{
 		/**
 		 * 
 		 */
-		const char* getRootPath(void);
+		const char* getRootPath();
 
 
 		/**
 		 *
 		 * @return
 		 */
-		const std::vector<std::string> getSearchPaths(void) const;
+		const std::vector<std::string> getSearchPaths() const;
 
 	private:
 	};

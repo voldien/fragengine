@@ -7,10 +7,10 @@ namespace fragengine {
 
 	class FVDECLSPEC CullState : public GlobalState {
 	public:
-		CullState(void) = default;
-		virtual ~CullState(void) = default;
+		CullState() = default;
+		virtual ~CullState() = default;
 
-		virtual int GetGlobalStateType (void) const { return CULL; }
+		virtual int GetGlobalStateType () const { return CULL; }
 
 		enum // FrontType
 		{

@@ -47,7 +47,7 @@ namespace fragengine {
 
 	private:    /*	Prevent one from creating an instance of this class.	*/
 
-		SceneFactory(void);
+		SceneFactory();
 		SceneFactory(const SceneFactory &other);
 	};
 }

@@ -25,11 +25,11 @@ namespace fragcore{
      */
     class FVDECLSPEC KeyFrame {
     public:
-        KeyFrame(void);
+        KeyFrame();
         KeyFrame(const KeyFrame& keyframe);
         KeyFrame(float value,float time);
         KeyFrame(float value, float time, float tangentIn, float tangentOut);
-        ~KeyFrame(void);
+        ~KeyFrame();
 
         float getValue(float time);
     private:

@@ -11,7 +11,7 @@ namespace fragengine {
 	 */
 	class FVDECLSPEC Layer : public Object {
 	public:
-		Layer(void) {
+		Layer() {
 			this->index = 0;
 		}
 
@@ -23,7 +23,7 @@ namespace fragengine {
 			this->index = index;
 		}
 
-		unsigned int getIndex(void) const {
+		unsigned int getIndex() const {
 			return this->index;
 		}
 
@@ -35,11 +35,11 @@ namespace fragengine {
 			Object::setName(name);
 		}
 
-		std::string getName(void) override {
+		std::string getName() override {
 			return Object::getName();
 		}
 
-		std::string &getName(void) const override {
+		std::string &getName() const override {
 			//return getIndexByName(this->index);
 		}
 

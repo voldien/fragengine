@@ -4,7 +4,7 @@
 using namespace fragcore;
 using namespace fragengine;
 
-Frustum::Frustum(void) {
+Frustum::Frustum() {
 //	this->setObjectType(Object::eFrustum);
 	/*  Default frustum value.  */
 	this->Zfar = 1000.0f;
@@ -17,7 +17,7 @@ Frustum::Frustum(const Frustum &other) {
 	*this = other;
 }
 
-const Matrix4x4 &Frustum::getPerspectiveMatrix(void) const {
+const Matrix4x4 &Frustum::getPerspectiveMatrix() const {
 	return this->percmatrix;
 }
 
@@ -41,23 +41,23 @@ void Frustum::setRatio(float ratio) {
 	this->updatePerspective();
 }
 
-float Frustum::getFov(void) const {
+float Frustum::getFov() const {
 	return Math::radToDeg(this->fov);
 }
 
-float Frustum::getNear(void) const {
+float Frustum::getNear() const {
 	return this->Znear;
 }
 
-float Frustum::getFar(void) const {
+float Frustum::getFar() const {
 	return this->Zfar;
 }
 
-float Frustum::getRatio(void) const {
+float Frustum::getRatio() const {
 	return this->ratio;
 }
 
-void Frustum::updatePerspective(void) {
+void Frustum::updatePerspective() {
 	this->percmatrix = Matrix4x4::perspective(this->getFov(), this->getRatio(), this->getNear(), this->getFar());
 	const Transform &transform = this->local;
 

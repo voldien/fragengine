@@ -12,7 +12,7 @@ namespace fragengine {
 	 */
 	class FVDECLSPEC Transform {
 	public:
-		Transform(void);
+		Transform();
 		//Transform (const Quaternion &q, const Vector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		//Transform (const btMatrix3x3 &b, const btVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		Transform(const Transform &other);
@@ -23,15 +23,15 @@ namespace fragengine {
 
 		void setLocalPosition(const Vector3 &pos);
 
-		inline Vector3 getPosition(void) {
+		inline Vector3 getPosition() {
 			return this->pos;
 		}
 
-		inline const Vector3 &getPosition(void) const {
+		inline const Vector3 &getPosition() const {
 			return this->pos;
 		}
 
-		inline Vector3 getLocalPosition(void) const {
+		inline Vector3 getLocalPosition() const {
 			return Vector3();
 		}
 
@@ -39,11 +39,11 @@ namespace fragengine {
 
 		void setLocalScale(const Vector3 &scale);
 
-		inline Vector3 getScale(void) const {
+		inline Vector3 getScale() const {
 			return this->scale;
 		}
 
-		Vector3 getLocalScale(void) const {
+		Vector3 getLocalScale() const {
 			return Vector3();
 		}
 
@@ -51,29 +51,29 @@ namespace fragengine {
 
 		void setLocalRotation(const Quaternion &quat);
 
-		const Quaternion &getRotation(void) const;
+		const Quaternion &getRotation() const;
 
-		Quaternion getLocalRotation(void) const;
+		Quaternion getLocalRotation() const;
 
-		Matrix4x4 getMatrix(void) const;
+		Matrix4x4 getMatrix() const;
 
-		Matrix4x4 getLocalMatrix(void) const;
+		Matrix4x4 getLocalMatrix() const;
 
-		Matrix4x4 getViewMatrix(void) const;
+		Matrix4x4 getViewMatrix() const;
 
-		Matrix4x4 getViewLocalMatrix(void) const;
+		Matrix4x4 getViewLocalMatrix() const;
 
-		float getMinimumScale(void) const;
+		float getMinimumScale() const;
 
-		float getMaximumScale(void) const;
+		float getMaximumScale() const;
 
 		void setMinimumScale(float min);
 
 		void setMaximumScale(float max);
 
-		PVMatrix3x3 &getBasis(void);
+		PVMatrix3x3 &getBasis();
 
-		const PVMatrix3x3 &getBasis(void) const;
+		const PVMatrix3x3 &getBasis() const;
 
 		Transform &operator*=(const Transform &t);
 
@@ -89,7 +89,7 @@ namespace fragengine {
 
 	protected:  /*  Internal methods.   */
 
-		void updateModelMatrix(void);
+		void updateModelMatrix();
 
 	private:    /*	Attributes.	*/
 

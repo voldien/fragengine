@@ -3,7 +3,7 @@
 using namespace fragcore;
 using namespace fragengine;
 
-Transform::Transform(void)
+Transform::Transform()
 {
 	this->pos = Vector3(0.0f);
 	this->scale = Vector3(1.0f);
@@ -73,45 +73,45 @@ void Transform::setLocalRotation(const Quaternion &quat) {
 //	}
 }
 
-const Quaternion &Transform::getRotation(void) const {
+const Quaternion &Transform::getRotation() const {
 
 	return this->quat;
 }
 
-Quaternion Transform::getLocalRotation(void) const {
+Quaternion Transform::getLocalRotation() const {
 
 }
 
-Matrix4x4 Transform::getMatrix(void) const {
+Matrix4x4 Transform::getMatrix() const {
 	return Matrix4x4::translate(this->getPosition()) *
 	       Matrix4x4::rotate(this->getRotation()) *
 	       Matrix4x4::scale(this->getScale());
 }
 
-Matrix4x4 Transform::getLocalMatrix(void) const {
+Matrix4x4 Transform::getLocalMatrix() const {
 	return Matrix4x4::translate(this->getLocalPosition()) *
 	       Matrix4x4::rotate(this->getLocalRotation()) *
 	       Matrix4x4::scale(this->getLocalScale());
 }
 
-Matrix4x4 Transform::getViewMatrix(void) const {
+Matrix4x4 Transform::getViewMatrix() const {
 	/*  TODO resolve camera and non camerae view matrix.    */
 	return Matrix4x4::rotate(this->getRotation().conjugate()) *
 	       Matrix4x4::translate(-this->getPosition()) *
 	       Matrix4x4::scale(this->getScale());
 }
 
-Matrix4x4 Transform::getViewLocalMatrix(void) const {
+Matrix4x4 Transform::getViewLocalMatrix() const {
 	return Matrix4x4::translate(-this->getLocalPosition()) *
 	       Matrix4x4::rotate(this->getLocalRotation().conjugate()) *
 	       Matrix4x4::scale(-this->getLocalScale());
 }
 
-float Transform::getMinimumScale(void) const {
+float Transform::getMinimumScale() const {
 	return minScale;
 }
 
-float Transform::getMaximumScale(void) const {
+float Transform::getMaximumScale() const {
 	return maxScale;
 }
 
@@ -130,11 +130,11 @@ void Transform::setMaximumScale(float max) {
 	this->setScale(clampedScale);
 }
 
-//PVMatrix3x3 &Transform::getBasis(void) {
+//PVMatrix3x3 &Transform::getBasis() {
 //	return PVMatrix3x3();
 //}
 //
-//const PVMatrix3x3 &Transform::getBasis(void) const {
+//const PVMatrix3x3 &Transform::getBasis() const {
 //	return PVMatrix3x3();
 //}
 

@@ -48,12 +48,12 @@ namespace fragengine {
 
 		static void initSubSystem(SubSystem subsytem);
 
-		static void quit(void);
+		static void quit();
 
   		static void registerModule(Module& module);
 		static void unregisterModule(Module& module);
 
-		static const char* getVersion(void);
+		static const char* getVersion();
 
 		static RendererWindow* createWindow(IRenderer* renderer,
 								  const char* title, int x, int y, int width,
@@ -64,7 +64,7 @@ namespace fragengine {
 	   protected: /*	Engine attributes.	*/
 
 	   private : /*	Prevent one from creating an instance of this class.	*/
-		Engine(void);
+		Engine();
 		Engine(const Engine& other);
 
 	};

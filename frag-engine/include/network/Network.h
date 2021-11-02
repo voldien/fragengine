@@ -74,7 +74,7 @@ namespace fragengine
 		*
 		*	@Return non null pointer if successfully.
 		*/
-		static Connection* createBroadcastConnection(void);
+		static Connection* createBroadcastConnection();
 
 		/**
 		 *	Get connection from unique identifier.
@@ -96,20 +96,20 @@ namespace fragengine
 		/**
 		 *	Disconnect all connection.
 		*/
-		static void disconnectAll(void);
+		static void disconnectAll();
 
 		/**
 		 *	Get number of client connections.
 		*	@Return number of client connections.
 		*/
-		static unsigned int getNumClientConnections(void);
+		static unsigned int getNumClientConnections();
 
 
 		/**
 		 *
 		 *	@Return connection pointer.
 		*/
-		static Connection* allocateConnection(void);
+		static Connection* allocateConnection();
 
 
 	protected:	/*	Internal methods.	*/

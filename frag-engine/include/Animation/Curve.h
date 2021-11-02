@@ -27,13 +27,13 @@ namespace fragcore
 	 */
 	class FVDECLSPEC Curve : public Object{
 	public:
-		Curve(void);
-		~Curve(void);
+		Curve();
+		~Curve();
 
-		void release(void);
+		void release();
 		void addKey(const KeyFrame& keyFrame,int index = -1);
 		KeyFrame getKey(unsigned int  index)const;
-		int getKeyCount(void)const;
+		int getKeyCount()const;
 		void removeKey(unsigned int  index);
 
 		inline float linearInterpolation(unsigned int index,float time);
@@ -53,10 +53,10 @@ namespace fragcore
 
 		//--------------------------------------------------
 		/**/
-		//inline Transform* ELTAPIFASTENTRY transform(void){return CASTP(Transform*,this->pointer);}
+		//inline Transform* ELTAPIFASTENTRY transform(){return CASTP(Transform*,this->pointer);}
 		//--------------------------------------------------
 		/**/
-		//template<class T> INLINE T* ELTAPIFASTENTRY GetPointerType(Void){return CASTP(T*,this->pointer);}
+		//template<class T> INLINE T* ELTAPIFASTENTRY GetPointerType(){return CASTP(T*,this->pointer);}
 
 	};
 }

@@ -10,8 +10,8 @@ namespace fragengine {
 	 */
 	class FVDECLSPEC Application {
 	public:
-		static void focus(void);
-		static void unFocus(void);
+		static void focus();
+		static void unFocus();
 		static void quit(int status = 0);
 		static void captureScreenshot(const char* cfilename, float superSize);
 

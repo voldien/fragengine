@@ -1,5 +1,5 @@
 
-// void Engine::run(void) {
+// void Engine::run() {
 // 	SDL_Event event = {0};
 
 // 	/*	TODO relocate to camera.    */

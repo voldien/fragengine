@@ -31,17 +31,17 @@ namespace fragcore{
 
 	
 		static float getAxis(const char* opt);
-		static PVVector2 location(void);
+		static PVVector2 location();
 
 
-		static PVVector2 getDelta(void);
+		static PVVector2 getDelta();
 
 	
 		static bool isKeyDown(unsigned int key);
 
 	protected:	/*	Internal.	*/
 
-		static void internalUpdate(void);
+		static void internalUpdate();
 
 	};
 

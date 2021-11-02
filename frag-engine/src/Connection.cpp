@@ -9,7 +9,7 @@
 using namespace fragcore;
 using namespace fragengine;
 
-// Connection::Connection(void){
+// Connection::Connection(){
 // 	this->compression = eNoneCompression;
 // 	this->encryption = eNoneEncryption;
 // 	this->externalport = 0;
@@ -37,7 +37,7 @@ using namespace fragengine;
 // Connection::Connection(const Connection& other){
 // 	*this = other;
 // }
-// Connection::~Connection(void){
+// Connection::~Connection(){
 // 	free(this->encryptiontmpbuffer);
 // 	free(this->compresiontmpbuffer);
 
@@ -45,17 +45,17 @@ using namespace fragengine;
 // 	free( this->symetricenckey );
 // }
 
-// const char* Connection::getIP(void)const{
+// const char* Connection::getIP()const{
 // 	return this->IP;
 // }
-// const char* Connection::getExternalIP(void)const{
+// const char* Connection::getExternalIP()const{
 // 	return this->externIP;
 // }
 
-// unsigned int Connection::getPort(void)const{
+// unsigned int Connection::getPort()const{
 // 	return this->port;
 // }
-// unsigned int Connection::getExternalPort(void)const{
+// unsigned int Connection::getExternalPort()const{
 // 	return this->externalport;
 // }
 
@@ -63,7 +63,7 @@ using namespace fragengine;
 
 
 
-// unsigned int Connection::getUID(void)const{
+// unsigned int Connection::getUID()const{
 // 	return this->uid;
 // }
 
@@ -86,7 +86,7 @@ using namespace fragengine;
 // 		}
 // 	}
 // }
-// Connection::Compression Connection::getCompression(void)const{
+// Connection::Compression Connection::getCompression()const{
 // 	return this->compression;
 // }
 
@@ -115,12 +115,12 @@ using namespace fragengine;
 // 		}
 // 	}
 // }
-// Connection::Encryption Connection::getEncryption(void)const{
+// Connection::Encryption Connection::getEncryption()const{
 // 	return this->encryption;
 // }
 
 
-// int Connection::getTCPSocket(void)const{
+// int Connection::getTCPSocket()const{
 // 	return this->tcpsocket;
 // }
 // void Connection::setTCPSocket(int socket){
@@ -139,7 +139,7 @@ using namespace fragengine;
 // 	this->externalport = ntohs(addr.sin_port);
 // }
 
-// int Connection::getUDPSocket(void)const{
+// int Connection::getUDPSocket()const{
 // 	return this->udpsocket;
 // }
 // void Connection::setUDPSocket(int socket, const char* addrr, unsigned int port){

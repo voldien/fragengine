@@ -1,11 +1,10 @@
 #include "Engine.h"
 #include "FragCore.h"
-#include <Renderer/IRenderer.h>
-//#include<HpmCpp.h>
-#include <Renderer/RendererWindow.h>
-#include<hpmcpp/Hpm.hpp>
-#include <Utils/TextureUtil.h>
+#include <IRenderer.h>
+#include <RendererWindow.h>
+#include <TextureUtil.h>
 #include <getopt.h>
+#include <hpmcpp/Hpm.hpp>
 #include <signal.h>
 
 using namespace fragengine;
@@ -78,12 +77,12 @@ void Engine::initSubSystem(SubSystem subsytem) {
 	WindowManager::getInstance();
 }
 
-void Engine::quit(void) {}
+void Engine::quit() {}
 
 void Engine::registerModule(Module &module) {}
 void Engine::unregisterModule(Module &module) {}
 
-const char *Engine::getVersion(void) { return FV_VERSION; }
+const char *Engine::getVersion() { return FV_VERSION; }
 
 RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int x, int y, int width, int height) {
 	Display *display = WindowManager::getInstance()->getDisplay(0);
@@ -144,7 +143,7 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int
 	return window;
 }
 
-// SceneManager *Engine::getSceneManager(void) {
+// SceneManager *Engine::getSceneManager() {
 // 	return Engine::sceneManager;
 // }
 
@@ -159,6 +158,6 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int
 // config->get<const char*>("keymap")).c_str()));
 // }
 
-// Config *Engine::getConfig(void) {
+// Config *Engine::getConfig() {
 //     return Engine::config;
 // }

@@ -28,17 +28,17 @@ namespace fragengine {
 	 */
 	class FVDECLSPEC SceneManager {
 	public:
-		SceneManager(void);
+		SceneManager();
 
 		SceneManager(const SceneManager &scene);
 
-		~SceneManager(void);
+		~SceneManager();
 
 		/**
 		 *
 		 * @return
 		 */
-		Scene *getCurrentScene(void) const;
+		Scene *getCurrentScene() const;
 
 		/**
 		 *
@@ -64,13 +64,13 @@ namespace fragengine {
 		 *
 		 * @return
 		 */
-		Scene *getNextScene(void);
+		Scene *getNextScene();
 
 		/**
 		 *
 		 * @return
 		 */
-		Scene *getPreviousScene(void);
+		Scene *getPreviousScene();
 
 	private:
 		std::vector<Scene *> scenes;

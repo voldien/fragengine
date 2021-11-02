@@ -29,30 +29,30 @@ namespace fragengine {
 	 */
 	class FVDECLSPEC AnimationController : public Behavior {
 	public:
-		AnimationController(void);
+		AnimationController();
 		AnimationController(const AnimationController& animation);
-		~AnimationController(void);
+		~AnimationController();
 
-		virtual void instanceInitilize(void);
-		virtual void onEnable(void);
-		virtual void onDisable(void);
-		virtual void initializeComponent(void);
-		virtual void onDestroy(void);
+		virtual void instanceInitilize();
+		virtual void onEnable();
+		virtual void onDisable();
+		virtual void initializeComponent();
+		virtual void onDestroy();
 		virtual Behavior* copyComponent(unsigned int& dataSize);
 
-		int isPlay(void)const;
+		int isPlay()const;
 		int blend(AnimationClip* animationClip, float blendWeight = 1.0f);
 		int blend(std::string& animationClip);
 		void play(unsigned int clipIndex = 0);
 		void play(const char* animationClip);
-		void stop(void);
+		void stop();
 		void addClip(AnimationClip* animationClip);
 		AnimationClip* getClip(unsigned int index);
 		void removeClip(unsigned int Index);
 		void removeClip(const char* Name);
 
 
-		void internalUpdate(void);
+		void internalUpdate();
 
 	private:
 		float Time;

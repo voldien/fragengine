@@ -37,16 +37,16 @@ namespace fragengine {
 			eArea		= 0x4,	/*	*/
 		};
 
-		Light(void);
+		Light();
 
 		Light(const Light &other);
 
-		~Light(void);
+		~Light();
 
 
 		void setType(LightType);
 
-		LightType getType(void) const;
+		LightType getType() const;
 
 
 //	/**
@@ -54,16 +54,16 @@ namespace fragengine {
 //	 */
 //	void setColor(const Color &color);
 //
-//	Color getColor(void) const;
+//	Color getColor() const;
 //
 
 		void setIntensity(float intensity);
 
-		float getIntensity(void);
+		float getIntensity();
 
 		void setShadowStrength(float strength);
 
-		float getShadowStrength(void);
+		float getShadowStrength();
 
 		//shadowBias
 		//cullingMask
@@ -78,7 +78,7 @@ namespace fragengine {
 //	 *
 //	 * @return
 //	 */
-//	Matrix4x4 getShadowMatrix(void);
+//	Matrix4x4 getShadowMatrix();
 
 	private:    /*	Attributes.	*/
 

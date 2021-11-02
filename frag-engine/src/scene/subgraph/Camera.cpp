@@ -4,7 +4,7 @@
 using namespace fragcore;
 using namespace fragengine;
 
-Camera::Camera(void) : Frustum()
+Camera::Camera() : Frustum()
 {
 	//this->setObjectType(Object::eCamera);
 	this->clear = SkyBox;
@@ -16,11 +16,11 @@ Camera::Camera(const Camera &other)
 	*this = other;
 }
 
-Camera::~Camera(void)
+Camera::~Camera()
 {
 }
 
-Camera::ClearMode Camera::clearMask(void) const
+Camera::ClearMode Camera::clearMask() const
 {
 	return this->clear;
 }
@@ -35,12 +35,12 @@ void Camera::useHDR(bool use)
 	this->hdr = use;
 }
 
-bool Camera::useHDR(void) const
+bool Camera::useHDR() const
 {
 	return this->hdr;
 }
 
-Camera::ProjectionMode Camera::getProjection(void) const
+Camera::ProjectionMode Camera::getProjection() const
 {
 	return projection;
 }
@@ -55,7 +55,7 @@ void Camera::setRenderingPath(Ref<IRenderPipelineBase> &pipeline)
 	this->overrideRenderer = pipeline;
 }
 
-Ref<IRenderPipelineBase> Camera::getRenderingPath(void) const
+Ref<IRenderPipelineBase> Camera::getRenderingPath() const
 {
 	return this->overrideRenderer;
 }
@@ -65,7 +65,7 @@ Ref<IRenderPipelineBase> Camera::getRenderingPath(void) const
 // 	this->target = target;
 // }
 
-// FrameBufferObject *Camera::getRenderTarget(void) const
+// FrameBufferObject *Camera::getRenderTarget() const
 // {
 // 	return this->target;
 // }

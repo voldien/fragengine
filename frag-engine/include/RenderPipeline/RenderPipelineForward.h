@@ -35,9 +35,9 @@ namespace fragengine {
 
 		void setRenderer(Ref<IRenderer> &renderer) override;
 
-		const Ref<IRenderer> &getRenderer(void) const override;
+		const Ref<IRenderer> &getRenderer() const override;
 
-		Ref<IRenderer> getRenderer(void) override;
+		Ref<IRenderer> getRenderer() override;
 
 		void setViewport(int width, int height, IRenderer *render) override;
 
@@ -47,7 +47,7 @@ namespace fragengine {
 //	 */
 //	virtual void drawCamera(Scene * scene,
 //	                        Camera * camera,
-		RenderQueue getSupportedQueue(void) const override;
+		RenderQueue getSupportedQueue() const override;
 
 		void drawCamera(Scene *scene, Camera *camera, IRenderer *render) override;
 //	                        IRenderer * render);
@@ -65,7 +65,7 @@ namespace fragengine {
 
 		RenderPipelineForward(Ref<IRenderer> render);
 
-		virtual ~RenderPipelineForward(void);
+		virtual ~RenderPipelineForward();
 
 	protected:    /*	Prevent one from creating an instance of this class.	*/
 

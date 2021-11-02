@@ -93,7 +93,7 @@ namespace fragengine {
 		/**
 		 *
 		 */
-		//virtual void sortDrawQueues(void);
+		//virtual void sortDrawQueues();
 //
 //	/**
 //	 * Draw shadow elements inside camera
@@ -136,7 +136,7 @@ namespace fragengine {
 //	 *	Get main render target.
 //	 *	@Return non-null render target.
 //	 */
-//	inline FrameBufferObject* getRenderTarget(void){
+//	inline FrameBufferObject* getRenderTarget(){
 //		return this->renderTarget;
 //	}
 //
@@ -144,7 +144,7 @@ namespace fragengine {
 //	 *
 //	 * @return
 //	 */
-//	inline PipelineQualitySettings* getQuality(void){
+//	inline PipelineQualitySettings* getQuality(){
 //		return this->qualitySettings;
 //	}
 //
@@ -154,7 +154,7 @@ namespace fragengine {
 //protected:
 //
 //	RenderPipelineBase(IRenderer* renderer);
-//	virtual ~RenderPipelineBase(void);
+//	virtual ~RenderPipelineBase();
 //
 //protected:	/*	Prevent one from creating an instance of this class.	*/
 //
