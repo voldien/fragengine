@@ -4,9 +4,11 @@
 #include "../Prerequisites.h"
 #include "../Scene/SubGraph/Transform.h"
 #include "IRenderPipelineBase.h"
+#include <Core/Color.h>
+#include <Core/dataStructure/AABB.h>
 #include <Core/dataStructure/Queue.h>
 #include <FragCore.h>
-#include <Renderer/Prerequisites.h>
+#include <RenderPrerequisites.h>
 #include <fragcore/Def.h>
 
 namespace fragengine {
@@ -44,56 +46,56 @@ namespace fragengine {
 		virtual void addTriangle(const Vector3 &a, const Vector3 &b, const Vector3 &c, float duration = 0.0f,
 								 bool depthEnabled = true);
 
-		virtual void addAABB(const PVAABB &aabb, const Color &color, float duration = 0.0f, bool depthEnabled = true);
+		virtual void addAABB(const AABB &aabb, const Color &color, float duration = 0.0f, bool depthEnabled = true);
 
-		virtual void addOBB(const PVOBB &obb, const Color &color, float duration = 0.0f, bool depthEnabled = true);
+		virtual void addOBB(const OBB &obb, const Color &color, float duration = 0.0f, bool depthEnabled = true);
 		virtual void addString(const Vector3 &a, const std::string &text, float duration = 0.0f,
 							   bool depthEnabled = true);
 
 	  private:
-		enum DrawType { LINE, CROSS, SPHERE, CIRCLE, AXES, TRIANGLE, AABB, OBB, STRING };
+		enum class DrawType { LINE, CROSS, SPHERE, CIRCLE, AXES, TRIANGLE, AABB, OBB, STRING };
 
 		typedef struct DebugDrawCommand_t {
 			DrawType type;		 /*  */
 			bool depthEnabled;	 /*  */
 			float timeRemaining; /*  */
 			float invokeTime;	 /*  */
-			hpmvec4f color;		 /*	Common Color attribute.	*/
+			Color color;		 /*	Common Color attribute.	*/
 			union Command {
 				struct {
-					hpmvec3f start;
-					hpmvec3f end;
+					fvvec4f start;
+					fvvec4f end;
 				} line;
 
 				struct {
-					hpmvec3f pos;
+					fvvec4f pos;
 				} cross;
 
 				struct {
-					hpmvec3f pos;
+					fvvec4f pos;
 				} sphere;
 
 				struct {
-					hpmvec3f pos;
+					fvvec4f pos;
 				} cirlcle;
 
 				struct {
-					hpmvec3f pos;
+					fvvec4f pos;
 				} axes;
 
 				struct {
-					hpmvec3f a, b, c;
+					fvvec4f a, b, c;
 				} triangle;
 
 				struct {
-					hpmvec3f pos;
+					fvvec4f pos;
 				} aabb;
 
 				struct {
-					hpmvec3f a, b, c;
+					fvvec4f a, b, c;
 				} obb;
 				struct {
-					hpmvec3f pos;
+					fvvec4f pos;
 					int textIndex;
 				} string;
 			};
@@ -102,7 +104,7 @@ namespace fragengine {
 		} DebugDrawCommand;
 
 		/*  TODO perhaps multiple queus based on the command such as depth for creating sorted command list.    */
-		std::map<int, Queue<DebugDrawCommand>> commands; /*  */
+		std::map<DrawType, Queue<DebugDrawCommand>> commands; /*  */
 		Ref<Mesh> debugGeometry;	   /*  Geometry of the debug objects. - multiple sub geometries.   */
 		std::vector<int> geomtryIndex; /*	*/
 		Ref<Shader> debug;

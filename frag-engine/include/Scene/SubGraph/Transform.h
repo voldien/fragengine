@@ -71,9 +71,9 @@ namespace fragengine {
 
 		void setMaximumScale(float max);
 
-		PVMatrix3x3 &getBasis();
+		Matrix3x3 &getBasis();
 
-		const PVMatrix3x3 &getBasis() const;
+		const Matrix3x3 &getBasis() const;
 
 		Transform &operator*=(const Transform &t);
 

@@ -63,6 +63,7 @@ SET(PROJECT_VERSION "${VERSION}")
 # Set predefined macro for version.
 ADD_DEFINITIONS(-DFE_VERSION="${VERSION}")
 
+
 IF(NOT FRAG_IGNORE_GIT_HASH)
   # Get the current working branch
   EXECUTE_PROCESS(
@@ -288,27 +289,7 @@ IF( UNIX )
 	
 	IF(GLSLLANGVALIDATOR)
 		MESSAGE(STATUS "glslangValidator found: ${GLSLLANGVALIDATOR}")
-		#TODO add for all shaders.
-		# ADD_CUSTOM_TARGET(samples-spirv
-		# 		COMMENT "Creating spirv shader from the display shader.")
-		# #ADD_DEPENDENCIES(fragview samples-spirv)
-		# FOREACH(glslFile ${SAMPLE_GLSL_FILES})
-		# 	MESSAGE(STATUS ${glslFile} )
-		# 	ADD_CUSTOM_COMMAND(TARGET samples-spirv PRE_BUILD
-		# 			COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0
-		# 			-u:time:10 -G450 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/samples/spirv/)
-		# ENDFOREACH()
-
-		# # Create default shader
-		# ADD_CUSTOM_TARGET(display-spirv
-		# 		COMMENT "Creating spirv shader from the display shader.")
-		# #ADD_DEPENDENCIES(fragview display-spirv)
-		# FOREACH(glslFile ${SAMPLE_SHADER_GLSL_FILES})
-		# 	ADD_CUSTOM_COMMAND(TARGET display-spirv PRE_BUILD
-		# 			COMMAND glslangValidator --entry-point main --auto-map-bindings --auto-map-locations --uniform-base 0 -G -d
-		# 			-u:time:10 ${glslFile} -o ${CMAKE_CURRENT_SOURCE_DIR}/)
-		# ENDFOREACH()
-
+	
 	ELSE()
 		MESSAGE(WARNING "Could not find the glslangValidator program for creating spirv shaders.")
 	ENDIF()

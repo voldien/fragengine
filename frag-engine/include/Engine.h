@@ -18,9 +18,10 @@
 */
 #ifndef _FRAG_ENGINE_ENGINE_H_
 #define _FRAG_ENGINE_ENGINE_H_ 1
-#include<FragCore.h>
-#include<Core/SmartReference.h>
-#include<Core/Singleton.h>
+#include <Core/Singleton.h>
+#include <Core/SmartReference.h>
+#include <FragCore.h>
+#include <RenderPrerequisites.h>
 
 namespace fragengine {
 	using namespace fragcore;
@@ -28,9 +29,8 @@ namespace fragengine {
 	 *	Engine class. Responsible for
 	 *	combining each component.
 	 */
-	class FVDECLSPEC Engine : public Singleton<Engine> {//TODO determine if shall use singleton.
-	public:
-
+	class FVDECLSPEC Engine : public Singleton<Engine> { // TODO determine if shall use singleton.
+	  public:
 		enum SubSystem {
 			ALL = 0,
 		};
@@ -43,30 +43,26 @@ namespace fragengine {
 		 * @param physicinterface
 		 * @param config
 		 */
-		static void init(int argc,
-				const char** argv, SubSystem subsystems);
+		static void init(int argc, const char **argv, SubSystem subsystems);
 
 		static void initSubSystem(SubSystem subsytem);
 
 		static void quit();
 
-  		static void registerModule(Module& module);
-		static void unregisterModule(Module& module);
+		static void registerModule(Module &module);
+		static void unregisterModule(Module &module);
 
-		static const char* getVersion();
+		static const char *getVersion();
 
-		static RendererWindow* createWindow(IRenderer* renderer,
-								  const char* title, int x, int y, int width,
-								  int height);
+		static RendererWindow *createWindow(IRenderer *renderer, const char *title, int x, int y, int width,
+											int height);
 
-		//TODO add event registers.
+		// TODO add event registers.
 
-	   protected: /*	Engine attributes.	*/
-
-	   private : /*	Prevent one from creating an instance of this class.	*/
+	  protected: /*	Engine attributes.	*/
+	  private:	 /*	Prevent one from creating an instance of this class.	*/
 		Engine();
-		Engine(const Engine& other);
-
+		Engine(const Engine &other);
 	};
-}
+} // namespace fragengine
 #endif

@@ -1,11 +1,11 @@
-#include"Scene/SubGraph/Frustum.h"
-#include"Core/Math.h"
+#include "Scene/SubGraph/Frustum.h"
+#include "Core/Math.h"
 
 using namespace fragcore;
 using namespace fragengine;
 
 Frustum::Frustum() {
-//	this->setObjectType(Object::eFrustum);
+	//	this->setObjectType(Object::eFrustum);
 	/*  Default frustum value.  */
 	this->Zfar = 1000.0f;
 	this->Znear = 0.15f;
@@ -13,13 +13,10 @@ Frustum::Frustum() {
 	this->setFov(70.0f);
 }
 
-Frustum::Frustum(const Frustum &other) {
-	*this = other;
+Frustum::Frustum(const Frustum &other) { /**this = other;*/
 }
 
-const Matrix4x4 &Frustum::getPerspectiveMatrix() const {
-	return this->percmatrix;
-}
+const Matrix4x4 &Frustum::getPerspectiveMatrix() const { return this->percmatrix; }
 
 void Frustum::setFov(float fov) {
 	this->fov = Math::deg2Rad(fov);
@@ -41,34 +38,25 @@ void Frustum::setRatio(float ratio) {
 	this->updatePerspective();
 }
 
-float Frustum::getFov() const {
-	return Math::radToDeg(this->fov);
-}
+float Frustum::getFov() const { return Math::radToDeg(this->fov); }
 
-float Frustum::getNear() const {
-	return this->Znear;
-}
+float Frustum::getNear() const { return this->Znear; }
 
-float Frustum::getFar() const {
-	return this->Zfar;
-}
+float Frustum::getFar() const { return this->Zfar; }
 
-float Frustum::getRatio() const {
-	return this->ratio;
-}
+float Frustum::getRatio() const { return this->ratio; }
 
 void Frustum::updatePerspective() {
-	this->percmatrix = Matrix4x4::perspective(this->getFov(), this->getRatio(), this->getNear(), this->getFar());
+	// this->percmatrix = Matrix4x4::perspective(this->getFov(), this->getRatio(), this->getNear(), this->getFar());
 	const Transform &transform = this->local;
 
 	/*	*/
-	calcFrustumPlanes(transform.getPosition(), transform.getRotation().getVector(),
-	                  transform.getRotation().getVector(Vector3::up()),
-	                  transform.getRotation().getVector(Vector3::right()));
+	// calcFrustumPlanes(transform.getPosition(), transform.getRotation().getVector(),
+	//                   transform.getRotation().getVector(Vector3::up()),
+	//                   transform.getRotation().getVector(Vector3::right()));
 }
 
-void Frustum::calcFrustumPlanes(const Vector3 &position, const Vector3 &look, const Vector3 &up,
-                                const Vector3 &right) {
+void Frustum::calcFrustumPlanes(const Vector3 &position, const Vector3 &look, const Vector3 &up, const Vector3 &right) {
 	Vector3 dir, nc, fc, X, Y, Z;
 
 	planes[NEARP].setNormalAndPoint(-Z, nc);
@@ -78,25 +66,24 @@ void Frustum::calcFrustumPlanes(const Vector3 &position, const Vector3 &look, co
 
 	aux = (nc + Y * nh) - position;
 	aux.normalize();
-	normal = aux * X;
+	normal = aux.cross(X);
 	planes[TOPP].setNormalAndPoint(normal, nc + Y * nh);
 
 	aux = (nc - Y * nh) - position;
 	aux.normalize();
-	normal = X * aux;
+	normal = X.cross(aux);
 	planes[BOTTOMP].setNormalAndPoint(normal, nc - Y * nh);
 
 	aux = (nc - X * nw) - position;
 	aux.normalize();
-	normal = aux * Y;
+	normal = aux.cross(Y);
 	planes[LEFTP].setNormalAndPoint(normal, nc - X * nw);
 
 	aux = (nc + X * nw) - position;
 	aux.normalize();
-	normal = Y * aux;
+	normal = Y.cross(aux);
 	planes[RIGHTP].setNormalAndPoint(normal, nc + X * nw);
 }
-
 
 Frustum::Intersection Frustum::checkPoint(const Vector3 &pos) const {
 	int x;
@@ -152,21 +139,10 @@ Frustum::Intersection Frustum::intersectionAABB(const AABB &bounds) {
 Frustum::Intersection Frustum::intersectionOBB(const Vector3 &u, const Vector3 &v, const Vector3 &w) {}
 Frustum::Intersection Frustum::intersectionOBB(const OBB &obb) {}
 
-Frustum::Intersection Frustum::intersectionSphere(const Vector3 &pos, float radius) const {
-	return Out;
-}
+Frustum::Intersection Frustum::intersectionSphere(const Vector3 &pos, float radius) const { return Out; }
 
-Frustum::Intersection Frustum::intersectionSphere(const PVBoundingSphere &sphere) const {
-	return Out;
-}
+Frustum::Intersection Frustum::intersectionSphere(const BoundingSphere &sphere) const { return Out; }
 
+Frustum::Intersection Frustum::intersectPlane(const Plane &plane) const { return In; }
 
-Frustum::Intersection Frustum::intersectPlane(const PVPlane &plane) const {
-	return In;
-}
-
-Frustum::Intersection Frustum::intersectionFrustum(const Frustum &frustum) const {
-	return In;
-}
-
-
+Frustum::Intersection Frustum::intersectionFrustum(const Frustum &frustum) const { return In; }

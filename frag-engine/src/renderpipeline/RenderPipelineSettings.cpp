@@ -1,11 +1,11 @@
 #include"RenderPipeline/RenderPipelineSettings.h"
 
-#include <Renderer/Buffer.h>
-#include <Renderer/ViewPort.h>
-#include <Renderer/FrameBuffer.h>
-#include <Renderer/Query.h>
+#include <Buffer.h>
+#include <ViewPort.h>
+#include <FrameBuffer.h>
+#include <Query.h>
 //#include <Renderer/ProgramPipeline.h>
-#include <Renderer/Sync.h>
+#include <Sync.h>
 
 using namespace fragcore;
 

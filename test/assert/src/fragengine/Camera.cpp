@@ -1,13 +1,11 @@
-#include<Scene/SubGraph/Camera.h>
-#include<Core/Math.h>
-#include<gtest/gtest.h>
+#include <Core/Math.h>
+#include <Scene/SubGraph/Camera.h>
+#include <gtest/gtest.h>
 
 using namespace fragcore;
 using namespace fragengine;
 
-TEST(Camera, Frustum_Create_No_Throw) {
-	ASSERT_NO_THROW(Camera());
-}
+TEST(Camera, Frustum_Create_No_Throw) { ASSERT_NO_THROW(Camera()); }
 
 TEST(Camera, Frustum_Set_Fov_Calucated_Correctly) {
 
@@ -24,38 +22,38 @@ TEST(Camera, Frustum_Calculate_Frustum_Intersection) {
 
 TEST(Camera, Frustum_Calculate_Point_Frustum_Intersection_No_Throw) {
 	Camera camera;
-	ASSERT_NO_THROW(camera.checkPoint(Vector3::zero()));
+	ASSERT_NO_THROW(camera.checkPoint(Vector3::Zero()));
 }
 
 TEST(Camera, Frustum_Calculate_Point_Frustum_Intersection_Intersection) {
 	Camera camera;
-	ASSERT_NO_THROW(camera.checkPoint(Vector3::zero()));
+	ASSERT_NO_THROW(camera.checkPoint(Vector3::Zero()));
 }
 
 TEST(Camera, Frustum_Calculate_Point_Frustum_Intersection_Outside) {
 	Camera camera;
-	ASSERT_NO_THROW(camera.checkPoint(Vector3::zero()));
+	ASSERT_NO_THROW(camera.checkPoint(Vector3::Zero()));
 }
 
-TEST(Camera, Frustum_Calculate_AABB_Frustum_Intersection_Inside){
+TEST(Camera, Frustum_Calculate_AABB_Frustum_Intersection_Inside) {
 	Camera camera;
 	AABB aabb;
 	ASSERT_EQ(camera.intersectionAABB(aabb), Frustum::In);
 }
 
 TEST(Camera, Frustum_Calculate_Sphere_Frustum_Intersection_Outside) {
-    Camera camera;
-    PVBoundingSphere spb;
-    ASSERT_EQ(camera.intersectionSphere(spb), Frustum::Out);
+	Camera camera;
+	BoundingSphere spb;
+	ASSERT_EQ(camera.intersectionSphere(spb), Frustum::Out);
 }
 TEST(Camera, Frustum_Calculate_Sphere_Frustum_Intersection_Intersect) {
-    Camera camera;
-    PVBoundingSphere spb;
-    ASSERT_EQ(camera.intersectionSphere(spb), Frustum::Intersect);
+	Camera camera;
+	BoundingSphere spb;
+	ASSERT_EQ(camera.intersectionSphere(spb), Frustum::Intersect);
 }
 
 TEST(Camera, Frustum_Calculate_Sphere_Frustum_Intersection_Inside) {
 	Camera camera;
-	PVBoundingSphere spb;
+	BoundingSphere spb;
 	ASSERT_EQ(camera.intersectionSphere(spb), Frustum::In);
 }

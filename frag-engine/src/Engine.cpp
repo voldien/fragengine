@@ -1,10 +1,8 @@
 #include "Engine.h"
-#include "FragCore.h"
+#include <FragCore.h>
 #include <IRenderer.h>
 #include <RendererWindow.h>
 #include <TextureUtil.h>
-#include <getopt.h>
-#include <hpmcpp/Hpm.hpp>
 #include <signal.h>
 
 using namespace fragengine;
@@ -73,7 +71,7 @@ void Engine::init(int argc, const char **argv, SubSystem subsytem) {
 }
 
 void Engine::initSubSystem(SubSystem subsytem) {
-	LIBHPM::Hpm::init(LIBHPM::Hpm::eHPM_DEFAULT);
+	// LIBHPM::Hpm::init(LIBHPM::Hpm::eHPM_DEFAULT);
 	WindowManager::getInstance();
 }
 
@@ -125,7 +123,7 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int
 		try {
 			// TODO extract IO status.
 			fileSystem->asyncWait(iconHandle);
-			ASync::IOStatus status = fileSystem->getIOStatus(iconHandle);
+			ASyncIO::IOStatus status = fileSystem->getIOStatus(iconHandle);
 			fileSystem->asyncClose(iconHandle);
 
 			void *icon = TextureUtil::loadTextureData(iconBuffer, status.nbytes, &iconw, &iconh);

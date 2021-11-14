@@ -138,7 +138,7 @@ ENDIF()
 
 
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/extern/fragcore EXCLUDE_FROM_ALL)
-ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/extern/fragcore/modules/renderer EXCLUDE_FROM_ALL)
+#ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/extern/fragcore/modules/renderer EXCLUDE_FROM_ALL)
 
 IF(BUILTIN_JEMALLOC)
 	#https://github.com/jemalloc/jemalloc.git

@@ -1,5 +1,5 @@
 /**
- * 
+ *
 	Copyright (C) 2020  Valdemar Lindberg
 
 	This program is free software: you can redistribute it and/or modify
@@ -34,13 +34,12 @@ namespace fragengine {
 	class Frustum;
 	class Light;
 
-
 	class IRenderPipelineBase;
 	class RenderPipelineBase;
 	class Mesh;
 	class MeshFilter;
 	class ParticleSystem;
 	class Renderer;
-}
+} // namespace fragengine
 
 #endif

@@ -1,15 +1,14 @@
 #ifndef _FRAG_EDITOR_RENDERERWINDOW_H_
 #define _FRAG_EDITOR_RENDERERWINDOW_H_ 1
-#include <Renderer/RendererWindow.h>
 #include "EditorWindow.h"
+#include <RendererWindow.h>
 
 namespace frageditor {
 	/**
 	 *
 	 */
-	class FVDECLSPEC EditorRendererWindow : public fragcore::RendererWindow, public EditorWindow
-	{
-	public:
+	class FVDECLSPEC EditorRendererWindow : public fragcore::RendererWindow, public EditorWindow {
+	  public:
 		void show(void) override;
 
 		void hide(void) override;
@@ -40,15 +39,14 @@ namespace frageditor {
 
 		const char *getTitle(void) const override;
 
-	protected:
+	  protected:
 		void createWindow(int x, int y, int width, int height, const char *api) override;
 
 		void useWindow(void *data) override;
 
-	protected:
+	  protected:
 		bool assertConfigAttributes(const fragcore::IConfig *iConfig) override;
 	};
-}
-
+} // namespace frageditor
 
 #endif

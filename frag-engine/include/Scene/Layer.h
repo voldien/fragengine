@@ -31,15 +31,11 @@ namespace fragengine {
 			this->index = index;
 		}
 
-		void setName(const std::string &name) override {
-			Object::setName(name);
-		}
+		void setName(const std::string &name) noexcept override { Object::setName(name); }
 
-		std::string getName() override {
-			return Object::getName();
-		}
+		std::string getName() noexcept override { return Object::getName(); }
 
-		std::string &getName() const override {
+		std::string &getName() const noexcept override {
 			//return getIndexByName(this->index);
 		}
 
