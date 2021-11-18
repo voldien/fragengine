@@ -20,26 +20,26 @@ namespace frageditor {
 	public:
 		EditorWindow();
 
-		void show(void) override;
+		void show() override;
 
-		void hide(void) override;
+		void hide() override;
 
-		void close(void) override;
+		void close() override;
 
-		void focus(void) override;
+		void focus() override;
 
-		void restore(void) override;
+		void restore() override;
 
-		void maximize(void) override;
+		void maximize() override;
 
-		void minimize(void) override;
-		void setParent(void);
+		void minimize() override;
+		void setParent();
 
-		void setTitle(const char *title) override;
+		void setTitle(const std::string& title) override;
 
 		void resizable(bool resizable) override;
 
-		const char *getTitle(void) const override;
+		std::string getTitle() const override;
 
 		void getPosition(int *x, int *y) const override;
 
@@ -51,16 +51,16 @@ namespace frageditor {
 
 		void setIcon(void *pVoid) override;
 
-		void *getIcon(void) const override;
+		void *getIcon() const override;
 
-		fragcore::Display* getCurrentDisplay(void) const override;
+		fragcore::Display* getCurrentDisplay() const override;
 
 		void AddWidget(Widget *widget);
 
 		void setFullScreen(bool fullscreen) override;
 		virtual void setFullScreen(fragcore::Display &display);
 
-		bool isFullScreen(void) const;
+		bool isFullScreen() const;
 
 		void setBordered(bool borded) override;
 
@@ -70,11 +70,11 @@ namespace frageditor {
 		void setMaximumSize(int width, int height) override;
 		virtual void getMaximumSize(int *width, int *height);
 
-		float getGamma(void) const override;
+		float getGamma() const override;
 
 		void setGamma(float gamma) override;
 
-		intptr_t getNativePtr(void) const override;
+		intptr_t getNativePtr() const override;
 
 	private:
 	#if defined(FRAG_GTK_WINDOW_MANAGER)

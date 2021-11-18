@@ -8,11 +8,11 @@
  */
 class FVDECLSPEC GTKRendererWindow : public fragcore::RendererWindow, public EditorWindow {
 public:
-	void showWindow(void) override;
+	void showWindow() override;
 
-	void hideWindow(void) override;
+	void hideWindow() override;
 
-	void swapBuffer(void) override;
+	void swapBuffer() override;
 
 	void getPosition(int *x, int *y) const override;
 
@@ -24,19 +24,19 @@ public:
 
 	void vsync(bool state) override;
 
-	fragcore::Display* getCurrentDisplay(void) const override;
+	fragcore::Display* getCurrentDisplay() const override;
 
-	float getGamma(void) const override;
+	float getGamma() const override;
 
 	void setGamma(float gamma) override;
 
-	void closeWindow(void) override;
+	void closeWindow() override;
 
 	void setTitle(const char *title) override;
 
 	void resizable(bool resizable) override;
 
-	const char *getTitle(void) const override;
+	const char *getTitle() const override;
 
 protected:
 	void createWindow(int x, int y, int width, int height, const char *api) override;

@@ -31,7 +31,7 @@
  //TODO move to the client later.
 class FVDECLSPEC EditorConfig : public fragcore::IConfig {
 public:
-	~EditorConfig(void);
+	~EditorConfig();
 
 private:	/*	Internal methods.	*/
 
@@ -43,17 +43,17 @@ private:	/*	Internal methods.	*/
 	 */
 	virtual void parseGetOpt(int argc, const char** argv);
 
-    IConfig *getSuperInstance(void);
+    IConfig *getSuperInstance();
 
 	/**
 	 *	Set default configuration options
 	 *	for this application.
 	 */
-	virtual void setDefaultOption(void);
+	virtual void setDefaultOption();
 
 private:	/*	*/
 
-	Config(void);
+	Config();
 	Config(const Config& other);
 
 public:	/*	Static factory methods.	*/

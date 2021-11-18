@@ -6,7 +6,7 @@
 class FVDECLSPEC Widget : public fragcore::SmartReference
 {
 public:
-	Widget(void);
+	Widget();
 };
 
 #endif

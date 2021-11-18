@@ -16,16 +16,16 @@ EditorWindow::EditorWindow()
 	//QDialog
 }
 
-void EditorWindow::show(void) {
+void EditorWindow::show() {
 
 	((QMainWindow *)this->window)->show();
 }
 
-void EditorWindow::hide(void) {
+void EditorWindow::hide() {
 	((QMainWindow *)this->window)->hide();
 }
 
-void EditorWindow::close(void) {
+void EditorWindow::close() {
 	((QMainWindow *)this->window)->close();
 }
 
@@ -35,7 +35,7 @@ void EditorWindow::setTitle(const char *title){
 
 // ((QWindow *)this->window)
 // 	->setParent
-const char *EditorWindow::getTitle(void) const
+const char *EditorWindow::getTitle() const
 {
 	return nullptr;
 }
@@ -61,15 +61,15 @@ void EditorWindow::setIcon(void *pVoid) {
 
 }
 
-void *EditorWindow::getIcon(void) const {
+void *EditorWindow::getIcon() const {
 	return NULL;
 }
 
-fragcore::Display* EditorWindow::getCurrentDisplay(void) const {
+fragcore::Display* EditorWindow::getCurrentDisplay() const {
 	return NULL;
 }
 
-float EditorWindow::getGamma(void) const {
+float EditorWindow::getGamma() const {
 	return 0;
 }
 
@@ -88,7 +88,7 @@ void EditorWindow::setFullScreen(fragcore::Display &display){
 	
 }
 
-bool EditorWindow::isFullScreen(void) const{
+bool EditorWindow::isFullScreen() const{
 	
 }
 
@@ -110,22 +110,22 @@ void EditorWindow::getMaximumSize(int *width, int *height) {
 
 }
 
-void EditorWindow::focus(void) {
+void EditorWindow::focus() {
 	
 }
 
-void EditorWindow::restore(void) {
+void EditorWindow::restore() {
 
 }
 
-void EditorWindow::maximize(void) {
+void EditorWindow::maximize() {
 
 }
 
-void EditorWindow::minimize(void) {
+void EditorWindow::minimize() {
 
 }
 
-intptr_t EditorWindow::getNativePtr(void) const {
+intptr_t EditorWindow::getNativePtr() const {
 	return 0;
 }

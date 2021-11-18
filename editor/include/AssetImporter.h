@@ -34,7 +34,7 @@ namespace frageditor{
 				RenderingInterface* renderinginerface,
 				PhysicInterface* physicinterface);
 		AssetImporter(const AssetImporter& other);
-		~AssetImporter(void);
+		~AssetImporter();
 
 		/**
 		 *	Load texture from storage.
@@ -98,7 +98,7 @@ namespace frageditor{
 			this->physicinterface = interface;
 		}
 
-		inline Scene* getScene(void){
+		inline Scene* getScene(){
 			return this->scene;
 		}
 
@@ -110,7 +110,7 @@ namespace frageditor{
 
 	private:	/*	Prevent one from creating an instance of this class.	*/
 
-		AssetImporter(void);
+		AssetImporter();
 
 	public:	/*	Static methods.	*/
 

@@ -32,10 +32,10 @@ namespace frageditor {
 	class FVDECLSPEC FragEditor {
 	  public:
 		FragEditor(SplashWindow *splashWindow, int argc, const char **argv);
-		void run(void);
+		void run();
 
 	  protected:
-		void init(void);
+		void init();
 
 	  private:
 		EditorWindow *root;

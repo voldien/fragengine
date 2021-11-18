@@ -11,9 +11,9 @@
 class IShaderNode {
 public:
 
-	std::vector<ShaderEdge*> getEdges(void);
+	std::vector<ShaderEdge*> getEdges();
 
-	int getNrChildren(void) const;
+	int getNrChildren() const;
 	IShaderNode* getChild(int index);
 
 	void addChild(IShaderNode *pNode) {

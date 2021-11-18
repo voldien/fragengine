@@ -20,7 +20,7 @@
 
 // using namespace Assimp;
 
-// AssetImporter::AssetImporter(void){
+// AssetImporter::AssetImporter(){
 // 	this->scene = NULL;
 // 	this->physicinterface = NULL;
 // 	this->renderinterface = NULL;
@@ -38,7 +38,7 @@
 // 	this->setRenderInterface(renderinginerface);
 // }
 
-// AssetImporter::~AssetImporter(void){
+// AssetImporter::~AssetImporter(){
 
 // }
 

@@ -2,7 +2,7 @@
 
 using namespace frageditor;
 
-void EditorRendererWindow::swapBuffer(void) {
+void EditorRendererWindow::swapBuffer() {
 
 }
 void EditorRendererWindow::vsync(bool state) {

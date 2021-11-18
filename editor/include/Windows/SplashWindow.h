@@ -8,7 +8,7 @@ namespace frageditor{
 	{
 	public:
 		SplashWindow(const char* imagePath);
-		~SplashWindow(void);
+		~SplashWindow();
 
 		void setText(const char* text);
 	private:

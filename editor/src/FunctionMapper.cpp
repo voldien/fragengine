@@ -26,7 +26,7 @@
 
 
 // /*	*/
-// static int createScene(void);
+// static int createScene();
 // static int scene0(Scene* scene, const Command& command);
 // static int scene1(Scene* scene, const Command& command);
 // static int scene2(Scene* scene, const Command& command);

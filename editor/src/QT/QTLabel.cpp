@@ -1,7 +1,7 @@
 #include"Windows/Label.h"
 #include<QLabel>
 
-Label::Label(void){
+Label::Label(){
 	QLabel* label = new QLabel("");
 	label->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 	label->setText("first line\nsecond line");

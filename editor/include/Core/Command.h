@@ -30,21 +30,21 @@
 class FVDECLSPEC Command {
 public:
 
-	virtual void execute(void) = 0;
-	virtual void undo(void) = 0;
+	virtual void execute() = 0;
+	virtual void undo() = 0;
 
 	/**
 	 * Get command associated with.
 	 * @return non-null scene.
 	 */
-	Scene *getScene(void) const;
+	Scene *getScene() const;
 
 protected:	/*	*/
 
-	Command(void);
+	Command();
 	Command(Scene* scene);
 	Command(const Command& other);
-	virtual ~Command(void);
+	virtual ~Command();
 
 //	Scene* scene;			/*	Scene associated with the command.  */
 //	CommandType type;

@@ -34,7 +34,7 @@ namespace fragengine_editor{
  */
 class FVDECLSPEC KeyMap {
 public:
-	~KeyMap(void);
+	~KeyMap();
 
 	typedef struct keyaction{
 
@@ -81,7 +81,7 @@ public:	/*	Factory method for creating KeyMap objecct.*/
 
 private:	/*	Prevent one from creating an instance of this class.	*/
 
-	KeyMap(void);
+	KeyMap();
 	KeyMap(const KeyMap& other);
 
 	/*	*/

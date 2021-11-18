@@ -20,7 +20,7 @@ struct _FragViewEditorAppWindow
 #define FRAGVIEW_GET_APP_TYPE (fragview_editor_app_get_type ())
 G_DECLARE_FINAL_TYPE (FragViewEditorApp, fragview_editor_app, FRAGVIEWEDITOR, APP, GtkApplication)
 
-FragViewEditorApp     *fragview_editor_app_new(void);
+FragViewEditorApp     *fragview_editor_app_new();
 
 
 #define FRAGVIEW_EDITOR_APP_WINDOW_TYPE (fragview_editor_app_window_get_type ())

@@ -8,7 +8,7 @@
  */
 class FVDECLSPEC Label: public Widget { 
 public:
-	Label(void);
+	Label();
 
 	void setText(std::string &text);
 

@@ -44,7 +44,7 @@ FragEditor::FragEditor(SplashWindow* splashWindow, int argc, const char **argv) 
     // delete splashWindow;
 }
 
-void FragEditor::run(void) {
+void FragEditor::run() {
 //	/*  Read first options.   */
 //	this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
 //
