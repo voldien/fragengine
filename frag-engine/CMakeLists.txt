@@ -38,8 +38,8 @@ SET(FRAG_CORE_INCLUDE_SUB_DIR
 
 # Core library for adding support for plugin.
 ADD_LIBRARY(fragengine ${SOURCE_FILES} ${HEADER_FILES})
-TARGET_LINK_LIBRARIES(fragengine PUBLIC fragcore fragcore-render-interface fragcore-audio-interface PRIVATE ${ASSIMP_LIBRARIES})
-ADD_DEPENDENCIES(fragengine fragcore fragcore-render-interface fragcore-audio-interface)
+TARGET_LINK_LIBRARIES(fragengine PUBLIC fragcore fragcore-render-interface fragcore-audio-interface fragcore-window-sdl PRIVATE ${ASSIMP_LIBRARIES})
+ADD_DEPENDENCIES(fragengine fragcore fragcore-render-interface fragcore-audio-interface fragcore-window-sdl)
 TARGET_COMPILE_DEFINITIONS(fragengine PRIVATE FRAG_ENGINE_INTERNAL_IMP=1 FV_VERSION=0)
 
 #

@@ -33,7 +33,7 @@ namespace fragengine {
 	class Camera;
 	class Frustum;
 	class Light;
-
+	
 	class IRenderPipelineBase;
 	class RenderPipelineBase;
 	class Mesh;

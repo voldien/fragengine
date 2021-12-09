@@ -123,7 +123,7 @@ RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int
 		try {
 			// TODO extract IO status.
 			fileSystem->asyncWait(iconHandle);
-			ASyncIO::IOStatus status = fileSystem->getIOStatus(iconHandle);
+			const ASyncIO::IOStatus& status = fileSystem->getIOStatus(iconHandle);
 			fileSystem->asyncClose(iconHandle);
 
 			void *icon = TextureUtil::loadTextureData(iconBuffer, status.nbytes, &iconw, &iconh);

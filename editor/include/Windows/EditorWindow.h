@@ -1,23 +1,23 @@
 #ifndef _FRAG_EDITOR_EDITORWINDOW_H_
 #define _FRAG_EDITOR_EDITORWINDOW_H_ 1
+#include "Windows/Widget.h"
 #include <Core/SmartReference.h>
 #include <Window/Window.h>
-#include "Windows/Widget.h"
 #if defined(FRAG_GTK_WINDOW_MANAGER)
-#include"Core/gtkconfig.h"
+#include "Core/gtkconfig.h"
 #elif defined(FRAG_EDITOR_QT_WINDOW_MANAGER)
 //#include <QWindow>
 #else
 #endif
 
-//TODO add namespace for the editor.
+// TODO add namespace for the editor.
 namespace frageditor {
 
 	/**
 	 *
 	 */
 	class FVDECLSPEC EditorWindow : public fragcore::Window {
-	public:
+	  public:
 		EditorWindow();
 
 		void show() override;
@@ -35,7 +35,7 @@ namespace frageditor {
 		void minimize() override;
 		void setParent();
 
-		void setTitle(const std::string& title) override;
+		void setTitle(const std::string &title) override;
 
 		void resizable(bool resizable) override;
 
@@ -53,7 +53,7 @@ namespace frageditor {
 
 		void *getIcon() const override;
 
-		fragcore::Display* getCurrentDisplay() const override;
+		fragcore::Display *getCurrentDisplay() const override;
 
 		void AddWidget(Widget *widget);
 
@@ -76,15 +76,15 @@ namespace frageditor {
 
 		intptr_t getNativePtr() const override;
 
-	private:
-	#if defined(FRAG_GTK_WINDOW_MANAGER)
-		FragViewEditorAppWindow* window;
-	#elif defined(FRAG_EDITOR_QT_WINDOW_MANAGER)
+	  private:
+#if defined(FRAG_GTK_WINDOW_MANAGER)
+		FragViewEditorAppWindow *window;
+#elif defined(FRAG_EDITOR_QT_WINDOW_MANAGER)
 		void *window;
-		#else
-	#endif
+#else
+#endif
 	};
 
-}
+} // namespace frageditor
 
 #endif

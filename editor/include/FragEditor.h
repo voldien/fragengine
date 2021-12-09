@@ -20,9 +20,12 @@
 #define _FRAG_EDITOR_FRAGVIEWEDITOR_H_ 1
 #include "Windows/EditorRenderWindow.h"
 #include "Windows/EditorWindow.h"
+#include "Windows/SplashWindow.h"
 #include <Core/Ref.h>
+#include <Core/TaskScheduler/TaskScheduler.h>
 #include <Def.h>
 #include <FragCore.h>
+#include <RendererWindow.h>
 #include <Scene/Scene.h>
 
 namespace frageditor {
@@ -39,8 +42,9 @@ namespace frageditor {
 
 	  private:
 		EditorWindow *root;
-		// GTKRendererWindow* rendererWindow;  //TODO improve and etc.
-		// fragview::Ref<EditorRendererWindow> renderWindow;
+
+		fragcore::Ref<fragcore::RendererWindow> renderWindow;
+		fragcore::Ref<fragcore::TaskScheduler> taskSch;
 		fragcore::IConfig *config;
 		fragcore::Ref<fragcore::IRenderer> renderer;
 		fragcore::Ref<fragengine::Scene> scene;
