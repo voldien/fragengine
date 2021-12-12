@@ -12,8 +12,8 @@ namespace fragengine {
 	class FVDECLSPEC Transform {
 	  public:
 		Transform();
-		// Transform (const Quaternion &q, const Vector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
-		// Transform (const btMatrix3x3 &b, const btVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
+		Transform (const Quaternion &q, const Vector3 &pos, const Vector3& scale);
+		//Transform (const btMatrix3x3 &b, const btVector3 &c=btVector3(btScalar(0), btScalar(0), btScalar(0)));
 		Transform(const Transform &other);
 
 		void rotate(const Vector3 &eular);

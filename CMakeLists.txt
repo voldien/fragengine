@@ -263,6 +263,7 @@ IF(NOT ANDROID)
 		ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/)
 	ENDIF(FRAGENGINE_BUILD_WITH_TEST)
 ENDIF()
+	ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/test/examples)
 
 # Generate documentations.
 IF(FRAGENGINE_BUILD_WITH_DOCS)
@@ -303,29 +304,6 @@ IF( UNIX )
 
 
 	# # Create distribution tarball.
-	# SET( TARGETDIR "${PROJECT_NAME}-${VERSION}")
-	# ADD_CUSTOM_TARGET(	distribution
-	# 		COMMENT "Creating distrubtion file."
-	# 		COMMAND mkdir -p ${TARGETDIR}
-	# 		COMMAND ${CP} -r   ${CMAKE_CURRENT_SOURCE_DIR}/src
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/frag-core
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/frag-engine
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/samples
-
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/utils
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/test
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/images
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/client
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/editor
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/.travis.yaml
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/bashcomplete
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/.gitignore
-	# 		${CMAKE_CURRENT_SOURCE_DIR}/LICENSE
-	# 		${TARGETDIR}
-	# 		COMMAND ${TAR} cf - ${TARGETDIR} | ${GZIP} -c > ${TARGETDIR}.tar.gz
-	# 		COMMAND ${RM} -r ${TARGETDIR} )
-
 	# Check if desktop icon tools exists.
 	FIND_PROGRAM(INSTALL_DESKTOP install-desktop)
 	FIND_PROGRAM(INSTALL_DESKTOP_FILE_VALIDATE desktop-file-validate)

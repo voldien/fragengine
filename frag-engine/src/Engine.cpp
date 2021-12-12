@@ -12,28 +12,6 @@ using namespace fragcore;
 // SceneManager* Engine::sceneManager = NULL;
 // CommandController* Engine::controller = NULL;
 
-static void catchsignal(int signal) {
-
-	// SDL_Event event = {0};
-
-	// switch (signal) {
-	// 	case SIGINT:
-	// 	case SIGQUIT:
-	// 		event.type = SDL_QUIT;
-	// 		SDL_PushEvent(&event);
-	// 		break;
-	// 	default:
-	// 		break;
-	// }
-
-	// /*	Save current configuration file.	*/
-	// /*	TODO relocate to on exit function callback.	*/
-	// try {
-	// 	Engine::getConfig()->save(".pvengine/settings.xml");
-	// } catch (std::exception &ex) {
-	// 	Debug::error("%s.\n", ex.what());
-	// }
-}
 
 void Engine::init(int argc, const char **argv, SubSystem subsytem) {
 
@@ -81,6 +59,10 @@ void Engine::registerModule(Module &module) {}
 void Engine::unregisterModule(Module &module) {}
 
 const char *Engine::getVersion() { return FV_VERSION; }
+
+void Engine::registerApp(App &app){
+
+}
 
 RendererWindow *Engine::createWindow(IRenderer *renderer, const char *title, int x, int y, int width, int height) {
 	Display *display = WindowManager::getInstance()->getDisplay(0);

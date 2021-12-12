@@ -6,19 +6,23 @@
 
 [image]
 
-# Work in Progress
+## Work in Progress
 
-# Features
+## Features
+
 * Realtime file modification.
 * Dynamic Rendering interface for multiple rendering API.
 * Session Configuration
 
 ## Motivation
+
 Based on the [glslview](https://github.com/voldien/glslview) program, which now has been labeld deprecated. That support OpenGL sandbox with realtime
 modification of fragment shader.
 
 ## Installation
+
 The software can be easily installed with invoking the following command.
+
 ```bash
 mkdir build && cd build
 cmake ..
@@ -32,18 +36,20 @@ make install
 
 ```
 
-# Dependencies #
+## Dependencies
+
 In order to compile the program, the following Debian packages is required. 
 
 The following command will display current version of gcc.
+
 ```bash
 gcc --version
 ```
 
-# Frag Core #
+## Frag Core
 
+## Dependencies
 
-## Dependencies ##
 ```bash
 apt install libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvulkan-dev libgl1-mesa-dev opencl-headers libzip-dev libfswatch-dev libfreeimage-dev libavcodec-dev libavfilter-dev libavformat-dev  libassimp-dev libfreetype6-dev 
   sudo apt-get install -y libegl1-mesa-dev libgles2-mesa-dev
@@ -55,18 +61,24 @@ apt install libyaml-dev libjson-c-dev libxml2-dev libsdl2-dev libglew-dev libvul
 apt install libopenal-dev libalut-dev libbullet-dev
 ```
 
-### Frag Engine ###
+### Frag Engine
 
-### Frag Editor ###
+### Frag Editor
+
 ```bash
 apt install libgtk-3-dev
 ```
+
 External libraries library dependencies.
+
 ```bash
 sudo apt install check libsubunit-dev
 ```
-### Assert ###
+
+### Assert
+
 Tool dependencies.
+
 ```bash
 apt install zip gzip libgtest-dev 
 ```
@@ -80,4 +92,5 @@ apt install zip gzip libgtest-dev
 
 
 ## License
+
 This project is licensed under the GPL+3 License - see the [LICENSE](LICENSE) file for details

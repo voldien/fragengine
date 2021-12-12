@@ -11,7 +11,7 @@ using namespace fragcore;
 using namespace fragengine;
 
 FragEditor::FragEditor(SplashWindow *splashWindow, int argc, const char **argv) {
-	Engine::init(argc, argv, Engine::ALL);
+	//Engine::init(argc, argv, Engine::ALL);
 
 	splashWindow->show();
 
@@ -28,7 +28,6 @@ FragEditor::FragEditor(SplashWindow *splashWindow, int argc, const char **argv) 
 
 	// this->config = Config::createConfig(argc, argv, Config::getConfigFilePath(argc, argv));
 
-	// gtk_major_version()
 	//	/*  Verbose information.    */
 	Log::log(Log::Verbose, "Platform: %s\n", SystemInfo::getOperatingSystemName(SystemInfo::getOperatingSystem()));
 	Log::log(Log::Verbose, "Memory: %d MB\n", SystemInfo::systemMemorySize());
